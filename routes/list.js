@@ -5,6 +5,7 @@ const router = Router();
 const AuthenticationController = require('../controllers/AuthController')
 const list2Barevnost = require('../controllers/list2_barevnost')
 const listUsers = require('../controllers/list_Users')
+const listModules = require('../controllers/list_Modules')
 const listUsers1 = require('../controllers/list_Users1')
 
 
@@ -14,6 +15,12 @@ router.post('/login',
 
 router.get('/list2_barevnost',
     list2Barevnost.all)
+
+router.get('/list_modules',
+    listModules.all)
+
+router.post('/list_modules',
+    listModules.init)       
 
 router.get('/list_users',
     listUsers.all)
