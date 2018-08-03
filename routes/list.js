@@ -21,6 +21,11 @@ router.get('/list_modules',
 
 router.post('/list_modules',
     listModules.init)       
+router.put('/list_modules/:id',
+    listModules.update)           
+router.delete('/list_modules/:id',
+    listModules.delete)         
+
 
 router.get('/list_users',
     listUsers.all)
