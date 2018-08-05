@@ -1,22 +1,30 @@
- create table app_menu(id bigserial
-    ,nazev text
+ drop table list_menu;
+ create table list_menu(id bigserial
+    ,nazev varchar(64)
+    ,popis text
+    ,typ varchar(10)   default 'user'
     ,items jsonb,
     time_insert TIMESTAMP default now(),
     time_update TIMESTAMP default now(),  --//jen last update
-    user_insert TIMESTAMP default now(),
-    user_update TIMESTAMP default now() 
+    user_insert varchar(50) default 'app',
+    user_update varchar(50) default '' 
  ) without oids;
+ create unique index on list_menu(nazev,popis);
+ 
+
 
  /* zkusit
-SELECT q.id, d.key, d.value
-FROM q
-JOIN json_each_text(q.data) d ON true
+SELECT list_modules.id, d.key, d.value
+FROM list_modules
+JOIN jsonb_each_text(list_modules.items) d ON true
 ORDER BY 1, 2;
 */
 drop table list_modules ;
+alter table  list_modules add modul varchar(64)
 create table list_modules(
     id bigserial,
     nazev text,
+    modul varchar(64),
     category text,   --vychozi kategorie priblizne  dle originalniho zadani//
     popis text,      -- // - upresneni - dokumnetace k modulu
     items jsonb,
@@ -25,3 +33,13 @@ create table list_modules(
     user_insert varchar(50) default 'app',
     user_update varchar(50) default '' 
 ) without oids ;
+create unique index 
+
+
+
+select * from (
+select distinct unnest(string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),',')) as all,id,nazev from list_menu 
+) a join 
+(
+select (string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),','))[4] as modul from list_modules 
+) b on a.all = b.modul where  b.modul > ' ' and id=288;

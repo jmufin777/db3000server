@@ -1,7 +1,7 @@
 //const {User} = require('../models')
 const config = require('../config/config')
 const {pool, client } = require('../db')
-const tabname = 'list_modules'
+const tabname = 'list_menu'
 
 module.exports = {
     async all (req, res, next) {
@@ -37,33 +37,6 @@ module.exports = {
           error: 'Chyba 002 pri pozadavku na databazi : ${tabname}'
          })
     }
-  },
-  async usedInMenu (req, res, next) {
-    const id = req.query.idMenu
-    const dotaz =`select * from (
-      select distinct unnest(string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),',')) as all,id,nazev from list_menu 
-      ) a join 
-      (
-      select (string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),','))[4] as modul from list_modules 
-      ) b on a.all = b.modul where  b.modul > ' ' and id=${id} `
-
-      const client = await pool.connect()
-      try {
-      await client.query( dotaz  ,(err, response) => {
-        console.log(response.rows)
-        if (err) return next(err)
-        res.json({info: 1, data: response.rows}); 
-      })
-      await client.release()
-    } catch ( err ) {
-      res.status(400).send({
-        error: 'Chyba 403 pri pozadavku na vazby Menu, Moduly'
-      })
-    }
-
-      
-    console.log('aaaa',dotaz, req.query)  
-    return 
   },
   async update (req, res , next ){
     const user = req.body.user
