@@ -73,7 +73,6 @@ module.exports = {
      }
     })
     await client.release()
-    
 
     
    } catch(err) {

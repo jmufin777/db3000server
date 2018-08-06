@@ -7,7 +7,7 @@ const list2Barevnost = require('../controllers/list2_barevnost')
 const listUsers = require('../controllers/list_Users')
 const listModules = require('../controllers/list_Modules')
 const listMenu = require('../controllers/list_Menu')
-const listGroup = require('../controllers/list_Groups')
+const listGroups = require('../controllers/list_Groups')
 const listUsers1 = require('../controllers/list_Users1')
 
 
@@ -40,6 +40,16 @@ router.delete('/list_menu',
     listMenu.delete)    
 router.get('/list_menu',
     listMenu.all)             
+
+router.post('/list_groups',
+    listGroups.init)       
+router.put('/list_groups/',
+    listGroups.update)           
+router.delete('/list_groups',
+    listGroups.delete)    
+router.get('/list_groups',
+    listGroups.all)        
+
 
 
 router.get('/list_users',

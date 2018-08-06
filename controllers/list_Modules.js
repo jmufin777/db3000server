@@ -40,7 +40,7 @@ module.exports = {
   },
   async usedInMenu (req, res, next) {
     const id = req.query.idMenu
-    const dotaz =`select * from (
+    const dotaz =`select modul,nazev from (
       select distinct unnest(string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),',')) as all,id,nazev from list_menu 
       ) a join 
       (
@@ -48,10 +48,22 @@ module.exports = {
       ) b on a.all = b.modul where  b.modul > ' ' and id=${id} `
 
       const client = await pool.connect()
+      var tmp = ''
       try {
       await client.query( dotaz  ,(err, response) => {
-        console.log(response.rows)
+        
+        response.rows.forEach((el,i) => {
+          tmp = el.modul.replace(/"/g,'').replace(/ /g,'')
+          response.rows[i].modul = tmp
+          
+          // console.log(el.modul.replace(/"/g,'').replace(/ /g,''))
+        })
+
+        // console.log("RES  ",response.rows)
         if (err) return next(err)
+        
+          
+        
         res.json({info: 1, data: response.rows}); 
       })
       await client.release()
