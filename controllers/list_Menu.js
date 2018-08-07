@@ -15,7 +15,7 @@ module.exports = {
         if (typ == 'All'){
             cols = '*'
         } else {
-            cols = 'id,nazev,popis'
+            cols = 'id,nazev,popis,idefix'
         }
          
         dotaz = `select ${cols} from ${tabname}   order by  id `
@@ -60,6 +60,13 @@ module.exports = {
       }
 
     })
+    await  client.query('update list_menu set idefix = id where idefix = 0 or idefix is null ',[],(err, response ) => {
+      if (err) {
+        // res.json({info: 'error', data: '433' }); 
+        res.status(506).send(`Neuspesne doplneni Idefixe - menu `)
+      }
+
+    })
 
     await client.query('select id,nazev,popis from list_menu order by id',(err,response) =>{
       if (response.rowCount == 0)   {
@@ -95,7 +102,7 @@ module.exports = {
       }
 
     })
-    await client.query('select id,nazev,popis from list_menu order by id',(err,response) =>{
+    await client.query('select id,nazev,popis,idefix from list_menu order by id',(err,response) =>{
       if (response.rowCount == 0)   {
         res.send({info: 0})
      } else {
@@ -121,7 +128,7 @@ module.exports = {
     const popis  = req.body.popis.toString().replace(/'/g,'xxxxx')
     const typ  = req.body.typ
     const data   = JSON.stringify(req.body.data)
-    const dotaz = `begin work; insert into  ${tabname} (nazev,popis,items, user_insert ) values ( '${nazev}','${popis}','${data}', '${user}'  )  ; commit` 
+    const dotaz = `begin work; insert into  ${tabname} (nazev,popis,items, user_insert ) values ( '${nazev}','${popis}','${data}', '${user}'  )  ;update ${tabname} set idefix = id where idefix = 0; commit` 
     // console.log(dotaz)
 
     try {

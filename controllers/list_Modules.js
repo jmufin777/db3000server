@@ -120,6 +120,8 @@ module.exports = {
             } 
           })
         });
+        client.query(`update list_modules set idefix= id where idefix = 0 or idefix is null  `  ,[],(err, response ) => {
+        })
         client.query(`commit  `  ,[],(err, response ) => {
         })
         await client.release() 
