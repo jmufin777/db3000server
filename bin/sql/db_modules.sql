@@ -47,7 +47,7 @@ alter table list_users   add idefix int default 0;
 
  drop table list_menu_groups;
  create table list_menu_groups(id bigserial
-    ,idefix_user int 
+    ,idefix_menu int 
     ,idefix_group int 
     ,menu_name varchar(64)
     ,group_name varchar(64),
@@ -56,7 +56,7 @@ alter table list_users   add idefix int default 0;
     user_insert varchar(50) default 'app',
     user_update varchar(50) default '' 
  ) without oids;
- create unique index on list_menu_groups(menu_name,group_name);
+ create unique index on list_menu_groups(idefix_menu,group_name);
 
  drop table list_modules_users;
  create table list_modules_users(id bigserial

@@ -13,11 +13,8 @@ const listUsers1 = require('../controllers/list_Users1')
 
 router.post('/login', 
     AuthenticationController.login)
-
-
 router.get('/list2_barevnost',
     list2Barevnost.all)
-
 router.get('/list_modules',
     listModules.all)
 
@@ -45,10 +42,16 @@ router.post('/list_groups',
     listGroups.init)       
 router.put('/list_groups/',
     listGroups.update)           
+router.put('/list_groups-menus/',
+   listGroups.updateMenus)           
+router.put('/list_groups-modules/',
+   listGroups.updateModules)              
+
 router.delete('/list_groups',
     listGroups.delete)    
 router.get('/list_groups',
     listGroups.all)        
+
 
 
 
