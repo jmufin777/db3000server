@@ -33,7 +33,7 @@ module.exports = {
          await client.release() 
     } catch (err) {
         console.log(err)
-        res.status(400).send({
+        res.status(466).send({
           error: 'Chyba 002 pri pozadavku na databazi : ${tabname}'
          })
     }
@@ -68,7 +68,7 @@ module.exports = {
       })
       await client.release()
     } catch ( err ) {
-      res.status(400).send({
+      res.status(467).send({
         error: 'Chyba 403 pri pozadavku na vazby Menu, Moduly'
       })
     }
@@ -78,16 +78,34 @@ module.exports = {
     return 
   },
   async update (req, res , next ){
-    const user = req.body.user
     const isdel  = req.body.del
     const client = await pool.connect()
+    const items = JSON.stringify(req.body.data)
+
+    const dotaz = `update ${tabname} set   
+    nazev = '${req.body.data[0]}'
+    ,modul='${req.body.data[3]}'
+    ,items='${items}'
+    ,idefix='${req.body.data[7]}'
+    ,time_update =now()
+    ,user_update =  '${req.body.user}'
+    where idefix = '${req.body.data[7]}'
+    ` 
+//    console.log(req)
+       console.log(dotaz)
+//    res.json({info:1})
     try {
-     client.query(`begin work  `  ,[],(err, response ) => {
-    })
+     await client.query(`begin work  `  ,[],(err, response ) => {
+      })
+     await client.query( dotaz ,[],(err, response ) => {
+       console.log(response)
+      })
+     await client.query(`commit  `  ,[],(err, response ) => {
+      })
 
     }  catch(err) {
-      res.status(400).send({
-        error: 'Chyba 402 pri pozadavku na zmenu modulu : ${tabname}'
+        res.status(468).send({
+        error: `Chyba 402 pri pozadavku na zmenu modulu : ${tabname}`
       })
     }
     
@@ -99,26 +117,40 @@ module.exports = {
   },
   async init (req, res, next) {
     let neco = ''
+    let dotaz
     const user = req.body.user
     const isdel  = req.body.del
+
+    
     try {
     //  const {login, password} = req.body
         console.log('\n req:', req.body.user )
         console.log('\n --------------\n')
         const client = await pool.connect()
+
         client.query(`begin work  `  ,[],(err, response ) => {
         })
+        dotaz = `
+                insert into list_modules_fix (nazev,category,popis,modul,items,idefix,time_insert,time_update,user_insert,user_update )
+            select nazev,category,popis,modul,items,idefix,time_insert,time_update,user_insert,user_update
+             from list_modules t where not exists( select * from list_modules_fix b where t.idefix = b.idefix )
+          `
+          client.query(`${dotaz}`,[] , (err,response ) =>{
+          })
 
         client.query(`delete from   ${tabname}  where $1 `  ,[ isdel ],(err, response ) => {
         })
 
-        await req.body.data.forEach(element => {
+        await req.body.data.forEach((element,i) => {
           neco = JSON.stringify(element)
-          client.query(`insert into  ${tabname} (nazev,modul,items,user_insert ) values ( $1 ,$2, $3 ,$4 )  `  ,[element[0],element[3], neco, user ],(err, response ) => {
-            if (err) {
-              return next(err)
-            } 
-          })
+         
+          console.log(element, neco)
+
+           client.query(`insert into  ${tabname} (nazev,modul,items,user_insert, idefix ) values ( $1 ,$2, $3 ,$4, $5 )  `  ,[element[0],element[3], neco, user,element[7]  ],(err, response ) => {
+             if (err) {
+               return next(err)
+             } 
+           })
         });
         client.query(`update list_modules set idefix= id where idefix = 0 or idefix is null  `  ,[],(err, response ) => {
         })
@@ -127,9 +159,10 @@ module.exports = {
         await client.release() 
         res.json({info:'OK'})
     } catch (err) {
-        // console.log(err)
-        res.status(400).send({
-          error: 'Chyba 002 pri pozadavku na databazi : ${tabname}'
+        console.log(err)
+          res.status(469).send({
+          error: 'Chyba 469 pri pozadavku na databazi : ${tabname}'
+          
         })
     }
   }

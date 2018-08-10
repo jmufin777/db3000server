@@ -105,9 +105,24 @@ create table list_modules(
     time_insert TIMESTAMP default now(),
     time_update TIMESTAMP default now(),  --//jen last update
     user_insert varchar(50) default 'app',
-    user_update varchar(50) default '' 
+    user_update varchar(50) default '' ,
+    idefix bigint default 0
 ) without oids ;
-create unique index 
+
+create table list_modules_fix (
+    id bigserial,
+    nazev text,
+    modul varchar(64),
+    category text,   --vychozi kategorie priblizne  dle originalniho zadani//
+    popis text,      -- // - upresneni - dokumnetace k modulu
+    items jsonb,
+    time_insert TIMESTAMP default now(),
+    time_update TIMESTAMP default now(),  --//jen last update
+    user_insert varchar(50) default 'app',
+    user_update varchar(50) default '' ,
+    idefix bigint default 0
+) without oids ;
+--//--create unique index 
 
 -- Pohled na moduly  a jejich vazby
 -- zatim takle jednoduse bez vazeb na funkci databaze, casem se uvidi
@@ -118,3 +133,10 @@ select distinct unnest(string_to_array(regexp_replace(items::text,'[\[\]"]','','
 (
 select (string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),','))[4] as modul from list_modules 
 ) b on a.all = b.modul where  b.modul > ' ' and id=288;
+
+create or replace function jsonb2array(jsonb) returns text[] as $$
+begin
+ return (string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),','))
+end ;
+
+$$LANGUAGE PLPGSQL;

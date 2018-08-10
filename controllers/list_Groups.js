@@ -35,14 +35,14 @@ module.exports = {
               //res.json({info: 1, data: response.rows}); 
               resObj.info = 1
               neco =response.rows  
-              
+              console.log('Skupiny - 1: ',response.rowCount)
               resObj.data= response.rows 
               
               
            }
              if (err) {
-               connsole.log(err)
-               // return next(err)
+               console.log(err)
+                return next(err)
               } ;
          })
 
@@ -50,25 +50,28 @@ module.exports = {
              resObj.info = 1
              neco =response.rows  
              resObj.dataModules= response.rows 
+             console.log('Moduly :2 : ',response.rowCount)
             if (err) {
-              connsole.log(err)
-              // return next(err)
+              console.log(err)
+               return next(err)
              } ;
         })
         await client.query(`${dotaz_menu}`  ,(err, response) => {
           resObj.info = 1
           neco =response.rows  
           resObj.dataMenu= response.rows 
+          res.json({info:1, data: resObj.data, dataModules: resObj.dataModules, dataMenu: resObj.dataMenu  })
+          console.log('Menu :3 : ',response.rowCount)
          if (err) {
-           connsole.log(err)
-           // return next(err)
+           console.log(err)
+            return next(err)
           } ;
      })
-
          
          await client.release() 
-         console.log( resObj )
-         res.json({info:1, data: resObj.data, dataModules: resObj.dataModules, dataMenu: resObj.dataMenu  })
+         console.log( 'Ukoncuji:' )
+         
+         console.log( 'Odeslano' )
          
     } catch (err) {
         console.log(err)
@@ -147,10 +150,14 @@ module.exports = {
     const qtest = `select '${req.body.user}' as user_insert,${req.body.form.idefix} as idefix_group,unnest(array[${req.body.form.items}])  as idefix_module`
     const q1 = `create table ${tmpTable} without oids as ${qtest}`
     const qinsert= `insert into list_modules_groups (user_insert,idefix_group,idefix_module) select * from ${tmpTable}`
+    const qstart='begin work'
+    const qend='commit'
     
 
     const client = await pool.connect()
     console.log (qtest)
+    try {
+    await client.query(qstart)
     await client.query(qdel, [], (err, result)=> {
       if (err) {
         console.log(err)
@@ -181,10 +188,15 @@ module.exports = {
         return next.err
       }
     })
-
-    
+    await client.query(qend)
+   
     await client.release()
     res.json({info: 1})
+  } catch(e) {
+    res.status(460).send({
+      error: 'Transakce pri ukladani poradi zhavarovala'
+    })
+  }
  //   select * from list_menu_groups;
  // id | idefix_menu | idefix_group | menu_name | group_name | time_insert | time_update | user_insert | user_update 
 
@@ -197,11 +209,9 @@ module.exports = {
     const nazev  = req.body.form.Nazev.toString().replace(/'/g,'xxxxx')
     const popis  = req.body.form.Popis.toString().replace(/'/g,'xxxxx')
 
-    const dotaz = `update list_groups set popis = '${popis}', nazev='${nazev}', user_update='${user}',idefix=${idefix},time_update= now() where id = ${id} `
+    const dotaz = `update list_groups set popis = '${popis}', nazev='${nazev}', user_update='${user}',idefix=${idefix},time_update= now() where idefix = ${idefix} `
     console.log(dotaz)
-    console.log(req.body)
-    //res.status(506).send(`Neuspesna zmena id ${id} ${nazev}`)
-    
+        
         
     const client = await pool.connect()
     try {
@@ -210,9 +220,7 @@ module.exports = {
         // res.json({info: 'error', data: '433' }); 
         res.status(506).send(`Neuspesna zmena id ${id} ${nazev}`)
       }
-
     })
-   
 
     await client.query('select * from list_groups order by id',(err,response) =>{
       if (response.rowCount == 0)   {
@@ -235,8 +243,7 @@ module.exports = {
   },
   async delete (req, res , next ) {
     const id = req.query.id
-    const dotaz = `delete from list_groups where id = ${id}`
-    
+    const dotaz = `delete from list_groups where idefix = ${id}`
     const client = await pool.connect()
     try {
     
@@ -300,6 +307,7 @@ module.exports = {
          }) 
         
       })
+
       await client.release() 
       res.json({info:'OK'})
       

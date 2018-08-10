@@ -20,7 +20,7 @@ router.get('/list_modules',
 
 router.post('/list_modules',
     listModules.init)       
-router.put('/list_modules/:id',
+router.put('/list_modules/',
     listModules.update)           
 router.delete('/list_modules/:id',
     listModules.delete)         
