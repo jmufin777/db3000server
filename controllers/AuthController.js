@@ -11,23 +11,19 @@ function jwtSignUser (user) {
 }
 
 module.exports = {
-
     async login (req, res) {
     
     try {
       
       const {login, password} = req.body
-      console.log(login)  
-
-        
-        console.log('BBBB')
+       
+        console.log('Authorization Controller')
 
         const client = await pool.connect()
-        
-        const myres = {
-          data : {},
-          info: 0
-        }
+        // const myres = {
+        //   data : {},
+        //   info: 0
+        // }
         var user = ''
          await client.query('select * from list_users where login=$1  and heslo = md5($2) ',[login , password ],(err, response) => {
           //console.log(response)
@@ -41,18 +37,12 @@ module.exports = {
    
               })
            }
-         
              if (err) return next(err);
-
          })
-         
          await client.release() 
-
          if (!user) {
-           console.log('hovno prdel sracka to je nase znacka')
+           console.log('User not available in database - Uzivatel neni pritomen v databazi :-( smajlik ')
          }
-         console.log('je po dotazu U', user )
-
     } catch (err) {
         console.log(err)
         res.status(400).send({

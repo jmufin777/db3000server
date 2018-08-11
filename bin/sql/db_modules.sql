@@ -1,4 +1,4 @@
-alter table list_menu    add idefix int default 0;
+lalter table list_menu    add idefix int default 0;
 alter table list_groups  add idefix int default 0;
 alter table list_modules add idefix int default 0;
 alter table list_users   add idefix int default 0;
@@ -57,7 +57,7 @@ alter table list_users   add idefix int default 0;
     user_update varchar(50) default '' 
  ) without oids;
  create unique index on list_menu_groups(idefix_menu,group_name);
-
+/*
  drop table list_modules_users;
  create table list_modules_users(id bigserial
     ,idefix_module int 
@@ -70,20 +70,7 @@ alter table list_users   add idefix int default 0;
     user_update varchar(50) default '' 
  ) without oids;
  create unique index on list_menu(nazev,popis);
-
- drop table list_menu_users;
- create table list_menu_users(id bigserial
-    ,idefix_user int 
-    ,idefix_menu int 
-    ,menu_name varchar(64)
-    ,user_name varchar(64),
-    time_insert TIMESTAMP default now(),
-    time_update TIMESTAMP default now(),  --//jen last update
-    user_insert varchar(50) default 'app',
-    user_update varchar(50) default '' 
- ) without oids;
- 
- create unique index on list_menu_users(user_name, menu_name);
+*/
 
 
 
@@ -127,6 +114,7 @@ create table list_modules_fix (
 -- Pohled na moduly  a jejich vazby
 -- zatim takle jednoduse bez vazeb na funkci databaze, casem se uvidi
 
+
 select * from (
 select distinct unnest(string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),',')) as all,id,nazev from list_menu 
 ) a join 
@@ -134,9 +122,12 @@ select distinct unnest(string_to_array(regexp_replace(items::text,'[\[\]"]','','
 select (string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),','))[4] as modul from list_modules 
 ) b on a.all = b.modul where  b.modul > ' ' and id=288;
 
-create or replace function jsonb2array(jsonb) returns text[] as $$
-begin
- return (string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),','))
-end ;
+select fce_modules_sync()
 
-$$LANGUAGE PLPGSQL;
+
+select * from list_modules a join list_modules_fix b on a.modul = b.modul where  b.idefix < a.idefix;
+
+
+
+
+

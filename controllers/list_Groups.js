@@ -320,14 +320,7 @@ module.exports = {
     popis  = req.body.form.Popis.toString().replace(/'/g,'xxxxx')
     dotaz = `insert into  ${tabname} (nazev,popis, user_insert ) values ( '${nazev}','${popis}', '${user}'  ) ` 
 
-
-
     try {
-    //  const {login, password} = req.body
-        //console.log('\n req:', req.body.user )
-        //console.log('\n --------------\n')
-        
-        
     
         client.query(` begin work`  ,[],(err, response ) => { })
          

@@ -46,17 +46,29 @@ router.put('/list_groups-menus/',
    listGroups.updateMenus)           
 router.put('/list_groups-modules/',
    listGroups.updateModules)              
-
 router.delete('/list_groups',
     listGroups.delete)    
 router.get('/list_groups',
     listGroups.all)        
 
-
-
-
+router.post('/list_users',
+    listUsers.init)        
 router.get('/list_users',
-    listUsers.all)
+    listUsers.all)    
+router.put('/list_users/',
+    listUsers.update)           
+router.put('/list_users-menus/',
+   listUsers.updateMenus)           
+router.put('/list_users-groups/',
+   listUsers.updateGroups)              
+router.delete('/list_users',
+    listUsers.delete)    
+     
+
+
+
+
+
 
 router.get('/list_users1',
     listUsers1.all)

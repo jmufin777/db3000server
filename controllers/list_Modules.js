@@ -101,7 +101,9 @@ module.exports = {
        console.log(response)
       })
      await client.query(`commit  `  ,[],(err, response ) => {
+       res.json({info: 1 })
       })
+     await client.release()
 
     }  catch(err) {
         res.status(468).send({
@@ -152,7 +154,8 @@ module.exports = {
              } 
            })
         });
-        client.query(`update list_modules set idefix= id where idefix = 0 or idefix is null  `  ,[],(err, response ) => {
+        
+        client.query(`select fce_modules_sync()l  `  ,[],(err, response ) => {
         })
         client.query(`commit  `  ,[],(err, response ) => {
         })
