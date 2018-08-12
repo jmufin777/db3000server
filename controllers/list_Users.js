@@ -57,7 +57,7 @@ module.exports = {
        
       })
       if (lErr) return
-      await client.query(`${dotaz_groups}`  ,(err, response) => {
+       await client.query(`${dotaz_groups}`  ,(err, response) => {
         if (lErr) return
         if (err) {
           lErr=true
