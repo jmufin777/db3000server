@@ -2,6 +2,7 @@
 const config = require('../config/config')
 const {pool, client } = require('../db')
 const tabname = 'list_menu'
+var lErr = false
 
 module.exports = {
     async all (req, res, next) {
@@ -27,12 +28,18 @@ module.exports = {
     try {
         const client = await pool.connect()
          await client.query( dotaz  ,(err, response) => {
+          if (err) {
+            lErr = true
+            return next(err)
+          }
            if (response.rowCount == 0)   {
+             lErr = true
               res.send({info: 0})
+           
            } else {
               res.json({info: response.rowCount , data: response.rows}); 
            }
-             if (err) return next(err);
+
          })
          await client.release() 
     } catch (err) {
@@ -50,34 +57,52 @@ module.exports = {
     const popis  = req.body.form.Popis.toString().replace(/'/g,'xxxxx')
 
     const dotaz = `update list_menu set popis = '${popis}', nazev='${nazev}', items='${data}', user_update='${user}',time_update= now() where id = ${id} `
-        
+    console.log(dotaz)    
     const client = await pool.connect()
+
     try {
      await  client.query(dotaz,[],(err, response ) => {
       if (err) {
         // res.json({info: 'error', data: '433' }); 
-        res.status(506).send(`Neuspesna zmena id ${id} ${nazev}`)
+        lErr = true
+        console.log(`Copak je to za chybu ?? ${err} `)
+        res.status(507).send({error: `Neuspesna zmena id ${id} ${nazev}, Nazev je jiz pouzit`})
       }
 
     })
     await  client.query('update list_menu set idefix = id where idefix = 0 or idefix is null ',[],(err, response ) => {
       if (err) {
+        lErr = true
         // res.json({info: 'error', data: '433' }); 
-        res.status(506).send(`Neuspesne doplneni Idefixe - menu `)
+        console.log(`Neuspesne doplneni Idefixe - menu `)
+        res.status(508).send(`Neuspesne doplneni Idefixe - menu `)
       }
-
     })
 
+
+    // if (lErr) {
+    //   console.log("Data 1 ?????" )
+    //    await client.release() 
+    //   return 
+    // }
     await client.query('select id,nazev,popis from list_menu order by id',(err,response) =>{
+      if (lErr) return
+      if (err) {
+        lErr = true
+        console.log("Data 2 ?????")
+        res.status(509).send('Neuspesny dotaz na ulozena menu')
+        console.log('Nejde nasypat zpatky vubec zadny radky')
+      }
+      
       if (response.rowCount == 0)   {
+        lErr = true
+        console.log("Data 3 ?????")
         res.send({info: 0})
-     } else {
+       } else {
+        console.log("Data 4 ?????", response.rowCount)
         res.json({info: response.rowCount , data: response.rows}); 
-     }
-     if (err) {
-       res.status(505).send('Neuspesny dotaz na ulozena menu')
-       console.log('Nejde nasypat zpatky vubec zadny radky')
-     }
+      }
+    
     })
     await client.release()
 

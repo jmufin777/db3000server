@@ -4,11 +4,10 @@ const tabname = 'list_users'
 const resObj = {}
 var lErr= false
 // const {login, password} = req.body
-
 module.exports = {
  async all (req, res, next) {
       var typ = req.query.typ
-      var dotaz = `select jmeno||' '|| prijmeni as fullname, * from ${tabname}   order  by id limit 5`
+      var dotaz = `select jmeno||' '|| prijmeni as fullname, * from ${tabname}   order  by id limit 500`
       if (typ.match(/[0-9]/i)){
         dotaz = `select * from ${tabname}  where idefix = '${typ}' order by  id limit 1`
       } 
@@ -143,7 +142,7 @@ module.exports = {
 
     
     
-    const qdel = `delete from list_groups_users where idefix_group = ${req.body.form.idefix} `
+    const qdel = `delete from list_groups_users where idefix_user = ${req.body.form.idefix} `
     
     const qtest = `select '${req.body.user}' as user_insert,${req.body.form.idefix} as idefix_user,unnest(array[${req.body.form.items}])  as idefix_group`
     const q1 = `create table ${tmpTable} without oids as ${qtest}`
@@ -153,26 +152,32 @@ module.exports = {
     
 
     const client = await pool.connect()
+
     console.log (qtest)
-    try {
     await client.query(qstart)
-    await client.query(qdel, [], (err, result)=> {
-      if (err) {
-        console.log(err)
-        return next.err
-      }
-    })
-    if ( !req.body.form.items >  0 ) {
-        res.json({info: -1})
-        await client.release()
-        return
-    }
     await client.query(q1, [], (err, result)=> {
       if (err) {
         console.log(err)
         return next.err
       }
     })
+    
+    try {
+    
+    console.log(qdel)
+    await client.query(qdel,  (err, result)=> {
+      if (err) {
+        console.log(err)
+        return next.err
+      }
+    })
+    
+    if ( !req.body.form.items >  0 ) {
+        res.json({info: -1})
+        await client.release()
+        return
+    }
+    
 
     await client.query(qinsert, [], (err, result)=> {
       if (err) {
