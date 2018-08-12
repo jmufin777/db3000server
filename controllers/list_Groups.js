@@ -66,7 +66,7 @@ module.exports = {
            console.log(err)
             return next(err)
           } ;
-     })
+        })
          
          await client.release() 
          console.log( 'Ukoncuji:' )
@@ -82,9 +82,7 @@ module.exports = {
   },
   async updateMenus(req, res ,next) {
     console.log('jsem tu 1', req.body.form.items)
-    
-
-    
+   
     console.log(Math.round(Math.random()*10000000000))
     const tmpTable = 'tmp_' +Math.round(Math.random()*10000000000)
     console.log(tmpTable)

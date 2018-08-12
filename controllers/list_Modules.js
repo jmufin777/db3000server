@@ -58,12 +58,8 @@ module.exports = {
           
           // console.log(el.modul.replace(/"/g,'').replace(/ /g,''))
         })
-
         // console.log("RES  ",response.rows)
-        if (err) return next(err)
-        
-          
-        
+//        if (err) return next(err)
         res.json({info: 1, data: response.rows}); 
       })
       await client.release()

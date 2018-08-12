@@ -36,8 +36,8 @@ module.exports = {
          })
          await client.release() 
     } catch (err) {
-        console.log(err)
-        res.status(400).send({
+         console.log(err)
+          res.status(400).send({
           error: 'Chyba 002 pri pozadavku na databazi : ${tabname}'
          })
     }
