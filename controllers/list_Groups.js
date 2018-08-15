@@ -241,7 +241,8 @@ module.exports = {
   },
   async delete (req, res , next ) {
     const id = req.query.id
-    const dotaz = `delete from list_groups where idefix = ${id}`
+    const dotaz = `delete from list_groups_users where idefix_group = ${id} ; delete from list_groups where idefix = ${id}`
+    
     const client = await pool.connect()
     try {
     
