@@ -17,7 +17,7 @@ module.exports = {
       
       const {login, password} = req.body
        
-        console.log('Authorization Controller')
+        console.log('Authorization Controller', req.body)
 
         const client = await pool.connect()
         // const myres = {
@@ -31,6 +31,8 @@ module.exports = {
              res.status(403).send({error: 'Uzivatel ci heslo nenalezeno'})
            } else {
                user = response.rows[0].login
+               console.log(response.rows[0].login)
+               console.log(`User ${user} not available in database - Uzivatel neni pritomen v databazi  `)
                res.send({
                 user: user ,
                 token: jwtSignUser({user: user })
@@ -41,7 +43,7 @@ module.exports = {
          })
          await client.release() 
          if (!user) {
-           console.log('User not available in database - Uzivatel neni pritomen v databazi :-( smajlik ')
+           console.log('User not available in database - Uzivatel neni pritomen v databazi  ')
          }
     } catch (err) {
         console.log(err)

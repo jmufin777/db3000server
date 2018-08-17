@@ -18,12 +18,18 @@ create table list_users (
     psc VARCHAR(50),
     zobraz int default 1,
     plati int default 1,
+    plati_od date default '20000101',
+    plati_do date default '21003112',
+
     time_insert TIMESTAMP default now(),
     time_update TIMESTAMP default now(),  --//jen last update
     user_insert varchar(50) default 'app',
     user_update varchar(50) default '' 
 
 ) ;
+
+alter table list_users add plati_od date default '20000101' ;
+alter table list_users add plati_do date default '21001231' ;
 create UNIQUE INDEX list_users_login on list_users (login);
 create UNIQUE INDEX list_users_id on list_users (id);
 create  INDEX list_users_idefix on list_users (idefix);

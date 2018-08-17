@@ -63,6 +63,9 @@ router.put('/list_users-groups/',
    listUsers.updateGroups)              
 router.delete('/list_users',
     listUsers.delete)    
+router.get('/list_users-login-exists',
+    listUsers.loginExists)    
+        
      
 
 

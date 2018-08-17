@@ -37,6 +37,7 @@ $$LANGUAGE PLPGSQL ;
 
 
 
+
 create or replace function jsonb2array(items anyelement) returns text[] as $$
 begin
  return (string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),','));
@@ -60,3 +61,28 @@ begin
  return (string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),','))[nitem+1];
 end ;
 $$LANGUAGE PLPGSQL;
+
+
+CREATE FUNCTION minn(VARIADIC arr numeric[]) RETURNS numeric AS $$
+    SELECT min($1[i]) FROM generate_subscripts($1, 1) g(i);
+$$ LANGUAGE SQL;
+
+CREATE FUNCTION maxx(VARIADIC arr numeric[]) RETURNS numeric AS $$
+    SELECT max($1[i]) FROM generate_subscripts($1, 1) g(i);
+$$ LANGUAGE SQL;
+
+CREATE FUNCTION minn(VARIADIC arr float[]) RETURNS float AS $$
+    SELECT min($1[i]) FROM generate_subscripts($1, 1) g(i);
+$$ LANGUAGE SQL;
+
+CREATE FUNCTION maxx(VARIADIC arr float[]) RETURNS float AS $$
+    SELECT max($1[i]) FROM generate_subscripts($1, 1) g(i);
+$$ LANGUAGE SQL;
+
+CREATE FUNCTION maxx(VARIADIC arr timestamp[]) RETURNS timestamp AS $$
+    SELECT max($1[i]) FROM generate_subscripts($1, 1) g(i);
+$$ LANGUAGE SQL;
+
+CREATE FUNCTION minn(VARIADIC arr timestamp[]) RETURNS timestamp AS $$
+    SELECT minn($1[i]) FROM generate_subscripts($1, 1) g(i);
+$$ LANGUAGE SQL;
