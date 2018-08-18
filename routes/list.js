@@ -13,6 +13,11 @@ const listUsers1 = require('../controllers/list_Users1')
 
 router.post('/login', 
     AuthenticationController.login)
+router.post('/login-update', 
+    AuthenticationController.loginUpdate)    
+router.post('/login-menu-update', 
+    AuthenticationController.userMenu)        
+
 router.get('/list2_barevnost',
     list2Barevnost.all)
 router.get('/list_modules',

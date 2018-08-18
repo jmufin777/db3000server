@@ -38,6 +38,8 @@ $$LANGUAGE PLPGSQL ;
 
 
 
+
+
 create or replace function jsonb2array(items anyelement) returns text[] as $$
 begin
  return (string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),','));
