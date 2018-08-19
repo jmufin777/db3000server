@@ -7,15 +7,17 @@ var lErr= false
 module.exports = {
  async all (req, res, next) {
       var typ = req.query.typ
-      var dotaz = `select jmeno||' '|| prijmeni as fullname, * from ${tabname}   order  by id limit 500`
+      var dotaz = `select jmeno||' '|| prijmeni as fullname, * from ${tabname}   where plati >0 order  by id limit 500`
        console.log(req.query)
       // return
       if (typ ) {
       if (typ.match(/[0-9]/i)){
         dotaz = `select * from ${tabname}  where idefix = '${typ}' order by  id limit 1`
       } else if (typ.match(/last/i)){
-        var dotaz = `select jmeno||' '|| prijmeni as fullname, * from list_users   order  by maxx(time_insert,time_update) desc limit 500`
-      }
+        var dotaz = `select jmeno||' '|| prijmeni as fullname, * from list_users  where plati >0  order  by maxx(time_insert,time_update) desc limit 500`
+      }   else if (typ.match(/neplati/i)){
+      var dotaz = `select jmeno||' '|| prijmeni as fullname, * from list_users  where plati =0  order  by maxx(time_insert,time_update) desc limit 500`
+    }
     }
       var dotaz_groups = 'select idefix_group, idefix_user from list_groups_users order by idefix_user,idefix_group, id'
       var dotaz_menu = 'select idefix_menu, idefix_user  from list_menu_users order by idefix_user,idefix_menu, id'

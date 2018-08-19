@@ -66,3 +66,8 @@ select kodzamestnance, login, heslo,jmeno,prijmeni,email,plati, zobraz,level fro
  ) without oids;
  
  create unique index on list_groups_users(idefix_user, idefix_group );
+
+create table list_users_sessions (id bigserial, idefix bigint, t_login timestamp default now(),t_logout timestamp,t_last timestamp default now()) 
+without oids;
+
+-- pozor nema indexy !!!!

@@ -125,6 +125,7 @@ select (string_to_array(regexp_replace(items::text,'[\[\]"]','','g'),','))[4] as
 select fce_modules_sync()
 
 
+
 select * from list_modules a join list_modules_fix b on a.modul = b.modul where  b.idefix < a.idefix;
 
 

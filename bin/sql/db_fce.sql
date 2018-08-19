@@ -35,8 +35,16 @@ $$LANGUAGE PLPGSQL ;
 
 
 
-
-
+create or replace FUNCTION fce_user_fullname(_idefix bigint) returns varchar(100) as $$
+declare txt_ret text := 'Neuveden' ;
+    begin
+        select jmeno||' '|| prijmeni as fullname into txt_ret from list_users a where a.idefix = _idefix ;
+        if txt_ret is null THEN 
+            txt_ret := 'Neuveden' ;
+        end if ;    
+    return txt_ret;
+    end ;
+$$LANGUAGE PLPGSQL IMMUTABLE;
 
 
 

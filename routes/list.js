@@ -10,9 +10,15 @@ const listMenu = require('../controllers/list_Menu')
 const listGroups = require('../controllers/list_Groups')
 const listUsers1 = require('../controllers/list_Users1')
 
+const dbStatus = require('../controllers/db_status')
+
+
+
 
 router.post('/login', 
     AuthenticationController.login)
+router.post('/list_users-logout', 
+    AuthenticationController.logout)    
 router.post('/login-update', 
     AuthenticationController.loginUpdate)    
 router.post('/login-menu-update', 
@@ -71,7 +77,11 @@ router.delete('/list_users',
 router.get('/list_users-login-exists',
     listUsers.loginExists)    
         
-     
+router.post('/db-status',
+    dbStatus.all)    
+router.post('/db-status-who',
+    dbStatus.who)        
+    
 
 
 

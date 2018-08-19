@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 const {pool, client } = require('../db/index')
 var lErr = false
+var idefix = 0
 
 function jwtSignUser (user) {
   const ONE_WEEK = 60 * 60 * 24 * 7*52
@@ -13,21 +14,13 @@ function jwtSignUser (user) {
 
 module.exports = {
     async login (req, res) {
-   
     try {
-      
       const {login, password} = req.body
-       
-        console.log('Authorization Controller', req.body)
-
         const client = await pool.connect()
-        // const myres = {
-        //   data : {},
-        //   info: 0
-        // }
+
         var user = ''
         var level = 0
-        var idefix = 0
+        
          await client.query('select * from list_users where login=$1  and heslo = md5($2) ',[login , password ],(err, response) => {
           //console.log(response)
            if (response.rowCount == 0)   {
@@ -37,7 +30,11 @@ module.exports = {
                level = response.rows[0].level
                idefix = response.rows[0].idefix
                console.log(response.rows[0].login)
-               console.log(`User ${user} not available in database - Uzivatel neni pritomen v databazi  `)
+               console.log('\n\n\n\n\n\n\n',`insert into list_users_sessions (idefix) values (${idefix})`,'\n\n\n\n\n\n\n')
+               
+               client.query(`update list_users set  idefix = id + 10000 where idefix = 0 or idefix is null `)
+               client.query(`insert into list_users_sessions (idefix) values (${idefix})`)
+
                res.send({
                 user: user ,
                 level: level,
@@ -48,6 +45,7 @@ module.exports = {
            }
              if (err) return next(err);
          })
+         await client.query(`insert into list_users_sessions (idefix) values (${idefix})`)
          await client.release() 
          if (!user) {
            console.log('User not available in database - Uzivatel neni pritomen v databazi  ')
@@ -59,6 +57,34 @@ module.exports = {
         })
     }
   },
+
+  async logout (req, res, next) {
+    
+    try {
+    const {idefix} = req.body
+    console.log(req.body)
+    console.log('\n\n\n\n\n--------------\n','Logout',idefix,'-------------------\n\n\n\n\n\n')
+
+    
+    const client = await pool.connect()
+    console.log('\n\n\n\n\n\n',`update list_users_sessions set t_logout = now where idefix= 9 and t_logout is null`,'\n\n\n\n\n\n') 
+
+    await client.query(`update list_users_sessions set t_logout = now() where idefix= ${idefix} and t_logout is null`,(err, response)=>{
+      if (err) {
+        return next(err)
+      }
+      res.json({info: 1})
+
+    })
+    await client.release()
+   }  catch(err) {
+     console.log(err)
+     res.status(401).send({
+       error: 'Chyba pri odhlaseni'
+     })
+   }
+  },
+
 
   async loginUpdate (req, res) {
     
@@ -108,6 +134,8 @@ module.exports = {
         })
     }
   },
+
+
   async userMenu(req, res)  {
 
     const {login, idefix} = req.body
@@ -131,14 +159,12 @@ module.exports = {
         res.send({
           items: response.rows[0].items,
           updateStatus: 1
-          
 
         })
        }
 
-
       })
-
+      await client.release()  
     } catch (err) {
       console.log(err)
       res.status(411).send({
@@ -146,5 +172,7 @@ module.exports = {
       })
     }
   }
+
+  
 
 }
