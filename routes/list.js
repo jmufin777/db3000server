@@ -26,6 +26,14 @@ router.post('/login-menu-update',
 
 router.get('/list2_barevnost',
     list2Barevnost.all)
+router.post('/list2_barevnost',
+    list2Barevnost.insert) 
+router.put('/list2_barevnost',
+    list2Barevnost.update)     
+router.delete('/list2_barevnost',
+    list2Barevnost.delete)     
+
+
 router.get('/list_modules',
     listModules.all)
 

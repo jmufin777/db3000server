@@ -46,6 +46,61 @@ declare txt_ret text := 'Neuveden' ;
     end ;
 $$LANGUAGE PLPGSQL IMMUTABLE;
 
+create or replace FUNCTION idefix2fullname(_idefix bigint) returns varchar(100) as $$
+declare txt_ret text := 'Neuveden' ;
+    begin
+        select jmeno||' '|| prijmeni as fullname into txt_ret from list_users a where a.idefix = _idefix ;
+        if txt_ret is null THEN 
+            txt_ret := 'Neuveden' ;
+        end if ;    
+    return txt_ret;
+    end ;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+create or replace FUNCTION id2fullname(_idefix bigint) returns varchar(100) as $$
+declare txt_ret text := 'Neuveden' ;
+    begin
+        select jmeno||' '|| prijmeni as fullname into txt_ret from list_users a where a.id = _idefix ;
+        if txt_ret is null THEN 
+            txt_ret := 'Neuveden' ;
+        end if ;    
+    return txt_ret;
+    end ;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+CREATE or replace FUNCTION login2idefix(_login varchar) returns bigint as $$
+    declare idx int := -1;
+    begin
+        select idefix into idx from list_users where login = _login limit 1;
+        return idx ;
+    end;
+$$LANGUAGE PLPGSQL;
+
+CREATE or replace FUNCTION login2id(_login varchar) returns bigint as $$
+    declare idx int := -1;
+    begin
+        select id into idx from list_users where login = _login limit 1;
+        return idx ;
+    end;
+$$LANGUAGE PLPGSQL;
+
+CREATE or replace FUNCTION id2login(_id bigint) returns varchar(50) as $$
+    declare _lg varchar(50);
+    begin
+        select login into _lg from list_users where id = _id  limit 1;
+        return _lg ;
+    end;
+$$LANGUAGE PLPGSQL;
+
+CREATE or replace FUNCTION idefix2login(_id bigint) returns varchar(50) as $$
+    declare _lg varchar(50);
+    begin
+        select login into _lg from list_users where idefix = _id  limit 1;
+        return _lg ;
+    end;
+$$LANGUAGE PLPGSQL;
+
+
 
 
 create or replace function jsonb2array(items anyelement) returns text[] as $$

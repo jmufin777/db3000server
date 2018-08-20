@@ -53,14 +53,17 @@ create table list2_potisknutelnost (
 insert into list2_potisknutelnost (nazev ) VALUES ('NE'),('1/1'),('1/0');
 update list2_potisknutelnost set kod = id ;
 
+alter table list2_barevnost ADD user_insert VARCHAR(50)
 create table list2_barevnost (
     id  serial,
     kod int,
     nazev varchar(20),
     time_insert TIMESTAMP default now(),
     time_update TIMESTAMP default now(),  --//jen last update
-    user_insert TIMESTAMP default now(),
-    user_update TIMESTAMP default now() 
+    user_insert varchar(50),
+    user_update varchar(50),
+    user_insert_idefix int,
+    user_update_idefix int
 );
 insert into list2_barevnost (nazev ) VALUES ('4/0'),('4/4'),('4/1'),('1/0'),('1/1'),('4+W'),('4+W+4');
 update list2_barevnost set kod = id;

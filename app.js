@@ -9,22 +9,23 @@ const config = require('./config/config')
 const routes = require('./routes/list')
 console.log('1')
 const app=express();
-app.use(morgan('combined'));
+// #app.use(morgan('combined'));
 app.use(cors());
 
 
 app.use(bodyParser.json());
 app.use('/',routes);
-
+/*
 app.use((err, req, res, next) =>{
     res.json(err);
 });
+*/
 //const app = require('../app');
 
 //http.createServer(req,)
 
 //require('./routes/routes2')(app)
-console.log('2')
+console.log('Staruju')
 /*
 app.post('/login', (req, res)=>{
    console.log('Jsi login') 

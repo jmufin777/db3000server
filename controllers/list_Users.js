@@ -296,7 +296,7 @@ module.exports = {
         values+=`,'${user}'`
       }
       dotaz = `insert into list_users ( ${keys}) values ( ${values});
-        update list_users set idefix = id where idefix = -1;
+        update list_users set idefix = id+10000 where idefix = -1;
         update list_users set jmeno = login, prijmeni='' where coalesce(coalesce(jmeno,prijmeni),'') <' '
       `
     }   

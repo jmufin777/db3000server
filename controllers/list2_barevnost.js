@@ -3,12 +3,8 @@ const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 const {pool, client } = require('../db')
 
-function jwtSignUser (user) {
-  const ONE_WEEK = 60 * 60 * 24 * 7*52
-  return jwt.sign(user, config.authentication.jwtSecret, {
-    expiresIn: ONE_WEEK
-  })
-}
+var lErr= false
+
 
 const tabname = 'list2_barevnost'
 module.exports = {
@@ -49,5 +45,49 @@ module.exports = {
           error: 'Chyba 002 pri pozadavku na databazi : ${tabname}'
         })
     }
+  },
+  async update(req, res, next) {
+    console.log('Update barevnost')
+  },
+  async insert (req, res, next ) {
+
+    try{
+      const {kod, nazev } = req.body.form
+      const  user  = req.body.user
+      const client = await pool.connect()
+      if (!kod.match(/[0-9]{1}/)) {
+        res.status(412).send({error:' Kod neobsahuje cisla'})
+      }
+      const dotaz = `insert into list2_barevnost(kod,nazev,user_insert, user_insert_idefix) 
+        values ('${kod}', '${nazev}', '${user}', login2idefix('${user}') )
+      `
+
+      await client.query(dotaz, (err, response) => {
+        if (err) {
+          lErr =true
+          return next(err)
+        }
+         res.json({info:1});
+
+      })
+      //console.log('Insert barevnost', req.body, kod, nazev,"U",user)
+      console.log(dotaz)
+      await client.release()
+
+    } catch (err) {
+      console.log(err)
+      res.status(411).send({
+        error: 'Barevnost - nelze vlozit kod'
+
+      })
+    }
+    // console.log('Insert barevnost', req)
+    
+
+  },
+  async delete (req, res, next ) {
+    console.log('Delete barevnost')
   }
+
+
 }

@@ -13,8 +13,8 @@ module.exports = {
        (select setting::int res_for_super from pg_settings where name=$$superuser_reserved_connections$$) t2,
        (select setting::int max_conn from pg_settings where name=$$max_connections$$) t3`
        
-
-       console.log('Db-Status XXX---- \n\n', idefix ," EOF")
+        
+       // console.log('Db-Status XXX---- \n\n', idefix ," EOF")
        try {
         const client =  await pool.connect()
         await client.query(`update  list_users_sessions set t_last = now() where ${idefix} > 0 and idefix= ${idefix} and id in 

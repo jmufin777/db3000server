@@ -5,6 +5,9 @@ const {pool, client } = require('../db/index')
 var lErr = false
 var idefix = 0
 
+var user = ''
+var level = ''
+
 function jwtSignUser (user) {
   const ONE_WEEK = 60 * 60 * 24 * 7*52
   return jwt.sign(user, config.authentication.jwtSecret, {
@@ -18,8 +21,8 @@ module.exports = {
       const {login, password} = req.body
         const client = await pool.connect()
 
-        var user = ''
-        var level = 0
+//        var user = ''
+  //      var level = 0
         
          await client.query('select * from list_users where login=$1  and heslo = md5($2) ',[login , password ],(err, response) => {
           //console.log(response)
@@ -31,7 +34,7 @@ module.exports = {
                idefix = response.rows[0].idefix
                console.log(response.rows[0].login)
                console.log('\n\n\n\n\n\n\n',`insert into list_users_sessions (idefix) values (${idefix})`,'\n\n\n\n\n\n\n')
-               
+
                client.query(`update list_users set  idefix = id + 10000 where idefix = 0 or idefix is null `)
                client.query(`insert into list_users_sessions (idefix) values (${idefix})`)
 
@@ -100,9 +103,9 @@ module.exports = {
         //   data : {},
         //   info: 0
         // }
-        var user = ''
-        var idefix = 0
-        var level = ''
+        user = ''
+        idefix = 0
+        level = ''
          await client.query('select level,idefix,login from list_users where login=$1   ',[login  ],(err, response) => {
           //console.log(response)
            if (response.rowCount == 0)   {
@@ -125,7 +128,9 @@ module.exports = {
          })
          await client.release() 
          if (!user) {
-           console.log('User not available in database - Uzivatel neni pritomen v databazi  ')
+           console.log('Login Update User not available in database - Uzivatel neni pritomen v databazi  ')
+         } else {
+           console.log('Login Update User is available in database - Uzivatel je pritomen v databazi  ')
          }
     } catch (err) {
         console.log(err)
