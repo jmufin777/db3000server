@@ -27,10 +27,10 @@ module.exports = {
         //   info: 0
         // }
         
-         await client.query(`select * from ${tabname} where 1=$1`  ,[1 ],(err, response) => {
+         await client.query(`select * from ${tabname} where 1=$1 order by id desc`  ,[1 ],(err, response) => {
           //console.log(response)
            if (response.rowCount == 0)   {
-             res.status(403).send({error: 'Uzivatel ci heslo nenalezeno'})
+             res.status(403).send({error: `Data ${tabname} nejsou k dispozici`})
            } else {
               res.json(response.rows); 
            }
@@ -55,7 +55,8 @@ module.exports = {
       const {kod, nazev } = req.body.form
       const  user  = req.body.user
       const client = await pool.connect()
-      if (!kod.match(/[0-9]{1}/)) {
+      
+      if (!kod.match(/[0-9]{1}/i)) {
         res.status(412).send({error:' Kod neobsahuje cisla'})
       }
       const dotaz = `insert into list2_barevnost(kod,nazev,user_insert, user_insert_idefix) 
