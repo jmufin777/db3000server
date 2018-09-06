@@ -27,7 +27,7 @@ module.exports = {
         //   info: 0
         // }
         
-         await client.query(`select * from ${tabname} where 1=$1 order by id desc`  ,[1 ],(err, response) => {
+         await client.query(`select * from ${tabname} where 1=$1 order by id `  ,[1 ],(err, response) => {
           //console.log(response)
            if (response.rowCount == 0)   {
              res.status(403).send({error: `Data ${tabname} nejsou k dispozici`})
@@ -50,7 +50,11 @@ module.exports = {
     console.log('Update barevnost')
   },
   async insert (req, res, next ) {
-
+    console.log(req.body.form)
+    res.status(501).send({
+      error: 'test'
+    })
+    return
     try{
       const {kod, nazev } = req.body.form
       const  user  = req.body.user
