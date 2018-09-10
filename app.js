@@ -5,6 +5,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 //const { sequelize } = require('./models');
 const config = require('./config/config')
+const _ = require('lodash')
+
 
 const routes = require('./routes/list')
 console.log('1')
