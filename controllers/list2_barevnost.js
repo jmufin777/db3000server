@@ -28,7 +28,7 @@ module.exports = {
         //   info: 0
         // }
         
-         await client.query(`select * from ${tabname} where 1=$1 order by id `  ,[1 ],(err, response) => {
+         await client.query(`select * from ${tabname} where 1=$1 order by kod `  ,[1 ],(err, response) => {
           //console.log(response)
            if (response.rowCount == 0)   {
              res.status(403).send({error: `Data ${tabname} nejsou k dispozici`})
