@@ -4,6 +4,7 @@ const router = Router();
 
 const AuthenticationController = require('../controllers/AuthController')
 const list2Barevnost = require('../controllers/list2_barevnost')
+const DBsystem = require('../controllers/DBsystem')
 const listUsers = require('../controllers/list_Users')
 const listModules = require('../controllers/list_Modules')
 const listMenu = require('../controllers/list_Menu')
@@ -32,6 +33,15 @@ router.put('/list2_barevnost',
     list2Barevnost.update)     
 router.delete('/list2_barevnost',
     list2Barevnost.delete)     
+
+router.get('/db-system',
+    DBsystem.all)
+router.post('/db-system',
+    DBsystem.insert) 
+router.put('/db-system',
+    DBsystem.update)     
+router.delete('/db-system',
+    DBsystem.delete)        
 
 
 router.get('/list_modules',
@@ -99,6 +109,7 @@ router.post('/db-status-who',
 router.get('/list_users1',
     listUsers1.all)
 
+/*
 router.get('/:id', (request, response, next)=>{
     const { id } = request.params ;
     pool.query('Select * from monsters where id=$1',[id], (err, res) =>{
@@ -119,8 +130,9 @@ router.post('/', (request, response, next)=>{
          }
     );
 });
+*/
 
-
+/*
 router.put('/:id', (request, response, next)=>{
     const { id } = request.params ;
     const { name , personality} = request.body ;
@@ -155,5 +167,6 @@ router.put('/:id', (request, response, next)=>{
                 response.redirect('/monsters');
         });
     });
+*/
 
 module.exports = router ;
