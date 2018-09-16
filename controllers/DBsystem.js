@@ -3,9 +3,7 @@ const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 const {pool, client } = require('../db')
 const _ = require('lodash')
-
 var lErr= false
-
 
 const tabname = 'db_system'
 module.exports = {

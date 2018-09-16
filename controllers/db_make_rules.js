@@ -24,7 +24,7 @@ const atables = [
          kod int,
          name text,
          struct text,
-         index_name text[],reindex int default 0, initq text
+         index_name text[],reindex int default 0, initq text[]
         `,
         index_name: [],
         reindex: 0,
@@ -37,9 +37,8 @@ const atables = [
         kod int,
         nazev varchar(20)`,
         index_name: [ 
-         [ 'kod  ~~~ (kod)','0'],
-         [ 'idx  ~~~ (id)','1'],
-         [ 'nazev ~~~ (nazev) ','0'] 
+          `kod  ~~~ (kod)`,
+          `nazev ~~~ (nazev)`
         ],
         reindex: 1,
         initq: [`
@@ -53,7 +52,11 @@ const atables = [
         ,struct:  `
          kod int,
          nazev varchar(20)`,
-        index_name: [ ['kod ~~~ (kod)','0'],['nazev ~~~ (nazev desc) ','0'] ],
+         index_name: [ 
+
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+          ],
         reindex: 1,
          initq: [
             `insert into list2_potisknutelnost (nazev ) VALUES ('NE'),('1/1'),('1/0');`,
@@ -62,8 +65,8 @@ const atables = [
     }
 ]
 
-/*
 
+/*
 atables.forEach(e0 => {
     var idx = JSON.stringify(e0.index_name)
     var inittxt = JSON.stringify(e0.initq)
@@ -135,34 +138,51 @@ var dotaz0=`CREATE or replace  RULE log_~~~ AS ON UPDATE TO ~~~
                                     'U',
                                     current_timestamp
                                 )`
-var dotaz=0                         
+
+
+var dotazD=`CREATE or replace  RULE logdel_~~~ AS ON DELETE TO ~~~
+     
+        DO 
+        INSERT INTO log_central 
+        (idefix, 
+        idefix_user,
+        db_user,
+        tabulka ,
+        txt,
+        typ,
+        cas
+        )
+        VALUES (
+                                    OLD.idefix,
+                                    OLD.user_update_idefix,
+                                    current_user,
+                                    '~~~',
+                                    row(OLD.*),
+                                    'D',
+                                    current_timestamp
+                                )`
+
+//console.log(dotazD)                                
+// dotaz0 = dotazD
+//return;
+
+//var dotaz=0                         
 var dotazS=''
 
 var status=0
-/*
-;(async function jarda() {
-    const  client = await pool.connect()
-    try {
-        pool.query(dotaz,(err , res ) => {
-            if (err) {
-                console.log(err)
-                return 
-            }
-
-        })
-    } catch (err)  {
-        console.log('err 2',err )
-
-    }
-    client.release()
-})()
-*/
-
 
 //waitTill = new Date(new Date().getTime() + 1 * 1000)        
 //while(waitTill > new Date()){}
 var neco = ''
 //;(async function() {
+
+    pool.query('select * from db_system',(err,res) => {
+        console.log(res.rows)
+        console.log(atables)
+        
+    
+
+   //    res.rows.forEach((el, idx) =>{
 
     atables.forEach((el, idx) =>{
         for (let x in el){
@@ -174,11 +194,17 @@ var neco = ''
                 Indexes(el)
                 console.log(x)
             }
+            if (x == 'initq'){
+                RulesD(el)
+                Rules(el)
+                console.log(x)
+            }
             
 
         }
     }   )
     console.log('end')
+}) 
     return;
 
 //})()
@@ -223,14 +249,19 @@ var neco = ''
 
     setTimeout(function(){
 
-    
+    // console.log(el.index_name)
+    // return
     el.index_name.forEach(index_expr =>{
-
+/*
         if (index_expr[1]==1){
            cq=`create unique index  ${el.name}_${index_expr[0]}` 
         } else {
             cq=`create index  ${el.name}_${index_expr[0]}` 
         }
+*/
+  
+             cq=`create index  ${el.name}_${index_expr}` 
+  
           cq = cq.replace(/~~~/g,` on ${el.name} `)
 
         try{
@@ -325,10 +356,32 @@ async function Rules(el) {
     status= 0
     tabname = el.name    
     dotaz = dotaz0.replace(/~~~/g,el.name)   //Nastaveni rule
-    dotaz = dotaz0.replace(/~~~/g,el.name)   //Nastaveni rule
             pool.query(` ${dotaz} `, (err, res )=> {
                 if (err) {
                     console.log('selhani Rule', el.name)
+                    console.log(dotaz)
+                } else {
+                    console.log(' Rule Ok pro',el.name)    
+                }
+                //console.log(el.name, dotazS,idx)
+            })
+    } catch(e) {
+        console.log('Err')
+    }
+
+}
+
+async function RulesD(el) {
+    console.log('Rules D')
+    try{
+    status= 0
+    tabname = el.name    
+    dotaz = dotazD.replace(/~~~/g,el.name)   //Nastaveni rule
+    
+            pool.query(` ${dotaz} `, (err, res )=> {
+                if (err) {
+                    console.log('selhani Rule', el.name)
+                    console.log(dotaz)
                 } else {
                     console.log(' Rule Ok pro',el.name)    
                 }
