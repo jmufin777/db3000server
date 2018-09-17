@@ -18,6 +18,7 @@ module.exports = {
       }
       if (req.query.id=='max'){
         dotaz = `select kod as kod from ${tabname} where 1=1 order by kod desc limit 1`
+        
       }
       console.log(req.query.id, dotaz )
     try {

@@ -28,10 +28,9 @@ const atables = [
         `,
         index_name: [],
         reindex: 0,
-        initq: []
+        initq: [`update db_system set kod = id ;`]
     },
     {
-
         name: 'list2_barevnost'
         ,struct:  `
         kod int,
@@ -42,8 +41,8 @@ const atables = [
         ],
         reindex: 1,
         initq: [`
-            insert into list2_barevnost (nazev ) VALUES ('4/0'),('4/4'),('4/1'),('1/0'),('1/1'),('4+W'),('4+W+4');`,
-           `update list2_barevnost set kod = id`
+            insert into list2_barevnost (nazev ) VALUES ('4/0'),('4/4'),('4/1'),('1/0'),('1/1'),('4+W'),('4+W+4');
+            update list2_barevnost set kod = id ;`
         ]
 
     } ,
@@ -59,10 +58,123 @@ const atables = [
           ],
         reindex: 1,
          initq: [
-            `insert into list2_potisknutelnost (nazev ) VALUES ('NE'),('1/1'),('1/0');`,
-            `update list2_potisknutelnost set kod = id ;`
+            `insert into list2_potisknutelnost (nazev ) VALUES ('NE'),('1/1'),('1/0');
+            update list2_potisknutelnost set kod = id ;`,
+           
+        ]
+    },
+    
+    {   name: 'list2_strojskup'
+        ,struct:  `
+         kod int,
+         nazev varchar(20)`,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+          ],
+        reindex: 1,
+         initq: [
+            `insert into list2_strojskup (nazev ) VALUES ('NE'),('Archove'),('Velkoploch');
+             update list2_strojskup set kod = id ;`,
+        ]
+    } ,
+    {   name: 'list2_matskup'
+        ,struct:  `
+         kod int,
+         nazev varchar(20)`,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+          ],
+        reindex: 1,
+         initq: [
+            `insert into list2_matskup (nazev ) VALUES ('NE'),('Deska'),('Arch'),('Role');
+             update list2_matskup set kod = id ;`,
+        ]
+    },
+
+    {   name: 'list2_matdostupnost'
+        ,struct:  `
+         kod int,
+         nazev varchar(50)`,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+          ],
+        reindex: 1,
+         initq: [
+            `insert into list2_matdostupnost (nazev ) VALUES ('NE'),('Skladem'),('Na objednavku');
+             update list2_matdostupnost set kod = id ;`,
+        ]
+    },
+    {   name: 'list2_matsirka'
+        ,struct:  `
+         kod int,
+         sirka_mm int`,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `sirka_mm ~~~ (sirka)`
+          ],
+        reindex: 1,
+         initq: [
+            `insert into list2_matsirka (sirka_mm ) VALUES ('0'),('1060'),('1370'),('1520');
+             update list2_matsirka set kod = id ;`,
+        ]
+    },
+
+    {   name: 'list2_matdodavatel'
+        ,struct:  `
+         kod int,
+         ico varchar(8),
+         nazev varchar(100)`,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+          ],
+        reindex: 1,
+         initq: [
+            `insert into list2_matdodavatel (nazev ) VALUES ('NE'),('Antalis'),('FTP');
+             update list2_matdodavatel set kod = id ;`,
+        ]
+    },
+    
+
+    {   name: 'list2_matvyrobce'
+        ,struct:  `
+         kod int,
+         nazev varchar(20)`,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+
+          ],
+        reindex: 1,
+         initq: [
+            `insert into list2_matvyrobce (nazev ) VALUES ('NE'),('Avery'),('Coala'),('3M'),('Asian');
+             update list2_matvyrobce set kod = id ;`,
+        ]
+    },
+
+
+    {   name: 'list_material'
+        ,struct:  `
+         kod int,
+         nazev varchar(100),
+         nazev_presny varchar(100),
+         popis text,
+         typ int default 0  --deska arch role ....
+         `,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+          ],
+        reindex: 1,
+         initq: [
+            `insert into list_material (nazev ) VALUES ('NE'),('Deska'),('Arch'),('Role');
+             update list_material set kod = id ;`,
         ]
     }
+
 ]
 
 
@@ -105,6 +217,8 @@ atables.forEach(e0 => {
 );
 return
 */
+
+
 
 var tabname=''
 // const client = await pool.connect()
@@ -177,14 +291,14 @@ var neco = ''
 //;(async function() {
 
     pool.query('select * from db_system',(err,res) => {
-        console.log(res.rows)
+//        console.log(res.rows)
         console.log(atables)
         
     
 
-   //    res.rows.forEach((el, idx) =>{
+   //res.rows.forEach((el, idx) =>{
 
-    atables.forEach((el, idx) =>{
+   atables.forEach((el, idx) =>{
         for (let x in el){
             if (x == 'struct'){
                 Struktura(el)
@@ -251,7 +365,13 @@ var neco = ''
 
     // console.log(el.index_name)
     // return
+    console.log(el.index_name,' /n',Array.isArray(el.index_name))
+    if (!Array.isArray(el.index_name)){
+        return
+    }
+        
     el.index_name.forEach(index_expr =>{
+        
 /*
         if (index_expr[1]==1){
            cq=`create unique index  ${el.name}_${index_expr[0]}` 
@@ -268,15 +388,12 @@ var neco = ''
         pool.query(cq,(err,res)=>{
             if (err){
                 console.log('ERROR !!! \n Index ',cq, 'jiz je nastaven',err.name, err.routine, res)
-                
             }
         })
     } catch(e) {
         console.log('pad 44')
     }
-
         //console.log('Indexes: ',cq,  index_expr[0])  
-
     })
 },500)    
 }
@@ -298,8 +415,6 @@ async function Drop(el, idx) {
             console.log('smazano', el.name, idx)
         }
     })
-    
-    
   
 }
 
@@ -318,8 +433,12 @@ async function Struktura(el) {
                 if (err) {
                     
                     pool.query(`select * from ${el.name} limit 1`, (err2, res2)=>{
+                        if (err2) {
+                            console.log('ERR: ',`select * from ${el.name} limit 1` )
+                            return 
+                        }   
                         //
-                        if (res2.rowCount > 0) {
+                       if (res2.rowCount > 0) {
                             console.log('netreba Init pro', el.name, res2.rowCount)
                         } 
                             else {
@@ -331,7 +450,10 @@ async function Struktura(el) {
                     lRet  = false 
                 } else {
                     console.log('Je Treba Init',el.name, el.init)    
-                    InitQ(el.initq)
+                    if (Array.isArray(el.initq)){
+                        InitQ(el.initq)    
+                    }
+                    
                 }
                 //console.log(el.name, dotazS,idx)
             })
@@ -342,10 +464,27 @@ async function Struktura(el) {
 }
 
 async function InitQ(aQ) {
-    console.log('InitQ')
+    console.log('InitQ', aQ)
+    if (!Array.isArray(aQ)){
+        return
+    }
+    //return
+    var qI1=''
     aQ.forEach(qI => {
-        pool.query(qI)
-        console.log(qI)
+        qI1 = qI.trim().replace(/\\n/g,'').trim()
+        qI1 = qI1.trim().replace(/\\r/g,'').trim()
+   //     console.log("Trim:", qI.trim().replace(/\\n/g,'XXXX'))
+
+        
+        pool.query(qI1,(err,res)=>{
+            if (err){
+                console.log('ERR ',qI1)
+
+            } else {
+                console.log(res)
+            }
+        })
+     //   console.log(qI)
     })
 }
 
