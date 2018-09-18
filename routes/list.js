@@ -8,6 +8,7 @@ const list2Barevnost = require('../controllers/list2_barevnost')
 const list2Potisknutelnost = require('../controllers/list2_Potisknutelnost')
 const list2StrojSkup = require('../controllers/list2_StrojSkup')
 const list2MatSkup = require('../controllers/list2_matskup')
+const list2MatSubSkup = require('../controllers/list2_matsubskup')
 const list2MatDostupnost = require('../controllers/list2_MatDostupnost')
 const list2MatDodavatel = require('../controllers/list2_MatDodavatel')
 const list2MatVyrobce = require('../controllers/list2_MatVyrobce')
@@ -25,7 +26,6 @@ const listGroups =  require('../controllers/list_Groups')
 const listUsers1 =  require('../controllers/list_Users1')
 
 const dbStatus =    require('../controllers/db_status')
-
 
 
 
@@ -75,6 +75,15 @@ router.put('/list2-matskup',
     list2MatSkup.update)     
 router.delete('/list2-matskup',
     list2MatSkup.delete)        
+
+router.get('/list2-matsubskup',
+    list2MatSubSkup.all)
+router.post('/list2-matsubskup',
+    list2MatSubSkup.insert) 
+router.put('/list2-matsubskup',
+    list2MatSubSkup.update)     
+router.delete('/list2-matsubskup',
+    list2MatSubSkup.delete)        
 
 router.get('/list2-matdostupnost',
     list2MatDostupnost.all)

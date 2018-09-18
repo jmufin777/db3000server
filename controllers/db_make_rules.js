@@ -93,6 +93,22 @@ const atables = [
         ]
     },
 
+ {   name: 'list2_matsubskup'
+    ,struct:  `
+     kod int,
+     idefix_matskup int ,
+     nazev varchar(200)`,
+     index_name: [ 
+            `kod  ~~~ (kod)`,
+            `nazev ~~~ (nazev)`
+      ],
+    reindex: 1,
+     initq: [
+        `insert into list2_matsubskup (idefix_matskup,nazev ) VALUES (276,'Samolepicí fólie a laminace');
+         update list2_matsubskup set kod = id ;`,
+    ]
+},
+
     {   name: 'list2_matdostupnost'
         ,struct:  `
          kod int,
@@ -137,7 +153,6 @@ const atables = [
              update list2_matdodavatel set kod = id ;`,
         ]
     },
-    
 
     {   name: 'list2_matvyrobce'
         ,struct:  `
