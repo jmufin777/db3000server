@@ -8,7 +8,6 @@ var lErr= false
 
 const tabname = 'list2_matvyrobce'
 module.exports = {
-
     async all (req, res) {
       var dotaz=''
       if (req.query.id=='nic'){
