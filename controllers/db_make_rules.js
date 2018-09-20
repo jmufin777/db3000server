@@ -63,6 +63,37 @@ const atables = [
            
         ]
     },
+    {   name: 'list_stroj'
+    ,struct:  `
+     kod int,
+     idefix_strojskup int ,
+     nazev varchar(120),
+     sirka_mat_max_mm int default 0,
+     delka_mat_max_mm int default 0,
+     sirka_tisk_max_mm int default 0,
+     delka_tisk_max_mm int default 0,
+
+     tech_okraj_strana_mm int default 0,
+     tech_okraj_start_mm int default 0,
+     tech_okraj_spacecopy_mm int default 0,
+     tech_okraj_spacejobs_mm int default 0,
+     tech_okraj_end_mm int default 0,
+
+     bez_okraj int default 0,
+     spadavka_mm int default 0,
+     space_znacky_mm int default 0 
+     `,
+     
+     index_name: [ 
+            `kod  ~~~ (kod)`,
+            `nazev ~~~ (nazev)`
+      ],
+    reindex: 1,
+     initq: [
+        `insert into list_stroj (nazev ) VALUES ('NE');
+         update list_stroj set kod = id ;`,
+    ]
+} ,
     
     {   name: 'list2_strojskup'
         ,struct:  `
@@ -78,6 +109,40 @@ const atables = [
              update list2_strojskup set kod = id ;`,
         ]
     } ,
+
+    
+    {   name: 'list2_strojlaminace'
+        ,struct:  `
+         kod int,
+         nazev varchar(100)`,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+          ],
+        reindex: 1,
+         initq: [
+            `insert into list2_strojlaminace (nazev ) VALUES ('NE'),('Jednostranná 1/0'),('Oboustranná 1/1');
+             update list2_strojlaminace set kod = id ;`,
+        ]
+    },
+        
+
+    {   name: 'list2_strojtiskmod'
+        ,struct:  `
+         kod int,
+         nazev varchar(100)`,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+          ],
+        reindex: 1,
+         initq: [
+            `insert into list2_strojtiskmod (nazev ) VALUES ('NE'),('300x900/4/on/off'),('600x600/4/on/off')
+            ,('600x600/4/on/off/ white'),('600x600/4/on/off - CMYK/WHITE/CMYK')
+            ;
+             update list2_strojtiskmod set kod = id ;`,
+        ]
+    },
     {   name: 'list2_matskup'
         ,struct:  `
          kod int,
@@ -171,7 +236,7 @@ const atables = [
     },
 
 
-    {   name: 'list_material'
+    {   name: 'list_mat'
         ,struct:  `
          kod int,
          nazev varchar(100),
@@ -185,15 +250,29 @@ const atables = [
           ],
         reindex: 1,
          initq: [
-            `insert into list_material (nazev ) VALUES ('NE'),('Deska'),('Arch'),('Role');
-             update list_material set kod = id ;`,
+            `insert into list_mat (nazev ) VALUES ('NE');
+             update list_mat set kod = id ;`,
+        ]
+    },
+
+    {   name: 'list_mat_potisknutelnost'
+        ,struct:  `
+         idefix_mat int,
+         idefix_potisknutelnost int
+         `,
+         index_name: [ 
+                `idefix_mat  ~~~ (idefix_mat)`
+          ],
+        reindex: 1,
+         initq: [
+            
         ]
     }
 
 ]
 
 
-/*
+
 atables.forEach(e0 => {
     var idx = JSON.stringify(e0.index_name)
     var inittxt = JSON.stringify(e0.initq)
@@ -231,7 +310,7 @@ atables.forEach(e0 => {
     
 );
 return
-*/
+
 
 
 
@@ -289,7 +368,9 @@ var dotazD=`CREATE or replace  RULE logdel_~~~ AS ON DELETE TO ~~~
                                     row(OLD.*),
                                     'D',
                                     current_timestamp
-                                )`
+         )`
+
+
 
 //console.log(dotazD)                                
 // dotaz0 = dotazD
@@ -302,21 +383,58 @@ var status=0
 
 //waitTill = new Date(new Date().getTime() + 1 * 1000)        
 //while(waitTill > new Date()){}
+/*
 var neco = ''
+
 //;(async function() {
+    var addStruct=[]
+    //var changeStruct=[]
+    atables.forEach((el, idx) =>{
+        addStruct=[]
+        changeStruct=[]
+        el.struct.split(',').forEach(el21=>{
+            while (el21.match(/  /)) {
+                el21 = el21.replace(/  /g,' ')
+
+            }
+            if (el21.match(/[a-z]/)){
+                 el21= el21.replace(/\n/,' ')   
+                addStruct.push([`alter table ${el.name} add ${el21}`])
+                
+            }
+
+
+            
+        })
+        addStruct.forEach(el22 => {
+            console.log(el22,"\n")
+            pool.query(`${el22}`,(err  ,res)=>{
+                if (err) {
+                    console.log('Vynechavam ', el22)
+                } else {
+                    console.log('Vkladam  ', el22)
+                }
+            })
+        })
+        console.log(addStruct)      
+
+
+    })
+    //console.log(atables[0].struct)
+    return
+    */
 
     pool.query('select * from db_system',(err,res) => {
 //        console.log(res.rows)
         console.log(atables)
-        
-    
 
    //res.rows.forEach((el, idx) =>{
-
+    
    atables.forEach((el, idx) =>{
         for (let x in el){
             if (x == 'struct'){
                 Struktura(el)
+                StrukturaChange(el)
                 console.log(x)
             }
             if (x == 'index_name'){
@@ -340,6 +458,41 @@ var neco = ''
 
 //waitTill = new Date(new Date().getTime() + 1 * 1000)        
 //while(waitTill > new Date()){}
+
+function StrukturaChange(el) {
+     var addStruct=[]
+    //var changeStruct=[]
+    
+        addStruct=[]
+     //   changeStruct=[]
+        el.struct.split(',').forEach(el21=>{
+            while (el21.match(/  /)) {
+                el21 = el21.replace(/  /g,' ')
+
+            }
+            if (el21.match(/[a-z]/)){
+                 el21= el21.replace(/\n/,' ')   
+                addStruct.push([`alter table ${el.name} add ${el21}`])
+                
+            }
+
+
+            
+        })
+        addStruct.forEach(el22 => {
+            console.log(el22,"\n")
+            pool.query(`${el22}`,(err  ,res)=>{
+                if (err) {
+                    console.log('Vynechavam ', el22)
+                } else {
+                    console.log('Vkladam  ', el22)
+                }
+            })
+        })
+        console.log(addStruct)      
+    
+
+}
  function Indexes(el) {
         var cq=''
         var index_name=''
@@ -437,7 +590,7 @@ async function Struktura(el) {
     console.log('Strukura' , el.name)
     var lRet= -1
 
-    try{
+    try {
     status= 0
     tabname = el.name    
     

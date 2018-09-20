@@ -7,6 +7,8 @@ const AuthenticationController = require('../controllers/AuthController')
 const list2Barevnost = require('../controllers/list2_barevnost')
 const list2Potisknutelnost = require('../controllers/list2_Potisknutelnost')
 const list2StrojSkup = require('../controllers/list2_StrojSkup')
+const list2StrojLaminace = require('../controllers/list2_StrojLaminace')
+const list2StrojTiskMod = require('../controllers/list2_StrojTiskMod')
 const list2MatSkup = require('../controllers/list2_matskup')
 const list2MatSubSkup = require('../controllers/list2_matsubskup')
 const list2MatDostupnost = require('../controllers/list2_MatDostupnost')
@@ -14,6 +16,8 @@ const list2MatDodavatel = require('../controllers/list2_MatDodavatel')
 const list2MatVyrobce = require('../controllers/list2_MatVyrobce')
 const list2MatSirka = require('../controllers/list2_matsirka')
 
+//Hlavni seznamy
+const listStroj = require('../controllers/list_Stroj')
 
 //System 
 const DBsystem =    require('../controllers/DBsystem')
@@ -57,15 +61,6 @@ router.put('/list2-potisknutelnost',
 router.delete('/list2-potisknutelnost',
     list2Potisknutelnost.delete)     
 
-
-router.get('/list2-strojskup',
-    list2StrojSkup.all)
-router.post('/list2-strojskup',
-    list2StrojSkup.insert) 
-router.put('/list2_barevnost',
-    list2StrojSkup.update)     
-router.delete('/list2-strojskup',
-    list2StrojSkup.delete)    
 
 router.get('/list2-matskup',
     list2MatSkup.all)
@@ -120,6 +115,42 @@ router.put('/list2-matsirka',
     list2MatSirka.update)     
 router.delete('/list2-matsirka',
     list2MatSirka.delete)        
+
+router.get('/list-stroj',
+    listStroj.all)
+router.post('/list-stroj',
+    listStroj.insert) 
+router.put('/list_stroj',
+    listStroj.update)     
+router.delete('/list-stroj',
+    listStroj.delete)        
+
+router.get('/list2-strojlaminace',
+    list2StrojLaminace.all)
+router.post('/list2-strojlaminace',
+    list2StrojLaminace.insert) 
+router.put('/list2-strojlaminace',
+    list2StrojLaminace.update)     
+router.delete('/list2-strojlaminace',
+    list2StrojLaminace.delete)        
+
+    router.get('/list2-strojtiskmod',
+    list2StrojTiskMod.all)
+router.post('/list2-strojtiskmod',
+    list2StrojTiskMod.insert) 
+router.put('/list2-strojtiskmod',
+    list2StrojTiskMod.update)     
+router.delete('/list2-strojtiskmod',
+    list2StrojTiskMod.delete)    
+
+router.get('/list2-strojskup',
+    list2StrojSkup.all)
+router.post('/list2-strojskup',
+    list2StrojSkup.insert) 
+router.put('/list2-strojskup',
+    list2StrojSkup.update)     
+router.delete('/list2-strojskup',
+    list2StrojSkup.delete)    
 
 router.get('/db-system',
     DBsystem.all)
