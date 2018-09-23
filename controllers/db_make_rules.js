@@ -94,6 +94,7 @@ const atables = [
          update list_stroj set kod = id ;`,
     ]
 } ,
+// Nasleduje detail - list mod stroj - neomezeny pocet
     
     {   name: 'list2_strojskup'
         ,struct:  `
@@ -177,10 +178,12 @@ const atables = [
     {   name: 'list2_matdostupnost'
         ,struct:  `
          kod int,
-         nazev varchar(50)`,
+         nazev varchar(50),
+         zkratka varchar(5)`,
          index_name: [ 
                 `kod  ~~~ (kod)`,
                 `nazev ~~~ (nazev)`
+                
           ],
         reindex: 1,
          initq: [
@@ -191,7 +194,9 @@ const atables = [
     {   name: 'list2_matsirka'
         ,struct:  `
          kod int,
-         sirka_mm int`,
+         sirka_mm int,
+         vyska_mm int,
+         idefix_mat int`   ,
          index_name: [ 
                 `kod  ~~~ (kod)`,
                 `sirka_mm ~~~ (sirka)`
@@ -222,10 +227,12 @@ const atables = [
     {   name: 'list2_matvyrobce'
         ,struct:  `
          kod int,
-         nazev varchar(20)`,
+         vyrobce varchar(50),
+         nazev varchar(50)`,
          index_name: [ 
                 `kod  ~~~ (kod)`,
                 `nazev ~~~ (nazev)`
+                
 
           ],
         reindex: 1,
@@ -238,11 +245,15 @@ const atables = [
 
     {   name: 'list_mat'
         ,struct:  `
-         kod int,
-         nazev varchar(100),
-         nazev_presny varchar(100),
-         popis text,
          typ int default 0  --deska arch role ....
+         subskup int,
+         
+         nazev1 varchar(30),
+         nazev2 varchar(30),
+         nazev3 varchar(30),
+         nazev_zobrazeny varchar(100),
+         popis text,
+         
          `,
          index_name: [ 
                 `kod  ~~~ (kod)`,
@@ -254,11 +265,10 @@ const atables = [
              update list_mat set kod = id ;`,
         ]
     },
-
-    {   name: 'list_mat_potisknutelnost'
+    {   name: 'list_mat_vlastnosti'   // Vazba 1:n 
         ,struct:  `
          idefix_mat int,
-         idefix_potisknutelnost int
+         idefix_vlastnost int
          `,
          index_name: [ 
                 `idefix_mat  ~~~ (idefix_mat)`
@@ -267,12 +277,30 @@ const atables = [
          initq: [
             
         ]
+    },
+    {   name: 'list_mat_rozmer'   // Vazba 1:n 
+        ,struct:  `
+         idefix_mat int,
+         sirka int default 0,
+         vyska int default 0,
+         idefix_dostupnost int default 0
+         popis varchar(100)
+         `,
+         index_name: [ 
+                `idefix_mat_rozmer  ~~~ (idefix_mat)`
+          ],
+        reindex: 1,
+         initq: [
+            
+        ]
     }
+
+
 
 ]
 
 
-
+if (false) {
 atables.forEach(e0 => {
     var idx = JSON.stringify(e0.index_name)
     var inittxt = JSON.stringify(e0.initq)
@@ -310,7 +338,7 @@ atables.forEach(e0 => {
     
 );
 return
-
+}
 
 
 
