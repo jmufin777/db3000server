@@ -100,9 +100,6 @@ module.exports = {
       }
       
 
-      
-
-      
 
       await req.body.form.data.forEach(element => {
 

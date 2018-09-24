@@ -18,6 +18,7 @@ async function init(){
 
  
 const atables = [
+    
     {
         name: 'db_system',
          struct: `
@@ -44,13 +45,12 @@ const atables = [
             insert into list2_barevnost (nazev ) VALUES ('4/0'),('4/4'),('4/1'),('1/0'),('1/1'),('4+W'),('4+W+4');
             update list2_barevnost set kod = id ;`
         ]
-
     } ,
     {
         name: 'list2_potisknutelnost'
         ,struct:  `
-         kod int,
-         nazev varchar(20)`,
+            kod int,
+            nazev varchar(20)`,
          index_name: [ 
 
                 `kod  ~~~ (kod)`,
@@ -59,8 +59,24 @@ const atables = [
         reindex: 1,
          initq: [
             `insert into list2_potisknutelnost (nazev ) VALUES ('NE'),('1/1'),('1/0');
-            update list2_potisknutelnost set kod = id ;`,
-           
+             update list2_potisknutelnost set kod = id ;`,
+        ]
+    },
+    {
+        name: 'list2_matvlastnosti'
+        ,struct:  `
+         kod int,
+         nazev varchar(50),
+         popis varchar(200)
+         `,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+          ],
+        reindex: 1,
+         initq: [
+            `insert into list2_matvlastnosti (nazev ) VALUES ('NE');
+             update list2_matvlastnosti set kod = id ;`,
         ]
     },
     {   name: 'list_stroj'
@@ -207,20 +223,31 @@ const atables = [
              update list2_matsirka set kod = id ;`,
         ]
     },
+    
 
-    {   name: 'list2_matdodavatel'
+    {   name: 'list_dodavatel'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
+            //Sehnat zpusob z ARES
         ,struct:  `
          kod int,
-         ico varchar(8),
-         nazev varchar(100)`,
+         ico varchar(8),    
+         dic varchar(20),
+         nazev varchar(100),
+         ulice varchar(100),
+         obec varchar(100),
+         psc  varchar(6),
+         tel varchar(15),
+         tel2 varchar(100),
+         mail varchar(100),
+         www varchar(100),
+         mat int default 1 `,
          index_name: [ 
                 `kod  ~~~ (kod)`,
                 `nazev ~~~ (nazev)`
           ],
         reindex: 1,
          initq: [
-            `insert into list2_matdodavatel (nazev ) VALUES ('NE'),('Antalis'),('FTP');
-             update list2_matdodavatel set kod = id ;`,
+            `insert into list_dodavatel (nazev ) VALUES ('NE'),('Antalis'),('FTP');
+             update list_dodavatel set kod = id ;`,
         ]
     },
 
@@ -253,19 +280,46 @@ const atables = [
          nazev3 varchar(30),
          nazev_zobrazeny varchar(100),
          popis text,
+
+         
          
          `,
+         /*
+nákupní cena za m2 u rolových
+nákladový koeficient
+nákladová cena za m2 u rolových
+prodejní koeficient
+prodejní cena za m2 u rolových
+
+ceny deskový materiál
+nákupní cena za m2 u deskových
+nákladový koeficient
+nákladová cena za m2 u deskových
+prodejní koeficient
+prodejní cena za m2 u deskových
+
+??? minimální velikost zbytku ???
+
+ceny archový materiál - cena za arch
+nákupní cena za kg
+nákupní cena za arch
+nákladový koeficient
+nákladová cena za arch
+prodejní koeficient
+prodejní cena za arch
+
+         */
          index_name: [ 
                 `kod  ~~~ (kod)`,
                 `nazev ~~~ (nazev)`
           ],
         reindex: 1,
          initq: [
-            `insert into list_mat (nazev ) VALUES ('NE');
+            `insert into list_mat (nazev ) VALUES ('Vzor');
              update list_mat set kod = id ;`,
         ]
     },
-    {   name: 'list_mat_vlastnosti'   // Vazba 1:n 
+    {   name: 'list_mat_vlastnosti'   // Vazba 1:n - obsahuje data vazana na list2_matvlastnosti
         ,struct:  `
          idefix_mat int,
          idefix_vlastnost int
@@ -298,6 +352,7 @@ const atables = [
 
 
 ]
+
 
 
 if (false) {
@@ -625,8 +680,14 @@ async function Struktura(el) {
     dotazS = dotazS0.replace(/~S~S~/g,el.struct)  //Vytvoreni struktury
     dotazS = dotazS.replace(/~~~/g,el.name)
 
+    console.log(dotazS)
+    
+
+
             pool.query(`${dotazS} `, (err, res )=> {
                 if (err) {
+                    console.log(err)
+     //               return
                     
                     pool.query(`select * from ${el.name} limit 1`, (err2, res2)=>{
                         if (err2) {

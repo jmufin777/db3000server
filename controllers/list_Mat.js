@@ -6,13 +6,15 @@ const _ = require('lodash')
 
 var lErr= false
 
-const tabname = 'list_dodavatel'
+
+const tabname = 'list_mat'
 module.exports = {
 
     async all (req, res) {
       var dotaz=''
       if (req.query.id=='nic'){
         dotaz=`select * from ${tabname} where 1=1 order by kod `
+        
       }
       if (req.query.id=='max'){
         dotaz = `select kod as kod from ${tabname} where 1=1 order by kod desc limit 1`
@@ -28,7 +30,6 @@ module.exports = {
         console.log('BBBB')
 
         const client = await pool.connect()
-
         
         // const myres = {
         //   data : {},
@@ -71,14 +72,14 @@ module.exports = {
     console.log('Update Stroj Skup')
   },
   async insert (req, res, next ) {
-    console.log(req.body.form[0])
+    console.log(req.body.form.data[0])
     var dotaz =""
-    // res.status(501).send({
-    //   error: 'test'
-    // })
-    // return
+    //  res.status(501).send({
+    //    error: 'test'
+    //  })
+    //  return
     try{
-      const {kod, nazev, ico, dic, ulice, obec,psc, tel, mail,mat } = req.body.form
+      // const {kod,idefix_strojskup, nazev } = req.body.form
       const  user  = req.body.user
       const client = await pool.connect()
       
@@ -99,9 +100,6 @@ module.exports = {
           }
       })
       }
-      
-
-      
 
       await req.body.form.data.forEach(element => {
 
@@ -115,41 +113,62 @@ module.exports = {
         } else {
           console.log(element[0].id)
         }
-        
-        if (element[0].id < 0 ){
-          dotaz = `insert into  ${tabname} (kod,nazev, ico, dic, ulice, obec,psc, tel, mail ,mat, user_insert_idefix ) values `;
-          dotaz += `( ${element[0].kod},'${element[0].nazev}',  
-          '${element[0].ico}',  
-          '${element[0].dic}',  
-          '${element[0].ulice}',  
-          '${element[0].obec}',  
-          '${element[0].psc}',  
-          '${element[0].tel}',  
-          '${element[0].mail}',  
-          '${element[0].mat}',  
 
-          
-          login2idefix('${user}')  )`
+        /*
+     sirka_mat_max_mm
+     delka_mat_max_mm
+     sirka_tisk_max_mm
+     delka_tisk_max_mm
+     tech_okraj_strana_mm
+     tech_okraj_start_mm
+     tech_okraj_spacecopy_mm
+     tech_okraj_spacejobs_mm
+     tech_okraj_end_mm
+     bez_okraj
+     spadavka_mm
+     space_znacky_mm
+     */
+
+        if (element[0].id < 0 ){
+          dotaz = `insert into  ${tabname} (kod
+            ,nazev
+            ,nazev1
+            ,nazev2
+            ,nazev3
+            ,nazev_presny
+            ,popis
+            
+
+     ,user_insert_idefix
+            
+            ) values `;
+          dotaz += `( ${element[0].kod}
+      ,'${element[0].nazev}'
+      ,'${element[0].nazev1}'
+      ,'${element[0].nazev2}'
+      ,'${element[0].nazev3}'
+      ,'${element[0].nazev_presny}'
+      ,'${element[0].pois}'
+      
+      ,login2idefix('${user}') 
+             )`
         }
         if (element[0].id > 0 ){
-          dotaz = `update  ${tabname} set kod =${element[0].kod},nazev='${element[0].nazev}',
-          ico    = '${element[0].ico}',  
-          dic    = '${element[0].dic}',  
-          ulice  = '${element[0].ulice}',  
-          obec   = '${element[0].obec}',  
-          psc    = '${element[0].psc}',  
-          tel    = '${element[0].tel}',  
-          mail   = '${element[0].mail}',
-          mat    = '${element[0].mat}' 
+          dotaz = `update  ${tabname} set kod =${element[0].kod}
+          ,nazev='${element[0].nazev}'
+          ,nazev1='${element[0].nazev1}'
+          ,nazev2='${element[0].nazev2}'
+          ,nazev3='${element[0].nazev3}'
+          ,nazev_presny='${element[0].nazev_presny}'
+          ,popis='${element[0].popis}'
           
-          
-          
-          , user_update_idefix = login2idefix('${user}')`;
+          ,user_update_idefix = login2idefix('${user}')`;
           dotaz += ` where id = ${element[0].id}`
         }
-        dotaz = dotaz.replace(/undefined/g,'')
-          dotaz = dotaz.replace(/null/g,'')
-          console.log(dotaz)
+          console.log(dotaz.replace(/undefined/g,'0'))
+
+          dotaz = dotaz.replace(/undefined/g,'0')
+          dotaz = dotaz.replace(/null/g,'0')
            client.query(dotaz  ,[  ],(err, response ) => {
              if (err) {
                return next(err)
@@ -171,7 +190,7 @@ module.exports = {
     } catch (err) {
       console.log(err)
       res.status(411).send({
-        error: 'Barevnost - nelze vlozit kod'
+        error: `${tabname} - nelze vlozit kod`
 
       })
     }

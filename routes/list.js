@@ -5,7 +5,8 @@ const router = Router();
 const AuthenticationController = require('../controllers/AuthController')
 //Pomocne seznamy
 const list2Barevnost = require('../controllers/list2_barevnost')
-const list2Potisknutelnost = require('../controllers/list2_Potisknutelnost')
+const list2Potisknutelnost = require('../controllers/list2_MatPotisknutelnost')
+const list2MatVlastnosti = require('../controllers/list2_MatVlastnosti')
 const list2StrojSkup = require('../controllers/list2_StrojSkup')
 const list2StrojLaminace = require('../controllers/list2_StrojLaminace')
 const list2StrojTiskMod = require('../controllers/list2_StrojTiskMod')
@@ -60,6 +61,15 @@ router.put('/list2-potisknutelnost',
     list2Potisknutelnost.update)     
 router.delete('/list2-potisknutelnost',
     list2Potisknutelnost.delete)     
+
+router.get('/list2-matvlastnosti',
+    list2MatVlastnosti.all)
+router.post('/list2-matvlastnosti',
+    list2MatVlastnosti.insert) 
+router.put('/list2-matvlastnosti',
+    list2MatVlastnosti.update)     
+router.delete('/list2-matvlastnosti',
+    list2MatVlastnosti.delete)         
 
 
 router.get('/list2-matskup',
