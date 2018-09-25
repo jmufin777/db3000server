@@ -19,6 +19,7 @@ const list2MatSirka = require('../controllers/list2_matsirka')
 
 //Hlavni seznamy
 const listStroj = require('../controllers/list_Stroj')
+const listMat = require('../controllers/list_Mat')
 
 //System 
 const DBsystem =    require('../controllers/DBsystem')
@@ -134,6 +135,15 @@ router.put('/list_stroj',
     listStroj.update)     
 router.delete('/list-stroj',
     listStroj.delete)        
+
+router.get('/list-mat',
+    listMat.all)
+router.post('/list-mat',
+    listMat.insert) 
+router.put('/list_mat',
+    listMat.update)     
+router.delete('/list-mat',
+    listMat.delete)        
 
 router.get('/list2-strojlaminace',
     list2StrojLaminace.all)

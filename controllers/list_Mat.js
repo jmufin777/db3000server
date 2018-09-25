@@ -115,52 +115,113 @@ module.exports = {
         }
 
         /*
-     sirka_mat_max_mm
-     delka_mat_max_mm
-     sirka_tisk_max_mm
-     delka_tisk_max_mm
-     tech_okraj_strana_mm
-     tech_okraj_start_mm
-     tech_okraj_spacecopy_mm
-     tech_okraj_spacejobs_mm
-     tech_okraj_end_mm
-     bez_okraj
-     spadavka_mm
-     space_znacky_mm
-     */
+         kod 
+         typ 
+         idefix_matsubskup
+         idefix_vyrobce
+         nazev1
+         nazev2
+         nazev3
+         popis
+         idefix_dotavatel
+         sila_mm
+         vaha_gm2
+         sirka_mm_zbytek
+         vyska_mm_zbytek
+         cena_nakup_m2
+         koef_naklad
+         koef_prodej
+         cena_nakup_kg
+         cena_nakup_arch
+         cena_naklad_arch
+         cena_naklad_m2
+         cena_prodej_m2
+         cena_prodej_arch
+
+         */
+
 
         if (element[0].id < 0 ){
-          dotaz = `insert into  ${tabname} (kod
-            ,nazev
-            ,nazev1
-            ,nazev2
-            ,nazev3
-            ,nazev_presny
-            ,popis
+          dotaz = `insert into  ${tabname} (
+          kod 
+         ,typ 
+         ,idefix_matsubskup
+         ,idefix_vyrobce
+         ,nazev1
+         ,nazev2
+         ,nazev3
+         ,popis
+         ,idefix_dotavatel
+         ,sila_mm
+         ,vaha_gm2
+         ,sirka_mm_zbytek
+         ,vyska_mm_zbytek
+         ,cena_nakup_m2
+         ,koef_naklad
+         ,koef_prodej
+         ,cena_nakup_kg
+         ,cena_nakup_arch
+         ,cena_naklad_arch
+         ,cena_naklad_m2
+         ,cena_prodej_m2
+         ,cena_prodej_arch
+            
             
 
      ,user_insert_idefix
             
             ) values `;
-          dotaz += `( ${element[0].kod}
-      ,'${element[0].nazev}'
-      ,'${element[0].nazev1}'
-      ,'${element[0].nazev2}'
-      ,'${element[0].nazev3}'
-      ,'${element[0].nazev_presny}'
-      ,'${element[0].pois}'
+          dotaz += `( 
+        '${element[0].kod}'
+        ,'${element[0].typ}' 
+        ,'${element[0].idefix_matsubskup}'
+        ,'${element[0].idefix_vyrobce}'
+        ,'${element[0].nazev1}'
+        ,'${element[0].nazev2}'
+        ,'${element[0].nazev3}'
+        ,'${element[0].popis}'
+        ,'${element[0].idefix_dotavatel}'
+        ,'${element[0].sila_mm}'
+        ,'${element[0].vaha_gm2}'
+        ,'${element[0].sirka_mm_zbytek}'
+        ,'${element[0].vyska_mm_zbytek}'
+        ,'${element[0].cena_nakup_m2}'
+        ,'${element[0].koef_naklad}'
+        ,'${element[0].koef_prodej}'
+        ,'${element[0].cena_nakup_kg}'
+        ,'${element[0].cena_nakup_arch}'
+        ,'${element[0].cena_naklad_arch}'
+        ,'${element[0].cena_naklad_m2}'
+        ,'${element[0].cena_prodej_m2}'
+        ,'${element[0].cena_prodej_arch}'
       
       ,login2idefix('${user}') 
              )`
         }
         if (element[0].id > 0 ){
-          dotaz = `update  ${tabname} set kod =${element[0].kod}
-          ,nazev='${element[0].nazev}'
+          dotaz = `update  ${tabname} set 
+           kod ='${element[0].kod}'
+          ,typ ='${element[0].typ}' 
+          ,idefix_matsubskup='${element[0].idefix_matsubskup}'
+          ,idefix_vyrobce='${element[0].idefix_vyrobce}'
           ,nazev1='${element[0].nazev1}'
           ,nazev2='${element[0].nazev2}'
           ,nazev3='${element[0].nazev3}'
-          ,nazev_presny='${element[0].nazev_presny}'
           ,popis='${element[0].popis}'
+          ,idefix_dotavatel='${element[0].idefix_dotavatel}'
+          ,sila_mm='${element[0].sila_mm}'
+          ,vaha_gm2='${element[0].vaha_gm2}'
+          ,sirka_mm_zbytek='${element[0].sirka_mm_zbytek}'
+          ,vyska_mm_zbytek='${element[0].vyska_mm_zbytek}'
+          ,cena_nakup_m2='${element[0].cena_nakup_m2}'
+          ,koef_naklad='${element[0].koef_naklad}'
+          ,koef_prodej='${element[0].koef_prodej}'
+          ,cena_nakup_kg='${element[0].cena_nakup_kg}'
+          ,cena_nakup_arch='${element[0].cena_nakup_arch}'
+          ,cena_naklad_arch='${element[0].cena_naklad_arch}'
+          ,cena_naklad_m2='${element[0].cena_naklad_m2}'
+          ,cena_prodej_m2='${element[0].cena_prodej_m2}'
+          ,cena_prodej_arch='${element[0].cena_prodej_arch}'
           
           ,user_update_idefix = login2idefix('${user}')`;
           dotaz += ` where id = ${element[0].id}`

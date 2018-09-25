@@ -18,7 +18,7 @@ async function init(){
 
  
 const atables = [
-    
+
     {
         name: 'db_system',
          struct: `
@@ -272,16 +272,42 @@ const atables = [
 
     {   name: 'list_mat'
         ,struct:  `
-         typ int default 0  --deska arch role ....
-         subskup int,
+         kod int default 0,
+         typ int default 0 ,  --deska arch role ....
+         
+         idefix_matsubskup int,   --kategorie - mozna ozno zrusit - nahrazeno nazvy ? 
+         idefix_vyrobce int,   --presne oznbaceni
          
          nazev1 varchar(30),
          nazev2 varchar(30),
-         nazev3 varchar(30),
-         nazev_zobrazeny varchar(100),
+         nazev3 varchar(30),           -- + zobrazeny naev = funkce
          popis text,
-
+         idefix_dotavatel int,
          
+         sila_mm numeric(10,2),
+         vaha_gm2 numeric(10,2),
+
+         sirka_mm_zbytek numeric(10,2) default 0,  -- jsou  pridany i k seznamu sirek a vysek a mozna bude mozne je zde zrusit
+         vyska_mm_zbytek numeric(10,2) default 0,
+         
+         cena_nakup_m2 numeric(10,2),
+         koef_naklad numeric(10,2),   --//spolecna polozka
+         koef_prodej numeric(10,2),   
+
+         cena_nakup_kg numeric(10,2),   --!!!! cena za arch je různá podle gramáží papíru
+         cena_nakup_arch numeric(10,2),  --výpočet z ceny za kg, formátu a gr. v db ponecham, prepoctu po ulozeni, nebo prepocitam aplikaci
+         cena_naklad_arch numeric(10,2),    -- vypočteno nákupní cena x nákladový koeficient  - tedy postupne , podle zadanych hodnot
+
+         cena_naklad_m2 numeric(10,2),    -- vypočteno nákupní cena x nákladový koeficient  - tedy postupne , podle zadanych hodnot
+         
+         
+           
+         cena_prodej_m2 numeric(10,2)   , -- výpočet nákladová cena x prodejní koeficient     
+         cena_prodej_arch numeric(10,2)  -- výpočet nákladová cena x prodejní koeficient     
+
+         -- priklad cena_nakup_m2 * naklad_koef = cena naklad
+         -- cena_nakup_arch =  vyresim zitra
+         -- priklad cena_nakup_kg * naklad_koef = cena naklad 
          
          `,
          /*
@@ -315,10 +341,11 @@ prodejní cena za arch
           ],
         reindex: 1,
          initq: [
-            `insert into list_mat (nazev ) VALUES ('Vzor');
+            `insert into list_mat (nazev1 ) VALUES ('Vzor');
              update list_mat set kod = id ;`,
         ]
     },
+
     {   name: 'list_mat_vlastnosti'   // Vazba 1:n - obsahuje data vazana na list2_matvlastnosti
         ,struct:  `
          idefix_mat int,
@@ -335,9 +362,12 @@ prodejní cena za arch
     {   name: 'list_mat_rozmer'   // Vazba 1:n 
         ,struct:  `
          idefix_mat int,
-         sirka int default 0,
-         vyska int default 0,
-         idefix_dostupnost int default 0
+         sirka_mm numeric(10,2) default 0,
+         vyska_mm numeric(10,2) default 0,
+         sirka_mm_zbytek numeric(10,2) default 0,
+         vyska_mm_zbytek numeric(10,2) default 0,
+
+         idefix_dostupnost int default 0,
          popis varchar(100)
          `,
          index_name: [ 
@@ -687,7 +717,7 @@ async function Struktura(el) {
             pool.query(`${dotazS} `, (err, res )=> {
                 if (err) {
                     console.log(err)
-     //               return
+                    // return
                     
                     pool.query(`select * from ${el.name} limit 1`, (err2, res2)=>{
                         if (err2) {
