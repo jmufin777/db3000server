@@ -9,7 +9,34 @@ var lErr= false
 
 const tabname = 'list_mat'
 module.exports = {
+    async one (req,res) {
+       var  myres = {
+        xdata: [],
+        vlastnosti:[],
+        rozmer: [],
+        info: 0
+       
+      }
+      console.log(req.query.id)
+      if (!req.query.id > 0 ) {
+        res.status(821).send({
+          error: "Chybi Idefix materialu"
+        })
+      }
+      var dotaz =`select * from ${tabname} where idefix = ${res.query.id}`
+      var dotaz_vlastnosti =`select * from list_mat_vlastnosti where idefix_mat = ${res.query.id}`
+      var dotaz_rozmer = `select * from list_mat_rozmer  where idefix_mat = ${res.query.id}`
+      
+      const client = await pool.connect()
+      await client.query(dotaz,(err,response) => {
+        if (err) {
+          myres.info = -1
+          return
+        }
 
+      })
+
+    },
     async all (req, res) {
       var dotaz=''
       if (req.query.id=='nic'){
@@ -23,35 +50,23 @@ module.exports = {
       console.log(req.query.id, dotaz )
     try {
       
-    //  const {login, password} = req.body
-//      console.log(login)  
 
         
         console.log('BBBB')
 
         const client = await pool.connect()
         
-        // const myres = {
-        //   data : {},
-        //   info: 0
-        // }
 
          await client.query(dotaz ,(err, response) => {
           //console.log(response)
            if (response.rowCount == 0)   {
              console.log(response,'noic')
-             
            
              res.json( {
               id: -1,
               kod: 100,
               nazev:'Nova'
             }) 
-          
-
-          
-
-            // res.status(403).send({error: `Data ${tabname} nejsou k dispozici`})
            } else {
               res.json(response.rows); 
            }
@@ -67,6 +82,8 @@ module.exports = {
         })
     }
   },
+
+  
 
   async update(req, res, next) {
     console.log('Update Stroj Skup')
@@ -116,14 +133,14 @@ module.exports = {
 
         /*
          kod 
-         typ 
+         idefix_matskup
          idefix_matsubskup
          idefix_vyrobce
          nazev1
          nazev2
          nazev3
          popis
-         idefix_dotavatel
+         idefix_dodavatel
          sila_mm
          vaha_gm2
          sirka_mm_zbytek
@@ -144,14 +161,14 @@ module.exports = {
         if (element[0].id < 0 ){
           dotaz = `insert into  ${tabname} (
           kod 
-         ,typ 
+         ,idefix_matskup
          ,idefix_matsubskup
          ,idefix_vyrobce
          ,nazev1
          ,nazev2
          ,nazev3
          ,popis
-         ,idefix_dotavatel
+         ,idefix_dodavatel
          ,sila_mm
          ,vaha_gm2
          ,sirka_mm_zbytek
@@ -173,14 +190,14 @@ module.exports = {
             ) values `;
           dotaz += `( 
         '${element[0].kod}'
-        ,'${element[0].typ}' 
+        ,'${element[0].idefix_matskup}' 
         ,'${element[0].idefix_matsubskup}'
         ,'${element[0].idefix_vyrobce}'
         ,'${element[0].nazev1}'
         ,'${element[0].nazev2}'
         ,'${element[0].nazev3}'
         ,'${element[0].popis}'
-        ,'${element[0].idefix_dotavatel}'
+        ,'${element[0].idefix_dodavatel}'
         ,'${element[0].sila_mm}'
         ,'${element[0].vaha_gm2}'
         ,'${element[0].sirka_mm_zbytek}'
@@ -201,14 +218,14 @@ module.exports = {
         if (element[0].id > 0 ){
           dotaz = `update  ${tabname} set 
            kod ='${element[0].kod}'
-          ,typ ='${element[0].typ}' 
+          ,idefix_matskup ='${element[0].idefix_matskup}' 
           ,idefix_matsubskup='${element[0].idefix_matsubskup}'
           ,idefix_vyrobce='${element[0].idefix_vyrobce}'
           ,nazev1='${element[0].nazev1}'
           ,nazev2='${element[0].nazev2}'
           ,nazev3='${element[0].nazev3}'
           ,popis='${element[0].popis}'
-          ,idefix_dotavatel='${element[0].idefix_dotavatel}'
+          ,idefix_dodavatel='${element[0].idefix_dodavatel}'
           ,sila_mm='${element[0].sila_mm}'
           ,vaha_gm2='${element[0].vaha_gm2}'
           ,sirka_mm_zbytek='${element[0].sirka_mm_zbytek}'

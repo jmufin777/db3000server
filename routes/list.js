@@ -138,6 +138,8 @@ router.delete('/list-stroj',
 
 router.get('/list-mat',
     listMat.all)
+router.get('/list-mat-one',
+    listMat.one)     
 router.post('/list-mat',
     listMat.insert) 
 router.put('/list_mat',
@@ -154,7 +156,7 @@ router.put('/list2-strojlaminace',
 router.delete('/list2-strojlaminace',
     list2StrojLaminace.delete)        
 
-    router.get('/list2-strojtiskmod',
+router.get('/list2-strojtiskmod',
     list2StrojTiskMod.all)
 router.post('/list2-strojtiskmod',
     list2StrojTiskMod.insert) 

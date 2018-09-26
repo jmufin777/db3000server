@@ -273,7 +273,7 @@ const atables = [
     {   name: 'list_mat'
         ,struct:  `
          kod int default 0,
-         typ int default 0 ,  --deska arch role ....
+         idefix_matskup int default 0 ,  --deska arch role ....
          
          idefix_matsubskup int,   --kategorie - mozna ozno zrusit - nahrazeno nazvy ? 
          idefix_vyrobce int,   --presne oznbaceni
@@ -282,7 +282,7 @@ const atables = [
          nazev2 varchar(30),
          nazev3 varchar(30),           -- + zobrazeny naev = funkce
          popis text,
-         idefix_dotavatel int,
+         idefix_dodavatel int,
          
          sila_mm numeric(10,2),
          vaha_gm2 numeric(10,2),
@@ -372,6 +372,35 @@ prodejní cena za arch
          `,
          index_name: [ 
                 `idefix_mat_rozmer  ~~~ (idefix_mat)`
+          ],
+        reindex: 1,
+         initq: [
+            
+        ]
+    }
+
+    ,
+    {   name: 'list_mat_strojskup'   // Vazba 1:n , skupiny - kategorie stroju
+        ,struct:  `
+         idefix_mat int,
+         idefix_strojskup int default 0
+         `,
+         index_name: [ 
+                `idefix_mat_strojskup  ~~~ (idefix_mat)`  // -- index na id materialu
+          ],
+        reindex: 1,
+         initq: [
+            
+        ]
+    }
+    ,
+    {   name: 'list_mat_stroj'   // Vazba 1:n , skupiny - stroje jednotlive, teoreticky y to nemelo bbyt potreba vubec
+        ,struct:  `
+         idefix_mat int,
+         idefix_stroj int default 0
+         `,
+         index_name: [ 
+                `idefix_mat_stroj  ~~~ (idefix_mat)`
           ],
         reindex: 1,
          initq: [
