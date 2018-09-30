@@ -3,6 +3,14 @@ const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 const {pool, client } = require('../db')
 const _ = require('lodash')
+const resObj = {
+  mat: [],
+  vlatnosti: [],
+  rozmer: [],
+  strojskup: [],
+
+
+}
 
 var lErr= false
 
@@ -14,7 +22,9 @@ module.exports = {
         xdata: [],
         vlastnosti:[],
         rozmer: [],
-        info: 0
+        strojskup: [],
+
+        info: []
        
       }
       console.log(req.query.id)
@@ -22,21 +32,191 @@ module.exports = {
         res.status(821).send({
           error: "Chybi Idefix materialu"
         })
+        lErr = true
+        return
       }
-      var dotaz =`select * from ${tabname} where idefix = ${res.query.id}`
-      var dotaz_vlastnosti =`select * from list_mat_vlastnosti where idefix_mat = ${res.query.id}`
-      var dotaz_rozmer = `select * from list_mat_rozmer  where idefix_mat = ${res.query.id}`
+      if (lErr == true){
+        return
+      }
+      
+      // return
+
+      var dotaz =`select * from ${tabname} where idefix = ${req.query.id}`
+      var dotaz_vlastnosti =`select * from list_mat_vlastnosti where idefix_mat = ${req.query.id}`
+      var dotaz_rozmer = `select * from list_mat_rozmer  where idefix_mat = ${req.query.id}`
+      var dotaz_strojskup = `select * from list_mat_strojskup where idefix_mat = ${req.query.id}`
+
+      var enum_matskup        = `select * from list2_matskup order by kod `
+      var enum_matsubskup     = `select * from list2_matsubskup order by kod `
+      var enum_matvyrobce     = `select * from list2_matvyrobce order by kod `
+      var enum_matvlastnosti  = `select * from list2_matvlastnosti order by kod `
+
+      
+
+      var enum_n1 =`select distinct nazev1 as value from list_mat order by nazev1`
+      var enum_n2 =`select distinct nazev2 as value from list_mat order by nazev2`
+      var enum_n3 =`select distinct nazev3 as value from list_mat order by nazev3`
+
+      var enum_dodavatel  = `select * from list_dodavatel order by kod `   //Doplnit pominkove online dohledabvani pro kod ktery teprve vznikne
+      
+      console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup)
       
       const client = await pool.connect()
+      try {
+       
+      
       await client.query(dotaz,(err,response) => {
         if (err) {
           myres.info = -1
           return
         }
+        resObj.mat=response.rows
 
       })
 
+      await  client.query(dotaz_vlastnosti,(err2,response2) => {
+     
+       if (err2) {
+         myres.info = -1
+         return
+       }
+        resObj.vlastnosti = []
+        response2.rows.forEach(el => {
+        resObj.vlastnosti.push(el.idefix_vlastnost)
+       })
+
+     })
+
+     await  client.query(dotaz_rozmer,(err3,response3) => {
+     if (err3) {
+       myres.info = -1
+       return
+     }
+     resObj.rozmer=response3.rows
+     })
+
+     await  client.query(dotaz_strojskup,(err4,response4) => {
+      if (err4) {
+        myres.info = -1
+        return
+      }
+      resObj.strojskup=response4.rows
+      //console.log(resObj)
+      //console.log(resObj.vlatnosti)
+      })
+
+      await  client.query(enum_matskup,(err5,response5) => {
+        if (err5) {
+          myres.info = -1
+          return
+        }
+        resObj.enum_matskup=response5.rows
+        //console.log(resObj)
+        //console.log(resObj.vlatnosti)
+        })
+
+        await  client.query(enum_matsubskup,(err7,response7) => {
+          if (err7) {
+            myres.info = -1
+            return
+          }
+          resObj.enum_matsubskup=response7.rows
+          
+          
+          //console.log(resObj)
+          
+          //console.log(resObj.vlatnosti)
+          }) 
+          await  client.query(enum_matvyrobce,(err8,response8) => {
+            if (err8) {
+              myres.info = -1
+              console.log(8, "err")
+              return
+            }
+            resObj.enum_matvyrobce=response8.rows
+            console.log(8, "OK")
+            
+            //console.log(resObj)
+            })   
+            await  client.query(enum_matvlastnosti,(err9,response9) => {
+              if (err9) {
+                myres.info = -1
+                console.log(9, "Err")
+                return
+              }
+              resObj.enum_matvlastnosti=response9.rows
+              console.log(9, "OK")
+              
+              //console.log(resObj)
+              })               
+
+               await  client.query(enum_n1,(err10,response10) => {
+                if (err10) {
+                  myres.info = -1
+                  console.log(10, "err", err10)
+                  return
+                }
+                resObj.enum_n1 = []
+                // response10.rows.forEach(el => {
+                //   resObj.enum_n1.push(el.nazev1)
+                // })
+                resObj.enum_n1=response10.rows
+                console.log(10, "OK",resObj.enum_n1)
+                
+                //console.log(resObj)
+                })                 
+               await  client.query(enum_n2,(err11,response11) => {
+                  if (err11) {
+                    myres.info = -1
+                    console.log(11, "err")
+                    return
+                  }
+                  resObj.enum_n2=response11.rows
+                  console.log(11, "OK")
+                
+                  //console.log(resObj)
+                  })                   
+               await  client.query(enum_n3,(err12,response12) => {
+                    if (err12) {
+                      myres.info = -1
+                      console.log(12, "err")
+                      return
+                    }
+                    resObj.enum_n3=response12.rows
+                    
+                    console.log(12)
+                    })                  
+               await  client.query(enum_dodavatel,(err13,response13) => {
+                 if (err13) {
+                   myres.info = -1
+                   console.log(13, "err")
+                   return
+                 }
+                 resObj.enum_dodavatel = response13.rows
+                 
+                 
+                 console.log(13)
+                 }) 
+                 ///console.log(myres.info)                                     
+                await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejt, vubectro nechapu ale funguje to
+                  res.json(resObj)
+                })  
+                
+            //setTimeout(function(){
+               await client.release() 
+            //},2000)        
+    } catch(e) {
+      console.log(e)
+      res.status(821).send({
+        error: 'Mat ' + e
+      });
+    }
+    
+    
+
     },
+    
+
     async all (req, res) {
       var dotaz=''
       if (req.query.id=='nic'){

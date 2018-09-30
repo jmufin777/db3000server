@@ -286,9 +286,6 @@ const atables = [
          
          sila_mm numeric(10,2),
          vaha_gm2 numeric(10,2),
-
-         sirka_mm_zbytek numeric(10,2) default 0,  -- jsou  pridany i k seznamu sirek a vysek a mozna bude mozne je zde zrusit
-         vyska_mm_zbytek numeric(10,2) default 0,
          
          cena_nakup_m2 numeric(10,2),
          koef_naklad numeric(10,2),   --//spolecna polozka

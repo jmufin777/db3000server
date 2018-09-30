@@ -24,7 +24,7 @@ module.exports = {
 //        var user = ''
   //      var level = 0
         
-         await client.query('select * from list_users where login=$1  and heslo = md5($2) ',[login , password ],(err, response) => {
+         await client.query('select * from list_users where login=$1  and heslo = md5($2) limit 1',[login , password ],(err, response) => {
           //console.log(response)
            if (response.rowCount == 0)   {
              res.status(403).send({error: 'Uzivatel ci heslo nenalezeno'})
@@ -51,7 +51,7 @@ module.exports = {
          await client.query(`insert into list_users_sessions (idefix) values (${idefix})`)
          await client.release() 
          if (!user) {
-           console.log('User not available in database - Uzivatel neni pritomen v databazi  ')
+           console.log('User X ${idefix} not available in database - Uzivatel neni pritomen v databazi  ')
          }
     } catch (err) {
         console.log(err)
@@ -106,15 +106,16 @@ module.exports = {
         user = ''
         idefix = 0
         level = ''
-         await client.query('select level,idefix,login from list_users where login=$1   ',[login  ],(err, response) => {
+         await client.query(`select level,idefix,login from list_users where login='${login}'` ,(err, response) => {
           //console.log(response)
            if (response.rowCount == 0)   {
+             console.log(`Login ${user}   X1 Update User not available in database - Uzivatel neni pritomen v databazi  `)
              res.status(403).send({error: 'Uzivatel ci heslo nenalezeno'})
            } else {
+              console.log('Nalezeno: X1 ',response.rows[0].login)
                user = response.rows[0].login
                level = response.rows[0].level
                idefix = response.rows[0].idefix
-               console.log(response.rows[0].login)
     
                res.send({
                 user: user ,
@@ -126,12 +127,9 @@ module.exports = {
            }
              if (err) return next(err);
          })
+         
+         
          await client.release() 
-         if (!user) {
-           console.log('Login Update User not available in database - Uzivatel neni pritomen v databazi  ')
-         } else {
-           console.log('Login Update User is available in database - Uzivatel je pritomen v databazi  ')
-         }
     } catch (err) {
         console.log(err)
         res.status(400).send({
