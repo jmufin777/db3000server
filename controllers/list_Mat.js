@@ -51,6 +51,9 @@ module.exports = {
       var enum_matvyrobce     = `select * from list2_matvyrobce order by kod `
       var enum_matvlastnosti  = `select * from list2_matvlastnosti order by kod `
 
+      var enum_strojskup  = `select * from list2_strojskup order by kod`
+      
+
       
 
       var enum_n1 =`select distinct nazev1 as value from list_mat order by nazev1`
@@ -58,6 +61,19 @@ module.exports = {
       var enum_n3 =`select distinct nazev3 as value from list_mat order by nazev3`
 
       var enum_dodavatel  = `select * from list_dodavatel order by kod `   //Doplnit pominkove online dohledabvani pro kod ktery teprve vznikne
+
+      
+      var dotaz_romer2= `select idefix_mat,b.zkratka,array_agg(distinct a.idefix::text||'~'||sirka_mm::int::text||'x'||vyska_mm::int::text) as rozmer, 
+      array_agg(distinct sirka_mm_zbytek::int::text||'x'||vyska_mm_zbytek::int::text) as rozmer_zbytek, 
+      array_agg(distinct sirka_mm::int) as sirky, array_agg(distinct vyska_mm::int) as delky
+
+      from list_mat_rozmer a join list2_matdostupnost b on a.idefix_dostupnost = b.idefix
+      where a.idefix_mat = ${req.query.id}
+      group by b.zkratka, idefix_mat order by zkratka desc`
+
+
+      var enum_matdostupnost  = `select idefix,nazev,zkratka from list2_matdostupnost order by kod `
+
       
       console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup)
       
@@ -195,8 +211,40 @@ module.exports = {
                  resObj.enum_dodavatel = response13.rows
                  
                  
-                 console.log(13)
+                 console.log(13,"Dodavatel")
                  }) 
+                 await  client.query(dotaz_romer2,(err14,response14) => {
+                  if (err14) {
+                    myres.info = -1
+                    console.log(14, "err")
+                    return
+                  }
+                  resObj.rozmer2 = response14.rows
+                  
+                  
+                  console.log(14, "Rozmer")
+                  })  
+
+                  await  client.query(enum_matdostupnost,(err15,response15) => {
+                    if (err15) {
+                      myres.info = -1
+                      console.log(15, "err")
+                      return
+                    }
+                    resObj.enum_matdostupnost = response15.rows
+      
+                    console.log(15, "Dostupnost ")
+                    })   
+                    await  client.query(enum_strojskup,(err16,response16) => {
+                      if (err16) {
+                        myres.info = -1
+                        console.log(16, "err")
+                        return
+                      }
+                      resObj.enum_strojskup = response16.rows
+        
+                      console.log(16, "Stroj Skup ")
+                      })    
                  ///console.log(myres.info)                                     
                 await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejt, vubectro nechapu ale funguje to
                   res.json(resObj)
