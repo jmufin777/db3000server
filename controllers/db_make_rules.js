@@ -163,7 +163,8 @@ const atables = [
     {   name: 'list2_matskup'
         ,struct:  `
          kod int,
-         nazev varchar(20)`,
+         nazev varchar(20),
+         zkratka varchar(5)`,
          index_name: [ 
                 `kod  ~~~ (kod)`,
                 `nazev ~~~ (nazev)`
@@ -205,6 +206,23 @@ const atables = [
          initq: [
             `insert into list2_matdostupnost (nazev ) VALUES ('NE'),('Skladem'),('Na objednavku');
              update list2_matdostupnost set kod = id ;`,
+        ]
+    },
+    {   name: 'list2_matbarva'
+        ,struct:  `
+         kod int,
+         nazev varchar(50),
+         zkratka varchar(5)`,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+                
+          ],
+        reindex: 1,
+         initq: [
+            //--hodnoty bílá, černá, transparentní,jiná
+            `insert into list2_matbarva (nazev ) VALUES ('bílá'),('černá'),('transparentní'),('jiná');
+             update list2_matbarva set kod = id ;`,
         ]
     },
     {   name: 'list2_matsirka'
@@ -347,6 +365,19 @@ prodejní cena za arch
         ,struct:  `
          idefix_mat int,
          idefix_vlastnost int
+         `,
+         index_name: [ 
+                `idefix_mat  ~~~ (idefix_mat)`
+          ],
+        reindex: 1,
+         initq: [
+            
+        ]
+    },
+    {   name: 'list_mat_barva'   // Vazba 1:n - obsahuje data vazana na list2_matvlastnosti
+        ,struct:  `
+         idefix_mat int,
+         idefix_barva int
          `,
          index_name: [ 
                 `idefix_mat  ~~~ (idefix_mat)`

@@ -13,6 +13,7 @@ const list2StrojTiskMod = require('../controllers/list2_StrojTiskMod')
 const list2MatSkup = require('../controllers/list2_matskup')
 const list2MatSubSkup = require('../controllers/list2_matsubskup')
 const list2MatDostupnost = require('../controllers/list2_MatDostupnost')
+const list2MatBarva = require('../controllers/list2_MatBarva')
 const list2MatDodavatel = require('../controllers/list2_MatDodavatel')
 const list2MatVyrobce = require('../controllers/list2_MatVyrobce')
 const list2MatSirka = require('../controllers/list2_matsirka')
@@ -99,6 +100,15 @@ router.put('/list2-matdostupnost',
     list2MatDostupnost.update)     
 router.delete('/list2-matdostupnost',
     list2MatDostupnost.delete)        
+
+router.get('/list2-matbarva',
+    list2MatBarva.all)
+router.post('/list2-matbarva',
+    list2MatBarva.insert) 
+router.put('/list2-matbarva',
+    list2MatBarva.update)     
+router.delete('/list2-matbarva',
+    list2MatBarva.delete)        
 
 router.get('/list2-matdodavatel',
     list2MatDodavatel.all)

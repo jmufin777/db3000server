@@ -38,11 +38,11 @@ module.exports = {
       if (lErr == true){
         return
       }
-      
-      // return
+       // return
 
       var dotaz =`select * from ${tabname} where idefix = ${req.query.id}`
       var dotaz_vlastnosti =`select * from list_mat_vlastnosti where idefix_mat = ${req.query.id}`
+      var dotaz_barva =`select * from list_mat_barva where idefix_mat = ${req.query.id}`
       var dotaz_rozmer = `select * from list_mat_rozmer  where idefix_mat = ${req.query.id}`
       var dotaz_strojskup = `select * from list_mat_strojskup where idefix_mat = ${req.query.id}`
 
@@ -50,6 +50,7 @@ module.exports = {
       var enum_matsubskup     = `select * from list2_matsubskup order by kod `
       var enum_matvyrobce     = `select * from list2_matvyrobce order by kod `
       var enum_matvlastnosti  = `select * from list2_matvlastnosti order by kod `
+      var enum_matbarva       = `select * from list2_matbarva order by kod `
 
       var enum_strojskup  = `select * from list2_strojskup order by kod`
       
@@ -59,6 +60,10 @@ module.exports = {
       var enum_n1 =`select distinct nazev1 as value from list_mat order by nazev1`
       var enum_n2 =`select distinct nazev2 as value from list_mat order by nazev2`
       var enum_n3 =`select distinct nazev3 as value from list_mat order by nazev3`
+
+      var enum_koef_naklad =`select distinct koef_naklad::text as value from list_mat order by value`
+      var enum_koef_prodej =`select distinct koef_prodej::text as value from list_mat order by value`
+
 
       var enum_dodavatel  = `select * from list_dodavatel order by kod `   //Doplnit pominkove online dohledabvani pro kod ktery teprve vznikne
 
@@ -200,7 +205,7 @@ module.exports = {
                     }
                     resObj.enum_n3=response12.rows
                     
-                    console.log(12)
+                    console.log(12,"OK", response12.rowCount)
                     })                  
                await  client.query(enum_dodavatel,(err13,response13) => {
                  if (err13) {
@@ -245,8 +250,49 @@ module.exports = {
         
                       console.log(16, "Stroj Skup ")
                       })    
+                      await  client.query(enum_matbarva,(err17,response17) => {
+                        if (err17) {
+                          myres.info = -1
+                          console.log(17, "err")
+                          return
+                        }
+                        resObj.enum_matbarva = response17.rows
+          
+                        console.log(17, "Stroj Skup ")
+                        })      
+                        await  client.query(dotaz_barva,(err18,response18) => {
+                          if (err18) {
+                            myres.info = -1
+                            console.log(18, "err")
+                            return
+                          }
+                          resObj.barva = response18.rows
+            
+                          console.log(18, "Stroj Skup ")
+                          })        
+                          await  client.query(enum_koef_naklad,(err19,response19) => {
+                            if (err19) {
+                              myres.info = -1
+                              console.log(19, "err")
+                              return
+                            }
+                            resObj.enum_koef_naklad = response19.rows
+              
+                            console.log(19, "enum koef naklad ")
+                            })        
+                            await  client.query(enum_koef_prodej,(err20,response20) => {
+                              if (err20) {
+                                myres.info = -1
+                                console.log(20, "err koef prodej")
+                                return
+                              }
+                              resObj.enum_koef_prodej = response20.rows
+                
+                              console.log(20, "enum koef prodej ")
+                              })            
                  ///console.log(myres.info)                                     
                 await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejt, vubectro nechapu ale funguje to
+
                   res.json(resObj)
                 })  
                 
