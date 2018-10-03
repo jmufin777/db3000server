@@ -63,6 +63,10 @@ module.exports = {
 
       var enum_koef_naklad =`select distinct koef_naklad::text as value from list_mat order by value`
       var enum_koef_prodej =`select distinct koef_prodej::text as value from list_mat order by value`
+      var enum_sirka        = `select distinct sirka_mm::text        as value from list_mat_rozmer order by value ` 
+      var enum_vyska        = `select distinct vyska_mm::text        as value from list_mat_rozmer order by value ` 
+      var enum_sirka_zbytek = `select distinct sirka_mm_zbytek::text as value from list_mat_rozmer order by value `
+      var enum_vyska_zbytek = `select distinct vyska_mm_zbytek::text as value from list_mat_rozmer order by value `
 
 
       var enum_dodavatel  = `select * from list_dodavatel order by kod `   //Doplnit pominkove online dohledabvani pro kod ktery teprve vznikne
@@ -78,12 +82,25 @@ module.exports = {
 
 
       var enum_matdostupnost  = `select idefix,nazev,zkratka from list2_matdostupnost order by kod `
+      
 
       
-      console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup)
+      //console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup)
       
       const client = await pool.connect()
       try {
+        if ( req.query.string_query >''){
+          await client.query(req.query.string_query,(err99,response99) => {
+            if (err99) {
+              myres.info = -1
+              console.log(99, 'Err', err99)
+              return
+            }
+            console.log('OK',req.query.string_query)
+    
+          })
+
+        }
        
       
       await client.query(dotaz,(err,response) => {
@@ -218,6 +235,7 @@ module.exports = {
                  
                  console.log(13,"Dodavatel")
                  }) 
+
                  await  client.query(dotaz_romer2,(err14,response14) => {
                   if (err14) {
                     myres.info = -1
@@ -290,8 +308,49 @@ module.exports = {
                 
                               console.log(20, "enum koef prodej ")
                               })            
+                              await  client.query(enum_sirka,(err21,response21) => {
+                                if (err21) {
+                                  myres.info = -1
+                                  console.log(21, "err enum sirka")
+                                  return
+                                }
+                                resObj.enum_sirka = response21.rows
+                  
+                                console.log(20, "enum koef prodej ")
+                              })             
+                              await  client.query(enum_vyska,(err22,response22) => {
+                                  if (err22) {
+                                    myres.info = -1
+                                    console.log(22, "err enum vyska")
+                                    return
+                                  }
+                                  resObj.enum_vyska = response22.rows
+                    
+                                  console.log(22, "enum vyska ")
+                              })              
+                              await  client.query(enum_sirka_zbytek,(err23,response23) => {
+                                if (err23) {
+                                  myres.info = -1
+                                  console.log(23, "err enum sirka zbytek")
+                                  return
+                                }
+                                resObj.enum_sirka_zbytek = response23.rows
+                                console.log(23, "enum sirka zbytek ")
+                              })              
+                              await  client.query(enum_vyska_zbytek,(err24,response24) => {
+                                if (err24) {
+                                  myres.info = -1
+                                  console.log(24, "err enum vyska zbytek")
+                                  return
+                                }
+                                resObj.enum_vyska_zbytek = response24.rows
+                                console.log(24, "enum vyska zbytek ")
+                              })               
                  ///console.log(myres.info)                                     
                 await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejt, vubectro nechapu ale funguje to
+                  console.log(200, "Vracim  Vysledek")
+                  console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup, " Par ",req.query.id_query, "String ", req.query.string_query)
+                  
 
                   res.json(resObj)
                 })  
