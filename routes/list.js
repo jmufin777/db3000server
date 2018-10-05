@@ -152,9 +152,11 @@ router.get('/list-mat-one',
     listMat.one)     
 router.post('/list-mat',
     listMat.insert) 
+router.post('/list-mat-save-one',
+    listMat.saveone)     
 router.put('/list_mat',
     listMat.update)     
-router.delete('/list-mat',
+router.post('/list-mat-delete',
     listMat.delete)        
 
 router.get('/list2-strojlaminace',

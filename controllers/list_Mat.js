@@ -9,26 +9,263 @@ const resObj = {
   rozmer: [],
   strojskup: [],
 
-
 }
 
 var lErr= false
+var req_query_id = -10
+var req_query_string_query = ''
+var req_query_id_query = 0
 
 
 const tabname = 'list_mat'
 module.exports = {
+  async saveone (req,res) {
+  //   var  myres = {
+  //    xdata: [],
+  //    vlastnosti:[],
+  //    rozmer: [],
+  //    strojskup: [],
+  //    info: []
+  //  }
+
+
+   console.log(req.body.form.data, req.body.form.vlastnosti,req.body.idefix, req.body.user, req.body.form.data.kod)
+
+   //Dotavatel
+   var idefix_dodavatel =req.body.form.data.idefix_dodavatel
+   var dodavatel_expr=''
+   var idefix_vyrobce   =req.body.form.data.idefix_vyrobce
+   var vyrobce_expr=''
+      //idefix_dodavatel=0
+   
+      if (idefix_vyrobce*1 > 0){
+        console.log('idfx2',idefix_vyrobce*1 > 0)
+        vyrobce_expr=idefix_vyrobce
+      } else {
+        vyrobce_expr=`fce_list2_mat_vyrobce_insert('${idefix_vyrobce}')`
+      }
+   
+       if (idefix_dodavatel*1 > 0){
+        console.log('idfx2',idefix_dodavatel*1 > 0)
+        dodavatel_expr=idefix_dodavatel
+
+        } else {
+          dodavatel_expr=`fce_list_dodavatel_insert('${idefix_dodavatel}')`
+        }
+
+   
+   dotaz = `update  ${tabname} set 
+           kod ='${req.body.form.data.kod}'
+          ,idefix_matskup ='${req.body.form.data.idefix_matskup}' 
+          ,idefix_matsubskup='${req.body.form.data.idefix_matsubskup}'
+          ,idefix_vyrobce=${vyrobce_expr}
+          ,nazev1='${req.body.form.data.nazev1}'
+          ,nazev2='${req.body.form.data.nazev2}'
+          ,nazev3='${req.body.form.data.nazev3}'
+          ,popis='${req.body.form.data.popis}'
+          ,idefix_dodavatel= ${dodavatel_expr}
+          ,sila_mm='${req.body.form.data.sila_mm}'
+          ,vaha_gm2='${req.body.form.data.vaha_gm2}'
+          ,cena_nakup_m2='${req.body.form.data.cena_nakup_m2}'
+          ,koef_naklad='${req.body.form.data.koef_naklad}'
+          ,koef_prodej='${req.body.form.data.koef_prodej}'
+          ,cena_nakup_kg='${req.body.form.data.cena_nakup_kg}'
+          ,cena_nakup_arch='${req.body.form.data.cena_nakup_arch}'
+          ,cena_naklad_arch='${req.body.form.data.cena_naklad_arch}'
+          ,cena_naklad_m2='${req.body.form.data.cena_naklad_m2}'
+          ,cena_prodej_m2='${req.body.form.data.cena_prodej_m2}'
+          ,cena_prodej_arch='${req.body.form.data.cena_prodej_arch}'
+          
+          ,user_update_idefix = login2idefix('${req.body.user}')`;
+          dotaz += ` where idefix = ${req.body.idefix}`
+          dotaz = dotaz.replace(/undefined/g,'0')
+          dotaz = dotaz.replace(/null/g,'0')
+
+
+          console.log(dotaz)
+          //return
+          
+  //  req_query_id = req.query.id
+  //  req_query_id_query = req.query.id_query
+  //  req_query_string_query = req.query.string_query
+  const client = await pool.connect()
+   await client.query(dotaz,(err01,response01) => { 
+     if (err01){
+       console.log('Err - update' , 01, err01)
+     }
+   })
+   var atmp = []
+   var ctmp = ''
+   await req.body.form.vlastnosti.forEach(element => {
+
+        if ((element+'').match(/[0-9]/g)){
+          atmp.push(element)
+          console.log(" cislo cislo cislo cislo ")  
+        } else {
+          client.query(`select fce_list2_mat_vlastnost_insert('${element}') as id2`,(erra11,resa11)=>{
+            if (erra11){
+              console.log('Nelze pridati vlastnost')
+            } else {
+              console.log(resa11.rows)
+             atmp.push(resa11.rows[0].id2)  
+             ctmp = '('+atmp.join(',')+')'
+             console.log("CTMP: ",ctmp)
+             client.query(`insert into list_mat_vlastnosti (idefix_mat,idefix_vlastnost,user_insert_idefix) values (${req.body.idefix} ,${resa11.rows[0].id2}, login2idefix('${req.body.user}') )`)
+            }
+          })
+
+        }
+   })
+
+
+   ctmp = '('+atmp.join(',')+')'
+   console.log("CTMP: ",ctmp)
+
+   if (atmp.length>0) {
+    dotaz = `delete from list_mat_vlastnosti where idefix_mat = ${req.body.idefix}  and idefix_vlastnost not in ${ctmp}`
+   } else {
+    dotaz = `delete from list_mat_vlastnosti where idefix_mat = ${req.body.idefix} ` 
+   }
+   
+  await client.query(dotaz,(err01,response01) => { 
+    if (err01){
+      console.log('Err - update' , 01, err01)
+    }
+  })
+
+  await atmp.forEach(element => {
+    dotaz  = ` insert into list_mat_vlastnosti (idefix_mat,idefix_vlastnost,user_insert_idefix)`
+    dotaz +=  `select ${req.body.idefix} ,${element}, login2idefix('${req.body.user}')`
+    client.query(dotaz,(err02, response01) =>{
+      if (err02){
+        console.log('Zaznam je vlozen? ')
+      } else {
+        console.log('Resp 02', 'OK')
+      }
+         
+    })
+    console.log(dotaz,"\n")
+ 
+  })
+
+  var atmp = []
+  var ctmp = ''
+  
+
+  //Dodavatel
+ // Barva
+ var atmp = []
+ var ctmp = ''
+ await req.body.form.barva.forEach(element => {
+   atmp.push(element)
+
+ })
+ ctmp = '('+atmp.join(',')+',0)'
+ if (atmp.length>0) {
+  dotaz = `delete from list_mat_barva where idefix_mat = ${req.body.idefix}  and idefix_barva not in ${ctmp}`
+ } else {
+  dotaz = `delete from list_mat_barva where idefix_mat = ${req.body.idefix} ` 
+ }
+ 
+ await client.query(dotaz,(err03,response03) => { 
+  if (err03){
+    console.log('Err - update' , 03, err03)
+  }
+})
+await req.body.form.barva.forEach(element => {
+  dotaz  = ` insert into list_mat_barva (idefix_mat,idefix_barva,user_insert_idefix)`
+  dotaz +=  `select ${req.body.idefix} ,${element}, login2idefix('${req.body.user}')`
+  client.query(dotaz,(err04, response04) =>{
+    if (err04){
+      console.log('04','Zaznam je vlozen? ')
+    } else {
+      console.log('Resp barva 04', 'OK')
+    }
+       
+  })
+  console.log(dotaz,"\n")
+
+})
+
+
+
+ // StrojSkup
+ var atmp = []
+ var ctmp = ''
+ await req.body.form.strojskup.forEach(element => {
+   atmp.push(element)
+
+ })
+ ctmp = '('+atmp.join(',')+',0)'
+ if (atmp.length>0) {
+  dotaz = `delete from list_mat_strojskup where idefix_mat = ${req.body.idefix}  and idefix_strojskup not in ${ctmp}`
+ } else {
+  dotaz = `delete from list_mat_strojskup where idefix_strojskup = ${req.body.idefix} ` 
+ }
+ 
+ await client.query(dotaz,(err04,response04) => { 
+  if (err04){
+    console.log('Err - update' , 04, err04)
+  }
+})
+await req.body.form.strojskup.forEach(element => {
+  dotaz  = ` insert into list_mat_strojskup (idefix_mat,idefix_strojskup,user_insert_idefix)`
+  dotaz +=  `select ${req.body.idefix} ,${element}, login2idefix('${req.body.user}')`
+  client.query(dotaz,(err05, response05) =>{
+    if (err05){
+      console.log('05','Zaznam strojskup je vlozen? ')
+    } else {
+      console.log('Resp strojskup 05', 'OK')
+    }
+       
+  })
+  console.log(dotaz,"\n")
+
+})
+
+   console.log(atmp,'/', ctmp, dotaz)  
+
+
+   await client.release()
+
+   res.json({info: 'Ok test'});
+  }, 
     async one (req,res) {
        var  myres = {
         xdata: [],
         vlastnosti:[],
         rozmer: [],
         strojskup: [],
-
         info: []
-       
       }
+
       console.log(req.query.id)
-      if (!req.query.id > 0 ) {
+      req_query_id = req.query.id
+      req_query_id_query = req.query.id_query
+      req_query_string_query = req.query.string_query
+      const client = await pool.connect()
+
+      if (req_query_string_query=='edit'){
+        req_query_string_query =''   //nema smysl nic jakoby s tim je to default
+      }
+      if (req.query.string_query=='copy'){
+        await client.query(`select fce_list_mat_copy as new_idefix from fce_list_mat_copy(${req_query_id})`,(err88,response88) => {
+          if (err88){
+            console.log("Err",88);
+          }
+          
+          console.log(88, response88.rows)
+          req_query_id = response88.rows[0].new_idefix
+
+          
+        })  
+          
+        req_query_string_query =''   //napred ma smlysl, pusti se procedura na sql a ta nasype zpet nove idefix materialu a pak je mozne zase to jakoby smaznout
+      }
+      //return
+
+
+      if (!req_query_id > 0 ) {
         res.status(821).send({
           error: "Chybi Idefix materialu"
         })
@@ -40,11 +277,11 @@ module.exports = {
       }
        // return
 
-      var dotaz =`select * from ${tabname} where idefix = ${req.query.id}`
-      var dotaz_vlastnosti =`select * from list_mat_vlastnosti where idefix_mat = ${req.query.id}`
-      var dotaz_barva =`select * from list_mat_barva where idefix_mat = ${req.query.id}`
-      var dotaz_rozmer = `select * from list_mat_rozmer  where idefix_mat = ${req.query.id}`
-      var dotaz_strojskup = `select * from list_mat_strojskup where idefix_mat = ${req.query.id}`
+      var dotaz =`select * from ${tabname} where idefix = ${req_query_id}`
+      var dotaz_vlastnosti =`select * from list_mat_vlastnosti where idefix_mat = ${req_query_id}`
+      var dotaz_barva =`select * from list_mat_barva where idefix_mat = ${req_query_id}`
+      var dotaz_rozmer = `select * from list_mat_rozmer  where idefix_mat = ${req_query_id}`
+      var dotaz_strojskup = `select * from list_mat_strojskup where idefix_mat = ${req_query_id}`
 
       var enum_matskup        = `select * from list2_matskup order by kod `
       var enum_matsubskup     = `select * from list2_matsubskup order by kod `
@@ -72,12 +309,11 @@ module.exports = {
       var enum_dodavatel  = `select * from list_dodavatel order by kod `   //Doplnit pominkove online dohledabvani pro kod ktery teprve vznikne
 
       
-      var dotaz_romer2= `select idefix_mat,b.zkratka,array_agg(distinct a.idefix::text||'~'||sirka_mm::int::text||'x'||vyska_mm::int::text) as rozmer, 
-      array_agg(distinct sirka_mm_zbytek::int::text||'x'||vyska_mm_zbytek::int::text) as rozmer_zbytek, 
-      array_agg(distinct sirka_mm::int) as sirky, array_agg(distinct vyska_mm::int) as delky
-
+      var dotaz_romer2= `select idefix_mat,b.zkratka,array_agg(distinct replace(a.idefix::text||'~'||sirka_mm::numeric(10,2)::text||'x'||vyska_mm::numeric(10,2)::text,'.00','')) as rozmer, 
+        array_agg(distinct sirka_mm_zbytek::numeric(10,2)::text||'x'||vyska_mm_zbytek::numeric(10,2)::text) as rozmer_zbytek, 
+        array_agg(distinct sirka_mm::numeric(10,2)) as sirky, array_agg(distinct vyska_mm::int) as delky
       from list_mat_rozmer a join list2_matdostupnost b on a.idefix_dostupnost = b.idefix
-      where a.idefix_mat = ${req.query.id}
+      where a.idefix_mat = ${req_query_id}
       group by b.zkratka, idefix_mat order by zkratka desc`
 
 
@@ -87,16 +323,16 @@ module.exports = {
       
       //console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup)
       
-      const client = await pool.connect()
+      
       try {
         if ( req.query.string_query >''){
-          await client.query(req.query.string_query,(err99,response99) => {
+          await client.query(req_query_string_query,(err99,response99) => {
             if (err99) {
               myres.info = -1
               console.log(99, 'Err', err99)
               return
             }
-            console.log('OK',req.query.string_query)
+            console.log('OK',req_query_string_query)
     
           })
 
@@ -138,7 +374,11 @@ module.exports = {
         myres.info = -1
         return
       }
-      resObj.strojskup=response4.rows
+      resObj.strojskup = []
+        response4.rows.forEach(el => {
+        resObj.strojskup.push(el.idefix_strojskup)
+       })
+      //resObj.strojskup=response4.rows
       //console.log(resObj)
       //console.log(resObj.vlatnosti)
       })
@@ -156,9 +396,11 @@ module.exports = {
         await  client.query(enum_matsubskup,(err7,response7) => {
           if (err7) {
             myres.info = -1
+            console.log(7, "Err")
             return
           }
           resObj.enum_matsubskup=response7.rows
+          console.log(7, "OK")
           
           
           //console.log(resObj)
@@ -284,9 +526,13 @@ module.exports = {
                             console.log(18, "err")
                             return
                           }
-                          resObj.barva = response18.rows
+                            resObj.barva = []
+                            response18.rows.forEach(el => {
+                            resObj.barva.push(el.idefix_barva)
+                          })
+                          // resObj.barva = response18.rows
             
-                          console.log(18, "Stroj Skup ")
+                          console.log(18, "Barva ",)
                           })        
                           await  client.query(enum_koef_naklad,(err19,response19) => {
                             if (err19) {
@@ -349,7 +595,7 @@ module.exports = {
                  ///console.log(myres.info)                                     
                 await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejt, vubectro nechapu ale funguje to
                   console.log(200, "Vracim  Vysledek")
-                  console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup, " Par ",req.query.id_query, "String ", req.query.string_query)
+                  console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup, " Par ",req_query_id_query, "String ", req.query.string_query)
                   
 
                   res.json(resObj)
@@ -372,22 +618,26 @@ module.exports = {
 
     async all (req, res) {
       var dotaz=''
+    try { 
+      const client = await pool.connect()
       if (req.query.id=='nic'){
         dotaz=`select * from ${tabname} where 1=1 order by kod `
-        
-      }
-      if (req.query.id=='max'){
+      } else if (req.query.id=='max'){
         dotaz = `select kod as kod from ${tabname} where 1=1 order by kod desc limit 1`
-        
       }
+      else if (req.query.id=='max'){
+        dotaz = `select kod as kod from ${tabname} where 1=1 order by kod desc limit 1`
+      }
+      
+
       console.log(req.query.id, dotaz )
-    try {
+    
       
 
         
         console.log('BBBB')
 
-        const client = await pool.connect()
+        
         
 
          await client.query(dotaz ,(err, response) => {
@@ -504,8 +754,6 @@ module.exports = {
          ,idefix_dodavatel
          ,sila_mm
          ,vaha_gm2
-         ,sirka_mm_zbytek
-         ,vyska_mm_zbytek
          ,cena_nakup_m2
          ,koef_naklad
          ,koef_prodej
@@ -533,8 +781,6 @@ module.exports = {
         ,'${element[0].idefix_dodavatel}'
         ,'${element[0].sila_mm}'
         ,'${element[0].vaha_gm2}'
-        ,'${element[0].sirka_mm_zbytek}'
-        ,'${element[0].vyska_mm_zbytek}'
         ,'${element[0].cena_nakup_m2}'
         ,'${element[0].koef_naklad}'
         ,'${element[0].koef_prodej}'
@@ -561,8 +807,6 @@ module.exports = {
           ,idefix_dodavatel='${element[0].idefix_dodavatel}'
           ,sila_mm='${element[0].sila_mm}'
           ,vaha_gm2='${element[0].vaha_gm2}'
-          ,sirka_mm_zbytek='${element[0].sirka_mm_zbytek}'
-          ,vyska_mm_zbytek='${element[0].vyska_mm_zbytek}'
           ,cena_nakup_m2='${element[0].cena_nakup_m2}'
           ,koef_naklad='${element[0].koef_naklad}'
           ,koef_prodej='${element[0].koef_prodej}'
@@ -610,7 +854,24 @@ module.exports = {
 
   },
   async delete (req, res, next ) {
-    console.log('Delete barevnost')
+    const client = await pool.connect()
+    req.body.params.id
+     await client.query(`select fce_list_mat_del(${req.body.params.id})` ,(err00, response00) => {
+       if (err00){
+         console.log('Err','00' )
+         res.status(412).send({
+          error: `${tabname} - Chyba pri vymazu`
+  
+        })
+         return
+       }
+       res.json({info: 'Ok' })
+       console.log('OK','00' )
+     })
+     await client.release()
+
+
+    console.log('Delete barevnost', req.body.params.id)
   }
 
 

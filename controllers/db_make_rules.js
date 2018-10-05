@@ -76,7 +76,11 @@ const atables = [
         reindex: 1,
          initq: [
             `insert into list2_matvlastnosti (nazev ) VALUES ('NE');
-             update list2_matvlastnosti set kod = id ;`,
+             update list2_matvlastnosti set kod = id ;
+             `,
+             // create unique index list_mat_vlastnosti_mat_vlastnost on list_mat_vlastnosti  (idefix_mat,idefix_vlastnost)
+             // create unique index list_mat_barva_mat_barva on list_mat_barva  (idefix_mat,idefix_barva)
+             // create unique index list_mat_strojskup_mat_strojskup on list_mat_strojskup  (idefix_mat,idefix_strojskup)
         ]
     },
     {   name: 'list_stroj'
@@ -400,6 +404,7 @@ prodejní cena za arch
          `,
          index_name: [ 
                 `idefix_mat_rozmer  ~~~ (idefix_mat)`
+                // create unique index list_mat_rozmer_mat_sir_vyska on list_mat_rozmer(idefix_mat,sirka_mm,vyska_mm)
           ],
         reindex: 1,
          initq: [
