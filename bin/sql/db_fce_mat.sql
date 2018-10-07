@@ -8,17 +8,20 @@ begin
     drop table if exists tmp_list_mat_barva ;
 	drop table if exists tmp_list_mat_rozmer;
     drop table if exists tmp_list_mat_strojskup;
+    drop table if exists tmp_list_mat_stroj;
 																		   
-	create table tmp_mat_insert without oids as select * from list_mat where idefix = _idefix;
+	create table tmp_mat_insert without oids as select * from list_mat where idefix = _idefix limit 1;
     create table tmp_list_mat_vlastnosti without oids as select * from list_mat_vlastnosti where idefix_mat = _idefix;
     create table tmp_list_mat_barva without oids as select * from     list_mat_barva where idefix_mat = _idefix;
     create table tmp_list_mat_rozmer without oids as select * from     list_mat_rozmer where idefix_mat = _idefix;
     create table tmp_list_mat_strojskup without oids as select * from     list_mat_strojskup where idefix_mat = _idefix;
+    create table tmp_list_mat_stroj     without oids as select * from     list_mat_stroj     where idefix_mat = _idefix;
 	
 	update tmp_mat_insert set id = nextval('list_mat_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;
     update tmp_mat_insert set kod = (select max(kod)+10 from list_mat);
 	select idefix into idefix_new from tmp_mat_insert order by id desc limit 1;
     update tmp_list_mat_strojskup set idefix_mat = idefix_new,id = nextval('list_mat_strojskup_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;
+    update tmp_list_mat_stroj     set idefix_mat = idefix_new,id = nextval('list_mat_stroj_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;
     update tmp_list_mat_barva set idefix_mat = idefix_new,id = nextval('list_mat_barva_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;	
 	update tmp_list_mat_rozmer set idefix_mat = idefix_new,id = nextval('list_mat_rozmer_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;	
     update tmp_list_mat_vlastnosti set idefix_mat = idefix_new,id = nextval('list_mat_vlastnosti_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;		
@@ -31,6 +34,7 @@ begin
     insert into list_mat_barva select * from tmp_list_mat_barva;
     insert into list_mat_rozmer select * from tmp_list_mat_rozmer;
     insert into list_mat_strojskup select * from tmp_list_mat_strojskup;
+    insert into list_mat_stroj     select * from tmp_list_mat_stroj;
     
 																		   
 
@@ -83,5 +87,37 @@ create or replace function fce_list_dodavatel_insert(ctxt text) returns bigint a
    return nret; 
  END;
 $$LANGUAGE plpgsql;
+
+create or replace function fce_list_mat_clean(ctxt text='') returns bigint as $$
+ declare nret bigint := 0 ;
+ BEGIN
+ if ctxt = '' or ctxt ='barva' then
+  delete from list_mat_barva a where not exists (
+  select * from (
+  select min(idefix) as idefix from list_mat_barva group by idefix_mat,idefix_barva 
+  ) b where a.idefix = b.idefix);
+ end if;  
+ if ctxt = '' or ctxt ~'vlastnost' then 
+  delete from list_mat_vlastnosti a where not exists (
+  select * from (
+  select min(idefix) as idefix from list_mat_vlastnosti group by idefix_mat,idefix_vlastnost
+  ) b where a.idefix = b.idefix);
+ end if; 
+if ctxt = '' or ctxt ~'stroj' then 
+delete from list_mat_stroj a where not exists (
+  select * from (
+  select min(idefix) as idefix from list_mat_stroj group by idefix_mat,idefix_stroj
+  ) b where a.idefix = b.idefix);
+end if; 
+
+if ctxt = '' or ctxt ~'strojskup' then 
+delete from list_mat_strojskup a where not exists (
+  select * from (
+  select min(idefix) as idefix from list_mat_strojskup group by idefix_mat,idefix_strojskup
+  ) b where a.idefix = b.idefix);
+ end if;
+return nret; 
+ END;
+$$LANGUAGE plpgsql;  
  --select * from fce_list_mat_copy(655)													   
  --select * from list_mat_vlastnosti where idefix_mat = 1274

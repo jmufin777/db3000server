@@ -47,7 +47,7 @@ const atables = [
         ]
     } ,
     {
-        name: 'list2_potisknutelnost'
+        name: 'list2_matpotisknutelnost'
         ,struct:  `
             kod int,
             nazev varchar(20)`,
@@ -58,8 +58,8 @@ const atables = [
           ],
         reindex: 1,
          initq: [
-            `insert into list2_potisknutelnost (nazev ) VALUES ('NE'),('1/1'),('1/0');
-             update list2_potisknutelnost set kod = id ;`,
+            `insert into list2_matpotisknutelnost (nazev ) VALUES ('NE'),('1/1'),('1/0');
+             update list2_matpotisknutelnost set kod = id ;`,
         ]
     },
     {
@@ -81,6 +81,11 @@ const atables = [
              // create unique index list_mat_vlastnosti_mat_vlastnost on list_mat_vlastnosti  (idefix_mat,idefix_vlastnost)
              // create unique index list_mat_barva_mat_barva on list_mat_barva  (idefix_mat,idefix_barva)
              // create unique index list_mat_strojskup_mat_strojskup on list_mat_strojskup  (idefix_mat,idefix_strojskup)
+             //create unique index list_mat_barva_mat_barva on list_mat_barva  (idefix_mat,idefix_barva)
+             //create unique index list_mat_vlastnost_mat_vlastnost on list_mat_vlastnosti  (idefix_mat,idefix_vlastnost)
+             //create unique index list_mat_stroj_mat_stroj on list_mat_stroj  (idefix_mat,idefix_stroj)
+             //select fce_list_mat_clean('')
+
         ]
     },
     {   name: 'list_stroj'
@@ -382,6 +387,19 @@ prodejní cena za arch
         ,struct:  `
          idefix_mat int,
          idefix_barva int
+         `,
+         index_name: [ 
+                `idefix_mat  ~~~ (idefix_mat)`
+          ],
+        reindex: 1,
+         initq: [
+            
+        ]
+    },
+    {   name: 'list_mat_potisknutelnost'   // Vazba 1:n - obsahuje data vazana na list2_matvlastnosti
+        ,struct:  `
+         idefix_mat int,
+         idefix_potisknutelnost int
          `,
          index_name: [ 
                 `idefix_mat  ~~~ (idefix_mat)`

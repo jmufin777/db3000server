@@ -7,7 +7,7 @@ const _ = require('lodash')
 var lErr= false
 
 
-const tabname = 'list2_potisknutelnost'
+const tabname = 'list2_matpotisknutelnost'
 module.exports = {
 
     async all (req, res) {

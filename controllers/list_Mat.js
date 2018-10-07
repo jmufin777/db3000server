@@ -81,7 +81,6 @@ module.exports = {
           dotaz = dotaz.replace(/undefined/g,'0')
           dotaz = dotaz.replace(/null/g,'0')
 
-
           console.log(dotaz)
           //return
           
@@ -186,7 +185,44 @@ await req.body.form.barva.forEach(element => {
   console.log(dotaz,"\n")
 
 })
+//Barva EOF
 
+
+ // Stroj
+ var atmp = []
+ var ctmp = ''
+
+ await req.body.form.stroj.forEach(element => {
+   atmp.push(element)
+
+ })
+ ctmp = '('+atmp.join(',')+',0)'
+ if (atmp.length>0) {
+  dotaz = `delete from list_mat_stroj where idefix_mat = ${req.body.idefix}  and idefix_stroj not in ${ctmp}`
+ } else {
+  dotaz = `delete from list_mat_stroj where idefix_mat = ${req.body.idefix} ` 
+ }
+ 
+ await client.query(dotaz,(err06,response06) => { 
+  if (err06){
+    console.log('Err -update Stroj Skup' , 06, err05)
+  }
+})
+await req.body.form.stroj.forEach(element => {
+  dotaz  = ` insert into list_mat_stroj (idefix_mat,idefix_stroj,user_insert_idefix)`
+  dotaz +=  `select ${req.body.idefix} ,${element}, login2idefix('${req.body.user}')`
+  client.query(dotaz,(err07, response07) =>{
+    if (err07){
+      console.log('07','Zaznam je vlozen? ')
+    } else {
+      console.log('Resp stroj 07', 'OK')
+    }
+       
+  })
+  console.log(dotaz,"\n")
+
+})
+//// Stroj
 
 
  // StrojSkup
@@ -223,6 +259,7 @@ await req.body.form.strojskup.forEach(element => {
 
 })
 
+
    console.log(atmp,'/', ctmp, dotaz)  
 
 
@@ -236,6 +273,7 @@ await req.body.form.strojskup.forEach(element => {
         vlastnosti:[],
         rozmer: [],
         strojskup: [],
+        stroj: [],
         info: []
       }
 
@@ -243,12 +281,15 @@ await req.body.form.strojskup.forEach(element => {
       req_query_id = req.query.id
       req_query_id_query = req.query.id_query
       req_query_string_query = req.query.string_query
+    try {   
       const client = await pool.connect()
 
       if (req_query_string_query=='edit'){
         req_query_string_query =''   //nema smysl nic jakoby s tim je to default
       }
       if (req.query.string_query=='copy'){
+        console.log("req_query_id: ", req_query_id )
+
         await client.query(`select fce_list_mat_copy as new_idefix from fce_list_mat_copy(${req_query_id})`,(err88,response88) => {
           if (err88){
             console.log("Err",88);
@@ -256,6 +297,10 @@ await req.body.form.strojskup.forEach(element => {
           
           console.log(88, response88.rows)
           req_query_id = response88.rows[0].new_idefix
+          resObj.newId = req_query_id
+          console.log(88, 'New Id = :', req_query_id)
+        //  res.json({newId: req_query_id})
+          
 
           
         })  
@@ -282,6 +327,7 @@ await req.body.form.strojskup.forEach(element => {
       var dotaz_barva =`select * from list_mat_barva where idefix_mat = ${req_query_id}`
       var dotaz_rozmer = `select * from list_mat_rozmer  where idefix_mat = ${req_query_id}`
       var dotaz_strojskup = `select * from list_mat_strojskup where idefix_mat = ${req_query_id}`
+      var dotaz_stroj     = `select * from list_mat_stroj     where idefix_mat = ${req_query_id}`
 
       var enum_matskup        = `select * from list2_matskup order by kod `
       var enum_matsubskup     = `select * from list2_matsubskup order by kod `
@@ -290,6 +336,7 @@ await req.body.form.strojskup.forEach(element => {
       var enum_matbarva       = `select * from list2_matbarva order by kod `
 
       var enum_strojskup  = `select * from list2_strojskup order by kod`
+      var enum_stroj      = `select * from list_stroj     order by kod`
       
 
       
@@ -321,10 +368,11 @@ await req.body.form.strojskup.forEach(element => {
       
 
       
-      //console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup)
+      console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup)
       
       
-      try {
+      
+      
         if ( req.query.string_query >''){
           await client.query(req_query_string_query,(err99,response99) => {
             if (err99) {
@@ -382,6 +430,20 @@ await req.body.form.strojskup.forEach(element => {
       //console.log(resObj)
       //console.log(resObj.vlatnosti)
       })
+
+      await  client.query(dotaz_stroj,(err41,response41) => {
+        if (err41) {
+          myres.info = -1
+          return
+        }
+        resObj.stroj = []
+          response41.rows.forEach(el => {
+          resObj.stroj.push(el.idefix_stroj)
+         })
+        //resObj.strojskup=response4.rows
+        //console.log(resObj)
+        //console.log(resObj.vlatnosti)
+        })
 
       await  client.query(enum_matskup,(err5,response5) => {
         if (err5) {
@@ -510,6 +572,16 @@ await req.body.form.strojskup.forEach(element => {
         
                       console.log(16, "Stroj Skup ")
                       })    
+                      await  client.query(enum_stroj,(err161,response161) => {
+                        if (err161) {
+                          myres.info = -1
+                          console.log(161, "err", err161)
+                          return
+                        }
+                        resObj.enum_stroj = response161.rows
+          
+                        console.log(161, "Stroje-technologie ")
+                        })    
                       await  client.query(enum_matbarva,(err17,response17) => {
                         if (err17) {
                           myres.info = -1
@@ -518,7 +590,7 @@ await req.body.form.strojskup.forEach(element => {
                         }
                         resObj.enum_matbarva = response17.rows
           
-                        console.log(17, "Stroj Skup ")
+                        console.log(17, "Barva ")
                         })      
                         await  client.query(dotaz_barva,(err18,response18) => {
                           if (err18) {
