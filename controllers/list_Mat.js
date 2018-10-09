@@ -53,7 +53,9 @@ module.exports = {
           dodavatel_expr=`fce_list_dodavatel_insert('${idefix_dodavatel}')`
         }
 
-   
+   console.log(req.body.form.data.dodavatel_priorita)
+   // res.json({'value': 1})
+    //return
    dotaz = `update  ${tabname} set 
            kod ='${req.body.form.data.kod}'
           ,idefix_matskup ='${req.body.form.data.idefix_matskup}' 
@@ -64,6 +66,7 @@ module.exports = {
           ,nazev3='${req.body.form.data.nazev3}'
           ,popis='${req.body.form.data.popis}'
           ,idefix_dodavatel= ${dodavatel_expr}
+          ,dodavatel_priorita= ${req.body.form.data.dodavatel_priorita}::int
           ,sila_mm='${req.body.form.data.sila_mm}'
           ,vaha_gm2='${req.body.form.data.vaha_gm2}'
           ,cena_nakup_m2='${req.body.form.data.cena_nakup_m2}'
@@ -153,39 +156,111 @@ module.exports = {
 
   //Dodavatel
  // Barva
- var atmp = []
- var ctmp = ''
- await req.body.form.barva.forEach(element => {
-   atmp.push(element)
+if ((req.body.form.barva+'').match(/[0-9]/) ) {
+    var atmp = []
+    var ctmp = ''
+    var abarva = []
+    
+    abarva.push(req.body.form.barva)
+    await abarva.forEach(element => {
+      atmp.push(element)
 
- })
- ctmp = '('+atmp.join(',')+',0)'
- if (atmp.length>0) {
-  dotaz = `delete from list_mat_barva where idefix_mat = ${req.body.idefix}  and idefix_barva not in ${ctmp}`
- } else {
-  dotaz = `delete from list_mat_barva where idefix_mat = ${req.body.idefix} ` 
- }
- 
- await client.query(dotaz,(err03,response03) => { 
-  if (err03){
-    console.log('Err - update' , 03, err03)
-  }
-})
-await req.body.form.barva.forEach(element => {
-  dotaz  = ` insert into list_mat_barva (idefix_mat,idefix_barva,user_insert_idefix)`
-  dotaz +=  `select ${req.body.idefix} ,${element}, login2idefix('${req.body.user}')`
-  client.query(dotaz,(err04, response04) =>{
-    if (err04){
-      console.log('04','Zaznam je vlozen? ')
+    })
+    ctmp = '('+atmp.join(',')+',0)'
+    
+    
+    if (atmp.length>0) {
+      dotaz = `delete from list_mat_barva where idefix_mat = ${req.body.idefix}  and idefix_barva not in ${ctmp}`
     } else {
-      console.log('Resp barva 04', 'OK')
+      dotaz = `delete from list_mat_barva where idefix_mat = ${req.body.idefix} ` 
     }
-       
-  })
-  console.log(dotaz,"\n")
+    
+    await client.query(dotaz,(err03,response03) => { 
+      if (err03){
+        console.log('Err - BARVA 03 A ?' , "03 TOP ", dotaz ,"EOF ")
+      }
+    })
+  
+    await abarva.forEach(element => {
+      dotaz  = ` insert into list_mat_barva (idefix_mat,idefix_barva,user_insert_idefix)`
+      dotaz +=  `select ${req.body.idefix} ,${element}, login2idefix('${req.body.user}')`
+      client.query(dotaz,(err04, response04) =>{
+        if (err04){
+          console.log('04 - Barva','Zaznam je vlozen? ')
+        } else {
+          console.log('Resp BARVA 04', 'OK')
+        }
+          
+      })
+      console.log(dotaz,"\n")
 
-})
+    })
+  } else {
+
+    dotaz = `delete from list_mat_barva where idefix_mat = ${req.body.idefix} ` 
+  
+  
+    await client.query(dotaz,(err033,response033) => { 
+    if (err033){
+      console.log('Err - BARVA DEL 033 A ?' , "033 TOP ", dotaz ,"EOF ")
+    }
+  })
+
+  }    
 //Barva EOF
+
+
+ // //Potisknutelnot
+ console.log("P", req.body.form.potisknutelnost, 'Match: ',(req.body.form.potisknutelnost+'').match(/[0-9]/))
+ //   res.json({a:1})
+    //return
+ if ((req.body.form.potisknutelnost+'').match(/[0-9]/) ) {
+  var atmp = []
+  var ctmp = ''
+  var apotisk  = []
+  apotisk.push(req.body.form.potisknutelnost)
+  await apotisk.forEach(element => {
+    atmp.push(element)
+
+  })
+  ctmp = '('+atmp.join(',')+',0)'
+  console.log("P 2", req.body.form.potisknutelnost, 'Match: ',(req.body.form.potisknutelnost+'').match(/[0-9]/), ctmp)
+    //return
+  if (atmp.length>0) {
+    dotaz = `delete from list_mat_potisknutelnost where idefix_mat = ${req.body.idefix}  and idefix_potisknutelnost not in ${ctmp}`
+  } else {
+    dotaz = `delete from list_mat_potisknutelnost where idefix_mat = ${req.body.idefix} ` 
+  }
+  
+  await client.query(dotaz,(err031,response031) => { 
+    if (err031){
+      console.log('Err - update 031 A' , "031 ---\n\n", err031.error,"\n\n ---------(", dotaz,"  )" )
+    }
+  })
+  await apotisk.forEach(element => {
+    dotaz  = ` insert into list_mat_potisknutelnost (idefix_mat,idefix_potisknutelnost,user_insert_idefix)`
+    dotaz +=  `select ${req.body.idefix} ,${element}, login2idefix('${req.body.user}')`
+    client.query(dotaz,(err041, response04) =>{
+      if (err041){
+        console.log('041','Zaznam potisknutelnost je vlozen? ')
+      } else {
+        console.log('Resp potisknutelnost 041', 'OK')
+      }
+        
+    })
+    console.log(dotaz,"\n")
+
+  })
+}  else {
+  dotaz = `delete from list_mat_potisknutelnost where idefix_mat = ${req.body.idefix} ` 
+  await client.query(dotaz,(err044,response044) => { 
+    if (err044){
+      console.log('Err - POTISKNUTELNOST DEL 044 A ?' , "044 TOP ", dotaz ,"EOF ")
+    }
+  })
+
+}     
+//Potisknutelnot EOF
 
 
  // Stroj
@@ -198,6 +273,7 @@ await req.body.form.barva.forEach(element => {
  })
  ctmp = '('+atmp.join(',')+',0)'
  if (atmp.length>0) {
+
   dotaz = `delete from list_mat_stroj where idefix_mat = ${req.body.idefix}  and idefix_stroj not in ${ctmp}`
  } else {
   dotaz = `delete from list_mat_stroj where idefix_mat = ${req.body.idefix} ` 
@@ -226,6 +302,7 @@ await req.body.form.stroj.forEach(element => {
 
 
  // StrojSkup
+/*
  var atmp = []
  var ctmp = ''
  await req.body.form.strojskup.forEach(element => {
@@ -257,6 +334,16 @@ await req.body.form.strojskup.forEach(element => {
   })
   console.log(dotaz,"\n")
 
+})
+*/
+//Stroj Skup
+
+await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
+  if (err999){
+    console.log('999','fce_list_mat_clean: Zhavarovala ')
+  } else {
+    console.log('Resp fce_list_mat_clean ', 'OK')
+  }
 })
 
 
@@ -328,12 +415,14 @@ await req.body.form.strojskup.forEach(element => {
       var dotaz_rozmer = `select * from list_mat_rozmer  where idefix_mat = ${req_query_id}`
       var dotaz_strojskup = `select * from list_mat_strojskup where idefix_mat = ${req_query_id}`
       var dotaz_stroj     = `select * from list_mat_stroj     where idefix_mat = ${req_query_id}`
+      var dotaz_potisknutelnost     = `select * from list_mat_potisknutelnost     where idefix_mat = ${req_query_id}`
 
       var enum_matskup        = `select * from list2_matskup order by kod `
       var enum_matsubskup     = `select * from list2_matsubskup order by kod `
       var enum_matvyrobce     = `select * from list2_matvyrobce order by kod `
       var enum_matvlastnosti  = `select * from list2_matvlastnosti order by kod `
       var enum_matbarva       = `select * from list2_matbarva order by kod `
+      var enum_matpotisknutelnost       = `select * from list2_matpotisknutelnost order by kod `
 
       var enum_strojskup  = `select * from list2_strojskup order by kod`
       var enum_stroj      = `select * from list_stroj     order by kod`
@@ -598,14 +687,44 @@ await req.body.form.strojskup.forEach(element => {
                             console.log(18, "err")
                             return
                           }
-                            resObj.barva = []
+                            resObj.barva = 0
                             response18.rows.forEach(el => {
-                            resObj.barva.push(el.idefix_barva)
+                            //resObj.barva.push(el.idefix_barva)
+                            resObj.barva=el.idefix_barva
                           })
                           // resObj.barva = response18.rows
             
-                          console.log(18, "Barva ",)
+                          console.log(18, "Barva ",resObj.barva)
                           })        
+
+                          await  client.query(enum_matpotisknutelnost,(err171,response171) => {
+                            if (err171) {
+                              myres.info = -1
+                              console.log(171, "err - potisknutelnost")
+                              return
+                            }
+                            resObj.enum_matpotisknutelnost = response171.rows
+              
+                            console.log(17, "Enum potisknutelnost ")
+                            })      
+                            await  client.query(dotaz_potisknutelnost,(err181,response181) => {
+                              if (err181) {
+                                myres.info = -1
+                                console.log(181, "err")
+                                return
+                              }
+                                resObj.potisknutelnost = 0
+                                
+                                response181.rows.forEach(el => {
+                                //resObj.potisknutelnost.push(el.idefix_potisknutelnost)
+                                 resObj.potisknutelnost=el.idefix_potisknutelnost
+                                 return
+                              })
+                              // resObj.barva = response18.rows
+                
+                              console.log(181, "Postiknutenost ",resObj.potisknutelnost)
+                              })        
+
                           await  client.query(enum_koef_naklad,(err19,response19) => {
                             if (err19) {
                               myres.info = -1
@@ -824,6 +943,7 @@ await req.body.form.strojskup.forEach(element => {
          ,nazev3
          ,popis
          ,idefix_dodavatel
+         ,dodavatel_priorita
          ,sila_mm
          ,vaha_gm2
          ,cena_nakup_m2
@@ -851,6 +971,7 @@ await req.body.form.strojskup.forEach(element => {
         ,'${element[0].nazev3}'
         ,'${element[0].popis}'
         ,'${element[0].idefix_dodavatel}'
+        ,'${element[0].dodavatel_priorita}'
         ,'${element[0].sila_mm}'
         ,'${element[0].vaha_gm2}'
         ,'${element[0].cena_nakup_m2}'
@@ -877,6 +998,7 @@ await req.body.form.strojskup.forEach(element => {
           ,nazev3='${element[0].nazev3}'
           ,popis='${element[0].popis}'
           ,idefix_dodavatel='${element[0].idefix_dodavatel}'
+          ,dodavatel_priorita='${element[0].dodavatel_priorita}'
           ,sila_mm='${element[0].sila_mm}'
           ,vaha_gm2='${element[0].vaha_gm2}'
           ,cena_nakup_m2='${element[0].cena_nakup_m2}'

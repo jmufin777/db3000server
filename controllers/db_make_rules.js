@@ -17,7 +17,9 @@ async function init(){
  }
 
  
-const atables = [
+
+
+ const atables = [
 
     {
         name: 'db_system',
@@ -78,13 +80,7 @@ const atables = [
             `insert into list2_matvlastnosti (nazev ) VALUES ('NE');
              update list2_matvlastnosti set kod = id ;
              `,
-             // create unique index list_mat_vlastnosti_mat_vlastnost on list_mat_vlastnosti  (idefix_mat,idefix_vlastnost)
-             // create unique index list_mat_barva_mat_barva on list_mat_barva  (idefix_mat,idefix_barva)
-             // create unique index list_mat_strojskup_mat_strojskup on list_mat_strojskup  (idefix_mat,idefix_strojskup)
-             //create unique index list_mat_barva_mat_barva on list_mat_barva  (idefix_mat,idefix_barva)
-             //create unique index list_mat_vlastnost_mat_vlastnost on list_mat_vlastnosti  (idefix_mat,idefix_vlastnost)
-             //create unique index list_mat_stroj_mat_stroj on list_mat_stroj  (idefix_mat,idefix_stroj)
-             //select fce_list_mat_clean('')
+             
 
         ]
     },
@@ -310,6 +306,8 @@ const atables = [
          nazev3 varchar(30),           -- + zobrazeny naev = funkce
          popis text,
          idefix_dodavatel int,
+         dodavatel_priorita int default 0,
+         nakup_result numeric(10,3),
          
          sila_mm numeric(10,2),
          vaha_gm2 numeric(10,2),
@@ -325,9 +323,10 @@ const atables = [
          cena_naklad_m2 numeric(10,2),    -- vypočteno nákupní cena x nákladový koeficient  - tedy postupne , podle zadanych hodnot
          
          
-           
          cena_prodej_m2 numeric(10,2)   , -- výpočet nákladová cena x prodejní koeficient     
          cena_prodej_arch numeric(10,2)  -- výpočet nákladová cena x prodejní koeficient     
+         
+
 
          -- priklad cena_nakup_m2 * naklad_koef = cena naklad
          -- cena_nakup_arch =  vyresim zitra
@@ -617,6 +616,9 @@ var neco = ''
     return
     */
 
+   
+   // return
+   
     pool.query('select * from db_system',(err,res) => {
 //        console.log(res.rows)
         console.log(atables)
@@ -644,7 +646,10 @@ var neco = ''
         }
     }   )
     console.log('end')
-}) 
+})
+
+
+
     return;
 
 //})()
@@ -658,13 +663,15 @@ function StrukturaChange(el) {
     
         addStruct=[]
      //   changeStruct=[]
-        el.struct.split(',').forEach(el21=>{
+     el.struct.split('\n').forEach(el21=>{
+
+     //   el.struct.split(',').forEach(el21=>{
             while (el21.match(/  /)) {
                 el21 = el21.replace(/  /g,' ')
 
             }
             if (el21.match(/[a-z]/)){
-                 el21= el21.replace(/\n/,' ')   
+                 el21= el21.replace(/\n/,' ').replace(/,$/," ")   
                 addStruct.push([`alter table ${el.name} add ${el21}`])
                 
             }

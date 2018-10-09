@@ -92,18 +92,28 @@ create or replace function fce_list_mat_clean(ctxt text='') returns bigint as $$
  declare nret bigint := 0 ;
  BEGIN
  if ctxt = '' or ctxt ='barva' then
+  raise notice '% ' ,ctxt ;
   delete from list_mat_barva a where not exists (
   select * from (
   select min(idefix) as idefix from list_mat_barva group by idefix_mat,idefix_barva 
   ) b where a.idefix = b.idefix);
  end if;  
+ if ctxt = '' or ctxt ='potisknutelnost' then
+ raise notice '% ' ,ctxt ;
+  delete from list_mat_potisknutelnost a where not exists (
+  select * from (
+  select min(idefix) as idefix from list_mat_potisknutelnost group by idefix_mat,idefix_potisknutelnost 
+  ) b where a.idefix = b.idefix);
+ end if;  
  if ctxt = '' or ctxt ~'vlastnost' then 
+ raise notice '% ' ,ctxt ;
   delete from list_mat_vlastnosti a where not exists (
   select * from (
   select min(idefix) as idefix from list_mat_vlastnosti group by idefix_mat,idefix_vlastnost
   ) b where a.idefix = b.idefix);
  end if; 
 if ctxt = '' or ctxt ~'stroj' then 
+raise notice '% ' ,ctxt ;
 delete from list_mat_stroj a where not exists (
   select * from (
   select min(idefix) as idefix from list_mat_stroj group by idefix_mat,idefix_stroj
@@ -111,11 +121,13 @@ delete from list_mat_stroj a where not exists (
 end if; 
 
 if ctxt = '' or ctxt ~'strojskup' then 
+raise notice '% ' ,ctxt ;
 delete from list_mat_strojskup a where not exists (
   select * from (
   select min(idefix) as idefix from list_mat_strojskup group by idefix_mat,idefix_strojskup
   ) b where a.idefix = b.idefix);
  end if;
+
 return nret; 
  END;
 $$LANGUAGE plpgsql;  
