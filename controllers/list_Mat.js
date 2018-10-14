@@ -67,6 +67,7 @@ module.exports = {
           ,popis='${req.body.form.data.popis}'
           ,idefix_dodavatel= ${dodavatel_expr}
           ,dodavatel_priorita= ${req.body.form.data.dodavatel_priorita}::int
+          ,nakup_result = '${req.body.form.data.nakup_result}'
           ,sila_mm='${req.body.form.data.sila_mm}'
           ,vaha_gm2='${req.body.form.data.vaha_gm2}'
           ,cena_nakup_m2='${req.body.form.data.cena_nakup_m2}'
@@ -368,6 +369,9 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
       req_query_id = req.query.id
       req_query_id_query = req.query.id_query
       req_query_string_query = req.query.string_query
+      console.log(" Par ",req_query_id_query, "String ", req.query.string_query)
+      //res.json({"a": 1})
+      //return
     try {   
       const client = await pool.connect()
 
@@ -416,6 +420,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
       var dotaz_strojskup = `select * from list_mat_strojskup where idefix_mat = ${req_query_id}`
       var dotaz_stroj     = `select * from list_mat_stroj     where idefix_mat = ${req_query_id}`
       var dotaz_potisknutelnost     = `select * from list_mat_potisknutelnost     where idefix_mat = ${req_query_id}`
+      var dotaz_projcena     = `select * from list_mat_projcena     where idefix_mat = ${req_query_id}`
 
       var enum_matskup        = `select * from list2_matskup order by kod `
       var enum_matsubskup     = `select * from list2_matsubskup order by kod `
@@ -457,7 +462,10 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
       
 
       
-      console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup)
+      //console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup)
+      console.log(dotaz_projcena,req_query_id, req_query_id_query )
+      //res.json({a: 1})
+      //return
       
       
       
@@ -485,27 +493,50 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
 
       })
 
-      await  client.query(dotaz_vlastnosti,(err2,response2) => {
-     
-       if (err2) {
-         myres.info = -1
-         return
-       }
-        resObj.vlastnosti = []
-        response2.rows.forEach(el => {
-        resObj.vlastnosti.push(el.idefix_vlastnost)
-       })
+     if (req_query_id_query==-1 || req_query_id_query==100) {
+        await  client.query(dotaz_vlastnosti,(err2,response2) => {
+        if (err2) {
+          myres.info = -1
+          return
+        }
+          resObj.vlastnosti = []
+          response2.rows.forEach(el => {
+          resObj.vlastnosti.push(el.idefix_vlastnost)
+            if (req_query_id_query == 1) {
+              //console.log(resObj)
+            //  res.json(resObj)
+            }
+          })  
+        })
+        if (req_query_id_query == 100) {
+        
+          res.json(resObj)
+          console.log(resObj)
+          await client.release()     
+          return
+        }
+      }
+      
+      
 
-     })
+     if (req_query_id_query==-1 || req_query_id_query==101) {
+      await  client.query(dotaz_rozmer,(err3,response3) => {
+      if (err3) {
+        myres.info = -1
+        return
+      }
+      resObj.rozmer=response3.rows
+      })
+      if (req_query_id_query == 101) {
+        
+        res.json(resObj)
+        console.log(resObj)
+        await client.release()     
+        return
+      }
+      }
 
-     await  client.query(dotaz_rozmer,(err3,response3) => {
-     if (err3) {
-       myres.info = -1
-       return
-     }
-     resObj.rozmer=response3.rows
-     })
-
+    if (req_query_id_query==-1 || req_query_id_query==2) {
      await  client.query(dotaz_strojskup,(err4,response4) => {
       if (err4) {
         myres.info = -1
@@ -519,8 +550,11 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
       //console.log(resObj)
       //console.log(resObj.vlatnosti)
       })
+    }
 
-      await  client.query(dotaz_stroj,(err41,response41) => {
+
+    if (req_query_id_query==-1 || req_query_id_query==3) { 
+    await  client.query(dotaz_stroj,(err41,response41) => {
         if (err41) {
           myres.info = -1
           return
@@ -533,7 +567,31 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
         //console.log(resObj)
         //console.log(resObj.vlatnosti)
         })
-
+        if (req_query_id_query == 3) {
+          console.log(resObj)
+          res.json(resObj)
+          await client.release()
+          return
+        }
+      }
+          
+      if (req_query_id_query==-1 || req_query_id_query==200) {
+        await  client.query(dotaz_projcena,(err200,response200) => {
+        if (err200) {
+          myres.info = -1
+          return
+        }
+        resObj.projcena=response200.rows
+        })
+        if (req_query_id_query == 200) {
+          
+          res.json(resObj)
+          //console.log(resObj)
+          await client.release()     
+          return
+        }
+        }
+    if (req_query_id_query==-1 || req_query_id_query==4) {
       await  client.query(enum_matskup,(err5,response5) => {
         if (err5) {
           myres.info = -1
@@ -543,7 +601,15 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
         //console.log(resObj)
         //console.log(resObj.vlatnosti)
         })
+        if (req_query_id_query == 4) {
+          console.log(resObj)
+          res.json(resObj)
+          await client.release()
+          return
+        }
+     }   
 
+     if (req_query_id_query==-1 || req_query_id_query==5) {
         await  client.query(enum_matsubskup,(err7,response7) => {
           if (err7) {
             myres.info = -1
@@ -558,7 +624,15 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
           
           //console.log(resObj.vlatnosti)
           }) 
-          await  client.query(enum_matvyrobce,(err8,response8) => {
+          if (req_query_id_query == 5) {
+            console.log(resObj)
+            res.json(resObj)
+            await client.release()
+            return
+          }
+        }   
+        if (req_query_id_query==-1 || req_query_id_query==6) { 
+        await  client.query(enum_matvyrobce,(err8,response8) => {
             if (err8) {
               myres.info = -1
               console.log(8, "err")
@@ -569,18 +643,34 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
             
             //console.log(resObj)
             })   
+            if (req_query_id_query == 6) {
+              //console.log(resObj)
+              res.json(resObj)
+              await client.release()
+              return
+            }
+          }
+    
+          if (req_query_id_query==-1 || req_query_id_query==7) {
             await  client.query(enum_matvlastnosti,(err9,response9) => {
               if (err9) {
                 myres.info = -1
-                console.log(9, "Err")
+                console.log(7, "Err")
                 return
               }
               resObj.enum_matvlastnosti=response9.rows
-              console.log(9, "OK")
+              console.log(7, "OK")
               
               //console.log(resObj)
               })               
+             if (req_query_id_query == 7) {
+               res.json(resObj)
+               await client.release()
+               return
+             }
+            }    
 
+            if (req_query_id_query==-1 || req_query_id_query==102) {
                await  client.query(enum_n1,(err10,response10) => {
                 if (err10) {
                   myres.info = -1
@@ -596,6 +686,9 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                 
                 //console.log(resObj)
                 })                 
+              }
+              
+              if (req_query_id_query==-1 || req_query_id_query==103) {
                await  client.query(enum_n2,(err11,response11) => {
                   if (err11) {
                     myres.info = -1
@@ -607,6 +700,8 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                 
                   //console.log(resObj)
                   })                   
+               }   
+               if (req_query_id_query==-1 || req_query_id_query==104) {
                await  client.query(enum_n3,(err12,response12) => {
                     if (err12) {
                       myres.info = -1
@@ -616,7 +711,10 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                     resObj.enum_n3=response12.rows
                     
                     console.log(12,"OK", response12.rowCount)
-                    })                  
+                    })   
+               }
+
+            if (req_query_id_query==-1 || req_query_id_query==8) {                    
                await  client.query(enum_dodavatel,(err13,response13) => {
                  if (err13) {
                    myres.info = -1
@@ -628,7 +726,16 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                  
                  console.log(13,"Dodavatel")
                  }) 
+                 if (req_query_id_query == 8) {
+        
+                  res.json(resObj)
+                  console.log(resObj)
+                  await client.release()     
+                  return
+                }
+              }
 
+              if (req_query_id_query==-1 || req_query_id_query==105) {
                  await  client.query(dotaz_romer2,(err14,response14) => {
                   if (err14) {
                     myres.info = -1
@@ -640,8 +747,9 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                   
                   console.log(14, "Rozmer")
                   })  
-
-                  await  client.query(enum_matdostupnost,(err15,response15) => {
+                }
+                if (req_query_id_query==-1 || req_query_id_query==9) { 
+                await  client.query(enum_matdostupnost,(err15,response15) => {
                     if (err15) {
                       myres.info = -1
                       console.log(15, "err")
@@ -651,6 +759,8 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
       
                     console.log(15, "Dostupnost ")
                     })   
+                  }
+                  if (req_query_id_query==-1 || req_query_id_query==10) {
                     await  client.query(enum_strojskup,(err16,response16) => {
                       if (err16) {
                         myres.info = -1
@@ -661,6 +771,14 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
         
                       console.log(16, "Stroj Skup ")
                       })    
+                      if (req_query_id_query == 10) {
+                        //console.log(resObj)
+                        res.json(resObj)
+                        await client.release()
+                        return
+                      }  
+                    }
+                    if (req_query_id_query==-1 || req_query_id_query==11) {
                       await  client.query(enum_stroj,(err161,response161) => {
                         if (err161) {
                           myres.info = -1
@@ -671,6 +789,15 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
           
                         console.log(161, "Stroje-technologie ")
                         })    
+                        if (req_query_id_query == 11) {
+                          //console.log(resObj)
+                          res.json(resObj)
+                          await client.release()
+                          return
+                        }
+
+                      }
+                      if (req_query_id_query==-1 || req_query_id_query==12) {
                       await  client.query(enum_matbarva,(err17,response17) => {
                         if (err17) {
                           myres.info = -1
@@ -681,6 +808,15 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
           
                         console.log(17, "Barva ")
                         })      
+                        if (req_query_id_query == 12) {
+        
+                          res.json(resObj)
+                          console.log(resObj)
+                          await client.release()     
+                          return
+                        }
+                      }
+                      if (req_query_id_query==-1 || req_query_id_query==13) {
                         await  client.query(dotaz_barva,(err18,response18) => {
                           if (err18) {
                             myres.info = -1
@@ -696,7 +832,16 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
             
                           console.log(18, "Barva ",resObj.barva)
                           })        
-
+                          if (req_query_id_query == 13) {
+        
+                            res.json(resObj)
+                            console.log(resObj)
+                            await client.release()     
+                            return
+                          }
+                        }
+                         
+                        if (req_query_id_query==-1 || req_query_id_query==14) {
                           await  client.query(enum_matpotisknutelnost,(err171,response171) => {
                             if (err171) {
                               myres.info = -1
@@ -707,6 +852,16 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
               
                             console.log(17, "Enum potisknutelnost ")
                             })      
+                            if (req_query_id_query == 14) {
+        
+                              res.json(resObj)
+                              console.log(resObj)
+                              await client.release()     
+                              return
+                            }
+                          }
+
+                          if (req_query_id_query==-1 || req_query_id_query==15) {
                             await  client.query(dotaz_potisknutelnost,(err181,response181) => {
                               if (err181) {
                                 myres.info = -1
@@ -720,11 +875,20 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                                  resObj.potisknutelnost=el.idefix_potisknutelnost
                                  return
                               })
+                              
                               // resObj.barva = response18.rows
                 
                               console.log(181, "Postiknutenost ",resObj.potisknutelnost)
-                              })        
-
+                              })   
+                              if (req_query_id_query == 15) {
+        
+                                res.json(resObj)
+                                console.log(resObj)
+                                await client.release()     
+                                return
+                              }     
+                            }
+                        if (req_query_id_query==-1 || req_query_id_query==16) {
                           await  client.query(enum_koef_naklad,(err19,response19) => {
                             if (err19) {
                               myres.info = -1
@@ -734,7 +898,17 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                             resObj.enum_koef_naklad = response19.rows
               
                             console.log(19, "enum koef naklad ")
-                            })        
+                            })
+                            if (req_query_id_query == 16) {
+        
+                              res.json(resObj)
+                              console.log(resObj)
+                              await client.release()     
+                              return
+                            }        
+                          }
+
+                          if (req_query_id_query==-1 || req_query_id_query==17) {
                             await  client.query(enum_koef_prodej,(err20,response20) => {
                               if (err20) {
                                 myres.info = -1
@@ -745,6 +919,15 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                 
                               console.log(20, "enum koef prodej ")
                               })            
+                              if (req_query_id_query == 17) {
+        
+                                res.json(resObj)
+                                console.log(resObj)
+                                await client.release()     
+                                return
+                              } 
+                            }
+                            if (req_query_id_query==-1 || req_query_id_query==18) {
                               await  client.query(enum_sirka,(err21,response21) => {
                                 if (err21) {
                                   myres.info = -1
@@ -754,7 +937,16 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                                 resObj.enum_sirka = response21.rows
                   
                                 console.log(20, "enum koef prodej ")
-                              })             
+                              }) 
+                              if (req_query_id_query == 18) {
+        
+                                res.json(resObj)
+                                console.log(resObj)
+                                await client.release()     
+                                return
+                              }
+                            }
+                            if (req_query_id_query==-1 || req_query_id_query==19) {
                               await  client.query(enum_vyska,(err22,response22) => {
                                   if (err22) {
                                     myres.info = -1
@@ -765,7 +957,16 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                     
                                   console.log(22, "enum vyska ")
                               })              
-                              await  client.query(enum_sirka_zbytek,(err23,response23) => {
+                              if (req_query_id_query == 19) {
+        
+                                res.json(resObj)
+                                console.log(resObj)
+                                await client.release()     
+                                return
+                              }
+                            }
+                            if (req_query_id_query==-1 || req_query_id_query==20) { 
+                            await  client.query(enum_sirka_zbytek,(err23,response23) => {
                                 if (err23) {
                                   myres.info = -1
                                   console.log(23, "err enum sirka zbytek")
@@ -773,7 +974,16 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                                 }
                                 resObj.enum_sirka_zbytek = response23.rows
                                 console.log(23, "enum sirka zbytek ")
-                              })              
+                              }) 
+                              if (req_query_id_query == 20) {
+        
+                                res.json(resObj)
+                                console.log(resObj)
+                                await client.release()     
+                                return
+                              }
+                            }
+                            if (req_query_id_query==-1 || req_query_id_query==21) {
                               await  client.query(enum_vyska_zbytek,(err24,response24) => {
                                 if (err24) {
                                   myres.info = -1
@@ -783,6 +993,14 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                                 resObj.enum_vyska_zbytek = response24.rows
                                 console.log(24, "enum vyska zbytek ")
                               })               
+                              if (req_query_id_query == 21) {
+        
+                                res.json(resObj)
+                                console.log(resObj)
+                                await client.release()     
+                                return
+                              }
+                            }
                  ///console.log(myres.info)                                     
                 await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejt, vubectro nechapu ale funguje to
                   console.log(200, "Vracim  Vysledek")
@@ -834,7 +1052,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
          await client.query(dotaz ,(err, response) => {
           //console.log(response)
            if (response.rowCount == 0)   {
-             console.log(response,'noic')
+             console.log(response,'nic')
            
              res.json( {
               id: -1,
@@ -944,6 +1162,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
          ,popis
          ,idefix_dodavatel
          ,dodavatel_priorita
+         ,nakup_result
          ,sila_mm
          ,vaha_gm2
          ,cena_nakup_m2
@@ -972,6 +1191,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
         ,'${element[0].popis}'
         ,'${element[0].idefix_dodavatel}'
         ,'${element[0].dodavatel_priorita}'
+        ,'${element[0].nakup_result}'
         ,'${element[0].sila_mm}'
         ,'${element[0].vaha_gm2}'
         ,'${element[0].cena_nakup_m2}'

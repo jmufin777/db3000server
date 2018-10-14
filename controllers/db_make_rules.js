@@ -382,6 +382,29 @@ prodejní cena za arch
             
         ]
     },
+
+    {   name: 'list_mat_projcena'   // Vazba 1:n - obsahuje data vazana na list2_matvlastnosti
+    ,struct:  `
+     idefix_mat int,
+     kod serial,
+     datum date default now()::date,
+     nabidka bigint default 0,
+     zakazka bigint default 0,
+     cena_m2 numeric(10,2),
+     mnozstvi numeric(10,2),
+     faktura varchar(20),
+     popis varchar(100)
+
+     `,
+     index_name: [ 
+            `idefix_mat  ~~~ (idefix_mat)`
+      ],
+    reindex: 1,
+     initq: [
+        
+    ]
+     },
+
     {   name: 'list_mat_barva'   // Vazba 1:n - obsahuje data vazana na list2_matvlastnosti
         ,struct:  `
          idefix_mat int,
