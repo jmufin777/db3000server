@@ -70,7 +70,7 @@ module.exports = {
             return
           }
            if (response.rowCount == 0)   {
-             console.log(response,'noic')
+             console.log(response,'nic')
              
            
              res.json( {
@@ -103,12 +103,17 @@ module.exports = {
     console.log('Update Stroj Skup')
   },
   async insert (req, res, next ) {
+     console.log('AAA')
     console.log(req.body.form.data[0])
+    console.log('AAA EOF')
+    //res.json({a:1})
+    //return
     var dotaz =""
     //  res.status(501).send({
     //    error: 'test'
     //  })
     //  return
+
     try{
       // const {kod,idefix_strojskup, nazev } = req.body.form
       const  user  = req.body.user
@@ -123,6 +128,8 @@ module.exports = {
       if (req.body.form.del.length > 0)  {
       dotaz=`delete from ${tabname} where id in ( ${neco1})`
       console.log(dotaz)
+      //res.json({a: 1})
+      //return
 
       await client.query(dotaz,(err, response)=>{
           if (err){
@@ -145,20 +152,7 @@ module.exports = {
           console.log(element[0].id)
         }
 
-        /*
-     sirka_mat_max_mm
-     delka_mat_max_mm
-     sirka_tisk_max_mm
-     delka_tisk_max_mm
-     tech_okraj_strana_mm
-     tech_okraj_start_mm
-     tech_okraj_spacecopy_mm
-     tech_okraj_spacejobs_mm
-     tech_okraj_end_mm
-     bez_okraj
-     spadavka_mm
-     space_znacky_mm
-     */
+    
 
         if (element[0].id < 0 ){
           dotaz = `insert into  ${tabname} (
@@ -172,8 +166,8 @@ module.exports = {
             ,popis
             ,kod
             ,user_insert_idefix
-            
             ) values `;
+
           dotaz += `( ${element[0].idefix_mat},'${element[0].datum}', '${element[0].datum}'
      ,'${element[0].nabidka}'
      ,'${element[0].zakazka}'
@@ -201,16 +195,13 @@ module.exports = {
 
           dotaz = dotaz.replace(/undefined/g,'0')
           dotaz = dotaz.replace(/null/g,'0')
+
            client.query(dotaz  ,[  ],(err, response ) => {
              if (err) {
                return next(err)
              } 
-          
             })
-
-        
       });
-      
       
       // const dotaz = `insert into list2_barevnost(kod,nazev,user_insert, user_insert_idefix) 
       //   values ('${kod}', '${nazev}', '${user}', login2idefix('${user}') ) `

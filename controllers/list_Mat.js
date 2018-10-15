@@ -19,6 +19,7 @@ var req_query_id_query = 0
 
 const tabname = 'list_mat'
 module.exports = {
+
   async saveone (req,res) {
   //   var  myres = {
   //    xdata: [],
@@ -92,6 +93,7 @@ module.exports = {
   //  req_query_id_query = req.query.id_query
   //  req_query_string_query = req.query.string_query
   const client = await pool.connect()
+        
    await client.query(dotaz,(err01,response01) => { 
      if (err01){
        console.log('Err - update' , 01, err01)
@@ -355,7 +357,8 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
 
    res.json({info: 'Ok test'});
   }, 
-    async one (req,res) {
+    
+ async one (req,res) {
        var  myres = {
         xdata: [],
         vlastnosti:[],
@@ -412,6 +415,19 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
         return
       }
        // return
+       var q_init = `insert into list_mat_projcena (idefix_mat,datum) select * from (select ${req_query_id} as idefix_mat,now()::date ) a 
+        where a.idefix_mat>0 and not exists (select * from list_mat_projcena b where a.idefix_mat=b.idefix_mat)`
+        await client.query(q_init ,(errinit, responseinit) => {
+          console.log(responseinit)
+          if (errinit) {
+            //console.log(err.error)
+            console.log('Chybka', q_init )
+            //res.status(200).send({"error": err})
+            return
+          }
+        }) 
+       
+  
 
       var dotaz =`select * from ${tabname} where idefix = ${req_query_id}`
       var dotaz_vlastnosti =`select * from list_mat_vlastnosti where idefix_mat = ${req_query_id}`
@@ -585,7 +601,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
         })
         if (req_query_id_query == 200) {
           
-          res.json(resObj)
+          //res.json(resObj)
           //console.log(resObj)
           await client.release()     
           return
@@ -1037,6 +1053,80 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
       else if (req.query.id=='max'){
         dotaz = `select kod as kod from ${tabname} where 1=1 order by kod desc limit 1`
       }
+
+dotaz=`  
+select 
+a.idefix
+,ms.zkratka as mattyp
+,ms.nazev as skupina ,mss.nazev  as podskupina
+,a.nazev1,a.nazev2,a.nazev3
+,a.popis
+,a.cena_nakup_m2
+,a.sila_mm
+,mv.nazev
+,mrs.rozmers,mrs.sirkys,mrs.delkymms,mrs.navins
+,mro.rozmero,mro.sirkyo,mro.delkymmo,mro.navino
+,mv.nazev as vyrobce
+,md.nazev as dodavatel
+,mtech.technologie
+--a.*,md.* 
+from list_mat a
+--Enums
+left join list2_matskup ms on a.idefix_matskup = ms.idefix
+left join list2_matsubskup mss on a.idefix_matsubskup = mss.idefix
+left join list2_matvyrobce mv on a.idefix_vyrobce = mv.idefix
+---Propojky 1:1
+left join 
+(select * from list_dodavatel where mat =1 ) md
+ on a.idefix_dodavatel = md.idefix
+
+--Propojky n:n
+
+left join 
+(
+	
+select idefix_mat,b.zkratka
+	           ,array_to_string(array_agg(distinct (sirka_mm/1000)::numeric(10,2)::text||'x'||(vyska_mm/1000)::numeric(10,2)::int::text),',') as rozmers 
+			   , array_to_string(array_agg(distinct sirka_mm::int),',') as sirkys
+			   , array_to_string(array_agg(distinct vyska_mm::int),',') as delkymms
+			   , array_to_string(array_agg(distinct vyska_mm/1000::int),',') as navins
+	
+from list_mat_rozmer a join list2_matdostupnost b on a.idefix_dostupnost = b.idefix where b.zkratka='S' and idefix_mat >0
+group by b.zkratka, idefix_mat
+	
+) mrs on a.idefix =mrs.idefix_mat
+
+left join 
+(
+	
+select idefix_mat,b.zkratka
+	           ,array_to_string(array_agg(distinct (sirka_mm/1000)::numeric(10,2)::text||'x'||(vyska_mm/1000)::numeric(10,2)::int::text),',') as rozmero 
+			   , array_to_string(array_agg(distinct sirka_mm::int),',') as sirkyo
+			   , array_to_string(array_agg(distinct vyska_mm::int),',') as delkymmo
+			   , array_to_string(array_agg(distinct vyska_mm/1000::int),',') as navino
+	
+from list_mat_rozmer a join list2_matdostupnost b on a.idefix_dostupnost = b.idefix where b.zkratka='O' and idefix_mat >0
+group by b.zkratka, idefix_mat
+	
+) mro on a.idefix =mro.idefix_mat
+
+
+
+
+left join (
+	select a.idefix_mat
+,array_to_string(array_agg(distinct b.nazev) ,',') as technologie
+from list_mat_stroj a join list_stroj b on a.idefix_stroj = b.idefix
+group by idefix_mat
+) mtech on a.idefix = mtech.idefix_mat
+order by ms.nazev, mss.nazev
+
+
+  
+
+ 
+
+`
       
 
       console.log(req.query.id, dotaz )
