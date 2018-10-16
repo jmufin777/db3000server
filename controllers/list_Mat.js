@@ -1043,6 +1043,9 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
 
     async all (req, res) {
       var dotaz=''
+      var where =' where true '
+      var order ='order by mattyp, podskupina '
+      var tmp =''
     try { 
       const client = await pool.connect()
       if (req.query.id=='nic'){
@@ -1053,6 +1056,14 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
       else if (req.query.id=='max'){
         dotaz = `select kod as kod from ${tabname} where 1=1 order by kod desc limit 1`
       }
+      else {
+        tmp = req.query.id
+        where = `${where} and (${tmp})` 
+      }
+      
+      console.log(req.query.id, req.query.limit ,req.query.offset , where )
+      //res.json({a:1})
+      //return
 
 dotaz=`  
 select 
@@ -1119,17 +1130,19 @@ left join (
 from list_mat_stroj a join list_stroj b on a.idefix_stroj = b.idefix
 group by idefix_mat
 ) mtech on a.idefix = mtech.idefix_mat
-order by ms.nazev, mss.nazev
 
-
-  
-
- 
 
 `
+dotaz = `select * from ( ${dotaz} ) a ${where} ${order}`
+
+console.log(dotaz)
+
+
+
       
 
-      console.log(req.query.id, dotaz )
+      
+      
     
       
 
@@ -1141,6 +1154,10 @@ order by ms.nazev, mss.nazev
 
          await client.query(dotaz ,(err, response) => {
           //console.log(response)
+           if (err) {
+             console.log(err)
+             return
+           }
            if (response.rowCount == 0)   {
              console.log(response,'nic')
            
