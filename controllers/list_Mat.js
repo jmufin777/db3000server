@@ -303,42 +303,44 @@ await req.body.form.stroj.forEach(element => {
 })
 //// Stroj
 
-
  // StrojSkup
-/*
  var atmp = []
  var ctmp = ''
  await req.body.form.strojskup.forEach(element => {
    atmp.push(element)
-
  })
  ctmp = '('+atmp.join(',')+',0)'
  if (atmp.length>0) {
   dotaz = `delete from list_mat_strojskup where idefix_mat = ${req.body.idefix}  and idefix_strojskup not in ${ctmp}`
+  //console.log(dotaz)
+  //res.json({a:1})
  } else {
-  dotaz = `delete from list_mat_strojskup where idefix_strojskup = ${req.body.idefix} ` 
+  dotaz = `delete from list_mat_strojskup where idefix_mat = ${req.body.idefix} ` 
+  //console.log(dotaz)
+  //res.json({a:1})
+
  }
- 
- await client.query(dotaz,(err04,response04) => { 
-  if (err04){
-    console.log('Err - update' , 04, err04)
+ //return
+ await client.query(dotaz,(err004,response04) => { 
+  if (err004){
+    console.log('Err - update' , 004, err004)
   }
 })
 await req.body.form.strojskup.forEach(element => {
   dotaz  = ` insert into list_mat_strojskup (idefix_mat,idefix_strojskup,user_insert_idefix)`
   dotaz +=  `select ${req.body.idefix} ,${element}, login2idefix('${req.body.user}')`
-  client.query(dotaz,(err05, response05) =>{
-    if (err05){
-      console.log('05','Zaznam strojskup je vlozen? ')
+  client.query(dotaz,(err005, response005) =>{
+    if (err005){
+      console.log('005','Zaznam strojskup je vlozen? ')
     } else {
-      console.log('Resp strojskup 05', 'OK')
+      console.log('Resp strojskup 005', 'OK')
     }
        
   })
   console.log(dotaz,"\n")
 
 })
-*/
+
 //Stroj Skup
 
 await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
@@ -404,7 +406,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
       //return
 
 
-      if (!req_query_id > 0 ) {
+      if (!req_query_id > 0 && req_query_id_query != 8 && req_query_id_query != 6) {
         res.status(821).send({
           error: "Chybi Idefix materialu"
         })
@@ -466,13 +468,16 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
       var enum_dodavatel  = `select * from list_dodavatel order by kod `   //Doplnit pominkove online dohledabvani pro kod ktery teprve vznikne
 
       
-      var dotaz_romer2= `select idefix_mat,b.zkratka,array_agg(distinct replace(a.idefix::text||'~'||sirka_mm::numeric(10,2)::text||'x'||vyska_mm::numeric(10,2)::text,'.00','')) as rozmer, 
-        array_agg(distinct sirka_mm_zbytek::numeric(10,2)::text||'x'||vyska_mm_zbytek::numeric(10,2)::text) as rozmer_zbytek, 
-        array_agg(distinct sirka_mm::numeric(10,2)) as sirky, array_agg(distinct vyska_mm::int) as delky
+      var dotaz_rozmer2= `select idefix_mat
+        ,b.zkratka
+        ,array_agg(distinct replace(a.idefix::text||'~'||(sirka_mm/1000)::numeric(10,2)::text||'x'||(vyska_mm/1000)::numeric(10,2)::text,'.00','')) as rozmer_deska 
+        ,array_agg(distinct replace(a.idefix::text||'~'||(sirka_mm)::numeric(10,2)::text||'x'||(vyska_mm/1000)::numeric(10,2)::text,'.00','')) as rozmer 
+        ,array_agg(distinct sirka_mm_zbytek::numeric(10,2)::text||'x'||vyska_mm_zbytek::numeric(10,2)::text) as rozmer_zbytek 
+        ,array_agg(distinct sirka_mm::numeric(10,2)) as sirky, array_agg(distinct vyska_mm::int) as delky
       from list_mat_rozmer a join list2_matdostupnost b on a.idefix_dostupnost = b.idefix
       where a.idefix_mat = ${req_query_id}
       group by b.zkratka, idefix_mat order by zkratka desc`
-
+      
 
       var enum_matdostupnost  = `select idefix,nazev,zkratka from list2_matdostupnost order by kod `
       
@@ -752,7 +757,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
               }
 
               if (req_query_id_query==-1 || req_query_id_query==105) {
-                 await  client.query(dotaz_romer2,(err14,response14) => {
+                 await  client.query(dotaz_rozmer2,(err14,response14) => {
                   if (err14) {
                     myres.info = -1
                     console.log(14, "err")
@@ -1031,7 +1036,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
             //},2000)        
     } catch(e) {
       console.log(e)
-      res.status(821).send({
+      res.status(822).send({
         error: 'Mat ' + e
       });
     }
@@ -1079,7 +1084,9 @@ a.idefix
 ,mro.rozmero,mro.sirkyo,mro.delkymmo,mro.navino
 ,mv.nazev as vyrobce
 ,md.nazev as dodavatel
-,mtech.technologie
+,mtech.technologie,mtech.technologie_text
+,mtechskup.technologie_skup
+,idefix_dodavatel,idefix_vyrobce
 --a.*,md.* 
 from list_mat a
 --Enums
@@ -1127,30 +1134,25 @@ group by b.zkratka, idefix_mat
 left join (
 	select a.idefix_mat
 ,array_to_string(array_agg(distinct b.nazev) ,',') as technologie
+,array_to_string(array_agg(distinct b.nazev_text) ,',') as technologie_text
 from list_mat_stroj a join list_stroj b on a.idefix_stroj = b.idefix
 group by idefix_mat
 ) mtech on a.idefix = mtech.idefix_mat
-
-
 `
+
+dotaz = `${ dotaz } 
+left join (
+	select a.idefix_mat
+,array_to_string(array_agg(distinct b.nazev) ,',') as technologie_skup
+from list_mat_strojskup a join list2_strojskup b on a.idefix_strojskup = b.idefix
+group by idefix_mat
+) mtechskup on a.idefix = mtechskup.idefix_mat
+`
+
 dotaz = `select * from ( ${dotaz} ) a ${where} ${order}`
 
-console.log(dotaz)
-
-
-
-      
-
-      
-      
-    
-      
-
-        
-        console.log('BBBB')
-
-        
-        
+//console.log(dotaz)
+       console.log('BBBB')
 
          await client.query(dotaz ,(err, response) => {
           //console.log(response)

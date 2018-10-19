@@ -89,6 +89,7 @@ async function init(){
      kod int,
      idefix_strojskup int ,
      nazev varchar(120),
+     nazev_text  varchar(120),
      sirka_mat_max_mm int default 0,
      delka_mat_max_mm int default 0,
      sirka_tisk_max_mm int default 0,

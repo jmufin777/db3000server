@@ -130,7 +130,7 @@ module.exports = {
      */
 
         if (element[0].id < 0 ){
-          dotaz = `insert into  ${tabname} (kod,nazev,idefix_strojskup
+          dotaz = `insert into  ${tabname} (kod,nazev,nazev_text,idefix_strojskup
      ,sirka_mat_max_mm
      ,delka_mat_max_mm
      ,sirka_tisk_max_mm
@@ -146,7 +146,7 @@ module.exports = {
      ,user_insert_idefix
             
             ) values `;
-          dotaz += `( ${element[0].kod},'${element[0].nazev}', '${element[0].idefix_strojskup}'
+          dotaz += `( ${element[0].kod},'${element[0].nazev}','${element[0].nazev_text}', '${element[0].idefix_strojskup}'
      ,'${element[0].sirka_mat_max_mm}'
      ,'${element[0].delka_mat_max_mm}'
      ,'${element[0].sirka_tisk_max_mm}'
@@ -164,7 +164,7 @@ module.exports = {
              )`
         }
         if (element[0].id > 0 ){
-          dotaz = `update  ${tabname} set kod =${element[0].kod},nazev='${element[0].nazev}'
+          dotaz = `update  ${tabname} set kod =${element[0].kod},nazev='${element[0].nazev}',nazev_text='${element[0].nazev_text}'
           ,idefix_strojskup            ='${element[0].idefix_strojskup}'
           ,sirka_mat_max_mm            ='${element[0].sirka_mat_max_mm}'
           ,delka_mat_max_mm            ='${element[0].delka_mat_max_mm}'
