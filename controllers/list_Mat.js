@@ -476,7 +476,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
         ,array_agg(distinct sirka_mm::numeric(10,2)) as sirky, array_agg(distinct vyska_mm::int) as delky
       from list_mat_rozmer a join list2_matdostupnost b on a.idefix_dostupnost = b.idefix
       where a.idefix_mat = ${req_query_id}
-      group by b.zkratka, idefix_mat order by zkratka desc`
+      group by b.zkratka, idefix_mat order by case when zkratka ='X' then '111' || zkratka else '999' || zkratka end desc`
       
 
       var enum_matdostupnost  = `select idefix,nazev,zkratka from list2_matdostupnost order by kod `
@@ -1073,15 +1073,24 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
 dotaz=`  
 select 
 a.idefix
+,a.idefix_matsubskup
 ,ms.zkratka as mattyp
 ,ms.nazev as skupina ,mss.nazev  as podskupina
+
 ,a.nazev1,a.nazev2,a.nazev3
 ,a.popis
 ,a.cena_nakup_m2
 ,a.sila_mm
 ,mv.nazev
-,mrs.rozmers,mrs.sirkys,mrs.delkymms,mrs.navins
-,mro.rozmero,mro.sirkyo,mro.delkymmo,mro.navino
+,replace(mrs.rozmers,',',chr(10) ) as rozmers
+,mrs.sirkys,mrs.delkymms,mrs.navins
+
+,replace(mro.rozmero,',', chr(10) ) as rozmero
+,mro.sirkyo,mro.delkymmo,mro.navino
+
+,replace(mrpp.rozmerpp,',', chr(10) ) as rozmerpp
+,mrpp.sirkypp,mrpp.delkymmpp,mrpp.navinpp
+
 ,mv.nazev as vyrobce
 ,md.nazev as dodavatel
 ,mtech.technologie,mtech.technologie_text
@@ -1104,7 +1113,7 @@ left join
 (
 	
 select idefix_mat,b.zkratka
-	           ,array_to_string(array_agg(distinct (sirka_mm/1000)::numeric(10,2)::text||'x'||(vyska_mm/1000)::numeric(10,2)::int::text),',') as rozmers 
+	         ,array_to_string(array_agg(distinct (sirka_mm/1000)::numeric(10,2)::text||'x'||(vyska_mm/1000)::numeric(10,2)::int::text),',') as rozmers 
 			   , array_to_string(array_agg(distinct sirka_mm::int),',') as sirkys
 			   , array_to_string(array_agg(distinct vyska_mm::int),',') as delkymms
 			   , array_to_string(array_agg(distinct vyska_mm/1000::int),',') as navins
@@ -1113,6 +1122,20 @@ from list_mat_rozmer a join list2_matdostupnost b on a.idefix_dostupnost = b.ide
 group by b.zkratka, idefix_mat
 	
 ) mrs on a.idefix =mrs.idefix_mat
+
+left join 
+(
+	
+select idefix_mat,b.zkratka
+	         ,array_to_string(array_agg(distinct (sirka_mm/1000)::numeric(10,2)::text||'x'||(vyska_mm/1000)::numeric(10,2)::int::text),',') as rozmerpp 
+			   , array_to_string(array_agg(distinct sirka_mm::int),',') as sirkypp
+			   , array_to_string(array_agg(distinct vyska_mm::int),',') as delkymmpp
+			   , array_to_string(array_agg(distinct vyska_mm/1000::int),',') as navinpp
+	
+from list_mat_rozmer a join list2_matdostupnost b on a.idefix_dostupnost = b.idefix where b.zkratka='PP' and idefix_mat >0
+group by b.zkratka, idefix_mat
+	
+) mrpp on a.idefix =mrpp.idefix_mat
 
 left join 
 (
