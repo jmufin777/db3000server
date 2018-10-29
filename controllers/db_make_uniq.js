@@ -25,6 +25,7 @@ const aUniqIndexes = [
              ,`create unique index list_mat_barva_mat_barva on list_mat_barva  (idefix_mat,idefix_barva)`
              ,`create unique index list_mat_barva_mat_potisknutelnost on list_mat_potisknutelnost  (idefix_mat,idefix_potisknutelnost)`
              ,`create unique index list_mat_stroj_mat_stroj on list_mat_stroj  (idefix_mat,idefix_stroj)`
+             ,`create unique index list_mat_rozmer_mat_sir_vyska on list_mat_rozmer(idefix_mat,sirka_mm,vyska_mm)`
 
     ]
 
