@@ -302,10 +302,11 @@ async function init(){
          idefix_matsubskup int,   --kategorie - mozna ozno zrusit - nahrazeno nazvy ? 
          idefix_vyrobce int,   --presne oznbaceni
          
-         nazev1 varchar(30),
-         nazev2 varchar(30),
-         nazev3 varchar(30),           -- + zobrazeny naev = funkce
+         nazev1 varchar(80),
+         nazev2 varchar(80),
+         nazev3 varchar(80),
          popis text,
+         txt text,
          idefix_dodavatel int,
          dodavatel_priorita int default 0,
          nakup_result numeric(10,3),
