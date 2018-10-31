@@ -81,6 +81,11 @@ module.exports = {
           ,cena_prodej_m2='${req.body.form.data.cena_prodej_m2}'
           ,cena_prodej_arch='${req.body.form.data.cena_prodej_arch}'
           
+          ,cena_nakup_bm='${req.body.form.data.cena_nakup_bm}'
+          ,cena_naklad_bm='${req.body.form.data.cena_naklad_bm}'
+          ,cena_prodej_bm='${req.body.form.data.cena_prodej_bm}'
+
+          
           ,user_update_idefix = login2idefix('${req.body.user}')`;
           dotaz += ` where idefix = ${req.body.idefix}`
           dotaz = dotaz.replace(/undefined/g,'0')
@@ -1091,6 +1096,9 @@ a.idefix
 ,replace(mrpp.rozmerpp,',', chr(10) ) as rozmerpp
 ,mrpp.sirkypp,mrpp.delkymmpp,mrpp.navinpp
 
+,replace(mrx.rozmerx,',', chr(10) ) as rozmerx
+,mrx.sirkyx,mrx.delkymmx,mrx.navinx
+
 ,mv.nazev as vyrobce
 ,md.nazev as dodavatel
 ,mtech.technologie,mtech.technologie_text
@@ -1136,6 +1144,20 @@ from list_mat_rozmer a join list2_matdostupnost b on a.idefix_dostupnost = b.ide
 group by b.zkratka, idefix_mat
 	
 ) mrpp on a.idefix =mrpp.idefix_mat
+
+left join 
+(
+	
+select idefix_mat,b.zkratka
+	         ,array_to_string(array_agg(distinct (sirka_mm/1000)::numeric(10,2)::text||'x'||(vyska_mm/1000)::numeric(10,2)::int::text),',') as rozmerx 
+			   , array_to_string(array_agg(distinct sirka_mm::int),',') as sirkyx
+			   , array_to_string(array_agg(distinct vyska_mm::int),',') as delkymmx
+			   , array_to_string(array_agg(distinct vyska_mm/1000::int),',') as navinx
+	
+from list_mat_rozmer a join list2_matdostupnost b on a.idefix_dostupnost = b.idefix where b.zkratka='X' and idefix_mat >0
+group by b.zkratka, idefix_mat
+	
+) mrx on a.idefix =mrx.idefix_mat
 
 left join 
 (

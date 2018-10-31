@@ -315,6 +315,7 @@ async function init(){
          vaha_gm2 numeric(10,2),
          
          cena_nakup_m2 numeric(10,2),
+         
          koef_naklad numeric(10,2),   --//spolecna polozka
          koef_prodej numeric(10,2),   
 
@@ -323,10 +324,15 @@ async function init(){
          cena_naklad_arch numeric(10,2),    -- vypočteno nákupní cena x nákladový koeficient  - tedy postupne , podle zadanych hodnot
 
          cena_naklad_m2 numeric(10,2),    -- vypočteno nákupní cena x nákladový koeficient  - tedy postupne , podle zadanych hodnot
-         
-         
+                           
          cena_prodej_m2 numeric(10,2)   , -- výpočet nákladová cena x prodejní koeficient     
-         cena_prodej_arch numeric(10,2)  -- výpočet nákladová cena x prodejní koeficient     
+         
+         
+         cena_prodej_arch numeric(10,2),  -- výpočet nákladová cena x prodejní koeficient     
+         cena_nakup_bm numeric(10,2),
+         cena_prodej_bm numeric(10,2) ,
+         cena_naklad_bm numeric(10,2)  ,
+         txt text
          
 
 
