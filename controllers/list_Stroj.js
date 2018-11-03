@@ -9,9 +9,34 @@ var lErr= false
 
 const tabname = 'list_stroj'
 module.exports = {
+    async saveone (req,res) {
+  },
+
+  async one (req,res) {
+    var  myres = {
+     xdata: [],
+  
+     strojskup: [],
+     stroj: [],
+     info: []
+   }
+  },
+
 
     async all (req, res) {
       var dotaz=''
+      var where =' where true '
+      var order =' order by idefix_stroj, podskupina '
+      var tmp =''
+    
+    
+      
+       dotaz=`select a.*,b.nazev as nazev_skup from ${tabname}  a`
+       dotaz = `${dotaz} join list2_strojskup b on a.idefix_strojskup = b.idefix ` 
+       dotaz = `${dotaz} order by nazev_text `
+
+      
+      console.log(dotaz, 'id:',req.query.id, 'lim:',req.query.limit ,'off:',req.query.offset , 'lim: ',  where )
       if (req.query.id=='nic'){
         dotaz=`select * from ${tabname} where 1=1 order by kod `
         
@@ -215,7 +240,25 @@ module.exports = {
 
   },
   async delete (req, res, next ) {
-    console.log('Delete barevnost')
+    const client = await pool.connect()
+    req.body.params.id
+    console.log('Delete')
+     await client.query(`select fce_list_stroj_del(${req.body.params.id})` ,(err00, response00) => {
+       if (err00){
+         console.log('Err','00' )
+         res.status(412).send({
+          error: `${tabname} - Chyba pri vymazu`
+  
+        })
+         return
+       }
+       res.json({info: 'Ok' })
+       console.log('OK','00' )
+     })
+     await client.release()
+
+
+    console.log('Delete barevnost', req.body.params.id)
   }
 
 

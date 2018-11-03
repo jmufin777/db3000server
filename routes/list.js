@@ -153,8 +153,12 @@ router.post('/list-stroj',
     listStroj.insert) 
 router.put('/list_stroj',
     listStroj.update)     
-router.delete('/list-stroj',
-    listStroj.delete)        
+router.post('/list-stroj-delete',
+    listStroj.delete)      
+router.get('/list-stroj-one',
+    listStroj.one)         
+router.get('/list-stroj-save=one',
+    listStroj.saveone)             
 
 router.get('/list-mat',
     listMat.all)

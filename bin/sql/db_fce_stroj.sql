@@ -1,4 +1,4 @@
-create or replace FUNCTION fce_list_mat_copy(_idefix bigint, _user varchar(50) default 'mares') returns bigint as $$
+create or replace FUNCTION fce_stroj_mat_copy(_idefix bigint, _user varchar(50) default 'mares') returns bigint as $$
    declare  idefix_new bigint := 0 ;
  
 begin 
@@ -43,15 +43,14 @@ begin
 end;
 $$LANGUAGE plpgsql;
 
-create or replace function fce_list_mat_del(_idefix bigint) returns text as $$
+create or replace function fce_list_stroj_del(_idefix bigint) returns text as $$
     declare cret text := '';
     BEGIN
-    delete from list_mat_strojskup where idefix_mat = _idefix;
-    delete from list_mat_barva where idefix_mat = _idefix;
-    delete from list_mat_rozmer where idefix_mat = _idefix;
-    delete from list_mat_vlastnosti where idefix_mat = _idefix;
-    delete from list_mat where idefix = _idefix;
-    return 'ahoj matrosi';
+    delete from list_stroj where idefix = _idefix;
+    --delete from list_strojmod where idefix_stroj = _idefix;
+    --delete from list_strojmodbarevnost where idefix_mat = _idefix;
+    
+    return 'ahoj stroji';
     END;
 
 $$LANGUAGE plpgsql;
@@ -131,54 +130,6 @@ delete from list_mat_strojskup a where not exists (
 return nret; 
  END;
 $$LANGUAGE plpgsql;  
-
-
-create or replace function idefix_mat(text) returns bigint as $$
-declare nret bigint := 0 ;
-begin
-select idefix into nret from list_mat where  upper(replace(replace(replace(nazev1||nazev2||nazev3,' ',''),'-',''),',','')) =	upper(replace(replace(replace(	$1,' ',''),'-',''),',','')) order by idefix limit 1;
-return nret;
-end;
-$$LANGUAGE plpgsql IMMUTABLE;
-
-create or replace function idefix_mat(text) returns bigint as $$
-declare nret bigint := 0 ;
-begin
-select idefix into nret from list_mat where
-upper(replace(replace(replace(nazev1||nazev2||nazev3,' ',''),'-',''),',','')) =	upper(replace(replace(replace(	$1,' ',''),'-',''),',',''))
-or
-upper(replace(replace(replace(txt,' ',''),'-',''),',','')) =	upper(replace(replace(replace(	$1,' ',''),'-',''),',',''))
-order by idefix limit 1;
-return nret;
-end;
-$$LANGUAGE plpgsql IMMUTABLE;
-
-create or replace function idefix_vyrobce(text) returns bigint as $$
-declare nret bigint := 0 ;
-begin
-select idefix into nret from list2_matvyrobce where
-upper(replace(replace(replace(nazev,' ',''),'-',''),',','')) =	upper(replace(replace(replace(	$1,' ',''),'-',''),',',''))
-or
-upper(replace(replace(replace(vyrobce,' ',''),'-',''),',','')) =	upper(replace(replace(replace(	$1,' ',''),'-',''),',',''))
-order by idefix limit 1;
-return nret;
-end;
-$$LANGUAGE plpgsql IMMUTABLE;
-
-create or replace function idefix_dostupnost(text) returns bigint as $$
-declare nret bigint := 0 ;
-begin
-select idefix into nret from list2_matdostupnost where
-upper(replace(replace(replace(zkratka,' ',''),'-',''),',','')) =	upper(replace(replace(replace(	$1,' ',''),'-',''),',',''))
-
-order by idefix limit 1;
-return nret;
-end;
-$$LANGUAGE plpgsql IMMUTABLE;
-
-
-
-
-
  --select * from fce_list_mat_copy(655)													   
  --select * from list_mat_vlastnosti where idefix_mat = 1274
+ 

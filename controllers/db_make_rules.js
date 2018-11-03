@@ -84,6 +84,33 @@ async function init(){
 
         ]
     },
+    { name: 'list_prace'
+    ,struct: `
+    kod int,
+    prace                  character varying(100)      , 
+    
+    idefix_stroj           bigint       , 
+    jednotka               character varying(50)       , 
+    jednotka_num           numeric(10,5)               , 
+    cena_priprava_naklad   numeric(10,2)               , 
+    cena_priprava_prodej   numeric(10,2)               , 
+    cena_jednotka_naklad   numeric(10,2)               , 
+    cena_jednotka_prodej   numeric(10,2)               ,
+    jednotka_vykonu        varchar(20),
+    vykon_za_cas           float
+    `
+    ,reindex: 1,
+         initq: [
+            `insert into list_prace (nazev ) VALUES ('NE');
+             update list_prace set kod = id ;
+             `,
+             
+
+        ]
+    },
+
+
+
     {   name: 'list_stroj'
     ,struct:  `
      kod int,
@@ -103,7 +130,15 @@ async function init(){
 
      bez_okraj int default 0,
      spadavka_mm int default 0,
-     space_znacky_mm int default 0 
+     space_znacky_mm int default 0 ,
+     
+     priprava_cas_minuta float default 0,
+     priprava_minuta_naklad float default 0,
+     priprava_minuta_prodej float default 0,
+     priprava_celkem_naklad float default 0,
+     priprava_celkem_prodej float default 0,
+
+
      `,
      
      index_name: [ 
@@ -116,6 +151,87 @@ async function init(){
          update list_stroj set kod = id ;`,
     ]
 } ,
+
+    {   name: 'list_strojmod'
+    ,struct:  `
+     kod int,
+     idefix_stroj int ,
+     nazev varchar(120),
+     nazev_text  varchar(120),
+     
+     rychlost_minuta_m2 float,
+     rychlost_minuta_pocet float
+
+     `,
+     
+     index_name: [ 
+            `kod  ~~~ (kod)`,
+            `nazev ~~~ (nazev)`
+      ],
+    reindex: 1,
+     initq: [
+        `insert into list_strojmod (nazev ) VALUES ('NE');
+         update list_strojmod set kod = id ;`,
+    ]
+} ,
+{   name: 'list_strojinkoust'
+    ,struct:  `
+     kod int,
+     idefix_stroj bigint ,
+     idefix_barevnost bigint ,
+     nazev varchar(120),
+     nazev_text  varchar(120),
+     
+     cena_naklad_m2 float,
+     cena_prodej_m2 float
+
+     `,
+     
+     index_name: [ 
+            `kod  ~~~ (kod)`,
+            `nazev ~~~ (nazev)`
+      ],
+    reindex: 1,
+     initq: [
+        `insert into list_strojinkoust (nazev ) VALUES ('NE');
+         update list_strojinkoust set kod = id ;`,
+    ]
+} ,
+//Vazby:
+
+{
+    name: 'list_strojinkoustbarevnost'
+    ,struct: `
+
+        idefix_stroj bigint,
+        kod int,
+        idefix_inkoust bigint,
+        idefix_barevnost bigint
+    `
+},
+{
+    name: 'list_strojmodbarevnost'
+    ,struct: `
+        idefix_stroj bigint,
+        idefix_strojmod bigint,
+        idefix_barevnost bigint
+    `
+},
+{
+    name: 'list_strojceny'
+    ,struct: `
+        idefix_stroj bigint,
+        idefix_strojmod bigint,
+        idefix_inkoust bigint,
+        kod int ,
+        pocet_start int ,
+        pocet_stop int ,
+        cena_naklad  float,
+        cena_prodej  float,
+        jednotka varchar(10)   
+
+    `
+},
 // Nasleduje detail - list mod stroj - neomezeny pocet
     
     {   name: 'list2_strojskup'
@@ -332,7 +448,7 @@ async function init(){
          cena_nakup_bm numeric(10,2),
          cena_prodej_bm numeric(10,2) ,
          cena_naklad_bm numeric(10,2)  ,
-         txt text
+         txt text,
          
 
 
