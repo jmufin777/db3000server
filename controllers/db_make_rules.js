@@ -237,7 +237,8 @@ async function init(){
     {   name: 'list2_strojskup'
         ,struct:  `
          kod int,
-         nazev varchar(20)`,
+         nazev varchar(20),
+         typ_kalkulace varchar(20)`,
          index_name: [ 
                 `kod  ~~~ (kod)`,
                 `nazev ~~~ (nazev)`

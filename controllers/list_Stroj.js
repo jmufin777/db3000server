@@ -5,6 +5,18 @@ const {pool, client } = require('../db')
 const _ = require('lodash')
 
 var lErr= false
+const resObj = {
+  stroj: [],
+  enum_nazev_text: [],
+  enum_strojskup: [],
+
+}
+
+var req_query_id = -10
+var req_query_string_query = ''
+var req_query_id_query = 0
+
+
 
 
 const tabname = 'list_stroj'
@@ -20,46 +32,260 @@ module.exports = {
      stroj: [],
      info: []
    }
+      req_query_id = req.query.id
+      req_query_id_query = req.query.id_query
+      req_query_string_query = req.query.string_query
+
+      var dotaz =`select * from ${tabname} where idefix = ${req_query_id}`
+
+      var enum_strojskup  = `select * from list2_strojskup order by kod`                                                         // --  10   enum_strojskup    
+      var enum_nazev_text = `select distinct nazev_text as value from list_stroj order by nazev_text`                            // -- 101   enum_nazev_text
+      var enum_nazev      = `select distinct nazev  as value from list_stroj order by nazev`                                     // -- 102   enum_nazev
+
+     dotaz_list_strojmod               =  `select * from  dotaz_list_strojmod              where idefix_mat = ${req_query_id}`     // -- 200   dotaz_list_strojmod              
+     dotaz_list_strojmodbarevnost      =  `select * from  dotaz_list_strojmodbarevnost     where idefix_mat = ${req_query_id}`     // -- 201   dotaz_list_strojmodbarevnost     
+     dotaz_list_strojinkoust           =  `select * from  dotaz_list_strojinkoust          where idefix_mat = ${req_query_id}`     // -- 202   dotaz_list_strojinkoust          
+     dotaz_list_strojinkoustbarevnost  =  `select * from  dotaz_list_strojinkoustbarevnost where idefix_mat = ${req_query_id}`     // -- 203   dotaz_list_strojinkoustbarevnost 
+     dotaz_list_strojceny              =  `select * from  dotaz_list_strojceny             where idefix_mat = ${req_query_id}`     // -- 204   dotaz_list_strojceny             
+
+      console.log(dotaz)
+
+   
+   try {
+    const client = await pool.connect()
+
+    if (req_query_string_query=='edit'){
+      req_query_string_query =''   //nema smysl nic jakoby s tim je to default
+    }
+    if (req.query.string_query=='copy'){
+      console.log("req_query_id: ", req_query_id )
+
+      await client.query(`select fce_list_stroj_copy as new_idefix from fce_list_stroj_copy(${req_query_id})`,(err88,response88) => {
+        if (err88){
+          console.log("Err",88);
+        }
+        
+        console.log(88, response88.rows)
+        req_query_id = response88.rows[0].new_idefix
+        resObj.newId = req_query_id
+        console.log(88, 'New Id = :', req_query_id)
+      //  res.json({newId: req_query_id})
+        
+      })  
+        
+      req_query_string_query =''   //napred ma smlysl, pusti se procedura na sql a ta nasype zpet nove idefix materialu a pak je mozne zase to jakoby smaznout
+    }
+    //return
+    
+    await client.query(dotaz,(err,response) => {
+      if (err) {
+        myres.info = -1
+        return
+      }
+      resObj.stroj = response.rows
+      console.log(resObj.stroj )
+
+    })
+    if (req_query_id_query==-1 || req_query_id_query==101) {
+      await  client.query(`${enum_nazev_text}`,(err101,response101) => {
+      if (err101) {
+        myres.info = -1
+        return
+      }
+        resObj.enum_nazev_text=response101.rows
+      })
+      if (req_query_id_query == 101) {
+        
+        res.json(resObj)
+        console.log(resObj)
+        await client.release()     
+        return
+      }
+      }
+
+      if (req_query_id_query==-1 || req_query_id_query==10) {
+        await  client.query(enum_strojskup,(err10,response10) => {
+          if (err10) {
+            myres.info = -1
+            console.log(10, "err")
+            return
+          }
+          resObj.enum_strojskup = response10.rows
+          })    
+          if (req_query_id_query == 10) {
+            console.log(resObj)
+            res.json(resObj)
+            await client.release()
+            return
+          }  
+        }
+        if (req_query_id_query==-1 || req_query_id_query==102) {
+          await  client.query(enum_nazev,(err102,response102) => {
+            if (err102) {
+              myres.info = -1
+              console.log(102, "err")
+              return
+            }
+            resObj.enum_nazev = response102.rows
+            })    
+            if (req_query_id_query == 102) {
+              console.log(resObj)
+              res.json(resObj)
+              await client.release()
+              return
+            }  
+          }
+
+          if (req_query_id_query==-1 || req_query_id_query==200) {
+            await  client.query(dotaz_list_strojmod,(err200,response200) => {
+              if (err200) {
+                myres.info = -1
+                console.log(200, "err")
+                return
+              }
+              resObj.strojmod = response200.rows
+              })    
+              if (req_query_id_query == 200) {
+                console.log(resObj)
+                res.json(resObj)
+                await client.release()
+                return
+              }  
+            }
+
+            if (req_query_id_query==-1 || req_query_id_query==201) {
+              await  client.query(dotaz_list_strojmodbarevnost,(err201,response201) => {
+                if (err201) {
+                  myres.info = -1
+                  console.log(201, "err")
+                  return
+                }
+                resObj.strojmodbarevnost = response201.rows
+                })    
+                if (req_query_id_query == 201) {
+                  console.log(resObj)
+                  res.json(resObj)
+                  await client.release()
+                  return
+                }  
+              }
+
+              if (req_query_id_query==-1 || req_query_id_query==202) {
+                await  client.query(dotaz_list_strojinkoust,(err202,response202) => {
+                  if (err202) {
+                    myres.info = -1
+                    console.log(202, "err")
+                    return
+                  }
+                  resObj.strojinkoust = response202.rows
+                  })    
+                  if (req_query_id_query == 202) {
+                    console.log(resObj)
+                    res.json(resObj)
+                    await client.release()
+                    return
+                  }  
+                }
+               
+                if (req_query_id_query==-1 || req_query_id_query==203) {
+                  await  client.query(dotaz_list_strojinkoustbarevnost,(err203,response203) => {
+                    if (err203) {
+                      myres.info = -1
+                      console.log(203, "err")
+                      return
+                    }
+                    resObj.strojinkoustbarevnost = response203.rows
+                    })    
+                    if (req_query_id_query == 203) {
+                      console.log(resObj)
+                      res.json(resObj)
+                      await client.release()
+                      return
+                    }  
+                  }
+  
+                  if (req_query_id_query==-1 || req_query_id_query==204) {
+                    await  client.query(dotaz_list_strojceny,(err204,response204) => {
+                      if (err204) {
+                        myres.info = -1
+                        console.log(204, "err")
+                        return
+                      }
+                      resObj.strojceny = response204.rows
+                      })    
+                      if (req_query_id_query == 204) {
+                        console.log(resObj)
+                        res.json(resObj)
+                        await client.release()
+                        return
+                      }  
+                  }
+    
+
+// --  10   enum_strojskup    
+// -- 101   enum_nazev_text
+// -- 102   enum_nazev
+// -- 200   dotaz_list_strojmod              
+// -- 201   dotaz_list_strojmodbarevnost     
+// -- 202   dotaz_list_strojinkoust          
+// -- 203   dotaz_list_strojinkoustbarevnost 
+// -- 204   dotaz_list_strojceny             
+
+                await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejk, vubectro nechapu ale funguje to
+                  console.log(200, "Vracim  Vysledek")
+                  // dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup,
+                  console.log(dotaz, " Par ",req_query_id_query, "String ", req.query.string_query)
+                  
+
+                  res.json(resObj)
+                })  
+                await client.release() 
+
+   } catch(e) {
+
+    console.log(e)
+      res.status(822).send({
+        error: 'Mat ' + e
+      });
+
+   }
+
   },
 
 
     async all (req, res) {
       var dotaz=''
-      var where =' where true '
+      var where ='  true '
       var order =' order by idefix_stroj, podskupina '
       var tmp =''
+      console.log(where, ' : ', req.query)
     
     
       
-       dotaz=`select a.*,b.nazev as nazev_skup from ${tabname}  a`
-       dotaz = `${dotaz} join list2_strojskup b on a.idefix_strojskup = b.idefix ` 
-       dotaz = `${dotaz} order by nazev_text `
-
+       
       
       console.log(dotaz, 'id:',req.query.id, 'lim:',req.query.limit ,'off:',req.query.offset , 'lim: ',  where )
       if (req.query.id=='nic'){
         dotaz=`select * from ${tabname} where 1=1 order by kod `
         
-      }
-      if (req.query.id=='max'){
+      } else if (req.query.id=='max'){
         dotaz = `select kod as kod from ${tabname} where 1=1 order by kod desc limit 1`
         
+      } else {
+         where = `${where} and ${ req.query.id }` 
+         dotaz=`select a.*,b.nazev as nazev_skup, b.typ_kalkulace from ${tabname}  a`
+         dotaz = `${dotaz} join list2_strojskup b on a.idefix_strojskup = b.idefix ` 
+         dotaz = `${dotaz} where ${where} order by nazev_text `
+
+
       }
       console.log(req.query.id, dotaz )
     try {
       
-    //  const {login, password} = req.body
-//      console.log(login)  
 
-        
-        console.log('BBBB')
 
         const client = await pool.connect()
-        
-        // const myres = {
-        //   data : {},
-        //   info: 0
-        // }
+
 
          await client.query(dotaz ,(err, response) => {
           //console.log(response)
@@ -72,11 +298,7 @@ module.exports = {
               kod: 100,
               nazev:'Nova'
             }) 
-          
 
-          
-
-            // res.status(403).send({error: `Data ${tabname} nejsou k dispozici`})
            } else {
               res.json(response.rows); 
            }

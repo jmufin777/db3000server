@@ -80,7 +80,7 @@ module.exports = {
     // })
     // return
     try{
-      const {kod, nazev } = req.body.form
+      const {kod, nazev,typ_kalkulace } = req.body.form
       const  user  = req.body.user
       const client = await pool.connect()
       
@@ -121,11 +121,11 @@ module.exports = {
         }
         
         if (element[0].id < 0 ){
-          dotaz = `insert into  ${tabname} (kod,nazev, user_insert_idefix ) values `;
-          dotaz += `( ${element[0].kod},'${element[0].nazev}',  login2idefix('${user}')  )`
+          dotaz = `insert into  ${tabname} (kod,nazev,typ_kalkulace user_insert_idefix ) values `;
+          dotaz += `( ${element[0].kod},'${element[0].nazev}','${element[0].typ_kalkulace}',  login2idefix('${user}')  )`
         }
         if (element[0].id > 0 ){
-          dotaz = `update  ${tabname} set kod =${element[0].kod},nazev='${element[0].nazev}', user_update_idefix = login2idefix('${user}')`;
+          dotaz = `update  ${tabname} set kod =${element[0].kod},nazev='${element[0].nazev}',typ_kalkulace='${element[0].typ_kalkulace}', user_update_idefix = login2idefix('${user}')`;
           dotaz += ` where id = ${element[0].id}`
         }
           console.log(dotaz)

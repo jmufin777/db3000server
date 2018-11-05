@@ -1,43 +1,41 @@
-create or replace FUNCTION fce_stroj_mat_copy(_idefix bigint, _user varchar(50) default 'mares') returns bigint as $$
+create or replace FUNCTION fce_list_stroj_copy(_idefix bigint, _user varchar(50) default 'mares') returns bigint as $$
    declare  idefix_new bigint := 0 ;
  
 begin 
-	drop table if exists tmp_mat_insert ;
-
-    drop table if exists tmp_list_mat_vlastnosti ;
-    drop table if exists tmp_list_mat_barva ;
-	drop table if exists tmp_list_mat_rozmer;
-    drop table if exists tmp_list_mat_strojskup;
-    drop table if exists tmp_list_mat_stroj;
-																		   
-	create table tmp_mat_insert without oids as select * from list_mat where idefix = _idefix limit 1;
-    create table tmp_list_mat_vlastnosti without oids as select * from list_mat_vlastnosti where idefix_mat = _idefix;
-    create table tmp_list_mat_barva without oids as select * from     list_mat_barva where idefix_mat = _idefix;
-    create table tmp_list_mat_rozmer without oids as select * from     list_mat_rozmer where idefix_mat = _idefix;
-    create table tmp_list_mat_strojskup without oids as select * from     list_mat_strojskup where idefix_mat = _idefix;
-    create table tmp_list_mat_stroj     without oids as select * from     list_mat_stroj     where idefix_mat = _idefix;
+	drop table if exists tmp_stroj_insert ;
 	
-	update tmp_mat_insert set id = nextval('list_mat_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;
-    update tmp_mat_insert set kod = (select max(kod)+10 from list_mat);
-	select idefix into idefix_new from tmp_mat_insert order by id desc limit 1;
-    update tmp_list_mat_strojskup set idefix_mat = idefix_new,id = nextval('list_mat_strojskup_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;
-    update tmp_list_mat_stroj     set idefix_mat = idefix_new,id = nextval('list_mat_stroj_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;
-    update tmp_list_mat_barva set idefix_mat = idefix_new,id = nextval('list_mat_barva_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;	
-	update tmp_list_mat_rozmer set idefix_mat = idefix_new,id = nextval('list_mat_rozmer_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;	
-    update tmp_list_mat_vlastnosti set idefix_mat = idefix_new,id = nextval('list_mat_vlastnosti_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;		
- 
-    
-    																	   
-    insert into list_mat select * from tmp_mat_insert ;
-    
-    insert into list_mat_vlastnosti select * from tmp_list_mat_vlastnosti;
-    insert into list_mat_barva select * from tmp_list_mat_barva;
-    insert into list_mat_rozmer select * from tmp_list_mat_rozmer;
-    insert into list_mat_strojskup select * from tmp_list_mat_strojskup;
-    insert into list_mat_stroj     select * from tmp_list_mat_stroj;
+    drop table if exists tmp_list_strojmod              ;
+    drop table if exists tmp_list_strojmodbarevnost     ;
+    drop table if exists tmp_list_strojinkoust          ;
+    drop table if exists tmp_list_strojinkoustbarevnost ;
+    drop table if exists tmp_list_strojceny             ;
     
 																		   
+	create table tmp_stroj_insert                without oids as  select * from   list_stroj                  where idefix = _idefix limit 1;
+    
+    create table tmp_list_strojmod               without oids as  select * from   list_strojmod               where idefix_stroj = _idefix;
+    create table tmp_list_strojmodbarevnost      without oids as  select * from   list_strojmodbarevnost      where idefix_stroj = _idefix;
+    create table tmp_list_strojinkoust           without oids as  select * from   list_strojinkoust           where idefix_stroj = _idefix;
+    create table tmp_list_strojinkoustbarevnost  without oids as  select * from   list_strojinkoustbarevnost  where idefix_stroj = _idefix;
+    create table tmp_list_strojceny              without oids as  select * from   list_strojceny              where idefix_stroj = _idefix;
+	
+	update tmp_stroj_insert set id = nextval('list_stroj_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;
+    update tmp_stroj_insert set kod = (select max(kod)+1 from list_stroj);
+	select idefix into idefix_new from tmp_stroj_insert order by id desc limit 1;
 
+    update tmp_list_strojmod                  set idefix_stroj = idefix_new,id = nextval('list_strojmod_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;
+    update tmp_list_strojmodbarevnost         set idefix_stroj = idefix_new,id = nextval('list_strojmodbarevnost_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;
+    update tmp_list_strojinkoust              set idefix_stroj = idefix_new,id = nextval('list_strojinkoust_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;
+    update tmp_list_strojinkoustbarevnost     set idefix_stroj = idefix_new,id = nextval('list_strojinkoustbarevnost_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;	
+	update tmp_list_strojceny                 set idefix_stroj = idefix_new,id = nextval('list_strojceny_id_seq'::regclass), idefix=nextval('list2_seq'::regclass) ,time_insert = now(), time_update= now(),user_insert_idefix = login2idefix(_user) ;	
+    																	   
+    insert into list_stroj select * from tmp_stroj_insert ;
+            
+    insert into  list_strojmod               select * from tmp_list_strojmod              ;
+    insert into  list_strojmodbarevnost      select * from tmp_list_strojmodbarevnost     ;
+    insert into  list_strojinkoust           select * from tmp_list_strojinkoust          ;
+    insert into  list_strojinkoustbarevnost  select * from tmp_list_strojinkoustbarevnost ;
+    insert into  list_strojceny              select * from tmp_list_strojceny             ;
 
     return idefix_new;
 end;
@@ -46,9 +44,12 @@ $$LANGUAGE plpgsql;
 create or replace function fce_list_stroj_del(_idefix bigint) returns text as $$
     declare cret text := '';
     BEGIN
-    delete from list_stroj where idefix = _idefix;
-    --delete from list_strojmod where idefix_stroj = _idefix;
-    --delete from list_strojmodbarevnost where idefix_mat = _idefix;
+        delete from list_stroj                 where idefix = _idefix;
+        delete from list_strojmod              where idefix_stroj = _idefix;
+        delete from list_strojmodbarevnost     where idefix_stroj = _idefix;
+        delete from list_strojinkoust          where idefix_stroj = _idefix;
+        delete from list_strojinkoustbarevnost where idefix_stroj = _idefix;
+        delete from list_strojceny             where idefix_stroj = _idefix;
     
     return 'ahoj stroji';
     END;
