@@ -122,6 +122,9 @@ async function init(){
      sirka_tisk_max_mm int default 0,
      delka_tisk_max_mm int default 0,
 
+     sirka_lam_max_mm int default 0,
+     delka_lam_max_mm int default 0,
+
      tech_okraj_strana_mm int default 0,
      tech_okraj_start_mm int default 0,
      tech_okraj_spacecopy_mm int default 0,
