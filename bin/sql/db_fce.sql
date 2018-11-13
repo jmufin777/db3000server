@@ -151,3 +151,29 @@ $$ LANGUAGE SQL;
 CREATE FUNCTION minn(VARIADIC arr timestamp[]) RETURNS timestamp AS $$
     SELECT minn($1[i]) FROM generate_subscripts($1, 1) g(i);
 $$ LANGUAGE SQL;
+
+CREATE or replace FUNCTION concat2(cSpace varchar(20) default ' ',VARIADIC cPars text[] default ARRAY[' ']) RETURNS text AS $$
+    declare cRet text := '' ;
+            i  int := 0 ;
+            i1 int := 0 ;
+    begin
+      i := array_upper(cPars, 1) ;
+        for i1 in 1..i  loop
+         if cRet > ' ' then 
+            cRet := cRet || cSpace  ;
+         end if ;
+            if coalesce(cPars[i1],'' ) > ' ' then 
+                cRet:= cRet || coalesce(cPars[i1],'' );
+            end if;
+            raise notice ' % , % , % ', i1 , cPars[i1], cRet ;
+        end loop;
+        cRet := trim(cRet) ;
+        cRet := REGEXP_REPLACE(cRet,'( ){2,}',' ');
+    --//    SELECT array_to_string($1,'');
+      return cRet;
+    end;
+$$LANGUAGE 'plpgsql';
+
+SELECT concat('My ', 'dog ', 'likes ', 'chocolate') As result;
+
+result

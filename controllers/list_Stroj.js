@@ -39,13 +39,16 @@ module.exports = {
      stroj: [],
      info: [],
 
-     enum_barevnost:[],
-     enum_barevnosttxt:[],
-     enum_nazev:[],
-     enum_nazev_text:[],
-     enum_strojmod:[],
-     enum_strojmod_text:[],
-     enum_strojinkoust:[],
+     enum_barevnost: [],
+     enum_barevnosttxt: [],
+     enum_nazev: [],
+     enum_nazev_text: [],
+     enum_strojmod: [],
+     enum_strojmod_text: [],
+     enum_strojinkoust: [],
+     enum_prace: [],
+     enum_jednotka: [],
+     enum_inkoust: [],
 
    }
       req_query_id = req.query.id
@@ -55,20 +58,32 @@ module.exports = {
       var dotaz =`select a.*, b.typ_kalkulace from ${tabname} a join list2_strojskup b on a.idefix_strojskup = b.idefix where a.idefix = ${req_query_id}`
 
       var enum_strojskup        = `select * from list2_strojskup order by kod`                                                              // --  10   enum_strojskup    
+      // var enum_strojskup        = `select nazev as label,idefix as value from list2_strojskup order by kod`                                                              // --  10   enum_strojskup    
       var enum_barevnost        = `select * from list2_barevnost order by kod`                                                              // --  11   enum_barevnost
       var enum_barevnosttxt        = `select nazev from list2_barevnost order by kod`                                                              // --  12   enum_barevnost
-      
-      var enum_nazev_text       = `select distinct nazev_text  as value from list_stroj order by nazev_text`                                // -- 101   enum_nazev_text
-      var enum_nazev            = `select distinct nazev       as value from list_stroj order by nazev`                                     // -- 102   enum_nazev
-      var enum_strojmod         = `select distinct nazev       as value from list_strojmod order by nazev`                                  // -- 103   enum_strojmod
-      var enum_strojmod_text    = `select distinct nazev_text  as value from list_strojmod order by nazev_text`                                  // -- 104   enum_strojmod_text
-      var enum_strojinkoust     = `select distinct nazev       as value from list_strojinkoust order by nazev`                                  // -- 105   enum_strojinkoust
 
-     dotaz_list_strojmod               =  `select * from  list_strojmod              where idefix_stroj = ${req_query_id}`     // -- 200   dotaz_list_strojmod              
-     dotaz_list_strojmodbarevnost      =  `select * from  list_strojmodbarevnost     where idefix_stroj = ${req_query_id}`     // -- 201   dotaz_list_strojmodbarevnost     
-     dotaz_list_strojinkoust           =  `select * from  list_strojinkoust          where idefix_stroj = ${req_query_id}`     // -- 202   dotaz_list_strojinkoust          
-     dotaz_list_strojinkoustbarevnost  =  `select * from  list_strojinkoustbarevnost where idefix_stroj = ${req_query_id}`     // -- 203   dotaz_list_strojinkoustbarevnost 
-     dotaz_list_strojceny              =  `select * from  list_strojceny             where idefix_stroj = ${req_query_id}`     // -- 204   dotaz_list_strojceny             
+      
+      var enum_nazev_text       = `select distinct nazev_text  as value from list_stroj order by nazev_text`                 //  -- 101   enum_nazev_text
+      var enum_nazev            = `select distinct nazev       as value from list_stroj order by nazev`                      //  -- 102   enum_nazev
+      var enum_strojmod         = `select distinct nazev       as value from list_strojmod order by nazev`                   //  -- 103   enum_strojmod
+      var enum_strojmod_text    = `select distinct nazev_text  as value from list_strojmod order by nazev_text`              //  -- 104   enum_strojmod_text
+      var enum_strojinkoust     = `select distinct nazev       as value from list_strojinkoust order by nazev`               //  -- 105   enum_strojinkoust
+
+
+      //var enum_prace        = `select idefix as value, nazev as label from list2_prace order by kod`                                                        // --  106   enum_prace    
+      var enum_prace        = `select * from list2_prace order by kod`                                                        // --  106   enum_prace    
+      var enum_jednotka      = `select * from list2_jednotka order by kod`                                                   //  --  107   enum_jednotka
+      var enum_inkoust      = `
+      select a.kod,a.idefix,concat2(' ',nazev1, nazev2, nazev3) as nazev  from list_mat a join list2_matskup b on a.idefix_matskup =b.idefix where b.zkratka = 'I' 
+        union 
+        select 0 as kod,0,'Ne'
+        order by kod , idefix `;
+
+     dotaz_list_strojmod               =  `select * from  list_strojmod              where idefix_stroj = ${req_query_id}`   //  -- 200   dotaz_list_strojmod              
+     dotaz_list_strojmodbarevnost      =  `select * from  list_strojmodbarevnost     where idefix_stroj = ${req_query_id}`   //  -- 201   dotaz_list_strojmodbarevnost     
+     dotaz_list_strojinkoust           =  `select * from  list_strojinkoust          where idefix_stroj = ${req_query_id}`   //  -- 202   dotaz_list_strojinkoust          
+     dotaz_list_strojinkoustbarevnost  =  `select * from  list_strojinkoustbarevnost where idefix_stroj = ${req_query_id}`   //  -- 203   dotaz_list_strojinkoustbarevnost 
+     dotaz_list_strojceny              =  `select * from  list_strojceny             where idefix_stroj = ${req_query_id}`   //  -- 204   dotaz_list_strojceny             
 
       console.log(dotaz)
 
@@ -233,7 +248,7 @@ module.exports = {
                 await  client.query(enum_strojinkoust,(err105,response105) => {
                   if (err105) {
                     myres.info = -1
-                    console.log(104, "err")
+                    console.log(105, "err")
                     return
                   }
                   resObj.enum_strojinkoust = response105.rows
@@ -245,6 +260,57 @@ module.exports = {
                     return
                  }  
             }    
+
+            if (req_query_id_query==-1 || req_query_id_query==106) {
+              await  client.query(enum_prace,(err106,response106) => {
+                if (err106) {
+                  myres.info = -1
+                  console.log(106, "err")
+                  return
+                }
+                resObj.enum_prace = response106.rows
+                })    
+                if (req_query_id_query == 106) {
+                  console.log(resObj)
+                  res.json(resObj)
+                  await client.release()
+                  return
+               }  
+          }    
+
+          if (req_query_id_query==-1 || req_query_id_query==107) {
+            await  client.query(enum_jednotka,(err107,response107) => {
+              if (err107) {
+                myres.info = -1
+                console.log(107, "err")
+                return
+              }
+              resObj.enum_jednotka = response107.rows
+              })    
+              if (req_query_id_query == 107) {
+                console.log(resObj)
+                res.json(resObj)
+                await client.release()
+                return
+             }  
+        }    
+
+       if (req_query_id_query==-1 || req_query_id_query==108) {
+          await  client.query(enum_inkoust,(err108,response108) => {
+            if (err108) {
+              myres.info = -1
+              console.log(108, "err ", err108 )
+              return
+            }
+            resObj.enum_inkoust = response108.rows
+            })    
+            if (req_query_id_query == 108) {
+              console.log(resObj)
+              res.json(resObj)
+              await client.release()
+              return
+           }  
+       }     
 
           if (req_query_id_query==-1 || req_query_id_query==200) {
             await  client.query(dotaz_list_strojmod,(err200,response200) => {
@@ -335,6 +401,7 @@ module.exports = {
 // --  10   enum_strojskup    
 // -- 101   enum_nazev_text
 // -- 102   enum_nazev
+// -- 103
 // -- 200   dotaz_list_strojmod              
 // -- 201   dotaz_list_strojmodbarevnost     
 // -- 202   dotaz_list_strojinkoust          

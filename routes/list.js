@@ -23,6 +23,9 @@ const listStroj = require('../controllers/list_Stroj')
 const listMat = require('../controllers/list_Mat')
 const listMatProjCena = require('../controllers/list_MatProjCena')
 
+const list2Prace = require('../controllers/list2_prace')
+const list2Jednotka = require('../controllers/list2_jednotka')
+
 //System 
 const DBsystem =    require('../controllers/DBsystem')
 
@@ -199,6 +202,24 @@ router.put('/list2-strojskup',
     list2StrojSkup.update)     
 router.delete('/list2-strojskup',
     list2StrojSkup.delete)    
+
+router.get('/list2-prace',
+    list2Prace.all)
+router.post('/list2-prace',
+    list2Prace.insert) 
+router.put('/list2-prace',
+    list2Prace.update)     
+router.delete('/list2-prace',
+    list2Prace.delete)        
+
+router.get('/list2-jednotka',
+    list2Jednotka.all)
+router.post('/list2-jednotka',
+    list2Jednotka.insert) 
+router.put('/list2-jednotka',
+    list2Jednotka.update)     
+router.delete('/list2-jednotka',
+    list2Jednotka.delete)       
 
 router.get('/db-system',
     DBsystem.all)

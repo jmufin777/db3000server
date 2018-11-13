@@ -85,6 +85,10 @@ module.exports = {
           ,cena_naklad_bm='${req.body.form.data.cena_naklad_bm}'
           ,cena_prodej_bm='${req.body.form.data.cena_prodej_bm}'
 
+           ,cena_nakup_baleni ='${req.body.form.data.cena_nakup_baleni}'
+          ,cena_naklad_baleni='${req.body.form.data.cena_naklad_baleni}'
+          ,cena_prodej_baleni='${req.body.form.data.cena_prodej_baleni}'
+
           
           ,user_update_idefix = login2idefix('${req.body.user}')`;
           dotaz += ` where idefix = ${req.body.idefix}`
@@ -379,7 +383,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
       req_query_id = req.query.id
       req_query_id_query = req.query.id_query
       req_query_string_query = req.query.string_query
-      console.log(" Par ",req_query_id_query, "String ", req.query.string_query)
+      console.log(" Par listmat one 382  ",req_query_id_query, "String ", req.query.string_query)
       //res.json({"a": 1})
       //return
     try {   
@@ -389,11 +393,11 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
         req_query_string_query =''   //nema smysl nic jakoby s tim je to default
       }
       if (req.query.string_query=='copy'){
-        console.log("req_query_id: ", req_query_id )
+        console.log("2 req_query_id: ", req_query_id )
 
         await client.query(`select fce_list_mat_copy as new_idefix from fce_list_mat_copy(${req_query_id})`,(err88,response88) => {
           if (err88){
-            console.log("Err",88);
+            console.log("3", "Err",88);
           }
           
           console.log(88, response88.rows)
@@ -411,7 +415,8 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
       //return
 
 
-      if (!req_query_id > 0 && req_query_id_query != 8 && req_query_id_query != 6) {
+      if (!req_query_id > 0 && req_query_id_query != 8 && req_query_id_query != 6 && req_query_id_query != 4) {
+        console.log("4 - 821 ")
         res.status(821).send({
           error: "Chybi Idefix materialu"
         })
@@ -750,7 +755,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                  resObj.enum_dodavatel = response13.rows
                  
                  
-                 console.log(13,"Dodavatel")
+                 console.log(8,"Dodavatel")
                  }) 
                  if (req_query_id_query == 8) {
         
@@ -1084,7 +1089,9 @@ a.idefix
 
 ,a.nazev1,a.nazev2,a.nazev3
 ,a.popis
-,a.cena_nakup_m2
+,a.cena_nakup_m2,a.cena_nakup_bm,a.cena_nakup_kg,a.cena_nakup_baleni
+,a.cena_naklad_m2,a.cena_naklad_bm,a.cena_naklad_baleni
+,a.cena_prodej_m2,a.cena_prodej_bm,a.cena_prodej_baleni
 ,a.sila_mm
 ,mv.nazev
 ,replace(mrs.rozmers,',',chr(10) ) as rozmers
@@ -1319,15 +1326,21 @@ dotaz = `select * from ( ${dotaz} ) a ${where} ${order}`
          ,nakup_result
          ,sila_mm
          ,vaha_gm2
-         ,cena_nakup_m2
          ,koef_naklad
          ,koef_prodej
          ,cena_nakup_kg
          ,cena_nakup_arch
          ,cena_naklad_arch
+         ,cena_nakup_m2
          ,cena_naklad_m2
          ,cena_prodej_m2
          ,cena_prodej_arch
+         ,cena_nakup_bm
+         ,cena_naklad_bm
+         ,cena_prodej_bm
+         ,cena_nakup_baleni
+         ,cena_naklad_baleni
+         ,cena_prodej_baleni
             
             
 
@@ -1354,9 +1367,17 @@ dotaz = `select * from ( ${dotaz} ) a ${where} ${order}`
         ,'${element[0].cena_nakup_kg}'
         ,'${element[0].cena_nakup_arch}'
         ,'${element[0].cena_naklad_arch}'
+        ,'${element[0].cena_nakup_m2}'
         ,'${element[0].cena_naklad_m2}'
         ,'${element[0].cena_prodej_m2}'
         ,'${element[0].cena_prodej_arch}'
+        ,'${element[0].cena_nakup_bm}'
+        ,'${element[0].cena_naklad_bm}'
+        ,'${element[0].cena_prodej_bm}'
+        ,'${element[0].cena_nakup_baleni}'
+        ,'${element[0].cena_naklad_baleni}'
+        ,'${element[0].cena_prodej_baleni}'
+        
       
       ,login2idefix('${user}') 
              )`
@@ -1375,15 +1396,21 @@ dotaz = `select * from ( ${dotaz} ) a ${where} ${order}`
           ,dodavatel_priorita='${element[0].dodavatel_priorita}'
           ,sila_mm='${element[0].sila_mm}'
           ,vaha_gm2='${element[0].vaha_gm2}'
-          ,cena_nakup_m2='${element[0].cena_nakup_m2}'
           ,koef_naklad='${element[0].koef_naklad}'
           ,koef_prodej='${element[0].koef_prodej}'
           ,cena_nakup_kg='${element[0].cena_nakup_kg}'
           ,cena_nakup_arch='${element[0].cena_nakup_arch}'
           ,cena_naklad_arch='${element[0].cena_naklad_arch}'
+          ,cena_nakup_m2='${element[0].cena_nakup_m2}'
           ,cena_naklad_m2='${element[0].cena_naklad_m2}'
           ,cena_prodej_m2='${element[0].cena_prodej_m2}'
           ,cena_prodej_arch='${element[0].cena_prodej_arch}'
+          ,cena_nakup_bm='${element[0].cena_nakup_bm}'
+          ,cena_naklad_bm='${element[0].cena_naklad_bm}'
+          ,cena_prodej_bm='${element[0].cena_prodej_bm}'
+          ,cena_nakup_baleni='${element[0].cena_nakup_baleni}'
+          ,cena_naklad_baleni='${element[0].cena_naklad_baleni}'
+          ,cena_prodej_baleni='${element[0].cena_prodej_baleni}'
           
           ,user_update_idefix = login2idefix('${user}')`;
           dotaz += ` where id = ${element[0].id}`

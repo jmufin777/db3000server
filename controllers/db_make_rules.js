@@ -155,15 +155,38 @@ async function init(){
     ]
 } ,
 
-    {   name: 'list_strojmod'
+{   name: 'list_strojmod'
     ,struct:  `
      kod int,
-     idefix_stroj int ,
+     idefix_stroj bigint ,
+     idefix_prace bigint ,
+     prace varchar(120),
      nazev varchar(120),
      nazev_text  varchar(120),
-     
+
+     rychlost float,
+     idefix_jednotka bigint,
+     i1typ varchar(20),
+     idefix_i1 bigint,
+     i1spotreba float,
+     i2typ varchar(20),
+     idefix_i2 bigint,
+     i2spotreba float,
+     i3typ varchar(20),
+     idefix_i3 bigint,
+     i3spotreba float,
+     i4typ varchar(20),
+     idefix_i4 bigint,
+     i4spotreba float,
+     i5typ varchar(20),
+     idefix_i5 bigint,
+     i5spotreba float,
+      
+     mod_priorita boolean default false,
+
      rychlost_minuta_m2 float,
      rychlost_minuta_pocet float
+     
 
      `,
      
@@ -252,6 +275,42 @@ async function init(){
              update list2_strojskup set kod = id ;`,
         ]
     } ,
+
+    {   name: 'list2_prace'
+        ,struct:  `
+         kod int,
+         nazev varchar(50),
+         zkratka varchar(50),
+         nazev_text varchar(100)
+         `,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+          ],
+        reindex: 1,
+         initq: [
+            `insert into list2_list2_jednotka (nazev ) VALUES ('NE'),('Tisk'),('Laminace');
+             update list2_prace set kod = id ;`,
+        ]
+    } ,
+
+   {   name: 'list2_jednotka'
+    ,struct:  `
+     kod int,
+     nazev varchar(50),
+     zkratka varchar(10)
+     
+     `,
+     index_name: [ 
+            `kod  ~~~ (kod)`,
+            `nazev ~~~ (nazev)`
+      ],
+    reindex: 1,
+     initq: [
+        `insert into list2_jednotka (nazev.zkratka ) VALUES ('NE','NE'),('Ks/H','KSH'),('m2/h','M2H');
+         update list2_jednotka set kod = id ;`,
+    ]
+} ,
 
     
     {   name: 'list2_strojlaminace'
@@ -452,13 +511,14 @@ async function init(){
          cena_nakup_bm numeric(10,2),
          cena_prodej_bm numeric(10,2) ,
          cena_naklad_bm numeric(10,2)  ,
-         txt text,
+
+         cena_nakup_baleni numeric(10,2),
+         cena_prodej_baleni numeric(10,2) ,
+         cena_naklad_baleni numeric(10,2)  ,
+         txt text
          
 
-
-         -- priklad cena_nakup_m2 * naklad_koef = cena naklad
-         -- cena_nakup_arch =  vyresim zitra
-         -- priklad cena_nakup_kg * naklad_koef = cena naklad 
+         
          
          `,
          /*
