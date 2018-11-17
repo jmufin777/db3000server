@@ -49,6 +49,8 @@ module.exports = {
      enum_prace: [],
      enum_jednotka: [],
      enum_inkoust: [],
+     enum_strojmod_this: [],
+
 
    }
       req_query_id = req.query.id
@@ -63,11 +65,13 @@ module.exports = {
       var enum_barevnosttxt        = `select nazev from list2_barevnost order by kod`                                                              // --  12   enum_barevnost
 
       
-      var enum_nazev_text       = `select distinct nazev_text  as value from list_stroj order by nazev_text`                 //  -- 101   enum_nazev_text
-      var enum_nazev            = `select distinct nazev       as value from list_stroj order by nazev`                      //  -- 102   enum_nazev
-      var enum_strojmod         = `select distinct nazev       as value from list_strojmod order by nazev`                   //  -- 103   enum_strojmod
-      var enum_strojmod_text    = `select distinct nazev_text  as value from list_strojmod order by nazev_text`              //  -- 104   enum_strojmod_text
-      var enum_strojinkoust     = `select distinct nazev       as value from list_strojinkoust order by nazev`               //  -- 105   enum_strojinkoust
+      var enum_nazev_text       = `select distinct nazev_text    as value from list_stroj order by nazev_text`                 //  -- 101   enum_nazev_text
+      var enum_nazev            = `select distinct nazev         as value from list_stroj order by nazev`                      //  -- 102   enum_nazev
+      var enum_strojmod         = `select distinct nazev         as value from list_strojmod order by nazev`                   //  -- 103   enum_strojmod
+      var enum_strojmod_this    = `select idefix,nazev           as value from list_strojmod a where a.idefix_stroj = ${req_query_id} order by kod`    //  -- 109   enum_strojmod_this
+      var enum_strojmod_text    = `select distinct nazev_text    as value from list_strojmod order by nazev_text`              //  -- 104   enum_strojmod_text
+      var enum_strojceny_nazev  = `select distinct nazev         as value from list_strojceny order by nazev`              //  -- 1091   enum_strojceny_nazev
+      var enum_strojinkoust     = `select distinct nazev         as value from list_strojinkoust order by nazev`               //  -- 105   enum_strojinkoust
 
 
       //var enum_prace        = `select idefix as value, nazev as label from list2_prace order by kod`                                                        // --  106   enum_prace    
@@ -96,7 +100,8 @@ module.exports = {
     }
     if (req.query.string_query=='copy'){
       console.log("req_query_id: ", req_query_id )
-
+      console.log(`select fce_list_stroj_copy as new_idefix from fce_list_stroj_copy(${req_query_id})`)
+      
       await client.query(`select fce_list_stroj_copy as new_idefix from fce_list_stroj_copy(${req_query_id})`,(err88,response88) => {
         if (err88){
           console.log("Err",88);
@@ -108,7 +113,8 @@ module.exports = {
         console.log(88, 'New Id = :', req_query_id)
       //  res.json({newId: req_query_id})
         
-      })  
+      })
+      
         
       req_query_string_query =''   //napred ma smlysl, pusti se procedura na sql a ta nasype zpet nove idefix materialu a pak je mozne zase to jakoby smaznout
     }
@@ -210,7 +216,7 @@ module.exports = {
             await  client.query(enum_strojmod,(err103,response103) => {
               if (err103) {
                 myres.info = -1
-                console.log(102, "err")
+                console.log(103, "err")
                 return
               }
               resObj.enum_strojmod = response103.rows
@@ -223,6 +229,41 @@ module.exports = {
               }  
             }
             
+          if (req_query_id_query==-1 || req_query_id_query==109) {
+              await  client.query(enum_strojmod_this,(err109,response109) => {
+                if (err109) {
+                  myres.info = -1
+                  console.log(109, "err - strojmod_this")
+                  return
+                }
+                resObj.enum_strojmod_this = response109.rows
+                })    
+                if (req_query_id_query == 109) {
+                  console.log(resObj)
+                  res.json(resObj)
+                  await client.release()
+                  return
+                }  
+              }
+
+              if (req_query_id_query==-1 || req_query_id_query==1091) {
+                await  client.query(enum_strojceny_nazev,(err1091,response1091) => {
+                  if (err1091) {
+                    myres.info = -1
+                    console.log(1091, "err - strojmod_this")
+                    return
+                  }
+                  resObj.enum_strojceny_nazev = response1091.rows
+                  })    
+                  if (req_query_id_query == 1091) {
+                    console.log(resObj)
+                    res.json(resObj)
+                    await client.release()
+                    return
+                  }  
+              }
+          
+              
 
 
             

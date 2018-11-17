@@ -249,12 +249,14 @@ async function init(){
         idefix_stroj bigint,
         idefix_strojmod bigint,
         idefix_inkoust bigint,
+
         kod int ,
+        nazev varchar(100),
         pocet_start int ,
         pocet_stop int ,
         cena_naklad  float,
         cena_prodej  float,
-        jednotka varchar(10)   
+        idefix_jednotka bigint   
 
     `
 },
@@ -488,33 +490,37 @@ async function init(){
          txt text,
          idefix_dodavatel int,
          dodavatel_priorita int default 0,
-         nakup_result numeric(10,3),
+         nakup_result numeric(10,3) default 0  ,
          
-         sila_mm numeric(10,2),
-         vaha_gm2 numeric(10,2),
+         sila_mm numeric(10,2) default 0  ,
+         vaha_gm2 numeric(10,2) default 0  ,
          
-         cena_nakup_m2 numeric(10,2),
+         cena_nakup_m2 numeric(10,2) default 0  ,
          
-         koef_naklad numeric(10,2),   --//spolecna polozka
-         koef_prodej numeric(10,2),   
+         koef_naklad numeric(10,2) default 0  ,   --//spolecna polozka
+         koef_prodej numeric(10,2) default 0  ,   
 
-         cena_nakup_kg numeric(10,2),   --!!!! cena za arch je různá podle gramáží papíru
-         cena_nakup_arch numeric(10,2),  --výpočet z ceny za kg, formátu a gr. v db ponecham, prepoctu po ulozeni, nebo prepocitam aplikaci
-         cena_naklad_arch numeric(10,2),    -- vypočteno nákupní cena x nákladový koeficient  - tedy postupne , podle zadanych hodnot
+         cena_nakup_kg numeric(10,2) default 0   ,   --!!!! cena za arch je různá podle gramáží papíru
+         cena_nakup_arch numeric(10,2) default 0  ,  --výpočet z ceny za kg, formátu a gr. v db ponecham, prepoctu po ulozeni, nebo prepocitam aplikaci
+         cena_naklad_arch numeric(10,2) default 0  ,    -- vypočteno nákupní cena x nákladový koeficient  - tedy postupne , podle zadanych hodnot
 
-         cena_naklad_m2 numeric(10,2),    -- vypočteno nákupní cena x nákladový koeficient  - tedy postupne , podle zadanych hodnot
+         cena_naklad_m2 numeric(10,2) default 0  ,    -- vypočteno nákupní cena x nákladový koeficient  - tedy postupne , podle zadanych hodnot
                            
-         cena_prodej_m2 numeric(10,2)   , -- výpočet nákladová cena x prodejní koeficient     
+         cena_prodej_m2 numeric(10,2)   default 0  , -- výpočet nákladová cena x prodejní koeficient     
          
          
          cena_prodej_arch numeric(10,2),  -- výpočet nákladová cena x prodejní koeficient     
-         cena_nakup_bm numeric(10,2),
-         cena_prodej_bm numeric(10,2) ,
-         cena_naklad_bm numeric(10,2)  ,
+         cena_nakup_bm numeric(10,2)  default 0  ,
+         cena_prodej_bm numeric(10,2) default 0  ,
+         cena_naklad_bm numeric(10,2) default 0  ,
 
-         cena_nakup_baleni numeric(10,2),
-         cena_prodej_baleni numeric(10,2) ,
-         cena_naklad_baleni numeric(10,2)  ,
+         cena_nakup_baleni numeric(10,2)  default 0   ,
+         cena_prodej_baleni numeric(10,2) default 0   ,
+         cena_naklad_baleni numeric(10,2) default 0   ,
+         objem_baleni numeric(10,2) default 0  ,
+         cena_nakup_1l numeric(10,2) default 0  ,
+         cena_prodej_1l numeric(10,2) default 0  ,
+         cena_naklad_1l numeric(10,2)  default 0  ,
          txt text
          
 

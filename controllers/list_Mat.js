@@ -85,9 +85,13 @@ module.exports = {
           ,cena_naklad_bm='${req.body.form.data.cena_naklad_bm}'
           ,cena_prodej_bm='${req.body.form.data.cena_prodej_bm}'
 
-           ,cena_nakup_baleni ='${req.body.form.data.cena_nakup_baleni}'
+          ,cena_nakup_baleni ='${req.body.form.data.cena_nakup_baleni}'
           ,cena_naklad_baleni='${req.body.form.data.cena_naklad_baleni}'
           ,cena_prodej_baleni='${req.body.form.data.cena_prodej_baleni}'
+          ,objem_baleni='${req.body.form.data.objem_baleni}' 
+          ,cena_nakup_1l='${req.body.form.data.cena_nakup_1l}' 
+          ,cena_prodej_1l='${req.body.form.data.cena_prodej_1l}'
+          ,cena_naklad_1l='${req.body.form.data.cena_naklad_1l}'
 
           
           ,user_update_idefix = login2idefix('${req.body.user}')`;
@@ -463,9 +467,9 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
 
       
 
-      var enum_n1 =`select distinct nazev1 as value from list_mat order by nazev1`
-      var enum_n2 =`select distinct nazev2 as value from list_mat order by nazev2`
-      var enum_n3 =`select distinct nazev3 as value from list_mat order by nazev3`
+      var enum_n1 =`select distinct trim(nazev1) as value from list_mat order by value`
+      var enum_n2 =`select distinct trim(nazev2) as value from list_mat order by value`
+      var enum_n3 =`select distinct trim(nazev3) as value from list_mat order by value`
 
       var enum_koef_naklad =`select distinct koef_naklad::text as value from list_mat order by value`
       var enum_koef_prodej =`select distinct koef_prodej::text as value from list_mat order by value`
@@ -1092,6 +1096,10 @@ a.idefix
 ,a.cena_nakup_m2,a.cena_nakup_bm,a.cena_nakup_kg,a.cena_nakup_baleni
 ,a.cena_naklad_m2,a.cena_naklad_bm,a.cena_naklad_baleni
 ,a.cena_prodej_m2,a.cena_prodej_bm,a.cena_prodej_baleni
+,a.objem_baleni
+,a.cena_nakup_1l
+,a.cena_prodej_1l
+,a.cena_naklad_1l
 ,a.sila_mm
 ,mv.nazev
 ,replace(mrs.rozmers,',',chr(10) ) as rozmers
@@ -1338,9 +1346,14 @@ dotaz = `select * from ( ${dotaz} ) a ${where} ${order}`
          ,cena_nakup_bm
          ,cena_naklad_bm
          ,cena_prodej_bm
-         ,cena_nakup_baleni
+         ,cena_nakup_baleni 
          ,cena_naklad_baleni
          ,cena_prodej_baleni
+
+         ,objem_baleni 
+         ,cena_nakup_1l 
+         ,cena_prodej_1l
+         ,cena_naklad_1l
             
             
 
@@ -1377,6 +1390,10 @@ dotaz = `select * from ( ${dotaz} ) a ${where} ${order}`
         ,'${element[0].cena_nakup_baleni}'
         ,'${element[0].cena_naklad_baleni}'
         ,'${element[0].cena_prodej_baleni}'
+        ,'${element[0].objem_baleni}' 
+        ,'${element[0].cena_nakup_1l}' 
+        ,'${element[0].cena_prodej_1l}'
+        ,'${element[0].cena_naklad_1l}'
         
       
       ,login2idefix('${user}') 
@@ -1411,6 +1428,11 @@ dotaz = `select * from ( ${dotaz} ) a ${where} ${order}`
           ,cena_nakup_baleni='${element[0].cena_nakup_baleni}'
           ,cena_naklad_baleni='${element[0].cena_naklad_baleni}'
           ,cena_prodej_baleni='${element[0].cena_prodej_baleni}'
+
+          ,objem_baleni='${element[0].objem_baleni}' 
+          ,cena_nakup_1l='${element[0].cena_nakup_1l}' 
+          ,cena_prodej_1l='${element[0].cena_prodej_1l}'
+          ,cena_naklad_1l='${element[0].cena_naklad_1l}'
           
           ,user_update_idefix = login2idefix('${user}')`;
           dotaz += ` where id = ${element[0].id}`
