@@ -92,6 +92,7 @@ module.exports = {
           ,cena_nakup_1l='${req.body.form.data.cena_nakup_1l}' 
           ,cena_prodej_1l='${req.body.form.data.cena_prodej_1l}'
           ,cena_naklad_1l='${req.body.form.data.cena_naklad_1l}'
+          ,kalkulace='${req.body.form.data.kalkulace}'
 
           
           ,user_update_idefix = login2idefix('${req.body.user}')`;
@@ -1101,6 +1102,7 @@ a.idefix
 ,a.cena_prodej_1l
 ,a.cena_naklad_1l
 ,a.sila_mm
+,a.kalkulace
 ,mv.nazev
 ,replace(mrs.rozmers,',',chr(10) ) as rozmers
 ,mrs.sirkys,mrs.delkymms,mrs.navins
@@ -1354,6 +1356,7 @@ dotaz = `select * from ( ${dotaz} ) a ${where} ${order}`
          ,cena_nakup_1l 
          ,cena_prodej_1l
          ,cena_naklad_1l
+         ,kalkulace
             
             
 
@@ -1394,6 +1397,7 @@ dotaz = `select * from ( ${dotaz} ) a ${where} ${order}`
         ,'${element[0].cena_nakup_1l}' 
         ,'${element[0].cena_prodej_1l}'
         ,'${element[0].cena_naklad_1l}'
+        ,'${element[0].kalkulace}'
         
       
       ,login2idefix('${user}') 
@@ -1433,6 +1437,7 @@ dotaz = `select * from ( ${dotaz} ) a ${where} ${order}`
           ,cena_nakup_1l='${element[0].cena_nakup_1l}' 
           ,cena_prodej_1l='${element[0].cena_prodej_1l}'
           ,cena_naklad_1l='${element[0].cena_naklad_1l}'
+          ,kalkulace='${element[0].kalkulace}'
           
           ,user_update_idefix = login2idefix('${user}')`;
           dotaz += ` where id = ${element[0].id}`

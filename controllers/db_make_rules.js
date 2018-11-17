@@ -521,7 +521,8 @@ async function init(){
          cena_nakup_1l numeric(10,2) default 0  ,
          cena_prodej_1l numeric(10,2) default 0  ,
          cena_naklad_1l numeric(10,2)  default 0  ,
-         txt text
+         txt text,
+         kalkulace boolean default true 
          
 
          

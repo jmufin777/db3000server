@@ -79,6 +79,7 @@ module.exports = {
       var enum_jednotka      = `select * from list2_jednotka order by kod`                                                   //  --  107   enum_jednotka
       var enum_inkoust      = `
       select a.kod,a.idefix,concat2(' ',nazev1, nazev2, nazev3) as nazev  from list_mat a join list2_matskup b on a.idefix_matskup =b.idefix where b.zkratka = 'I' 
+      and kalkulace =true
         union 
         select 0 as kod,0,'Ne'
         order by kod , idefix `;
