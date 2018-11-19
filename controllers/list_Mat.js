@@ -446,8 +446,8 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
        
   
 
-      var dotaz =`select * from ${tabname} where idefix = ${req_query_id}`
-      var dotaz_vlastnosti =`select * from list_mat_vlastnosti where idefix_mat = ${req_query_id}`
+      var dotaz            = `select * from ${tabname} where idefix = ${req_query_id}`
+      var dotaz_vlastnosti = `select * from list_mat_vlastnosti where idefix_mat = ${req_query_id}`
       var dotaz_barva =`select * from list_mat_barva where idefix_mat = ${req_query_id}`
       var dotaz_rozmer = `select * from list_mat_rozmer  where idefix_mat = ${req_query_id}`
       var dotaz_strojskup = `select * from list_mat_strojskup where idefix_mat = ${req_query_id}`
@@ -1064,7 +1064,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
     async all (req, res) {
       var dotaz=''
       var where =' where true '
-      var order ='order by mattyp, podskupina '
+      var order ='order by mattyp, podskupina, a.idefix  '
       var tmp =''
     try { 
       const client = await pool.connect()

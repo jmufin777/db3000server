@@ -22,6 +22,314 @@ var req_query_id_query = 0
 const tabname = 'list_stroj'
 module.exports = {
     async saveone (req,res) {
+      console.log(req.body.form, "user: ", req.body.user, "idefix :", req.body.idefix)
+      res.json({'a': 1})
+
+      
+      var dotaz = `update list_stroj set `
+      dotaz = dotaz + `
+
+      kod             = '${req.body.form.data.kod}',
+      idefix_strojskup             = '${req.body.form.data.idefix_strojskup}',
+      nazev             = '${req.body.form.data.nazev}',
+      sirka_mat_max_mm             = '${req.body.form.data.sirka_mat_max_mm}',
+      delka_mat_max_mm             = '${req.body.form.data.delka_mat_max_mm}',
+      sirka_tisk_max_mm             = '${req.body.form.data.sirka_tisk_max_mm}',
+      delka_tisk_max_mm             = '${req.body.form.data.delka_tisk_max_mm}',
+      tech_okraj_strana_mm             = '${req.body.form.data.tech_okraj_strana_mm}',
+      tech_okraj_start_mm             = '${req.body.form.data.tech_okraj_start_mm}',
+      tech_okraj_spacecopy_mm             = '${req.body.form.data.tech_okraj_spacecopy_mm}',
+      tech_okraj_spacejobs_mm             = '${req.body.form.data.tech_okraj_spacejobs_mm}',
+      tech_okraj_end_mm             = '${req.body.form.data.tech_okraj_end_mm}',
+      bez_okraj             = '${req.body.form.data.bez_okraj}',
+      spadavka_mm             = '${req.body.form.data.spadavka_mm}',
+      space_znacky_mm             = '${req.body.form.data.space_znacky_mm}',
+      user_insert_idefix             = '${req.body.form.data.user_insert_idefix}',
+      nazev_text             = '${req.body.form.data.nazev_text}',
+      priprava_minuta_naklad             = '${req.body.form.data.priprava_minuta_naklad}',
+      priprava_minuta_prodej             = '${req.body.form.data.priprava_minuta_prodej}',
+      priprava_cas_minuta             = '${req.body.form.data.priprava_cas_minuta}',
+      priprava_celkem_naklad             = '${req.body.form.data.priprava_celkem_naklad}',
+      priprava_celkem_prodej             = '${req.body.form.data.priprava_celkem_prodej}',
+      sirka_lam_max_mm             = '${req.body.form.data.sirka_lam_max_mm}',
+      delka_lam_max_mm             = '${req.body.form.data.delka_lam_max_mm}',
+      `
+      dotaz += `user_update_idefix = login2idefix('${req.body.user}')`;
+      dotaz += ` where idefix = ${req.body.idefix}`
+
+      try {
+        const client = await pool.connect()
+        await client.query(dotaz,(err01,response01) => { 
+        if (err01){
+          console.log('Err - update' , 01, err01)
+        }
+        })
+        //console.log(req.body.data.strojmod)
+        var updatemod=''
+        var insertmod =''
+        var valuesmod= `
+        (
+        idefix_stroj,
+        idefix_prace,
+        kod,
+        nazev,
+        nazev_text,
+        rychlost,
+        idefix_jednotka,
+        idefix_i1,
+        i1spotreba,
+        idefix_i2,
+        i2spotreba,
+        idefix_i3,
+        i3spotreba,
+        idefix_i4,
+        i4spotreba,
+        idefix_i5,
+        i5spotreba,
+        mod_priorita,
+        user_insert_idefix ) values `
+        
+
+        var idefix_valid='0'
+
+       await req.body.form.strojmod.forEach(element => {
+          if (element.idefix >0 ){
+            updatemod = `update list_strojmod set 
+        
+        idefix_prace ='${element.idefix_prace}',
+        kod ='${element.kod}',
+        nazev ='${element.nazev}',
+        nazev_text ='${element.nazev_text}',
+        rychlost ='${element.rychlost}',
+        idefix_jednotka ='${element.idefix_jednotka}',
+        idefix_i1 ='${element.idefix_i1}',
+        i1spotreba ='${element.i1spotreba}',
+        idefix_i2 ='${element.idefix_i2}',
+        i2spotreba ='${element.i2spotreba}',
+        idefix_i3 ='${element.idefix_i3}',
+        i3spotreba ='${element.i3spotreba}',
+        idefix_i4 ='${element.idefix_i4}',
+        i4spotreba ='${element.i4spotreba}',
+        idefix_i5 ='${element.idefix_i5}',
+        i5spotreba ='${element.i5spotreba}',
+        mod_priorita ='${element.mod_priorita}',
+        user_update_idefix= login2idefix('${req.body.user}'),
+        time_update = now() 
+        where idefix = ${element.idefix}
+        `
+        //console.log(updatemod)
+        client.query(updatemod, (errupdate, resupdate) => {
+          console.log(errupdate )
+        })
+
+
+
+            //update
+
+            if (idefix_valid > '') idefix_valid +=','
+            idefix_valid += element.idefix
+          }
+          if (element.idefix <0 ){ //insert 
+            if (insertmod >'') insertmod +=','
+          insertmod+= ` (
+        '${element.idefix_stroj}',
+        '${element.idefix_prace}',
+        '${element.kod}',
+        '${element.nazev}',
+        '${element.nazev_text}',
+        '${element.rychlost}',
+        '${element.idefix_jednotka}',
+        '${element.idefix_i1}',
+        '${element.i1spotreba}',
+        '${element.idefix_i2}',
+        '${element.i2spotreba}',
+        '${element.idefix_i3}',
+        '${element.i3spotreba}',
+        '${element.idefix_i4}',
+        '${element.i4spotreba}',
+        '${element.idefix_i5}',
+        '${element.i5spotreba}',
+        '${element.mod_priorita}',
+        login2idefix('${req.body.user}')
+            
+            )`
+            
+
+            console.log(insertmod)
+          }
+
+
+        /*    
+        idefix: -10,
+        idefix_stroj: '9183',
+        idefix_prace: 9015,
+        nazev: 'a0',
+        nazev_text: 'rozlozeni',
+        rychlost: 12,
+        idefix_jednotka: 9012,
+        idefix_i1: 9034,
+        i1spotreba: '18',
+        idefix_i2: 9074,
+        i2spotreba: '104',
+        idefix_i3: 0,
+        i3spotreba: 0,
+        idefix_i4: 0,
+        i4spotreba: 0,
+        idefix_i5: 0,
+        i5spotreba: 0,
+        mod_priorita: true,
+        */
+
+       // console.log(element)
+       // console.log(idefix_valid)
+          
+       });
+       
+       if (idefix_valid > '') {
+         
+        var moddelete=`delete from list_strojmod  a where  idefix_stroj = ${req.body.idefix} and not exists
+        ( select * from list_strojmod b where b.idefix in (${idefix_valid}) and idefix_stroj = ${req.body.idefix} and a.idefix = b.idefix )`
+        await client.query(moddelete, (errmoddelete, resmoddelete) => {
+          console.log('delete',errmoddelete)
+        }) 
+       }
+
+       if (insertmod > '') {
+        insertmod='insert into list_strojmod '  + valuesmod + insertmod
+        await client.query(insertmod, (errmod, resmod) => {
+          console.log('abc',errmod)
+        }) 
+       }
+
+       //Stroj Ceny
+
+       /*
+       idefix: -10,
+       idefix_stroj: '9183',
+       idefix_strojmod: 0,
+       idefix_inkoust: 0,
+       idefix_jednotka: 9356,
+       nazev: 'prdka',
+       kod: '1',
+       pocet_start: 0,
+       pocet_stop: 0,
+       cena_naklad: 0,
+       cena_prodej: 0,
+       start: '0',
+       stop: '20',
+       
+       */
+
+      var idefix_ceny_valid='0'
+      var updateceny=''
+
+      
+      var insertceny =''
+      var valuesceny= `
+      (
+        idefix_stroj,
+        idefix_strojmod,
+        idefix_jednotka,
+        kod,
+        nazev,
+        pocet_start,
+        pocet_stop,
+        cena_naklad,
+        cena_prodej,
+        user_insert_idefix ) values `
+      
+
+     await req.body.form.strojceny.forEach(element => {
+        if (element.idefix >0 ){
+          updateceny = `update list_strojceny set 
+      
+      
+      idefix_strojmod ='${element.idefix_strojmod}',
+      idefix_jednotka ='${element.idefix_jednotka}',
+      kod ='${element.kod}',
+      nazev ='${element.nazev}',
+      pocet_start ='${element.pocet_start}',
+      pocet_stop ='${element.pocet_stop}',
+      cena_naklad ='${element.cena_naklad}',
+      cena_prodej ='${element.cena_prodej}',
+      
+      
+      user_update_idefix= login2idefix('${req.body.user}'),
+      time_update = now() 
+      where idefix = ${element.idefix}
+      `
+      console.log(updateceny)
+      client.query(updateceny, (errupdateceny, resupdateceny) => {
+        console.log(errupdateceny )
+      })
+
+
+
+          //update
+
+          if (idefix_ceny_valid > '') idefix_ceny_valid +=','
+          idefix_ceny_valid += element.idefix
+        }
+        if (element.idefix <0 ){ //insert 
+          if (insertceny >'') insertceny +=','
+
+        insertceny+= ` (
+          '${element.idefix_stroj}',
+          '${element.idefix_strojmod}',
+          '${element.idefix_jednotka}',
+          '${element.kod}',
+          '${element.nazev}',
+          '${element.pocet_start}',
+          '${element.pocet_stop}',
+          '${element.cena_naklad}',
+          '${element.cena_prodej}',
+          login2idefix('${req.body.user}')
+          )`
+
+          
+
+          console.log(insertmod)
+        }
+
+
+     
+        
+     });
+     
+     if (idefix_ceny_valid > '') {
+       
+      var cenydelete=`delete from list_strojceny  a where  idefix_stroj = ${req.body.idefix} and not exists
+      ( select * from list_strojceny b where b.idefix in (${idefix_ceny_valid}) and idefix_stroj = ${req.body.idefix} and a.idefix = b.idefix )`
+      // console.log(cenydelete)
+      await client.query(cenydelete, (errcenydelete, rescenydelete) => {
+        console.log('delete',errcenydelete)
+      }) 
+     }
+
+     if (insertceny > '') {
+      insertceny='insert into list_strojceny '  + valuesceny + insertceny
+      await client.query(insertceny, (errceny, resceny) => {
+        console.log('abc',errceny)
+      }) 
+     }
+
+      console.log(req.body.form.strojceny) 
+      console.log('ahj')
+      await req.body.form.strojceny.forEach(element => {
+         if (element.idefix >0 ){
+           updateceny = `update list_strojmod set  `
+         }
+        }
+      )    
+      await client.release()
+      res.json({info: 'Ok test'});
+
+      } catch (e) {
+
+      }
+      //console.log(dotaz)
+
+
   },
 
   async one (req,res) {
@@ -56,6 +364,39 @@ module.exports = {
       req_query_id = req.query.id
       req_query_id_query = req.query.id_query
       req_query_string_query = req.query.string_query
+      try {
+        const client = await pool.connect()
+    
+        if (req_query_string_query=='edit'){
+          req_query_string_query =''   //nema smysl nic jakoby s tim je to default
+        }
+        if (req.query.string_query=='copy'){
+          console.log("req_query_id: ", req_query_id )
+          console.log(`select fce_list_stroj_copy as new_idefix from fce_list_stroj_copy(${req_query_id})`)
+          
+          await client.query(`select fce_list_stroj_copy as new_idefix from fce_list_stroj_copy(${req_query_id})`,(err88,response88) => {
+            if (err88){
+              console.log("Err",88);
+            }
+            
+            console.log(88, response88.rows)
+            req_query_id = response88.rows[0].new_idefix
+            resObj.newId = req_query_id
+            console.log(88, 'New Id = :', req_query_id)
+          //  res.json({newId: req_query_id})
+          
+            
+          })
+          // res.json(resObj)
+          //  await client.release()
+          console.log( resObj )
+          // return
+          
+            
+          req_query_string_query =''   //napred ma smlysl, pusti se procedura na sql a ta nasype zpet nove idefix materialu a pak je mozne zase to jakoby smaznout
+        }      
+
+
 
       var dotaz =`select a.*, b.typ_kalkulace from ${tabname} a join list2_strojskup b on a.idefix_strojskup = b.idefix where a.idefix = ${req_query_id}`
 
@@ -88,37 +429,12 @@ module.exports = {
      dotaz_list_strojmodbarevnost      =  `select * from  list_strojmodbarevnost     where idefix_stroj = ${req_query_id}`   //  -- 201   dotaz_list_strojmodbarevnost     
      dotaz_list_strojinkoust           =  `select * from  list_strojinkoust          where idefix_stroj = ${req_query_id}`   //  -- 202   dotaz_list_strojinkoust          
      dotaz_list_strojinkoustbarevnost  =  `select * from  list_strojinkoustbarevnost where idefix_stroj = ${req_query_id}`   //  -- 203   dotaz_list_strojinkoustbarevnost 
-     dotaz_list_strojceny              =  `select * from  list_strojceny             where idefix_stroj = ${req_query_id}`   //  -- 204   dotaz_list_strojceny             
+     dotaz_list_strojceny              =  `select * from  list_strojceny             where idefix_stroj = ${req_query_id} order by kod`   //  -- 204   dotaz_list_strojceny             
 
-      console.log(dotaz)
+      console.log(dotaz_list_strojceny)
 
    
-   try {
-    const client = await pool.connect()
-
-    if (req_query_string_query=='edit'){
-      req_query_string_query =''   //nema smysl nic jakoby s tim je to default
-    }
-    if (req.query.string_query=='copy'){
-      console.log("req_query_id: ", req_query_id )
-      console.log(`select fce_list_stroj_copy as new_idefix from fce_list_stroj_copy(${req_query_id})`)
-      
-      await client.query(`select fce_list_stroj_copy as new_idefix from fce_list_stroj_copy(${req_query_id})`,(err88,response88) => {
-        if (err88){
-          console.log("Err",88);
-        }
-        
-        console.log(88, response88.rows)
-        req_query_id = response88.rows[0].new_idefix
-        resObj.newId = req_query_id
-        console.log(88, 'New Id = :', req_query_id)
-      //  res.json({newId: req_query_id})
-        
-      })
-      
-        
-      req_query_string_query =''   //napred ma smlysl, pusti se procedura na sql a ta nasype zpet nove idefix materialu a pak je mozne zase to jakoby smaznout
-    }
+   
     //return
     
     await client.query(dotaz,(err,response) => {
@@ -127,7 +443,7 @@ module.exports = {
         return
       }
       resObj.stroj = response.rows
-      console.log(resObj.stroj )
+      //console.log(resObj.stroj )
 
     })
     if (req_query_id_query==-1 || req_query_id_query==101) {
@@ -141,7 +457,7 @@ module.exports = {
       if (req_query_id_query == 101) {
         
         res.json(resObj)
-        console.log(resObj)
+        //console.log(resObj)
         await client.release()     
         return
       }
@@ -151,13 +467,13 @@ module.exports = {
         await  client.query(enum_strojskup,(err10,response10) => {
           if (err10) {
             myres.info = -1
-            console.log(10, "err")
+            //console.log(10, "err")
             return
           }
           resObj.enum_strojskup = response10.rows
           })    
           if (req_query_id_query == 10) {
-            console.log(resObj)
+            //console.log(resObj)
             res.json(resObj)
             await client.release()
             return
@@ -168,13 +484,13 @@ module.exports = {
           await  client.query(enum_barevnost,(err11,response11) => {
             if (err11) {
               myres.info = -1
-              console.log(11, "err")
+              //console.log(11, "err")
               return
             }
             resObj.enum_barevnost = response11.rows
             })    
             if (req_query_id_query == 11) {
-              console.log(resObj)
+              //console.log(resObj)
               res.json(resObj)
               await client.release()
               return
@@ -190,7 +506,7 @@ module.exports = {
               resObj.enum_barevnosttxt = response12.rows
               })    
               if (req_query_id_query == 12) {
-                console.log(resObj)
+                //console.log(resObj)
                 res.json(resObj)
                 await client.release()
                 return
@@ -206,7 +522,7 @@ module.exports = {
             resObj.enum_nazev = response102.rows
             })    
             if (req_query_id_query == 102) {
-              console.log(resObj)
+              //console.log(resObj)
               res.json(resObj)
               await client.release()
               return
@@ -223,7 +539,7 @@ module.exports = {
               resObj.enum_strojmod = response103.rows
               })    
               if (req_query_id_query == 103) {
-                console.log(resObj)
+                //console.log(resObj)
                 res.json(resObj)
                 await client.release()
                 return
@@ -240,7 +556,7 @@ module.exports = {
                 resObj.enum_strojmod_this = response109.rows
                 })    
                 if (req_query_id_query == 109) {
-                  console.log(resObj)
+                  //console.log(resObj)
                   res.json(resObj)
                   await client.release()
                   return
@@ -257,7 +573,7 @@ module.exports = {
                   resObj.enum_strojceny_nazev = response1091.rows
                   })    
                   if (req_query_id_query == 1091) {
-                    console.log(resObj)
+                    //console.log(resObj)
                     res.json(resObj)
                     await client.release()
                     return
@@ -278,7 +594,7 @@ module.exports = {
                 resObj.enum_strojmod_text = response104.rows
                 })    
                 if (req_query_id_query == 104) {
-                  console.log(resObj)
+                  //console.log(resObj)
                   res.json(resObj)
                   await client.release()
                   return
@@ -296,7 +612,7 @@ module.exports = {
                   resObj.enum_strojinkoust = response105.rows
                   })    
                   if (req_query_id_query == 105) {
-                    console.log(resObj)
+                    //console.log(resObj)
                     res.json(resObj)
                     await client.release()
                     return
@@ -313,7 +629,7 @@ module.exports = {
                 resObj.enum_prace = response106.rows
                 })    
                 if (req_query_id_query == 106) {
-                  console.log(resObj)
+                  //console.log(resObj)
                   res.json(resObj)
                   await client.release()
                   return
@@ -330,7 +646,7 @@ module.exports = {
               resObj.enum_jednotka = response107.rows
               })    
               if (req_query_id_query == 107) {
-                console.log(resObj)
+                //console.log(resObj)
                 res.json(resObj)
                 await client.release()
                 return
@@ -347,7 +663,7 @@ module.exports = {
             resObj.enum_inkoust = response108.rows
             })    
             if (req_query_id_query == 108) {
-              console.log(resObj)
+              //console.log(resObj)
               res.json(resObj)
               await client.release()
               return
@@ -364,7 +680,7 @@ module.exports = {
               resObj.strojmod = response200.rows
               })    
               if (req_query_id_query == 200) {
-                console.log(resObj)
+                //console.log(resObj)
                 res.json(resObj)
                 await client.release()
                 return
@@ -398,7 +714,7 @@ module.exports = {
                   resObj.strojinkoust = response202.rows
                   })    
                   if (req_query_id_query == 202) {
-                    console.log(resObj)
+                    //console.log(resObj)
                     res.json(resObj)
                     await client.release()
                     return
@@ -415,7 +731,7 @@ module.exports = {
                     resObj.strojinkoustbarevnost = response203.rows
                     })    
                     if (req_query_id_query == 203) {
-                      console.log(resObj)
+                      //console.log(resObj)
                       res.json(resObj)
                       await client.release()
                       return
@@ -494,7 +810,7 @@ module.exports = {
          where = `${where} and ${ req.query.id }` 
          dotaz=`select a.*,b.nazev as nazev_skup, b.typ_kalkulace from ${tabname}  a`
          dotaz = `${dotaz} join list2_strojskup b on a.idefix_strojskup = b.idefix ` 
-         dotaz = `${dotaz} where ${where} order by nazev_text `
+         dotaz = `${dotaz} where ${where} order by nazev_text,a.idefix `
 
 
       }

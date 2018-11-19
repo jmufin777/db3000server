@@ -160,7 +160,7 @@ router.post('/list-stroj-delete',
     listStroj.delete)      
 router.get('/list-stroj-one',
     listStroj.one)         
-router.get('/list-stroj-save=one',
+router.post('/list-stroj-save-one',
     listStroj.saveone)             
 
 router.get('/list-mat',
