@@ -17,6 +17,7 @@ const list2MatBarva = require('../controllers/list2_MatBarva')
 const list2MatDodavatel = require('../controllers/list2_MatDodavatel')
 const list2MatVyrobce = require('../controllers/list2_MatVyrobce')
 const list2MatSirka = require('../controllers/list2_matsirka')
+const listFirma = require('../controllers/list_Firma')
 
 //Hlavni seznamy
 const listStroj = require('../controllers/list_Stroj')
@@ -124,6 +125,7 @@ router.put('/list2-matdodavatel',
 router.delete('/list2-matdodavatel',
     list2MatDodavatel.delete)        
 
+
 router.get('/list2-matvyrobce',
     list2MatVyrobce.all)
 router.post('/list2-matvyrobce',
@@ -132,6 +134,15 @@ router.put('/list2-matvyrobce',
     list2MatVyrobce.update)     
 router.delete('/list2-matvyrobce',
     list2MatVyrobce.delete)        
+
+router.get('/list-firma',
+    listFirma.all)
+router.post('/list-firma',
+    listFirma.insert) 
+router.put('/list-firma',
+     listFirma.update)     
+router.delete('/list-firma',
+      listFirma.delete)        
 
 router.get('/list2-matsirka',
     list2MatSirka.all)
