@@ -37,6 +37,7 @@ const listGroups =  require('../controllers/list_Groups')
 const listUsers1 =  require('../controllers/list_Users1')
 
 const dbStatus =    require('../controllers/db_status')
+const ico      =    require('../controllers/ico')
 
 
 
@@ -163,6 +164,8 @@ router.get('/list-stroj-one',
 router.post('/list-stroj-save-one',
     listStroj.saveone)             
 
+
+
 router.get('/list-mat',
     listMat.all)
 router.get('/list-mat-one',
@@ -284,6 +287,9 @@ router.post('/db-status',
     dbStatus.all)    
 router.post('/db-status-who',
     dbStatus.who)        
+
+router.get('/ico',
+    ico.all)    
     
 
 

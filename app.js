@@ -9,6 +9,7 @@ const _ = require('lodash')
 
 
 const routes = require('./routes/list')
+const request = require('request')
 console.log('1')
 const app=express();
 // #app.use(morgan('combined'));
@@ -28,6 +29,7 @@ app.use((err, req, res, next) =>{
 
 //require('./routes/routes2')(app)
 console.log('Staruju')
+
 /*
 app.post('/login', (req, res)=>{
    console.log('Jsi login') 
@@ -41,7 +43,10 @@ app.post('/login', (req, res)=>{
 //         app.listen(config.port )
 //         //=> console.log(`Port ${port}`));
 //         console.log(`server started on ${config.port}`)
-//     })
+//})
+
+
+
 
 app.listen(config.port )
 console.log(`I'm listening on port ${config.port}`)

@@ -444,6 +444,7 @@ async function init(){
          tel2 varchar(100),
          mail varchar(100),
          www varchar(100),
+         poznamka text,
          mat int default 1 `,
          index_name: [ 
                 `kod  ~~~ (kod)`,
