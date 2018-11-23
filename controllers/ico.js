@@ -43,12 +43,13 @@ module.exports = {
        objFirma.obec        = firma.match(/(?=D:NMC).*\s*([^^]*)<\/D\:NMC>/)[0].split(/[<>]/)[1]
        objFirma.cp1         = firma.match(/(?=D:CD).*\s*([^^]*)<\/D\:CD>/)[0].split(/[<>]/)[1]
        objFirma.cp2         = firma.match(/(?=D:CO).*\s*([^^]*)<\/D\:CO>/)[0].split(/[<>]/)[1]
-
+       objFirma.aktivni     = firma.match(/(?=D:SSU).*\s*([^^]*)<\/D\:SSU>/)[0].split(/[<>]/)[1]
+       
        console.log(objFirma)
        
         response.json(objFirma)
       } catch(e)  {
-        response.json({err: `Nejsou data pro subjekt ${req.query.id}`}) 
+         response.json({err: `Nejsou data pro subjekt ${req.query.id}`}) 
       }
   // console.log(body.explanation);
       });
