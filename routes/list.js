@@ -135,14 +135,7 @@ router.put('/list2-matvyrobce',
 router.delete('/list2-matvyrobce',
     list2MatVyrobce.delete)        
 
-router.get('/list-firma',
-    listFirma.all)
-router.post('/list-firma',
-    listFirma.insert) 
-router.put('/list-firma',
-     listFirma.update)     
-router.delete('/list-firma',
-      listFirma.delete)        
+      
 
 router.get('/list2-matsirka',
     list2MatSirka.all)
@@ -189,6 +182,19 @@ router.put('/list_mat',
     listMat.update)     
 router.post('/list-mat-delete',
     listMat.delete)        
+
+router.get('/list-firma',
+    listFirma.all)
+router.get('/list-firma-one',
+    listFirma.one)
+router.post('/list-firma',
+    listFirma.insert) 
+router.post('/list-firma-save-one',
+    listFirma.saveone)     
+router.put('/list-firma',
+     listFirma.update)     
+router.delete('/list-firma',
+      listFirma.delete)      
 
 router.get('/list2-strojlaminace',
     list2StrojLaminace.all)

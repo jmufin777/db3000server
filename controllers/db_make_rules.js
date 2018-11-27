@@ -3,6 +3,7 @@ const config = require('../config/config')
 const {pool, client } = require('../db')
 const _ = require('lodash')
 var lErr= false
+var  b1 = false;
 
 
 async function init(){
@@ -440,12 +441,27 @@ async function init(){
          ulice varchar(100),
          obec varchar(100),
          psc  varchar(6),
+         
+         ulice0 varchar(100),
+         obec0 varchar(100),
+         cp1 varchar(20) default '',
+         cp2 varchar(20) default '',
+         aktivni varchar(100) default '',
+
+         nazev2 varchar(100),
+         ulice2 varchar(100),
+         obec2 varchar(100),
+         psc2  varchar(6),
          tel varchar(15),
          tel2 varchar(100),
          mail varchar(100),
          www varchar(100),
          poznamka text,
-         mat int default 1 `,
+         mat int default 1,
+         splatnost int default 0,
+         hotovost int default 1,
+         datum_ares date 
+         `,
          index_name: [ 
                 `kod  ~~~ (kod)`,
                 `nazev ~~~ (nazev)`
@@ -456,6 +472,73 @@ async function init(){
              update list_dodavatel set kod = id ;`,
         ]
     },
+    
+
+    {   name: 'list_firmaosoba'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
+            //Sehnat zpusob z ARES
+        ,struct:  `
+         kod int,
+         idefix_firma bigint,
+         jmeno varchar(50) default '',
+         prijmeni varchar(50) default '',
+         titul varchar(20) default '',
+         titulza varchar(20) default '',
+         funkce varchar(50) default '',
+         oddeleni varchar(50) default '',
+         prioritni boolean default false,
+         tel varchar(15) default '',
+         tel2 varchar(100) default '',
+         tel3 varchar(100) default '',
+         mail varchar(100) default '',
+         www varchar(100) default '',
+         poznamka text default ''
+         `,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `prijmeni ~~~ (nazev)`
+          ],
+        reindex: 1,
+         initq: [
+            `select 1 ;`
+             
+        ]
+    },
+
+    {   name: 'list_firmaprovozovna'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
+            //Sehnat zpusob z ARES
+        ,struct:  `
+         kod int,
+         idefix_firma bigint,
+         nazev varchar(100),
+         ulice varchar(100),
+         obec varchar(100),
+         psc  varchar(6),
+
+         jmeno varchar(50) default '',
+         prijmeni varchar(50) default '',
+         titul varchar(20) default '',
+         titulza varchar(20) default '',
+         funkce varchar(50) default '',
+         oddeleni varchar(50) default '',
+         prioritni boolean default false,
+         tel varchar(15) default '',
+         tel2 varchar(100) default '',
+         tel3 varchar(100) default '',
+         mail varchar(100) default '',
+         www varchar(100) default '',
+         poznamka text default ''
+         `,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+          ],
+        reindex: 1,
+         initq: [
+            `select 1 ;`
+             
+        ]
+    },
+    
 
     {   name: 'list2_matvyrobce'
         ,struct:  `
@@ -848,16 +931,26 @@ var neco = ''
         for (let x in el){
             if (x == 'struct'){
                 Struktura(el)
+                while (!b1) ;
+                b1 = false
                 StrukturaChange(el)
+                while (!b1) ;
                 console.log(x)
+                b1 = false
             }
             if (x == 'index_name'){
                 Indexes(el)
+                while (!b1) ;
+                b1 = false
                 console.log(x)
             }
             if (x == 'initq'){
                 RulesD(el)
+                while (!b1) ;
+                b1 = false
                 Rules(el)
+                while (!b1) ;
+                b1 = false
                 console.log(x)
             }
             
@@ -909,6 +1002,7 @@ function StrukturaChange(el) {
             })
         })
         console.log(addStruct)      
+        b1 = true
     
 
 }
@@ -946,6 +1040,7 @@ function StrukturaChange(el) {
     } catch(e) {
         console.log('Pad 33')
     }
+        
     }
 
     setTimeout(function(){
@@ -983,6 +1078,7 @@ function StrukturaChange(el) {
         //console.log('Indexes: ',cq,  index_expr[0])  
     })
 },500)    
+b1 = true
 }
 
 async function OK(){
@@ -1053,6 +1149,12 @@ async function Struktura(el) {
     } catch(e) {
         console.log('Err')
     }
+    
+    
+        //console.log('Nastavuji 11')
+        b1 = true;    
+        
+
 
 }
 
@@ -1100,7 +1202,7 @@ async function Rules(el) {
     } catch(e) {
         console.log('Err')
     }
-
+    b1 = true
 }
 
 async function RulesD(el) {
@@ -1122,6 +1224,7 @@ async function RulesD(el) {
     } catch(e) {
         console.log('Err')
     }
+    b1 = true
 
 }
 

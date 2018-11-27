@@ -6,40 +6,43 @@ const _ = require('lodash')
 
 var lErr= false
 
+
 const tabname = 'list_dodavatel'
 module.exports = {
 
     async all (req, res) {
       var dotaz=''
+      var where ='  true '
+      var order =' order by a.nazev, a.idefix '
+      var tmp =''
+      console.log(where, ' : ', req.query)
+
       if (req.query.id=='nic'){
         dotaz=`select * from ${tabname} where 1=1 order by kod `
-      }
-      if (req.query.id=='max'){
+        
+      } else if (req.query.id=='max'){
         dotaz = `select kod as kod from ${tabname} where 1=1 order by kod desc limit 1`
         
+      } else {
+         where = `${where} and ${ req.query.id }` 
+         dotaz=`select a.* from ${tabname}  a`
+         
+         dotaz = `${dotaz} where ${where} order by nazev,a.idefix `
+
+
       }
-      console.log(req.query.id, dotaz )
+      //console.log("aaAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \n ", dotaz ," \n EOF")
+      // console.log(req.query.id, dotaz )
+      // res.json({a: 1});
+      //return
     try {
       
-    //  const {login, password} = req.body
-//      console.log(login)  
-
-        
-        console.log('BBBB')
-
         const client = await pool.connect()
-
-        
-        // const myres = {
-        //   data : {},
-        //   info: 0
-        // }
 
          await client.query(dotaz ,(err, response) => {
           //console.log(response)
            if (response.rowCount == 0)   {
              console.log(response,'noic')
-             
            
              res.json( {
               id: -1,
@@ -48,9 +51,6 @@ module.exports = {
             }) 
           
 
-          
-
-            // res.status(403).send({error: `Data ${tabname} nejsou k dispozici`})
            } else {
               res.json(response.rows); 
            }
@@ -65,6 +65,76 @@ module.exports = {
           error: 'Chyba 002 pri pozadavku na databazi : ${tabname}'
         })
     }
+  },
+
+  async one(req, res, next) {
+    var  resObj = {
+      info: 0,
+      xdata: [],
+      firma: [],
+      firmaosoba: [],
+      firmaprovozovna: [],
+      
+ 
+    }
+       req_query_id = req.query.id
+       req_query_id_query = req.query.id_query
+       req_query_string_query = req.query.string_query
+       var dotaz =`select a.* from ${tabname} a where a.idefix = ${req_query_id}`
+       var dotazosoba        =`select a.* from list_firmaosoba a where a.idefix_firma = ${req_query_id}`
+       var dotazprovozovna   =`select a.* from list_firmaprovozovna a where a.idefix_firma = ${req_query_id}`
+
+      console.log('Dotaz na jednu firmu' )
+    try {
+      const client = await pool.connect()
+  
+      if (req_query_string_query=='edit'){
+        req_query_string_query =''   //nema smysl nic jakoby s tim je to default
+      }
+      await client.query(dotaz,(err,response) => {
+        if (err) {
+          resObj.info = -1
+          return
+        }
+        resObj.firma = response.rows
+        //console.log(resObj.stroj )
+  
+      })
+      await client.query(dotazosoba,(err,response) => {
+        if (err) {
+          resObj.info = -1
+          return
+        }
+        resObj.firmaosoba = response.rows
+        //console.log(resObj.stroj )
+  
+      })
+      await client.query(dotazprovozovna,(err,response) => {
+        if (err) {
+          resObj.info = -1
+          return
+        }
+        resObj.firmaprovozovna = response.rows
+        //console.log(resObj.stroj )
+  
+      })
+      await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejk, vubectro nechapu ale funguje to
+        console.log(200, "Vracim  Vysledek")
+        // dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup,
+        console.log(dotaz, " Par ",req_query_id_query, "String ", req.query.string_query)
+        res.json(resObj)
+      })  
+      await client.release() 
+
+    } catch(e)  {
+
+    }
+      //res.json({a: 1}); 
+      
+
+  },
+  async saveone(req, res, next) {
+    console.log('Ulozeni jedne firmy')
   },
 
   async update(req, res, next) {
