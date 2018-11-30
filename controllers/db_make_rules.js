@@ -491,7 +491,14 @@ async function init(){
          tel3 varchar(100) default '',
          mail varchar(100) default '',
          www varchar(100) default '',
-         poznamka text default ''
+         poznamka text default '',
+         narozeniny date,
+         mail_fakt varchar(100),
+         aktivni  boolean default true ,
+         ulice varchar(100),
+         obec varchar(100),
+         psc  varchar(6)
+         
          `,
          index_name: [ 
                 `kod  ~~~ (kod)`,
@@ -503,6 +510,8 @@ async function init(){
              
         ]
     },
+
+
 
     {   name: 'list_firmaprovozovna'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
             //Sehnat zpusob z ARES
@@ -526,7 +535,9 @@ async function init(){
          tel3 varchar(100) default '',
          mail varchar(100) default '',
          www varchar(100) default '',
-         poznamka text default ''
+         poznamka text default '',
+         otevreno_od time default '08:00',
+         otevreno_do time default '17:00'
          `,
          index_name: [ 
                 `kod  ~~~ (kod)`,
@@ -535,11 +546,26 @@ async function init(){
         reindex: 1,
          initq: [
             `select 1 ;`
-             
         ]
     },
-    
 
+    {   name: 'list_firmaprace'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
+    //Sehnat zpusob z ARES
+        ,struct:  `
+        kod int,
+        idefix_firma bigint,
+        idefix_prace bigint
+        `,
+ index_name: [ 
+        `idefix_firma ~~~ (idefix_firma)`,
+        `idefix_prace ~~~ (idefix_prace)`
+  ],
+reindex: 1,
+ initq: [
+    `select 1 ;`
+]
+},
+    
     {   name: 'list2_matvyrobce'
         ,struct:  `
          kod int,
@@ -548,8 +574,6 @@ async function init(){
          index_name: [ 
                 `kod  ~~~ (kod)`,
                 `nazev ~~~ (nazev)`
-                
-
           ],
         reindex: 1,
          initq: [
@@ -607,9 +631,6 @@ async function init(){
          cena_naklad_1l numeric(10,2)  default 0  ,
          txt text,
          kalkulace boolean default 
-         
-
-         
          
          `,
          /*

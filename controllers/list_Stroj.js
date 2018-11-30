@@ -23,8 +23,8 @@ const tabname = 'list_stroj'
 module.exports = {
     async saveone (req,res) {
       console.log(req.body.form, "user: ", req.body.user, "idefix :", req.body.idefix)
-      res.json({'a': 1})
-
+      //res.json({'a': 1})
+      //return
       
       var dotaz = `update list_stroj set `
       dotaz = dotaz + `
@@ -158,27 +158,6 @@ module.exports = {
             console.log(insertmod)
           }
 
-
-        /*    
-        idefix: -10,
-        idefix_stroj: '9183',
-        idefix_prace: 9015,
-        nazev: 'a0',
-        nazev_text: 'rozlozeni',
-        rychlost: 12,
-        idefix_jednotka: 9012,
-        idefix_i1: 9034,
-        i1spotreba: '18',
-        idefix_i2: 9074,
-        i2spotreba: '104',
-        idefix_i3: 0,
-        i3spotreba: 0,
-        idefix_i4: 0,
-        i4spotreba: 0,
-        idefix_i5: 0,
-        i5spotreba: 0,
-        mod_priorita: true,
-        */
 
        // console.log(element)
        // console.log(idefix_valid)
@@ -794,9 +773,6 @@ module.exports = {
       var order =' order by idefix_stroj, podskupina '
       var tmp =''
       console.log(where, ' : ', req.query)
-    
-    
-      
        
       
       console.log(dotaz, 'id:',req.query.id, 'lim:',req.query.limit ,'off:',req.query.offset , 'lim: ',  where )
@@ -815,6 +791,8 @@ module.exports = {
 
       }
       console.log(req.query.id, dotaz )
+       //res.json({a:1});
+       // return
     try {
       
 

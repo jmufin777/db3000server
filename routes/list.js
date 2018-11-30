@@ -193,7 +193,7 @@ router.post('/list-firma-save-one',
     listFirma.saveone)     
 router.put('/list-firma',
      listFirma.update)     
-router.delete('/list-firma',
+router.post('/list-firma-delete',
       listFirma.delete)      
 
 router.get('/list2-strojlaminace',
