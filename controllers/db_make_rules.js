@@ -548,6 +548,61 @@ async function init(){
             `select 1 ;`
         ]
     },
+    {   name: 'list_firmanotice'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
+            //Sehnat zpusob z ARES
+        ,struct:  `
+         kod int,
+         idefix_firma bigint,
+         txt text,
+         datum TIMESTAMP
+         
+         `,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `idefix_firma ~~~ (idefix_firma)`
+          ],
+        reindex: 1,
+         initq: [
+            `select 1 ;`
+        ]
+    },
+    {   name: 'list_firmaosobanotice'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
+            //Sehnat zpusob z ARES
+        ,struct:  `
+         kod int,
+         idefix_firmaosoba bigint,
+         txt text,
+         datum TIMESTAMP
+         
+         `,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `idefix_firmaosoba ~~~ (idefix_firmaosoba)`
+          ],
+        reindex: 1,
+         initq: [
+            `select 1 ;`
+        ]
+    },
+
+    {   name: 'list_firmaprovozovnanotice'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
+            //Sehnat zpusob z ARES
+        ,struct:  `
+         kod int,
+         idefix_firmaprovozovna bigint,
+         txt text,
+         datum TIMESTAMP
+         
+         `,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `idefix_firmaprovozovna ~~~ (idefix_firmaprovozovna)`
+          ],
+        reindex: 1,
+         initq: [
+            `select 1 ;`
+        ]
+    },
 
     {   name: 'list_firmaprace'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
     //Sehnat zpusob z ARES

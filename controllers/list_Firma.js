@@ -75,6 +75,7 @@ module.exports = {
       firmaosoba: [],
       firmaprovozovna: [],
       firmaprace: [],
+      firmanotice: [],
       
  
     }
@@ -85,6 +86,9 @@ module.exports = {
        var dotazosoba        =`select a.* from list_firmaosoba a where a.idefix_firma = ${req_query_id}`
        var dotazprovozovna   =`select a.* from list_firmaprovozovna a where a.idefix_firma = ${req_query_id}`
        var dotazprace        =`select a.* from list_firmaprace a where a.idefix_firma = ${req_query_id}`
+       var dotaznotice       =`select a.*, idefix2fullname(user_insert_idefix)  as user_txt from list_firmanotice a where a.idefix_firma = ${req_query_id} order by datum`
+       // var dotazosobanotice  =`select a.* from list_firmaosobanotice a where a.idefix_firmaosoba in  ${req_query_id} order by datum`
+
 
 
 
@@ -148,8 +152,31 @@ module.exports = {
         //console.log(resObj.stroj )
   
       })
+      await client.query(dotazprace,(err,response) => {
+        if (err) {
+          resObj.info = -1
+          return
+        }
+        resObj.firmaprace = response.rows
+        //console.log(resObj.stroj )
+  
+      })
+      if (req_query_id_query==-1 || req_query_id_query==101) {
+        console.log('req_query_id_query',req_query_id_query, dotaznotice)
+      await client.query(dotaznotice,(err,response) => {
+        if (err) {
+          resObj.info = -1
+          return
+        }
+
+        resObj.firmanotice = response.rows
+        console.log(resObj )
+  
+      })
+     }
+
       await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejk, vubectro nechapu ale funguje to
-        console.log(200, "Vracim  Vysledek")
+        console.log(200, "Vracim  Vysledek",req_query_id_query)
         // dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup,
         console.log(dotaz, " Par ",req_query_id_query, "String ", req.query.string_query)
         res.json(resObj)
@@ -167,6 +194,33 @@ module.exports = {
     //console.log('Ulozeni jedne firmy',req.body)
     
     // user_insert_idefix: null,
+    if (req.body.id_query ){
+      if (req.body.id_query  == 101){
+        console.log('notice only', req.body.id_query )
+        console.log(req.body.form, req.body.user)
+        var q= `insert into list_firmanotice(user_insert_idefix,idefix_firma,txt, datum ) values (login2idefix('${req.body.user}'),${req.body.form.idefix_firma},'${req.body.form.txt}',now())`
+        console.log(req.body.form, req.body.user, 'q: ', q)
+        try {
+          const client = await pool.connect()
+          await client.query(q,(err01,response01) => { 
+          if (err01){
+            console.log('Err - update' , 01, err01)
+          } 
+          })
+  
+          await client.release()
+          res.json({info: 'Ok test'});
+    
+          } catch (e) {
+    
+          }  
+        
+        return
+      }
+      
+      
+
+    }
     if (req.body.form.firma.datum_ares == null  || !req.body.form.firma.datum_ares.match(/[0-9]{4}/)){
       req.body.form.firma.datum_ares='19010101'
     }
