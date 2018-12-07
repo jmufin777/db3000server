@@ -530,6 +530,7 @@ async function init(){
          funkce varchar(50) default '',
          oddeleni varchar(50) default '',
          prioritni boolean default false,
+         aktivni boolean default true,
          tel varchar(15) default '',
          tel2 varchar(100) default '',
          tel3 varchar(100) default '',
@@ -537,7 +538,16 @@ async function init(){
          www varchar(100) default '',
          poznamka text default '',
          otevreno_od time default '08:00',
-         otevreno_do time default '17:00'
+         otevreno_do time default '17:00',
+         po boolean default true,
+         ut boolean default true,
+         st boolean default true,
+         ct boolean default true,
+         pa boolean default true,
+         so boolean default false,
+         ne boolean default false
+         
+
          `,
          index_name: [ 
                 `kod  ~~~ (kod)`,
@@ -554,6 +564,9 @@ async function init(){
          kod int,
          idefix_firma bigint,
          txt text,
+         pripominka boolean,
+         kdy TIMESTAMP,
+         
          datum TIMESTAMP
          
          `,

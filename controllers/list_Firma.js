@@ -76,17 +76,19 @@ module.exports = {
       firmaprovozovna: [],
       firmaprace: [],
       firmanotice: [],
-      
  
     }
        req_query_id = req.query.id
        req_query_id_query = req.query.id_query
        req_query_string_query = req.query.string_query
        var dotaz =`select a.* from ${tabname} a where a.idefix = ${req_query_id}`
-       var dotazosoba        =`select a.* from list_firmaosoba a where a.idefix_firma = ${req_query_id}`
+       var dotazosoba        =`select a.* from list_firmaosoba a where a.idefix_firma = ${req_query_id} order by case when aktivni then 1 else 2 end, idefix `
        var dotazprovozovna   =`select a.* from list_firmaprovozovna a where a.idefix_firma = ${req_query_id}`
        var dotazprace        =`select a.* from list_firmaprace a where a.idefix_firma = ${req_query_id}`
-       var dotaznotice       =`select a.*, idefix2fullname(user_insert_idefix)  as user_txt from list_firmanotice a where a.idefix_firma = ${req_query_id} order by datum`
+       var dotaznotice       =`select a.*, idefix2fullname(user_insert_idefix)  as user_txt from list_firmanotice a where a.idefix_firma = ${req_query_id} 
+            order by case when kdy is not null and kdy > now() and pripominka then kdy else datum end
+        desc`
+
        // var dotazosobanotice  =`select a.* from list_firmaosobanotice a where a.idefix_firmaosoba in  ${req_query_id} order by datum`
 
 
@@ -143,6 +145,7 @@ module.exports = {
         //console.log(resObj.stroj )
   
       })
+      if (req_query_id_query==-1 || req_query_id_query==103) {
       await client.query(dotazprovozovna,(err,response) => {
         if (err) {
           resObj.info = -1
@@ -152,6 +155,7 @@ module.exports = {
         //console.log(resObj.stroj )
   
       })
+     }
       await client.query(dotazprace,(err,response) => {
         if (err) {
           resObj.info = -1
@@ -174,6 +178,20 @@ module.exports = {
   
       })
      }
+
+     if (req_query_id_query==-1 || req_query_id_query==102) {
+      console.log('req_query_id_query',req_query_id_query, dotazosoba)
+    await client.query(dotazosoba,(err102,response102) => {
+      if (err102) {
+        resObj.info = -102
+        return
+      }
+
+      resObj.firmaosoba = response102.rows
+      console.log(resObj )
+
+    })
+   }
 
       await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejk, vubectro nechapu ale funguje to
         console.log(200, "Vracim  Vysledek",req_query_id_query)
@@ -198,7 +216,11 @@ module.exports = {
       if (req.body.id_query  == 101){
         console.log('notice only', req.body.id_query )
         console.log(req.body.form, req.body.user)
-        var q= `insert into list_firmanotice(user_insert_idefix,idefix_firma,txt, datum ) values (login2idefix('${req.body.user}'),${req.body.form.idefix_firma},'${req.body.form.txt}',now())`
+        if (req.body.form.kdy == null) {
+          req.body.form.kdy = '19991231'
+
+        }
+        var q= `insert into list_firmanotice(user_insert_idefix,idefix_firma,txt, datum,kdy,pripominka ) values (login2idefix('${req.body.user}'),${req.body.form.idefix_firma},'${req.body.form.txt}',now(),'${req.body.form.kdy}','${req.body.form.pripominka}')`
         console.log(req.body.form, req.body.user, 'q: ', q)
         try {
           const client = await pool.connect()
@@ -214,9 +236,404 @@ module.exports = {
           } catch (e) {
     
           }  
+          
+          
         
         return
       }
+
+      ///102 -- vklad kontaktu
+      if (req.body.id_query  == 102) {
+        console.log('Kontakt only INSERT', req.body.id_query )
+       
+       
+//        console.log(req.body.form, req.body.user)
+        if (req.body.form.narozeniny == null) {
+            req.body.form.narozeniny = '19001231'
+
+        }
+        var q= `insert into list_firmaosoba(
+
+          idefix_firma,
+          kod,
+          jmeno, 
+          prijmeni, 
+          titul, 
+          titulza, 
+          funkce, 
+          oddeleni, 
+          prioritni, 
+          tel, 
+          tel2, 
+          tel3, 
+          mail, 
+          www, 
+          poznamka, 
+          narozeniny, 
+          mail_fakt, 
+          psc, 
+          obec, 
+          ulice,
+          aktivni,
+          user_insert_idefix
+         ) 
+          values 
+          (
+          '${req.body.form.idefix_firma}',
+          '${req.body.form.kod}',
+          '${req.body.form.jmeno}',
+          '${req.body.form.prijmeni}',
+          '${req.body.form.titul}',
+          '${req.body.form.titulza}',
+          '${req.body.form.funkce}',
+          '${req.body.form.oddeleni}',
+          '${req.body.form.prioritni}',
+          '${req.body.form.tel}',
+          '${req.body.form.tel2}',
+          '${req.body.form.tel3}',
+          '${req.body.form.mail}',
+          '${req.body.form.www}',
+          '${req.body.form.poznamka}',
+          '${req.body.form.narozeniny}',
+          '${req.body.form.mail_fakt}',
+          '${req.body.form.psc}',
+          '${req.body.form.obec}',
+          '${req.body.form.ulice}',
+          '${req.body.form.aktivni}',
+          login2idefix('${req.body.user}')
+          
+          )`
+
+          console.log(q)
+
+
+        console.log(req.body.form, req.body.user, 'q :102 ', q)
+        try {
+          const client = await pool.connect()
+          await client.query(q,(err01,response01) => { 
+          if (err01){
+            console.log('Err - update' , 01, err01)
+          } 
+          })
+  
+          await client.release()
+          res.json({info: 'Ok test'});
+    
+          } catch (e) {
+    
+          }  
+          
+        
+        return
+      }
+
+
+      ///102
+
+      ///1021
+      if (req.body.id_query  == 1021){
+        console.log('Kontakt only', req.body.id_query )
+        
+       
+       
+        console.log(req.body.form, req.body.user)
+        if (req.body.form.narozeniny == null) {
+            req.body.form.narozeniny = '19001231'
+
+        }
+        var q1021= `update list_firmaosoba
+
+          set idefix_firma                 ='${req.body.form.idefix_firma}',
+              kod                 ='${req.body.form.kod}',
+              jmeno                 ='${req.body.form.jmeno}',
+              prijmeni                 ='${req.body.form.prijmeni}',
+              titul                 ='${req.body.form.titul}',
+              titulza                 ='${req.body.form.titulza}',
+              funkce                 ='${req.body.form.funkce}',
+              oddeleni                 ='${req.body.form.oddeleni}',
+              prioritni                 ='${req.body.form.prioritni}',
+              tel                 ='${req.body.form.tel}',
+              tel2                 ='${req.body.form.tel2}',
+              tel3                 ='${req.body.form.tel3}',
+              mail                 ='${req.body.form.mail}',
+              www                 ='${req.body.form.www}',
+              poznamka                 ='${req.body.form.poznamka}',
+              narozeniny                 ='${req.body.form.narozeniny}',
+              mail_fakt                 ='${req.body.form.mail_fakt}',
+              psc                 ='${req.body.form.psc}',
+              obec                 ='${req.body.form.obec}',
+              ulice                 ='${req.body.form.ulice}',
+              aktivni                 ='${req.body.form.aktivni}',
+              user_update_idefix                 =login2idefix('${req.body.user}')
+              where idefix = '${req.body.form.idefix}'
+              `
+
+          console.log(q1021)
+
+
+        console.log(req.body.form, req.body.user, 'q 1021: ', q1021)
+        try {
+          const client = await pool.connect()
+          await client.query(q1021,(err01,response01) => { 
+          if (err01){
+            console.log('Err - update' , 01, err01)
+          } 
+          })
+  
+          await client.release()
+          res.json({info: 'Ok test'});
+    
+          } catch (e) {
+    
+          }  
+          
+        
+        return
+      }
+
+      ///1021
+
+      ///1022
+      if (req.body.id_query  == 1022){
+        console.log('Kontakt only', req.body.id_query )
+        
+       
+       
+        console.log(req.body.form, req.body.user)
+        
+        var q1022= `update list_firmaosoba
+
+              set aktivni        =not aktivni ,
+              user_update_idefix                 =login2idefix('${req.body.user}')
+              where idefix = '${req.body.form.idefix}'
+              `
+
+          console.log(q1022)
+
+
+        console.log(req.body.form, req.body.user, 'q 1022: ', q1022)
+        try {
+          const client = await pool.connect()
+          await client.query(q1022,(err1022,response01) => { 
+          if (err1022){
+            console.log('Err - update' , 01, err1022)
+          } 
+          })
+  
+          await client.release()
+          res.json({info: 'Ok test'});
+    
+          } catch (e) {
+    
+          }  
+          
+        
+        return
+      }
+
+      ///1022
+
+      //Provozovny
+
+      if (req.body.id_query  == 103) {
+        console.log('Provozovna only INSERT', req.body.id_query )
+       
+       
+//        console.log(req.body.form, req.body.user)
+        
+        var q= `insert into list_firmaprovozovna(
+
+          idefix_firma,
+          kod,
+          nazev,
+          jmeno, 
+          prijmeni, 
+          titul, 
+          titulza, 
+          funkce, 
+          oddeleni, 
+          prioritni, 
+          tel, 
+          tel2, 
+          tel3, 
+          mail, 
+          www, 
+          poznamka, 
+
+          psc, 
+          obec, 
+          ulice,
+          aktivni,
+          otevreno_od,
+          otevreno_do,
+          user_insert_idefix
+         ) 
+          values 
+          (
+          '${req.body.form.idefix_firma}',
+          '${req.body.form.kod}',
+          '${req.body.form.nazev}',
+          '${req.body.form.jmeno}',
+          '${req.body.form.prijmeni}',
+          '${req.body.form.titul}',
+          '${req.body.form.titulza}',
+          '${req.body.form.funkce}',
+          '${req.body.form.oddeleni}',
+          '${req.body.form.prioritni}',
+          '${req.body.form.tel}',
+          '${req.body.form.tel2}',
+          '${req.body.form.tel3}',
+          '${req.body.form.mail}',
+          '${req.body.form.www}',
+          '${req.body.form.poznamka}',
+
+          '${req.body.form.psc}',
+          '${req.body.form.obec}',
+          '${req.body.form.ulice}',
+          '${req.body.form.aktivni}',
+          '${req.body.form.otevreno_od}',
+          '${req.body.form.otevreno_do}',
+          login2idefix('${req.body.user}')
+          
+          )`
+
+          console.log(q)
+
+
+        console.log(req.body.form, req.body.user, 'q :103 ', q)
+        try {
+          const client = await pool.connect()
+          await client.query(q,(err01,response01) => { 
+          if (err01){
+            console.log('Err - update' , 01, err01)
+          } 
+          })
+  
+          await client.release()
+          res.json({info: 'Ok test'});
+    
+          } catch (e) {
+    
+          }  
+          
+        
+        return
+      }
+
+
+      ///102
+
+      ///1021
+      if (req.body.id_query  == 1031){
+        console.log('Kontakt only', req.body.id_query )
+        
+       
+       
+        console.log(req.body.form, req.body.user)
+        if (req.body.form.narozeniny == null) {
+            req.body.form.narozeniny = '19001231'
+
+        }
+        var q1031= `update list_firmaprovozovna
+
+          set idefix_firma                 ='${req.body.form.idefix_firma}',
+              kod                 ='${req.body.form.kod}',
+              nazev                 ='${req.body.form.nazev}',
+              jmeno                 ='${req.body.form.jmeno}',
+              prijmeni                 ='${req.body.form.prijmeni}',
+              titul                 ='${req.body.form.titul}',
+              titulza                 ='${req.body.form.titulza}',
+              funkce                 ='${req.body.form.funkce}',
+              oddeleni                 ='${req.body.form.oddeleni}',
+              prioritni                 ='${req.body.form.prioritni}',
+              tel                 ='${req.body.form.tel}',
+              tel2                 ='${req.body.form.tel2}',
+              tel3                 ='${req.body.form.tel3}',
+              mail                 ='${req.body.form.mail}',
+              www                 ='${req.body.form.www}',
+              poznamka                 ='${req.body.form.poznamka}',
+
+              psc                 ='${req.body.form.psc}',
+              obec                 ='${req.body.form.obec}',
+              ulice                 ='${req.body.form.ulice}',
+              aktivni                 ='${req.body.form.aktivni}',
+              po                 ='${req.body.form.po}',
+              ut                 ='${req.body.form.ut}',
+              st                 ='${req.body.form.st}',
+              ct                 ='${req.body.form.ct}',
+              pa                 ='${req.body.form.pa}',
+              so                 ='${req.body.form.so}',
+              ne                 ='${req.body.form.ne}',
+              user_update_idefix                 =login2idefix('${req.body.user}')
+              where idefix = '${req.body.form.idefix}'
+              `
+
+          console.log(q1021)
+
+
+        console.log(req.body.form, req.body.user, 'q 1031: ', q1021)
+        try {
+          const client = await pool.connect()
+          await client.query(q1031,(err01,response01) => { 
+          if (err01){
+            console.log('Err - update' , 01, err01)
+          } 
+          })
+  
+          await client.release()
+          res.json({info: 'Ok test'});
+    
+          } catch (e) {
+    
+          }  
+          
+        
+        return
+      }
+
+      ///1021
+
+      ///1022
+      if (req.body.id_query  == 1032){
+        console.log('provozovnat only', req.body.id_query )
+        
+       
+       
+        console.log(req.body.form, req.body.user)
+        
+        var q1022= `update list_firmaprovozovna
+
+              set aktivni        =not aktivni ,
+              user_update_idefix                 =login2idefix('${req.body.user}')
+              where idefix = '${req.body.form.idefix}'
+              `
+
+          console.log(q1022)
+
+
+        console.log(req.body.form, req.body.user, 'q 1032: ', q1032)
+        try {
+          const client = await pool.connect()
+          await client.query(q1022,(err1022,response01) => { 
+          if (err1022){
+            console.log('Err - update' , 01, err1022)
+          } 
+          })
+  
+          await client.release()
+          res.json({info: 'Ok test'});
+    
+          } catch (e) {
+    
+          }  
+          
+        
+        return
+      }
+
+      ///1022
+
+      //Provozovny
       
       
 
