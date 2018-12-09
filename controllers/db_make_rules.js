@@ -564,8 +564,12 @@ async function init(){
          kod int,
          idefix_firma bigint,
          txt text,
+         txt2 text,
          pripominka boolean,
+
+         idefix_osoba bigint,
          kdy TIMESTAMP,
+         zobrazeno int default 0,
          
          datum TIMESTAMP
          

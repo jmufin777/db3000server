@@ -170,3 +170,16 @@ create or replace function fce_list_dodavatel_insert(ctxt text) returns bigint a
  END;
 $$LANGUAGE plpgsql;
 
+create or replace function firma(_idefix bigint) returns text as $$
+        select nazev from list_dodavatel where idefix = _idefix ;
+$$LANGUAGE SQL;
+
+create or replace function osoba(_idefix bigint ) returns text as $$
+    select coalesce(prijmeni,'') || ' ' || coalesce(jmeno) as nazev from list_firmaosoba where idefix = _idefix ;
+$$LANGUAGE SQL;
+
+
+create or replace function firmaosoba(_idefix_firma bigint, _idefix_osoba bigint) RETURNS text as $$
+    select trim(coalesce(firma(_idefix_firma),'') ||' '|| coalesce(osoba(_idefix_osoba),'')) ;
+$$LANGUAGE SQL ;
+

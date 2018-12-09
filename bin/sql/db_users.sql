@@ -30,9 +30,13 @@ create table list_users (
 
 alter table list_users add plati_od date default '20000101' ;
 alter table list_users add plati_do date default '21001231' ;
+alter table list_users alter idefix set default nextval('list2_seq'::regclass) ;
+alter table list_users add zkratka varchar(10) ;
+
 create UNIQUE INDEX list_users_login on list_users (login);
 create UNIQUE INDEX list_users_id on list_users (id);
 create  INDEX list_users_idefix on list_users (idefix);
+ create index list_users_zkratka on list_users(zkratka) ;
 
 
 /*
@@ -66,6 +70,14 @@ select kodzamestnance, login, heslo,jmeno,prijmeni,email,plati, zobraz,level fro
  ) without oids;
  
  create unique index on list_groups_users(idefix_user, idefix_group );
+
+ create or replace FUNCTION zkratka(_idefix int ) returns text as $$
+   select zkratka from list_users where idefix = _idefix;
+ $$LANGUAGE SQL ;
+ 
+ create or replace FUNCTION zkratka(_login varchar ) returns text as $$
+   select zkratka from list_users where login = _login;
+ $$LANGUAGE SQL ;
 
 create table list_users_sessions (id bigserial, idefix bigint, t_login timestamp default now(),t_logout timestamp,t_last timestamp default now()) 
 without oids;

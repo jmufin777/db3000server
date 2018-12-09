@@ -324,7 +324,40 @@ module.exports = {
           keys += ',time_update = now()'  
         }  
          dotaz = `update list_users set ${keys}  where idefix = ${req.body.typ} ; update list_users set idefix = id where idefix = -1;
-          update list_users set jmeno = login, prijmeni='' where coalesce(coalesce(jmeno,prijmeni),'') <' '`
+          update list_users set jmeno = login, prijmeni='' where coalesce(coalesce(jmeno,prijmeni),'') <' ';
+          
+          update list_users a set zkratka  = upper(substr(jmeno,1,1) ||  substr(prijmeni,1,1)) where prijmeni >'' and jmeno >'' and zkratka is null and 
+          not exists (select * from list_users b where a.zkratka = upper(substr(a.jmeno,1,1) || substr(a.prijmeni,1,1)) ) 
+          and  id in (
+            select min(id) from list_users c where zkratka is null group by upper(substr( jmeno,1,1) || substr( prijmeni,1,1)) 
+            )
+            
+            ;
+
+           update list_users a set zkratka  = upper(substr(jmeno,1,1) ||  substr(prijmeni,1,1)) || '2'  where prijmeni >'' and jmeno >'' and zkratka is null and 
+          not exists (select * from list_users b where a.zkratka = upper(substr(a.jmeno,1,1) || substr(a.prijmeni,1,1)) || '2' )  
+          and  id in (
+            select min(id) from list_users c where zkratka is null group by upper(substr( jmeno,1,1) || substr( prijmeni,1,1)) || '2'
+            ) ;
+
+            update list_users a set zkratka  = upper(substr(jmeno,1,1) ||  substr(prijmeni,1,1)) || '3'  where prijmeni >'' and jmeno >'' and zkratka is null and 
+            not exists (select * from list_users b where a.zkratka = upper(substr(a.jmeno,1,1) || substr(a.prijmeni,1,1)) || '3' )  
+            and  id in (
+              select min(id) from list_users c where zkratka is null group by upper(substr( jmeno,1,1) || substr( prijmeni,1,1)) || '3'
+              ) ;
+
+              update list_users a set zkratka  = upper(substr(jmeno,1,1) ||  substr(prijmeni,1,1)) || '4'  where prijmeni >'' and jmeno >'' and zkratka is null and 
+            not exists (select * from list_users b where a.zkratka = upper(substr(a.jmeno,1,1) || substr(a.prijmeni,1,1)) || '4' )  
+            and  id in (
+              select min(id) from list_users c where zkratka is null group by upper(substr( jmeno,1,1) || substr( prijmeni,1,1)) || '4'
+              ) ;
+
+              update list_users a set zkratka  = upper(substr(jmeno,1,1) ||  substr(prijmeni,1,1)) || '5'  where prijmeni >'' and jmeno >'' and zkratka is null and 
+            not exists (select * from list_users b where a.zkratka = upper(substr(a.jmeno,1,1) || substr(a.prijmeni,1,1)) || '5' )  
+            and  id in (
+              select min(id) from list_users c where zkratka is null group by upper(substr( jmeno,1,1) || substr( prijmeni,1,1)) || '5'
+              ) ;
+          `
     }
 
 

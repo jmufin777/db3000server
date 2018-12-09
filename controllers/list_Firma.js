@@ -15,7 +15,7 @@ module.exports = {
       var where ='  true '
       var order =' order by a.nazev, a.idefix '
       var tmp =''
-      console.log(where, ' : ', req.query)
+      //console.log(where, ' : ', req.query)
 
       if (req.query.id=='nic'){
         dotaz=`select * from ${tabname} where 1=1 order by kod `
@@ -68,6 +68,8 @@ module.exports = {
   },
 
   async one(req, res, next) {
+    var start = new Date()
+    var end = 0
     var  resObj = {
       info: 0,
       xdata: [],
@@ -76,25 +78,52 @@ module.exports = {
       firmaprovozovna: [],
       firmaprace: [],
       firmanotice: [],
+      firmanoticevalid: [],
+      enumosoba: []
  
     }
-       req_query_id = req.query.id
-       req_query_id_query = req.query.id_query
-       req_query_string_query = req.query.string_query
+       var req_query_id = req.query.id
+       var req_query_id_query = req.query.id_query
+       var req_query_string_query = req.query.string_query
+
        var dotaz =`select a.* from ${tabname} a where a.idefix = ${req_query_id}`
        var dotazosoba        =`select a.* from list_firmaosoba a where a.idefix_firma = ${req_query_id} order by case when aktivni then 1 else 2 end, idefix `
        var dotazprovozovna   =`select a.* from list_firmaprovozovna a where a.idefix_firma = ${req_query_id}`
        var dotazprace        =`select a.* from list_firmaprace a where a.idefix_firma = ${req_query_id}`
-       var dotaznotice       =`select a.*, idefix2fullname(user_insert_idefix)  as user_txt from list_firmanotice a where a.idefix_firma = ${req_query_id} 
-            order by case when kdy is not null and kdy > now() and pripominka then kdy else datum end
-        desc`
+       var dotaznotice       =`select  extract(epoch from now() - a.datum)/60 < 60 as isedit ,a.*, idefix2fullname(user_insert_idefix)  as user_txt,zkratka(user_insert_idefix) as zkratka_login
+                      from list_firmanotice a where a.idefix_firma = ${req_query_id} 
+                     order by datum    desc`
+        var dotaznoticevalid = `
+        select firmaosoba(idefix_firma,idefix_osoba) as firmaosoba ,* from list_firmanotice 
+        where (user_insert_idefix = login2idefix('${req.query.user}') or user_update_idefix = login2idefix('${req.query.user}') )  
+        and (kdy <= now() + ' - 5 minutes '  or  
+        ( kdy between now() + ' - 5 minutes ' and now() + ' + 15 minutes ' )
+        )
+        and zobrazeno = 0  
+        and pripominka = true
+        order by kdy `             
+
+
+        // select * from list_firmanotice where (user_insert_idefix = 9 or user_update_idefix = 9 )
+
+        var enum_osoba = `
+        select 0 as idefix, 'firma'::text as nazev union 
+        select idefix, coalesce(prijmeni,'') || ' ' || coalesce(jmeno) as nazev from list_firmaosoba where idefix_firma = ${req_query_id} and aktivni order by nazev`
+
+       if (req_query_id_query == 1012) {
+        // console.log(req.query, ":", req_query_id, ': \n ', enum_osoba )
+       // res.json({'a':1})
+        //return
+
+       }
+        
+        
+        // order by case when kdy is not null and kdy > now() and pripominka then kdy else datum end
 
        // var dotazosobanotice  =`select a.* from list_firmaosobanotice a where a.idefix_firmaosoba in  ${req_query_id} order by datum`
 
 
-
-
-      console.log('Dotaz na jednu firmu' )
+      //cconsole.log(dotaznoticevalid,"::::",req.query.user ," ::EOF::" )
     try {
       const client = await pool.connect()
   
@@ -103,25 +132,25 @@ module.exports = {
       }
       
        if (req.query.string_query=='copy'){
-        console.log("req_query_id: ", req_query_id )
-        console.log(`select fce_list_firma_new as new_idefix from fce_list_firma_new(${req_query_id})`)
+        //console.log("req_query_id: ", req_query_id )
+        //console.log(`select fce_list_firma_new as new_idefix from fce_list_firma_new(${req_query_id})`)
         
         await client.query(`select fce_list_firma_new as new_idefix from fce_list_firma_new(${req_query_id})`,(err88,response88) => {
           if (err88){
             console.log("Err",88);
           }
           
-          console.log(88, response88.rows)
+          //console.log(88, response88.rows)
           req_query_id = response88.rows[0].new_idefix
           resObj.newId = req_query_id
-          console.log(88, 'New Id = :', req_query_id)
+          //console.log(88, 'New Id = :', req_query_id)
         //  res.json({newId: req_query_id})
         
           
         })
         // res.json(resObj)
         //  await client.release()
-        console.log( resObj )
+//        console.log( resObj )
         // return
 
         req_query_string_query =''   //napred ma smlysl, pusti se procedura na sql a ta nasype zpet nove idefix materialu a pak je mozne zase to jakoby smaznout
@@ -145,6 +174,20 @@ module.exports = {
         //console.log(resObj.stroj )
   
       })
+      
+      if (req_query_id_query==-1 || req_query_id_query==1012) {
+        console.log('seznam osob')
+        console.log(req.query, ":", req_query_id, ': \n ', enum_osoba )
+      await client.query(enum_osoba,(err1012,response1012) => {
+        if (err1012) {
+          resObj.info = -1012
+          return
+        }
+        resObj.enumosoba = response1012.rows
+        console.log(resObj.enumosoba )
+        })
+    }
+
       if (req_query_id_query==-1 || req_query_id_query==103) {
       await client.query(dotazprovozovna,(err,response) => {
         if (err) {
@@ -166,7 +209,7 @@ module.exports = {
   
       })
       if (req_query_id_query==-1 || req_query_id_query==101) {
-        console.log('req_query_id_query',req_query_id_query, dotaznotice)
+        //console.log('req_query_id_query',req_query_id_query, dotaznotice)
       await client.query(dotaznotice,(err,response) => {
         if (err) {
           resObj.info = -1
@@ -174,10 +217,23 @@ module.exports = {
         }
 
         resObj.firmanotice = response.rows
-        console.log(resObj )
+        //console.log(resObj )
   
       })
      }
+     if (req_query_id_query==1011) {
+     // console.log('req_query_id_query',req_query_id_query, dotaznotice)
+    await client.query(dotaznoticevalid,(err1011,response1011) => {
+      if (err1011)  {
+        resObj.info = -1
+        return
+      }
+
+      resObj.firmanoticevalid = response1011.rows
+      // console.log(resObj )
+
+    })
+   }
 
      if (req_query_id_query==-1 || req_query_id_query==102) {
       console.log('req_query_id_query',req_query_id_query, dotazosoba)
@@ -194,12 +250,18 @@ module.exports = {
    }
 
       await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejk, vubectro nechapu ale funguje to
-        console.log(200, "Vracim  Vysledek",req_query_id_query)
+        end = new Date()
+        end.getTime()
+
+        // console.log(200, "Vracim  Vysledek",req_query_id_query, resObj, enum_osoba)
+        console.log(200, "Vracim  Vysledky",req_query_id_query, end.getTime() - start.getTime() )
         // dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup,
-        console.log(dotaz, " Par ",req_query_id_query, "String ", req.query.string_query)
+        // console.log(dotaz, " Par ",req_query_id_query, "String ", req.query.string_query)
         res.json(resObj)
+        console.log(200, "Vracim  Vysledky 2 za : ", end.getTime() - start.getTime() )
       })  
       await client.release() 
+      console.log(200, "Vracim  Vysledky 3 za : ", end.getTime() - start.getTime() )
 
     } catch(e)  {
 
@@ -210,18 +272,37 @@ module.exports = {
   },
   async saveone(req, res, next) {
     //console.log('Ulozeni jedne firmy',req.body)
-    
+    var start = new Date()
+    var end   = new Date()
     // user_insert_idefix: null,
     if (req.body.id_query ){
-      if (req.body.id_query  == 101){
-        console.log('notice only', req.body.id_query )
-        console.log(req.body.form, req.body.user)
+      if (req.body.id_query  == 101 || req.body.id_query  == 1011 ){
+        //console.log('notice only 2', req.body.id_query )
+        //console.log(req.body.form, req.body.user)
+        
         if (req.body.form.kdy == null) {
           req.body.form.kdy = '19991231'
 
         }
-        var q= `insert into list_firmanotice(user_insert_idefix,idefix_firma,txt, datum,kdy,pripominka ) values (login2idefix('${req.body.user}'),${req.body.form.idefix_firma},'${req.body.form.txt}',now(),'${req.body.form.kdy}','${req.body.form.pripominka}')`
-        console.log(req.body.form, req.body.user, 'q: ', q)
+        if (req.body.id_query  == 101) {
+            var q= `insert into list_firmanotice(user_insert_idefix,idefix_firma,txt, datum,kdy,pripominka,idefix_osoba ) 
+            values (login2idefix('${req.body.user}'),${req.body.form.idefix_firma},'${req.body.form.txt}',now(),'${req.body.form.kdy}','${req.body.form.pripominka}','${req.body.form.idefix_osoba}')`
+        }
+
+        if (req.body.id_query  == 1011 && req.body.form.idefix > 0 ) {
+          var q= `
+          update list_firmanotice set 
+          user_update_idefix = login2idefix('${req.body.user}'),
+          idefix_osoba = ${req.body.form.idefix_osoba},
+          kdy = '${req.body.form.kdy}',
+          pripominka = '${req.body.form.pripominka}',
+          txt = '${req.body.form.txt}',
+          txt2 = replace('${req.body.form.txt2}','null',''),
+          zobrazeno = '${req.body.form.zobrazeno}'
+          where idefix = ${req.body.form.idefix}
+          `
+        }
+        //console.log(req.body.form, req.body.user, 'q: ', q)
         try {
           const client = await pool.connect()
           await client.query(q,(err01,response01) => { 
@@ -229,15 +310,20 @@ module.exports = {
             console.log('Err - update' , 01, err01)
           } 
           })
-  
-          await client.release()
+          await client.query(`delete from list_firmanotice where txt='' or txt is null or idefix=0 or idefix=0 or idefix_firma = 0`,(err01d,response01d) => { 
+            if (err01d){
+              console.log('Err - update' , 01, err01d)
+            } 
+            })
+          end = new Date()  
+          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
           res.json({info: 'Ok test'});
+          await client.release()
+          
     
           } catch (e) {
     
           }  
-          
-          
         
         return
       }
@@ -304,10 +390,10 @@ module.exports = {
           
           )`
 
-          console.log(q)
+          //console.log(q)
 
 
-        console.log(req.body.form, req.body.user, 'q :102 ', q)
+        //console.log(req.body.form, req.body.user, 'q :102 ', q)
         try {
           const client = await pool.connect()
           await client.query(q,(err01,response01) => { 
@@ -315,9 +401,12 @@ module.exports = {
             console.log('Err - update' , 01, err01)
           } 
           })
-  
-          await client.release()
+
+          end = new Date()  
+          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
           res.json({info: 'Ok test'});
+          await client.release()
+          
     
           } catch (e) {
     
@@ -332,11 +421,11 @@ module.exports = {
 
       ///1021
       if (req.body.id_query  == 1021){
-        console.log('Kontakt only', req.body.id_query )
+        //console.log('Kontakt only', req.body.id_query )
         
        
        
-        console.log(req.body.form, req.body.user)
+        //console.log(req.body.form, req.body.user)
         if (req.body.form.narozeniny == null) {
             req.body.form.narozeniny = '19001231'
 
@@ -368,10 +457,10 @@ module.exports = {
               where idefix = '${req.body.form.idefix}'
               `
 
-          console.log(q1021)
+          //console.log(q1021)
 
 
-        console.log(req.body.form, req.body.user, 'q 1021: ', q1021)
+        //console.log(req.body.form, req.body.user, 'q 1021: ', q1021)
         try {
           const client = await pool.connect()
           await client.query(q1021,(err01,response01) => { 
@@ -379,7 +468,8 @@ module.exports = {
             console.log('Err - update' , 01, err01)
           } 
           })
-  
+          end = new Date()  
+          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
           await client.release()
           res.json({info: 'Ok test'});
     
@@ -395,11 +485,11 @@ module.exports = {
 
       ///1022
       if (req.body.id_query  == 1022){
-        console.log('Kontakt only', req.body.id_query )
+        //console.log('Kontakt only', req.body.id_query )
         
        
        
-        console.log(req.body.form, req.body.user)
+        //console.log(req.body.form, req.body.user)
         
         var q1022= `update list_firmaosoba
 
@@ -408,10 +498,10 @@ module.exports = {
               where idefix = '${req.body.form.idefix}'
               `
 
-          console.log(q1022)
+         //console.log(q1022)
 
 
-        console.log(req.body.form, req.body.user, 'q 1022: ', q1022)
+        //console.log(req.body.form, req.body.user, 'q 1022: ', q1022)
         try {
           const client = await pool.connect()
           await client.query(q1022,(err1022,response01) => { 
@@ -419,9 +509,13 @@ module.exports = {
             console.log('Err - update' , 01, err1022)
           } 
           })
-  
-          await client.release()
+
+          end = new Date()  
+          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
+
           res.json({info: 'Ok test'});
+          await client.release()
+          
     
           } catch (e) {
     
@@ -436,7 +530,7 @@ module.exports = {
       //Provozovny
 
       if (req.body.id_query  == 103) {
-        console.log('Provozovna only INSERT', req.body.id_query )
+        //console.log('Provozovna only INSERT', req.body.id_query )
        
        
 //        console.log(req.body.form, req.body.user)
@@ -497,10 +591,10 @@ module.exports = {
           
           )`
 
-          console.log(q)
+          //console.log(q)
 
 
-        console.log(req.body.form, req.body.user, 'q :103 ', q)
+        //console.log(req.body.form, req.body.user, 'q :103 ', q)
         try {
           const client = await pool.connect()
           await client.query(q,(err01,response01) => { 
@@ -508,7 +602,8 @@ module.exports = {
             console.log('Err - update' , 01, err01)
           } 
           })
-  
+          end = new Date()  
+          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
           await client.release()
           res.json({info: 'Ok test'});
     
@@ -525,11 +620,11 @@ module.exports = {
 
       ///1021
       if (req.body.id_query  == 1031){
-        console.log('Kontakt only', req.body.id_query )
+        //console.log('Kontakt only', req.body.id_query )
         
        
        
-        console.log(req.body.form, req.body.user)
+        //console.log(req.body.form, req.body.user)
         if (req.body.form.narozeniny == null) {
             req.body.form.narozeniny = '19001231'
 
@@ -568,10 +663,10 @@ module.exports = {
               where idefix = '${req.body.form.idefix}'
               `
 
-          console.log(q1021)
+          //console.log(q1021)
 
 
-        console.log(req.body.form, req.body.user, 'q 1031: ', q1021)
+        //console.log(req.body.form, req.body.user, 'q 1031: ', q1021)
         try {
           const client = await pool.connect()
           await client.query(q1031,(err01,response01) => { 
@@ -579,7 +674,8 @@ module.exports = {
             console.log('Err - update' , 01, err01)
           } 
           })
-  
+          end = new Date()  
+          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
           await client.release()
           res.json({info: 'Ok test'});
     
@@ -595,11 +691,11 @@ module.exports = {
 
       ///1022
       if (req.body.id_query  == 1032){
-        console.log('provozovnat only', req.body.id_query )
+        //console.log('provozovnat only', req.body.id_query )
         
        
        
-        console.log(req.body.form, req.body.user)
+        //console.log(req.body.form, req.body.user)
         
         var q1022= `update list_firmaprovozovna
 
@@ -608,10 +704,10 @@ module.exports = {
               where idefix = '${req.body.form.idefix}'
               `
 
-          console.log(q1022)
+          //console.log(q1022)
 
 
-        console.log(req.body.form, req.body.user, 'q 1032: ', q1032)
+        //console.log(req.body.form, req.body.user, 'q 1032: ', q1032)
         try {
           const client = await pool.connect()
           await client.query(q1022,(err1022,response01) => { 
@@ -619,7 +715,8 @@ module.exports = {
             console.log('Err - update' , 01, err1022)
           } 
           })
-  
+          end = new Date()  
+          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
           await client.release()
           res.json({info: 'Ok test'});
     
@@ -677,7 +774,7 @@ module.exports = {
       dotaz += ` where idefix = ${req.body.idefix}`
       dotaz = dotaz.replace(/undefined/g,'0')
       dotaz = dotaz.replace(/null/g,'')
-      console.log(dotaz)
+      //console.log(dotaz)
 
       try {
         const client = await pool.connect()
@@ -686,7 +783,8 @@ module.exports = {
           console.log('Err - update' , 01, err01)
         } 
         })
-
+        end = new Date()  
+        console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
         await client.release()
         res.json({info: 'Ok test'});
   
@@ -722,7 +820,7 @@ module.exports = {
       var neco1 = JSON.parse(JSON.stringify(req.body.form.del))
       if (req.body.form.del.length > 0)  {
       dotaz=`delete from ${tabname} where id in ( ${neco1})`
-      console.log(dotaz)
+      //console.log(dotaz)
 
       await client.query(dotaz,(err, response)=>{
           if (err){
@@ -781,7 +879,7 @@ module.exports = {
         }
         dotaz = dotaz.replace(/undefined/g,'')
           dotaz = dotaz.replace(/null/g,'')
-          console.log(dotaz)
+          //console.log(dotaz)
            client.query(dotaz  ,[  ],(err, response ) => {
              if (err) {
                return next(err)
@@ -794,12 +892,14 @@ module.exports = {
       // const dotaz = `insert into list2_barevnost(kod,nazev,user_insert, user_insert_idefix) 
       //   values ('${kod}', '${nazev}', '${user}', login2idefix('${user}') ) `
       //console.log('Insert barevnost', req.body, kod, nazev,"U",user)
-      console.log('Uvolnuji')
+      //console.log('Uvolnuji')
+      end = new Date()  
+      console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
       await client.release()
       res.json({info: 'Ok' })
 
     } catch (err) {
-      console.log(err)
+      //console.log(err)
       res.status(411).send({
         error: 'Barevnost - nelze vlozit kod'
       })
@@ -812,7 +912,7 @@ module.exports = {
   async delete (req, res, next ) {
     const client = await pool.connect()
     // req.body.params.id
-    console.log('Delete' ,req.body.params )
+    //console.log('Delete' ,req.body.params )
      //res.json({a: 1});
      //return
      await client.query(`select fce_list_firma_del(${req.body.params.id})` ,(err00, response00) => {
@@ -830,7 +930,7 @@ module.exports = {
      await client.release()
 
 
-    console.log('Delete Firma', req.body.params.id)
+    //console.log('Delete Firma', req.body.params.id)
   }
 
 
