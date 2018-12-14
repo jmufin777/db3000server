@@ -5,6 +5,7 @@ const {pool, client } = require('../db')
 const _ = require('lodash')
 
 var lErr= false
+var  b1 = false;
 
 
 const tabname = 'list_dodavatel'
@@ -79,7 +80,8 @@ module.exports = {
       firmaprace: [],
       firmanotice: [],
       firmanoticevalid: [],
-      enumosoba: []
+      enumosoba: [],
+      enumprace: [],
  
     }
        var req_query_id = req.query.id
@@ -88,7 +90,7 @@ module.exports = {
 
        var dotaz =`select a.* from ${tabname} a where a.idefix = ${req_query_id}`
        var dotazosoba        =`select a.* from list_firmaosoba a where a.idefix_firma = ${req_query_id} order by case when aktivni then 1 else 2 end, idefix `
-       var dotazprovozovna   =`select a.* from list_firmaprovozovna a where a.idefix_firma = ${req_query_id}`
+       var dotazprovozovna   =`select a.* from list_firmaprovozovna a where a.idefix_firma = ${req_query_id} order by case when aktivni then 1 else 2 end, idefix`
        var dotazprace        =`select a.* from list_firmaprace a where a.idefix_firma = ${req_query_id}`
        var dotaznotice       =`select  extract(epoch from now() - a.datum)/60 < 60 as isedit ,a.*, idefix2fullname(user_insert_idefix)  as user_txt,zkratka(user_insert_idefix) as zkratka_login
                       from list_firmanotice a where a.idefix_firma = ${req_query_id} 
@@ -110,12 +112,21 @@ module.exports = {
         select 0 as idefix, 'firma'::text as nazev union 
         select idefix, coalesce(prijmeni,'') || ' ' || coalesce(jmeno) as nazev from list_firmaosoba where idefix_firma = ${req_query_id} and aktivni order by nazev`
 
-       if (req_query_id_query == 1012) {
+       
+        var enum_prace = `select idefix as key, nazev as label from list2_prace a
+        where not exists
+        (select * from list_firmaprace b where b.idefix_firma= ${req_query_id} and a.idefix = b.idefix_prace)
+        order by case when a.stroj then 1 else 2 end , a.nazev  `
+        // console.log(enum_prace)
+        // return
+        if (req_query_id_query == 1012) {
         // console.log(req.query, ":", req_query_id, ': \n ', enum_osoba )
        // res.json({'a':1})
         //return
 
        }
+
+
         
         
         // order by case when kdy is not null and kdy > now() and pripominka then kdy else datum end
@@ -199,6 +210,7 @@ module.exports = {
   
       })
      }
+     if (req_query_id_query==-1 || req_query_id_query==104) {
       await client.query(dotazprace,(err,response) => {
         if (err) {
           resObj.info = -1
@@ -208,6 +220,18 @@ module.exports = {
         //console.log(resObj.stroj )
   
       })
+    }
+    if (req_query_id_query==-1 || req_query_id_query==1041) {
+      await client.query(enum_prace,(err1041,response1041) => {
+        if (err1041) {
+          resObj.info = -1
+          return
+        }
+        resObj.enumprace = response1041.rows
+        //console.log(resObj.stroj )
+  
+      })
+    }
       if (req_query_id_query==-1 || req_query_id_query==101) {
         //console.log('req_query_id_query',req_query_id_query, dotaznotice)
       await client.query(dotaznotice,(err,response) => {
@@ -284,6 +308,7 @@ module.exports = {
           req.body.form.kdy = '19991231'
 
         }
+
         if (req.body.id_query  == 101) {
             var q= `insert into list_firmanotice(user_insert_idefix,idefix_firma,txt, datum,kdy,pripominka,idefix_osoba ) 
             values (login2idefix('${req.body.user}'),${req.body.form.idefix_firma},'${req.body.form.txt}',now(),'${req.body.form.kdy}','${req.body.form.pripominka}','${req.body.form.idefix_osoba}')`
@@ -591,7 +616,7 @@ module.exports = {
           
           )`
 
-          //console.log(q)
+          console.log(q)
 
 
         //console.log(req.body.form, req.body.user, 'q :103 ', q)
@@ -620,7 +645,7 @@ module.exports = {
 
       ///1021
       if (req.body.id_query  == 1031){
-        //console.log('Kontakt only', req.body.id_query )
+        console.log('Provka  only', req.body.id_query )
         
        
        
@@ -729,6 +754,92 @@ module.exports = {
       }
 
       ///1022
+      //104 - seznam praci
+
+      if (req.body.id_query  == 104){
+        //console.log('provozovnat only', req.body.id_query )
+        
+       
+       
+        //console.log(req.body.form, req.body.user)
+        var q104=''
+        var nval=0
+        const client = await pool.connect()
+        
+        await client.query(`delete from list_firmaprace where idefix_firma = ${req.body.idefix}; select 1`,(errx,resxx) => {
+          if (errx) {
+            console.log('Chyba Delete prace')
+          }
+          console.log('b1 resxx :', b1, resxx )
+        
+        })
+        //await client.release()
+        
+              console.log('Prace:::   ', req.body.form,'idefix: ',req.body.idefix )
+
+              // "9016","9359","9015","10152","10339","10323"
+//          res.json({a: 2});       
+          //return
+        
+        
+              console.log('Prace:::   ', req.body.form,'idefix: ',req.body.idefix )
+
+              // "9016","9359","9015","10152","10339","10323"
+        
+        console.log(`delete from list_firmaprace where idefix_firma = ${req.body.idefix}`, " b1 ", b1)
+
+        
+        await  req.body.form.forEach(el => {
+          nval = el * 1
+          
+          //                 =login2idefix('${req.body.user}')
+          q104 = `insert into list_firmaprace(idefix_firma, idefix_prace,user_insert_idefix,user_update_idefix) values (`
+          q104  += ` '${req.body.idefix}' ,'${nval}', login2idefix('${req.body.user}') ,login2idefix('${req.body.user}') `
+          q104  += ')'
+          
+          console.log(q104)
+          
+          
+          client.query(q104,(err104,response104) => { 
+            if (err104){
+              console.log('Err - Insert prace' , 104, err104,'\n\n',q104,'\n\n')
+            } 
+            })
+         
+         //insert into list_firmaprace(idefix_firma, idefix_prace,user_insert_idefix,user_update_idefix) values (10124 ,10287, login2idefix('mares' ,login2idefix('mares' )
+
+        })
+        await client.release()
+        
+              console.log('Prace:::   ', req.body.form,'idefix: ',req.body.idefix )
+
+              // "9016","9359","9015","10152","10339","10323"
+          res.json({a: 2});       
+          return
+          //console.log(q1022)
+
+
+        //console.log(req.body.form, req.body.user, 'q 1032: ', q1032)
+        try {
+          
+          await client.query(q1022,(err1022,response01) => { 
+          if (err1022){
+            console.log('Err - update' , 01, err1022)
+          } 
+          })
+          end = new Date()  
+          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
+        
+          res.json({info: 'Ok test'});
+    
+          } catch (e) {
+    
+          }  
+          
+        
+        return
+      }
+      //104 Seznam praci
 
       //Provozovny
       
@@ -871,7 +982,6 @@ module.exports = {
           tel    = '${element[0].tel}',  
           mail   = '${element[0].mail}',
           mat    = '${element[0].mat}' 
-          
           
           
           , user_update_idefix = login2idefix('${user}')`;

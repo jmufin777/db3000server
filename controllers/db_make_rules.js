@@ -284,7 +284,9 @@ async function init(){
          kod int,
          nazev varchar(50),
          zkratka varchar(50),
-         nazev_text varchar(100)
+         nazev_text varchar(100),
+         stroj boolean default true
+
          `,
          index_name: [ 
                 `kod  ~~~ (kod)`,
