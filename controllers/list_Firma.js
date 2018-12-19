@@ -91,7 +91,11 @@ module.exports = {
        var dotaz =`select a.* from ${tabname} a where a.idefix = ${req_query_id}`
        var dotazosoba        =`select a.* from list_firmaosoba a where a.idefix_firma = ${req_query_id} order by case when aktivni then 1 else 2 end, idefix `
        var dotazprovozovna   =`select a.* from list_firmaprovozovna a where a.idefix_firma = ${req_query_id} order by case when aktivni then 1 else 2 end, idefix`
-       var dotazprace        =`select a.* from list_firmaprace a where a.idefix_firma = ${req_query_id}`
+       //var dotazprace        =`select distinct on (a.idefix_firma,a.idefix_prace) a.* from list_firmaprace a where a.idefix_firma = ${req_query_id}`
+
+       //var dotazprace_backup        =`select distinct on (a.idefix_firma,b.nazev,a.idefix_prace) a.*,b.nazev from list_firmaprace a join list2_prace b on a.idefix_prace = b.idefix where a.idefix_firma = ${req_query_id} order by a.idefix_firma,b.nazev`
+       var dotazprace        =`select distinct on (a.idefix_firma,b.nazev,a.idefix_prace) a.idefix_prace as key ,b.nazev as label from list_firmaprace a join list2_prace b on a.idefix_prace = b.idefix where a.idefix_firma = ${req_query_id} order by a.idefix_firma,b.nazev`
+
        var dotaznotice       =`select  extract(epoch from now() - a.datum)/60 < 60 as isedit ,a.*, idefix2fullname(user_insert_idefix)  as user_txt,zkratka(user_insert_idefix) as zkratka_login
                       from list_firmanotice a where a.idefix_firma = ${req_query_id} 
                      order by datum    desc`
@@ -278,7 +282,7 @@ module.exports = {
         end.getTime()
 
         // console.log(200, "Vracim  Vysledek",req_query_id_query, resObj, enum_osoba)
-        console.log(200, "Vracim  Vysledky",req_query_id_query, end.getTime() - start.getTime() )
+        console.log(200, "Vracim  Vysledky x ",req_query_id_query, end.getTime() - start.getTime(), req.query.user )
         // dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup,
         // console.log(dotaz, " Par ",req_query_id_query, "String ", req.query.string_query)
         res.json(resObj)
@@ -757,14 +761,93 @@ module.exports = {
       //104 - seznam praci
 
       if (req.body.id_query  == 104){
-        //console.log('provozovnat only', req.body.id_query )
+        //console.log('provozovnat only', req.body.id_query, req.body.form, ':Firma: ',req.body.idefix )
+        var randomTable = 'trand_' + (Math.round(Math.random() *1000000000))
+        var qi=`insert into ${randomTable} (idefix_firma,idefix_prace,user_insert_idefix,user_update_idefix) values `
+        var qdel = `delete from list_firmaprace a where idefix_firma = ${req.body.idefix} and not exists (select * from ${randomTable} b where  a.idefix_prace = b.idefix_prace)`
+        var qdrop = `drop table ${randomTable}`
+        var qdel2= `delete from ${randomTable} where (idefix_firma,idefix_prace) in (select idefix_firma,idefix_prace from list_firmaprace)`
+        var qi2 = `insert into list_firmaprace (idefix_firma,idefix_prace,user_insert_idefix,user_update_idefix) select idefix_firma, idefix_prace,user_insert_idefix,user_update_idefix
+                  from ${randomTable}
+        `
+
+                
+        var c1= `create unlogged table ${randomTable} without oids as select * from list_firmaprace limit 0`
+
+        var qadd = ''
         
+
+        
+
+        const client = await pool.connect()
+        
+        // 1. vytvoreni random tabulky
+        console.log(c1)
+        await client.query(c1,(erra,resa) =>{
+          if (erra) {
+            console.log('Error:',c1)
+          }
+        })
+
+        req.body.form.forEach((el,i) => {
+        
+          if (i > 0)  qadd += ','
+          qadd += `(${req.body.idefix},${el.key}, login2idefix('${req.body.user}') ,login2idefix('${req.body.user}'))`
+        })
+
+
+        //2. vklad vseho do random
+      if (qadd >'') {
+        qi = `${qi} ${qadd}`
+        await client.query(`${qi}`,( errx, resx ) =>{
+            if (errx) {
+              console.log(errx, '1 ::', `${qi}`)
+            }
+        })
+      }
+      //3. vymaz z firmy, co nejsou v random
+      await client.query(`${qdel}`,( errx, resx ) =>{
+        if (errx) {
+          console.log(errx, '2 ::', `${qdel}`)
+
+      }
+     })
+     //4. vymaz z random existujich
+     await client.query(`${qdel2}`,( errx, resx ) =>{
+      if (errx) {
+        console.log(errx, '3 ::', `${qdel2}`)
+    }
+    })
+    //5. Vklad
+    
+    await client.query(`${qi2}`,( errx, resx ) =>{
+      if (errx) {
+        console.log(errx, ' 5 ::', `${qi2}`)
+    }
+    })
+    
+    //6. Drop random
+    
+    await client.query(`${qdrop}`,( errx, resx ) =>{
+      if (errx) {
+        console.log(errx, '::', `${qi}`)
+    }
+    })
+
+
+
+        await client.release()
+        //console.log(aval, qadd, '\n',qi )
+
+
+        res.json({a:1})
+        return
        
        
         //console.log(req.body.form, req.body.user)
         var q104=''
         var nval=0
-        const client = await pool.connect()
+        
         
         await client.query(`delete from list_firmaprace where idefix_firma = ${req.body.idefix}; select 1`,(errx,resxx) => {
           if (errx) {
