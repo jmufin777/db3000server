@@ -33,9 +33,9 @@ module.exports = {
 
       }
       //console.log("aaAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \n ", dotaz ," \n EOF")
-      // console.log(req.query.id, dotaz )
-      // res.json({a: 1});
-      //return
+       //console.log( dotaz )
+       //res.json({a: 1});
+      // return
     try {
       
         const client = await pool.connect()
@@ -460,34 +460,32 @@ module.exports = {
 
         }
         var q1021= `update list_firmaosoba
-
-          set idefix_firma                 ='${req.body.form.idefix_firma}',
-              kod                 ='${req.body.form.kod}',
-              jmeno                 ='${req.body.form.jmeno}',
-              prijmeni                 ='${req.body.form.prijmeni}',
-              titul                 ='${req.body.form.titul}',
-              titulza                 ='${req.body.form.titulza}',
-              funkce                 ='${req.body.form.funkce}',
-              oddeleni                 ='${req.body.form.oddeleni}',
-              prioritni                 ='${req.body.form.prioritni}',
-              tel                 ='${req.body.form.tel}',
-              tel2                 ='${req.body.form.tel2}',
-              tel3                 ='${req.body.form.tel3}',
-              mail                 ='${req.body.form.mail}',
-              www                 ='${req.body.form.www}',
-              poznamka                 ='${req.body.form.poznamka}',
-              narozeniny                 ='${req.body.form.narozeniny}',
-              mail_fakt                 ='${req.body.form.mail_fakt}',
-              psc                 ='${req.body.form.psc}',
-              obec                 ='${req.body.form.obec}',
-              ulice                 ='${req.body.form.ulice}',
-              aktivni                 ='${req.body.form.aktivni}',
-              user_update_idefix                 =login2idefix('${req.body.user}')
-              where idefix = '${req.body.form.idefix}'
+          set idefix_firma       = '${req.body.form.idefix_firma}',
+              kod                = replace('${req.body.form.kod}','null','0')::int,
+              jmeno              = '${req.body.form.jmeno}',
+              prijmeni           = '${req.body.form.prijmeni}',
+              titul              = '${req.body.form.titul}',
+              titulza            = '${req.body.form.titulza}',
+              funkce             = '${req.body.form.funkce}',
+              oddeleni           = '${req.body.form.oddeleni}',
+              prioritni          = '${req.body.form.prioritni}',
+              tel                = '${req.body.form.tel}',
+              tel2               = '${req.body.form.tel2}',
+              tel3               = '${req.body.form.tel3}',
+              mail               = '${req.body.form.mail}',
+              www                = '${req.body.form.www}',
+              poznamka           = '${req.body.form.poznamka}',
+              narozeniny         = '${req.body.form.narozeniny}',
+              mail_fakt          = '${req.body.form.mail_fakt}',
+              psc                = '${req.body.form.psc}',
+              obec               = '${req.body.form.obec}',
+              ulice              = '${req.body.form.ulice}',
+              aktivni            = '${req.body.form.aktivni}',
+              user_update_idefix = login2idefix('${req.body.user}')
+              where idefix       =  '${req.body.form.idefix}'
               `
 
           //console.log(q1021)
-
 
         //console.log(req.body.form, req.body.user, 'q 1021: ', q1021)
         try {
@@ -932,7 +930,9 @@ module.exports = {
     if (req.body.form.firma.datum_ares == null  || !req.body.form.firma.datum_ares.match(/[0-9]{4}/)){
       req.body.form.firma.datum_ares='19010101'
     }
-    
+    if (!req.body.form.firma.kod) {
+      req.body.form.firma.kod = 1
+    }
     var dotaz = `update list_dodavatel set `
       dotaz = dotaz + `
 
@@ -968,7 +968,7 @@ module.exports = {
       dotaz += ` where idefix = ${req.body.idefix}`
       dotaz = dotaz.replace(/undefined/g,'0')
       dotaz = dotaz.replace(/null/g,'')
-      //console.log(dotaz)
+      console.log(dotaz)
 
       try {
         const client = await pool.connect()

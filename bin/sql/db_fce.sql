@@ -174,6 +174,38 @@ CREATE or replace FUNCTION concat2(cSpace varchar(20) default ' ',VARIADIC cPars
     end;
 $$LANGUAGE 'plpgsql';
 
+
+CREATE OR REPLACE FUNCTION public.to_ascii(bytea, name)
+ RETURNS text
+ LANGUAGE internal
+ IMMUTABLE STRICT
+AS $function$to_ascii_encname$function$
+
+CREATE OR REPLACE FUNCTION public.to_aascii(text)
+ RETURNS text
+ LANGUAGE plpgsql
+ IMMUTABLE
+AS $function$   
+declare cret text := '';
+begin
+    begin
+  SELECT to_ascii(convert_to(
+  replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  replace(replace(replace(replace(REPLACE(replace(replace(replace(replace(replace($1,chr(8211),'')
+  ,chr(157),'')
+  ,chr(174),''),chr(711),'')
+  ,chr(239),'i'),chr(207),'I'),chr(209),chr(327)),chr(213),chr(211)),chr(188),'L')
+  ,chr(190),'L'),chr(197),'L'),chr(179),'L'),chr(198),'L'),chr(163),'L'),chr(219),'U'),chr(191),'Z'),chr(204),''),chr(217),chr(218) ),chr(208),''),chr(338),chr(352)),chr(202),chr(352))
+  ,chr(192),chr(344)),'','')
+  , 'latin2'),'latin2') into cret;
+  --      exception when others then return cret  ;
+    end;
+  return cret;
+end;  
+$function$
+
+
+
 SELECT concat('My ', 'dog ', 'likes ', 'chocolate') As result;
 
 result

@@ -162,8 +162,8 @@ async function init(){
      idefix_stroj bigint ,
      idefix_prace bigint ,
      prace varchar(120),
-     nazev varchar(120),
-     nazev_text  varchar(120),
+     nazev varchar(120) default '',
+     nazev_text  varchar(120) default '',
 
      rychlost float,
      idefix_jednotka bigint,
@@ -285,7 +285,10 @@ async function init(){
          nazev varchar(50),
          zkratka varchar(50),
          nazev_text varchar(100),
-         stroj boolean default true
+         stroj boolean default true,
+         kalk_sloupec_v int default -1,
+         kalk_sloupec_arch int default -1,
+         kalk_sloupec_bt int default -1
 
          `,
          index_name: [ 
@@ -454,7 +457,7 @@ async function init(){
          ulice2 varchar(100),
          obec2 varchar(100),
          psc2  varchar(6),
-         tel varchar(15),
+         tel varchar(100),
          tel2 varchar(100),
          mail varchar(100),
          www varchar(100),
@@ -488,7 +491,7 @@ async function init(){
          funkce varchar(50) default '',
          oddeleni varchar(50) default '',
          prioritni boolean default false,
-         tel varchar(15) default '',
+         tel varchar(100) default '',
          tel2 varchar(100) default '',
          tel3 varchar(100) default '',
          mail varchar(100) default '',
@@ -1114,6 +1117,12 @@ function StrukturaChange(el) {
                 if (res.rowCount > 0){
                     res.rows.forEach(idb=>{
                         try{
+                       console.log("--------------\n",idb,"\n\n",
+                       `drop index ${idb.schemaname}.${idb.indexname}`,
+                       "\n--------------\n",
+
+                       ) 
+                       
                         pool.query(`drop index ${idb.schemaname}.${idb.indexname}`, (err,res) =>{
                             if (err){
                                 console.log('Selhalo smazani ', `drop index ${idb.schemaname}.${idb.indexname}`)

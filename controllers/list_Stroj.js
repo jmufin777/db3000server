@@ -337,12 +337,17 @@ module.exports = {
      enum_jednotka: [],
      enum_inkoust: [],
      enum_strojmod_this: [],
+     enum_strojmod_full: [],
 
 
    }
+   
       req_query_id = req.query.id
       req_query_id_query = req.query.id_query
       req_query_string_query = req.query.string_query
+//    console.log('a::', req_query_id, ':', req_query_id_query,":",req_query_string_query)
+  // res.json({'a':[]})
+   //return
       try {
         const client = await pool.connect()
     
@@ -392,6 +397,7 @@ module.exports = {
       var enum_strojmod_text    = `select distinct nazev_text    as value from list_strojmod order by nazev_text`              //  -- 104   enum_strojmod_text
       var enum_strojceny_nazev  = `select distinct nazev         as value from list_strojceny order by nazev`              //  -- 1091   enum_strojceny_nazev
       var enum_strojinkoust     = `select distinct nazev         as value from list_strojinkoust order by nazev`               //  -- 105   enum_strojinkoust
+      var enum_strojmod_full=`select a.idefix ,b.idefix as idefix_mod,a.nazev as stroj,b.nazev,b.nazev_text, b.mod_priorita from list_stroj a join list_strojmod b on a.idefix=b.idefix_stroj  order by case when b.mod_priorita then 1 else 2 end`;
 
 
       //var enum_prace        = `select idefix as value, nazev as label from list2_prace order by kod`                                                        // --  106   enum_prace    
@@ -404,13 +410,15 @@ module.exports = {
         select 0 as kod,0,'Ne'
         order by kod , idefix `;
 
-     dotaz_list_strojmod               =  `select * from  list_strojmod              where idefix_stroj = ${req_query_id}`   //  -- 200   dotaz_list_strojmod              
-     dotaz_list_strojmodbarevnost      =  `select * from  list_strojmodbarevnost     where idefix_stroj = ${req_query_id}`   //  -- 201   dotaz_list_strojmodbarevnost     
-     dotaz_list_strojinkoust           =  `select * from  list_strojinkoust          where idefix_stroj = ${req_query_id}`   //  -- 202   dotaz_list_strojinkoust          
-     dotaz_list_strojinkoustbarevnost  =  `select * from  list_strojinkoustbarevnost where idefix_stroj = ${req_query_id}`   //  -- 203   dotaz_list_strojinkoustbarevnost 
-     dotaz_list_strojceny              =  `select * from  list_strojceny             where idefix_stroj = ${req_query_id} order by kod`   //  -- 204   dotaz_list_strojceny             
+     var dotaz_list_strojmod               =  `select * from  list_strojmod              where idefix_stroj = ${req_query_id}`   //  -- 200   dotaz_list_strojmod              
+     var dotaz_list_strojmodbarevnost      =  `select * from  list_strojmodbarevnost     where idefix_stroj = ${req_query_id}`   //  -- 201   dotaz_list_strojmodbarevnost     
+     var dotaz_list_strojinkoust           =  `select * from  list_strojinkoust          where idefix_stroj = ${req_query_id}`   //  -- 202   dotaz_list_strojinkoust          
+     var dotaz_list_strojinkoustbarevnost  =  `select * from  list_strojinkoustbarevnost where idefix_stroj = ${req_query_id}`   //  -- 203   dotaz_list_strojinkoustbarevnost 
+     var dotaz_list_strojceny              =  `select * from  list_strojceny             where idefix_stroj = ${req_query_id} order by kod`   //  -- 204   dotaz_list_strojceny             
 
-      console.log(dotaz_list_strojceny)
+      console.log(enum_strojmod_full)
+      
+     
 
    
    
@@ -526,6 +534,7 @@ module.exports = {
             }
             
           if (req_query_id_query==-1 || req_query_id_query==109) {
+            
               await  client.query(enum_strojmod_this,(err109,response109) => {
                 if (err109) {
                   myres.info = -1
@@ -573,6 +582,23 @@ module.exports = {
                 resObj.enum_strojmod_text = response104.rows
                 })    
                 if (req_query_id_query == 104) {
+                  //console.log(resObj)
+                  res.json(resObj)
+                  await client.release()
+                  return
+                }  
+            }  
+
+            if (req_query_id_query==-1 || req_query_id_query==1041) {
+              await  client.query(enum_strojmod_full,(err1041,response1041) => {
+                if (err1041) {
+                  myres.info = -1
+                  console.log(1041, "err")
+                  return
+                }
+                resObj.enum_strojmod_full = response1041.rows
+                })    
+                if (req_query_id_query == 1041) {
                   //console.log(resObj)
                   res.json(resObj)
                   await client.release()

@@ -22,10 +22,12 @@
     "express-promise-router": "^3.0.2",
     "joi": "^13.4.0",
     "jsonwebtoken": "^8.3.0",
-    "morgan": "^1.9.0",
+    "moment": "^2.23.0",
+    "morgan": "^1.9.1",
     "nodemon": "^1.17.5",
     "pg": "^7.4.3",
     "pg-promise": "^8.4.4",
+    "promise": "^8.0.2",
     "request": "^2.88.0",
     "sequelize": "^4.38.0",
     "xml2js": "^0.4.19"
