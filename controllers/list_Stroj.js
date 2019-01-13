@@ -15,6 +15,7 @@ const resObj = {
 var req_query_id = -10
 var req_query_string_query = ''
 var req_query_id_query = 0
+var b = false
 
 
 
@@ -117,12 +118,24 @@ module.exports = {
         time_update = now() 
         where idefix = ${element.idefix}
         `
+
+        updatemod = updatemod.replace(/null/g,'0')
+        updatemod = updatemod.replace(/undefined/g,'0')
         //console.log(updatemod)
-        client.query(updatemod, (errupdate, resupdate) => {
-          console.log(errupdate )
-        })
+        b = false
+        try {
+          client.query(updatemod, (errupdate, resupdate) => {
+            console.log(errupdate )
+          })
+          b = true
+        } catch (e) {
+          console.log(updatemod)
+          b = true
+        }
 
-
+         while (!b) {
+           console.log('Cekma update \n')
+         };
 
             //update
 
@@ -151,11 +164,11 @@ module.exports = {
         '${element.i5spotreba}',
         '${element.mod_priorita}',
         login2idefix('${req.body.user}')
-            
-            )`
+           
+          )`
             
 
-            console.log(insertmod)
+            console.log('Delam Insert' , insertmod)
           }
 
 
@@ -175,9 +188,25 @@ module.exports = {
 
        if (insertmod > '') {
         insertmod='insert into list_strojmod '  + valuesmod + insertmod
+
+        insertmod = insertmod.replace(/null/g,'0')
+        insertmod = insertmod.replace(/undefined/g,'0')
+        
+       try {
+        b=false
         await client.query(insertmod, (errmod, resmod) => {
-          console.log('abc',errmod)
+          console.log(resmod.Result)
+                  console.log('abc',errmod)
+          
         }) 
+        b=true
+      } catch(ex) {
+        b=true
+      }
+        while (!b) {
+          console.log('Cekma insert \n')
+        };
+
        }
 
        //Stroj Ceny
@@ -237,6 +266,9 @@ module.exports = {
       time_update = now() 
       where idefix = ${element.idefix}
       `
+      updateceny = updateceny.replace(/null/g,'0')
+      updateceny = updateceny.replace(/undefined/g,'0')
+
       console.log(updateceny)
       client.query(updateceny, (errupdateceny, resupdateceny) => {
         console.log(errupdateceny )
@@ -287,6 +319,10 @@ module.exports = {
 
      if (insertceny > '') {
       insertceny='insert into list_strojceny '  + valuesceny + insertceny
+      insertceny = insertceny.replace(/null/g,'0')
+      
+      insertceny = insertceny.replace(/undefined/g,'0')
+      
       await client.query(insertceny, (errceny, resceny) => {
         console.log('abc',errceny)
       }) 
@@ -317,6 +353,7 @@ module.exports = {
   
      strojskup: [],
      strojmod: [],
+     strojmodfull: [],
      strojmod_text: [],
      strojbarevnost: [],
      strojmod_barevnost: [],
@@ -397,7 +434,20 @@ module.exports = {
       var enum_strojmod_text    = `select distinct nazev_text    as value from list_strojmod order by nazev_text`              //  -- 104   enum_strojmod_text
       var enum_strojceny_nazev  = `select distinct nazev         as value from list_strojceny order by nazev`              //  -- 1091   enum_strojceny_nazev
       var enum_strojinkoust     = `select distinct nazev         as value from list_strojinkoust order by nazev`               //  -- 105   enum_strojinkoust
+      
       var enum_strojmod_full=`select a.idefix ,b.idefix as idefix_mod,a.nazev as stroj,b.nazev,b.nazev_text, b.mod_priorita from list_stroj a join list_strojmod b on a.idefix=b.idefix_stroj  order by case when b.mod_priorita then 1 else 2 end`;
+      var addA = `select a.idefix  from list_stroj a join list2_strojskup b on a.idefix_strojskup = b.idefix  where b.typ_kalkulace = 'A' `
+      var addV = `select a.idefix  from list_stroj a join list2_strojskup b on a.idefix_strojskup = b.idefix  where b.typ_kalkulace = 'V' `
+      var enum_strojmod_fullA=
+      `select a.idefix ,b.idefix as idefix_mod,a.nazev as stroj,b.nazev,b.nazev_text, b.mod_priorita from list_stroj a join list_strojmod b on a.idefix=b.idefix_stroj  
+       where a.idefix in (${addA}) 
+      order by case when b.mod_priorita then 1 else 2 end`;
+      var enum_strojmod_fullV=
+      `select a.idefix ,b.idefix as idefix_mod,a.nazev as stroj,b.nazev,b.nazev_text, b.mod_priorita from list_stroj a join list_strojmod b on a.idefix=b.idefix_stroj  
+       where a.idefix in (${addV}) 
+      order by case when b.mod_priorita then 1 else 2 end`; 
+
+      //select * from list_stroj a join list2_strojskup b on a.idefix_strojskup = b.idefix  where b.typ_kalkulace = 'A' ;
 
 
       //var enum_prace        = `select idefix as value, nazev as label from list2_prace order by kod`                                                        // --  106   enum_prace    
@@ -410,13 +460,14 @@ module.exports = {
         select 0 as kod,0,'Ne'
         order by kod , idefix `;
 
-     var dotaz_list_strojmod               =  `select * from  list_strojmod              where idefix_stroj = ${req_query_id}`   //  -- 200   dotaz_list_strojmod              
+     var dotaz_list_strojmod               =  `select * from  list_strojmod              where idefix_stroj = ${req_query_id} order by kod`   //  -- 200   dotaz_list_strojmod              
+     var dotaz_list_strojmodfull               =  `select * from  list_strojmod              where idefix_stroj = ${req_query_id}`   //  -- 200   dotaz_list_strojmod              
      var dotaz_list_strojmodbarevnost      =  `select * from  list_strojmodbarevnost     where idefix_stroj = ${req_query_id}`   //  -- 201   dotaz_list_strojmodbarevnost     
      var dotaz_list_strojinkoust           =  `select * from  list_strojinkoust          where idefix_stroj = ${req_query_id}`   //  -- 202   dotaz_list_strojinkoust          
      var dotaz_list_strojinkoustbarevnost  =  `select * from  list_strojinkoustbarevnost where idefix_stroj = ${req_query_id}`   //  -- 203   dotaz_list_strojinkoustbarevnost 
      var dotaz_list_strojceny              =  `select * from  list_strojceny             where idefix_stroj = ${req_query_id} order by kod`   //  -- 204   dotaz_list_strojceny             
 
-      console.log(enum_strojmod_full)
+     
       
      
 
@@ -599,7 +650,57 @@ module.exports = {
                 resObj.enum_strojmod_full = response1041.rows
                 })    
                 if (req_query_id_query == 1041) {
-                  //console.log(resObj)
+                  console.log(resObj)
+                  res.json(resObj)
+                  await client.release()
+                  return
+                }  
+            }  
+            if ( req_query_id_query==10410) {   //Archovy velkopploch bez tisku - naperu to do strjmod_full, kombinace by nemela nastat
+
+              await  client.query(enum_strojmod_fullA,(err10410,response10410) => {
+                if (err10410) {
+                  myres.info = -1
+                  console.log(10410, "err")
+                  return
+                }
+                b = true
+                resObj.enum_strojmod_full = response10410.rows
+                if (response10410.rowCount > 0 ) {
+                  console.log('A:',response10410.rows[0].stroj)
+                }
+                })    
+                while (!b)
+                if (req_query_id_query == 10410) {
+                  if ( resObj.enum_strojmod_full.length > 0 ) {
+                    console.log('Archo',10410,resObj.enum_strojmod_full[0].stroj)
+                  }
+                  b = false
+                  res.json(resObj)
+                  await client.release()
+                  return
+                }  
+            }  
+            if ( req_query_id_query==10411) {
+              await  client.query(enum_strojmod_fullV,(err10411,response10411) => {
+                if (err10411) {
+                  myres.info = -1
+                  console.log(10411, "err")
+                  return
+                }
+                resObj.enum_strojmod_full = response10411.rows
+                b = true
+                if (response10411.rowCount > 0 ) {
+                  console.log('V:',response10411.rows[0].stroj)
+                }
+                })    
+                while (!b)
+                if (req_query_id_query == 10411 ) {
+                  if ( resObj.enum_strojmod_full.length > 0 ) {
+                    console.log('Velko ',b,10411,resObj.enum_strojmod_full[0].stroj)
+                
+                  }
+                  b = false  
                   res.json(resObj)
                   await client.release()
                   return
@@ -676,22 +777,50 @@ module.exports = {
        }     
 
           if (req_query_id_query==-1 || req_query_id_query==200) {
+
             await  client.query(dotaz_list_strojmod,(err200,response200) => {
               if (err200) {
                 myres.info = -1
                 console.log(200, "err", err200 )
                 return
               }
+              
               resObj.strojmod = response200.rows
+              
+
               })    
+              
               if (req_query_id_query == 200) {
-                //console.log(resObj)
+              
+                console.log(resObj)
                 res.json(resObj)
                 await client.release()
                 return
-              }  
+                }  
             }
 
+            if (req_query_id_query==-1 || req_query_id_query==2001) {
+              
+              await  client.query(dotaz_list_strojmodfull,(err2001,response2001) => {
+                if (err2001) {
+                  myres.info = -1
+                  console.log(2001, "err", err2001 )
+                  return
+                }
+                
+                resObj.strojmodfull = response2001.rows
+                
+                })    
+              
+                if (req_query_id_query == 2001) {
+                  
+                  console.log(resObj)
+                  res.json(resObj)
+                  await client.release()
+                  return
+                  }  
+              }
+  
             if (req_query_id_query==-1 || req_query_id_query==201) {
               await  client.query(dotaz_list_strojmodbarevnost,(err201,response201) => {
                 if (err201) {
@@ -785,7 +914,8 @@ module.exports = {
 
     console.log(e)
       res.status(822).send({
-        error: 'Mat ' + e
+        error: 'Stroj  ' + e,
+        req_query_id_query: req_query_id_query
       });
 
    }
@@ -973,6 +1103,8 @@ module.exports = {
           dotaz = dotaz.replace(/null/g,'0')
            client.query(dotaz  ,[  ],(err, response ) => {
              if (err) {
+              console.log(dotaz.replace(/undefined/g,'0'))
+
                return next(err)
              } 
           
@@ -980,6 +1112,7 @@ module.exports = {
 
         
       });
+//      res.json({'a': 1})
       
       
       // const dotaz = `insert into list2_barevnost(kod,nazev,user_insert, user_insert_idefix) 
