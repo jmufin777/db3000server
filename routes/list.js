@@ -163,6 +163,8 @@ router.put('/list_stroj',
     listStroj.update)     
 router.post('/list-stroj-delete',
     listStroj.delete)      
+router.post('/list-stroj-settisk',
+    listStroj.setTisk)          
 router.get('/list-stroj-one',
     listStroj.one)         
 router.post('/list-stroj-save-one',

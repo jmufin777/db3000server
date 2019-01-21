@@ -141,6 +141,7 @@ async function init(){
      priprava_minuta_prodej float default 0,
      priprava_celkem_naklad float default 0,
      priprava_celkem_prodej float default 0,
+     tisk boolean default false
 
 
      `,

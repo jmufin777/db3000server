@@ -98,6 +98,7 @@ module.exports = {
             updatemod = `update list_strojmod set 
         
         idefix_prace ='${element.idefix_prace}',
+        idefix_stroj ='${element.idefix_stroj}',
         kod ='${element.kod}',
         nazev ='${element.nazev}',
         nazev_text ='${element.nazev_text}',
@@ -195,7 +196,7 @@ module.exports = {
        try {
         b=false
         await client.query(insertmod, (errmod, resmod) => {
-          console.log(resmod.Result)
+//          console.log(resmod.Result)
                   console.log('abc',errmod)
           
         }) 
@@ -297,12 +298,8 @@ module.exports = {
           login2idefix('${req.body.user}')
           )`
 
-          
-
           console.log(insertmod)
         }
-
-
      
         
      });
@@ -320,9 +317,9 @@ module.exports = {
      if (insertceny > '') {
       insertceny='insert into list_strojceny '  + valuesceny + insertceny
       insertceny = insertceny.replace(/null/g,'0')
-      
+
       insertceny = insertceny.replace(/undefined/g,'0')
-      
+
       await client.query(insertceny, (errceny, resceny) => {
         console.log('abc',errceny)
       }) 
@@ -1138,6 +1135,33 @@ module.exports = {
     req.body.params.id
     console.log('Delete')
      await client.query(`select fce_list_stroj_del(${req.body.params.id})` ,(err00, response00) => {
+       if (err00){
+         console.log('Err','00' )
+         res.status(412).send({
+          error: `${tabname} - Chyba pri vymazu`
+  
+        })
+         return
+       }
+       res.json({info: 'Ok' })
+       console.log('OK','00' )
+     })
+     await client.release()
+
+
+    console.log('Delete barevnost', req.body.params.id)
+  },
+
+  async setTisk (req, res, next ) {
+    const client = await pool.connect()
+    var q = `update list_stroj set tisk = case when '${req.body.params.anone}' = 'A' then true
+    when '${req.body.params.anone}' = 'N' then false end
+    where idefix = ${req.body.params.id}`
+    //req.body.params.id
+    console.log('Set tisk', req.body.params.id , req.body.params.anone , q)
+    
+    
+     await client.query( q,(err00, response00) => {
        if (err00){
          console.log('Err','00' )
          res.status(412).send({
