@@ -372,6 +372,8 @@ module.exports = {
      enum_inkoust: [],
      enum_strojmod_this: [],
      enum_strojmod_full: [],
+     enum_format: [],
+     enum_matspec: [],
 
 
    }
@@ -422,6 +424,7 @@ module.exports = {
       // var enum_strojskup        = `select nazev as label,idefix as value from list2_strojskup order by kod`                                                              // --  10   enum_strojskup    
       var enum_barevnost        = `select * from list2_barevnost order by kod`                                                              // --  11   enum_barevnost
       var enum_barevnosttxt        = `select nazev from list2_barevnost order by kod`                                                              // --  12   enum_barevnost
+      var enum_format           = `select idefix,nazev,kod,sirka,vyska from list2_format order by kod`                                                              // --  12   enum_barevnost
 
       
       var enum_nazev_text       = `select distinct nazev_text    as value from list_stroj order by nazev_text`                 //  -- 101   enum_nazev_text
@@ -433,8 +436,8 @@ module.exports = {
       var enum_strojinkoust     = `select distinct nazev         as value from list_strojinkoust order by nazev`               //  -- 105   enum_strojinkoust
       
       var enum_strojmod_full=`select a.idefix ,b.idefix as idefix_mod,a.nazev as stroj,b.nazev,b.nazev_text, b.mod_priorita from list_stroj a join list_strojmod b on a.idefix=b.idefix_stroj  order by case when b.mod_priorita then 1 else 2 end`;
-      var addA = `select a.idefix  from list_stroj a join list2_strojskup b on a.idefix_strojskup = b.idefix  where b.typ_kalkulace = 'A' `
-      var addV = `select a.idefix  from list_stroj a join list2_strojskup b on a.idefix_strojskup = b.idefix  where b.typ_kalkulace = 'V' `
+      var addA = `select a.idefix  from list_stroj a join list2_strojskup b on a.idefix_strojskup = b.idefix  where b.typ_kalkulace ~ 'A'  and tisk`
+      var addV = `select a.idefix  from list_stroj a join list2_strojskup b on a.idefix_strojskup = b.idefix  where b.typ_kalkulace ~ 'V' and tisk `
       var enum_strojmod_fullA=
       `select a.idefix ,b.idefix as idefix_mod,a.nazev as stroj,b.nazev,b.nazev_text, b.mod_priorita from list_stroj a join list_strojmod b on a.idefix=b.idefix_stroj  
        where a.idefix in (${addA}) 
@@ -443,6 +446,7 @@ module.exports = {
       `select a.idefix ,b.idefix as idefix_mod,a.nazev as stroj,b.nazev,b.nazev_text, b.mod_priorita from list_stroj a join list_strojmod b on a.idefix=b.idefix_stroj  
        where a.idefix in (${addV}) 
       order by case when b.mod_priorita then 1 else 2 end`; 
+
 
       //select * from list_stroj a join list2_strojskup b on a.idefix_strojskup = b.idefix  where b.typ_kalkulace = 'A' ;
 
@@ -463,6 +467,16 @@ module.exports = {
      var dotaz_list_strojinkoust           =  `select * from  list_strojinkoust          where idefix_stroj = ${req_query_id}`   //  -- 202   dotaz_list_strojinkoust          
      var dotaz_list_strojinkoustbarevnost  =  `select * from  list_strojinkoustbarevnost where idefix_stroj = ${req_query_id}`   //  -- 203   dotaz_list_strojinkoustbarevnost 
      var dotaz_list_strojceny              =  `select * from  list_strojceny             where idefix_stroj = ${req_query_id} order by kod`   //  -- 204   dotaz_list_strojceny             
+
+     var dotaz_matspec = `      
+     select c.zkratka,concat2(' ',b.nazev1,' ',b.nazev2,b.nazev3)as nazev,a.idefix as idefix_rozmer
+     ,a.idefix_mat, sirka_mm,vyska_mm  from list_mat_rozmer a join list_mat b on a.idefix_mat = b.idefix 
+     join list2_matskup c on b.idefix_matskup = c.idefix 
+     where sirka_mm>0 and vyska_mm > 0 and c.zkratka = 'D'  or zkratka ='R'  
+       `
+
+
+       
 
      
       
@@ -490,8 +504,10 @@ module.exports = {
         resObj.enum_nazev_text=response101.rows
       })
       if (req_query_id_query == 101) {
-        
-        res.json(resObj)
+        setTimeout(function(){
+          res.json(resObj)    
+          
+        },100)
         //console.log(resObj)
         await client.release()     
         return
@@ -509,11 +525,52 @@ module.exports = {
           })    
           if (req_query_id_query == 10) {
             //console.log(resObj)
-            res.json(resObj)
+            setTimeout(function(){
+              res.json(resObj)
+              
+            },200)
             await client.release()
+            
             return
           }  
         }
+
+        if (req_query_id_query==-1 || req_query_id_query==500) {
+          await  client.query(enum_format,(err500,response500) => {
+            if (err500) {
+              myres.info = -1
+              //console.log(10, "err")
+              return
+            }
+            resObj.enum_format = response500.rows
+            })    
+            if (req_query_id_query == 10) {
+              //console.log(resObj)
+              
+              res.json(resObj)
+              await client.release()
+              return
+            }  
+          }
+
+          if (req_query_id_query==-1 || req_query_id_query==501) { //MatSpec
+            await  client.query(dotaz_matspec,(err501,response501) => {
+              if (err501) {
+                myres.info = -1
+                //console.log(10, "err")
+                return
+              }
+              resObj.enum_matspec = response501.rows
+              })    
+              if (req_query_id_query == 501) {
+                //console.log(resObj)
+                setTimeout(function(){
+                  res.json(resObj)
+                },200)
+                await client.release()
+                return
+              }  
+            }
 
         if (req_query_id_query==-1 || req_query_id_query==11) {
           await  client.query(enum_barevnost,(err11,response11) => {
@@ -526,7 +583,9 @@ module.exports = {
             })    
             if (req_query_id_query == 11) {
               //console.log(resObj)
-              res.json(resObj)
+              setTimeout(function(){
+                res.json(resObj)
+              },200)
               await client.release()
               return
             }  
@@ -542,7 +601,9 @@ module.exports = {
               })    
               if (req_query_id_query == 12) {
                 //console.log(resObj)
-                res.json(resObj)
+                setTimeout(function(){
+                  res.json(resObj)
+                },200)
                 await client.release()
                 return
               }  
@@ -558,7 +619,9 @@ module.exports = {
             })    
             if (req_query_id_query == 102) {
               //console.log(resObj)
-              res.json(resObj)
+              setTimeout(function(){
+                res.json(resObj)
+              },200)
               await client.release()
               return
             }  
@@ -575,7 +638,9 @@ module.exports = {
               })    
               if (req_query_id_query == 103) {
                 //console.log(resObj)
-                res.json(resObj)
+                setTimeout(function(){
+                  res.json(resObj)
+                },200)
                 await client.release()
                 return
               }  
@@ -863,7 +928,9 @@ module.exports = {
                     })    
                     if (req_query_id_query == 203) {
                       //console.log(resObj)
-                      res.json(resObj)
+                      setTimeout(function(){
+                        res.json(resObj)
+                      },200)
                       await client.release()
                       return
                     }  
@@ -880,7 +947,9 @@ module.exports = {
                       })    
                       if (req_query_id_query == 204) {
                         console.log(resObj)
-                        res.json(resObj)
+                        setTimeout(function(){
+                          res.json(resObj)
+                        },200)
                         await client.release()
                         return
                       }  

@@ -298,8 +298,29 @@ async function init(){
           ],
         reindex: 1,
          initq: [
-            `insert into list2_list2_jednotka (nazev ) VALUES ('NE'),('Tisk'),('Laminace');
+            `insert into list2_jednotka (nazev ) VALUES ('NE'),('Tisk'),('Laminace');
              update list2_prace set kod = id ;`,
+        ]
+    } ,
+
+    {   name: 'list2_format'
+        ,struct:  `
+         kod serial,
+         nazev varchar(50),
+         zkratka varchar(50),
+         poznamka varchar(150),
+         vyska numeric(10,2),
+         sirka numeric(10,2)
+
+         `,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `nazev ~~~ (nazev)`
+          ],
+        reindex: 1,
+         initq: [
+            `insert into list2_format (nazev ) VALUES ('NE'),('Tisk'),('Laminace');
+             `,
         ]
     } ,
 

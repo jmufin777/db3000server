@@ -163,9 +163,9 @@ CREATE or replace FUNCTION concat2(cSpace varchar(20) default ' ',VARIADIC cPars
             cRet := cRet || cSpace  ;
          end if ;
             if coalesce(cPars[i1],'' ) > ' ' then 
-                cRet:= cRet || coalesce(cPars[i1],'' );
+                cRet := cRet || coalesce(cPars[i1],'' );
             end if;
-            raise notice ' % , % , % ', i1 , cPars[i1], cRet ;
+            raise notice ' % , % , %  ,: % ', i1 , cPars[i1], cRet, cPars  ;
         end loop;
         cRet := trim(cRet) ;
         cRet := REGEXP_REPLACE(cRet,'( ){2,}',' ');
