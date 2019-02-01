@@ -587,6 +587,8 @@ module.exports = {
           aktivni,
           otevreno_od,
           otevreno_do,
+          otevreno_w_od ,
+          otevreno_w_do ,
           user_insert_idefix
          ) 
           values 
@@ -614,6 +616,8 @@ module.exports = {
           '${req.body.form.aktivni}',
           '${req.body.form.otevreno_od}',
           '${req.body.form.otevreno_do}',
+          '${req.body.form.otevreno_w_od}',
+          '${req.body.form.otevreno_w_do}',
           login2idefix('${req.body.user}')
           
           )`
@@ -658,27 +662,27 @@ module.exports = {
         }
         var q1031= `update list_firmaprovozovna
 
-          set idefix_firma                 ='${req.body.form.idefix_firma}',
+          set idefix_firma        ='${req.body.form.idefix_firma}',
               kod                 ='${req.body.form.kod}',
-              nazev                 ='${req.body.form.nazev}',
-              jmeno                 ='${req.body.form.jmeno}',
-              prijmeni                 ='${req.body.form.prijmeni}',
-              titul                 ='${req.body.form.titul}',
-              titulza                 ='${req.body.form.titulza}',
-              funkce                 ='${req.body.form.funkce}',
-              oddeleni                 ='${req.body.form.oddeleni}',
-              prioritni                 ='${req.body.form.prioritni}',
+              nazev               ='${req.body.form.nazev}',
+              jmeno               ='${req.body.form.jmeno}',
+              prijmeni            ='${req.body.form.prijmeni}',
+              titul               ='${req.body.form.titul}',
+              titulza             ='${req.body.form.titulza}',
+              funkce              ='${req.body.form.funkce}',
+              oddeleni            ='${req.body.form.oddeleni}',
+              prioritni           ='${req.body.form.prioritni}',
               tel                 ='${req.body.form.tel}',
-              tel2                 ='${req.body.form.tel2}',
-              tel3                 ='${req.body.form.tel3}',
-              mail                 ='${req.body.form.mail}',
+              tel2                ='${req.body.form.tel2}',
+              tel3                ='${req.body.form.tel3}',
+              mail                ='${req.body.form.mail}',
               www                 ='${req.body.form.www}',
-              poznamka                 ='${req.body.form.poznamka}',
+              poznamka            ='${req.body.form.poznamka}',
 
-              psc                 ='${req.body.form.psc}',
-              obec                 ='${req.body.form.obec}',
-              ulice                 ='${req.body.form.ulice}',
-              aktivni                 ='${req.body.form.aktivni}',
+              psc                ='${req.body.form.psc}',
+              obec               ='${req.body.form.obec}',
+              ulice              ='${req.body.form.ulice}',
+              aktivni            ='${req.body.form.aktivni}',
               po                 ='${req.body.form.po}',
               ut                 ='${req.body.form.ut}',
               st                 ='${req.body.form.st}',
@@ -686,7 +690,11 @@ module.exports = {
               pa                 ='${req.body.form.pa}',
               so                 ='${req.body.form.so}',
               ne                 ='${req.body.form.ne}',
-              user_update_idefix                 =login2idefix('${req.body.user}')
+              otevreno_do        ='${req.body.form.otevreno_do}',
+              otevreno_od        ='${req.body.form.otevreno_od}',
+              otevreno_w_do      ='${req.body.form.otevreno_w_do}',
+              otevreno_w_od      ='${req.body.form.otevreno_w_od}',
+              user_update_idefix = login2idefix('${req.body.user}')
               where idefix = '${req.body.form.idefix}'
               `
 

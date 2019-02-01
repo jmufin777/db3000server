@@ -572,7 +572,10 @@ async function init(){
          ct boolean default true,
          pa boolean default true,
          so boolean default false,
-         ne boolean default false
+         ne boolean default false,
+         otevreno_w_od time default '08:00',
+         otevreno_w_do time default '12:00'
+
          
 
          `,
