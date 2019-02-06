@@ -81,7 +81,9 @@ module.exports = {
       firmanotice: [],
       firmanoticevalid: [],
       enumosoba: [],
+
       enumprace: [],
+      enumprovozovna_txt: [],
  
     }
        var req_query_id = req.query.id
@@ -91,6 +93,7 @@ module.exports = {
        var dotaz =`select a.* from ${tabname} a where a.idefix = ${req_query_id}`
        var dotazosoba        =`select a.* from list_firmaosoba a where a.idefix_firma = ${req_query_id} order by case when aktivni then 1 else 2 end, idefix `
        var dotazprovozovna   =`select a.* from list_firmaprovozovna a where a.idefix_firma = ${req_query_id} order by case when aktivni then 1 else 2 end, idefix`
+       var enumprovozovna_txt   =`select  distinct nazev_txt as value from list_firmaprovozovna a where a.idefix_firma = ${req_query_id} order by nazev_txt`
        //var dotazprace        =`select distinct on (a.idefix_firma,a.idefix_prace) a.* from list_firmaprace a where a.idefix_firma = ${req_query_id}`
 
        //var dotazprace_backup        =`select distinct on (a.idefix_firma,b.nazev,a.idefix_prace) a.*,b.nazev from list_firmaprace a join list2_prace b on a.idefix_prace = b.idefix where a.idefix_firma = ${req_query_id} order by a.idefix_firma,b.nazev`
@@ -121,6 +124,8 @@ module.exports = {
         where not exists
         (select * from list_firmaprace b where b.idefix_firma= ${req_query_id} and a.idefix = b.idefix_prace)
         order by case when a.stroj then 1 else 2 end , a.nazev  `
+
+
         // console.log(enum_prace)
         // return
         if (req_query_id_query == 1012) {
@@ -236,7 +241,19 @@ module.exports = {
   
       })
     }
-      if (req_query_id_query==-1 || req_query_id_query==101) {
+
+    if (req_query_id_query==-1 || req_query_id_query==1051) {
+      await client.query(enumprovozovna_txt,(err1051,response1051) => {
+        if (err1051) {
+          resObj.info = -1
+          return
+        }
+        resObj.enumprovozovna_txt = response1051.rows
+        //console.log(resObj.stroj )
+      })
+    }
+
+   if (req_query_id_query==-1 || req_query_id_query==101) {
         //console.log('req_query_id_query',req_query_id_query, dotaznotice)
       await client.query(dotaznotice,(err,response) => {
         if (err) {
@@ -579,6 +596,7 @@ module.exports = {
           idefix_firma,
           kod,
           nazev,
+          nazev_txt,
           jmeno, 
           prijmeni, 
           titul, 
@@ -608,6 +626,7 @@ module.exports = {
           '${req.body.form.idefix_firma}',
           replace('${req.body.form.kod}','null','0')::int,
           replace('${req.body.form.nazev}','null',''),
+          replace('${req.body.form.nazev_txt}','null',''),
           replace('${req.body.form.jmeno}','null',''),
           replace('${req.body.form.prijmeni}','null',''),
           replace('${req.body.form.titul}','null',''),
@@ -677,6 +696,7 @@ module.exports = {
           set idefix_firma        ='${req.body.form.idefix_firma}',
               kod                 =replace('${req.body.form.kod}','null','0')::int,
               nazev               =replace('${req.body.form.nazev}','null',''),
+              nazev_txt           =replace('${req.body.form.nazev_txt}','null',''),
               jmeno               =replace('${req.body.form.jmeno}','null',''),
               prijmeni            =replace('${req.body.form.prijmeni}','null',''),
               titul               =replace('${req.body.form.titul}','null',''),

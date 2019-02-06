@@ -546,6 +546,7 @@ async function init(){
          kod int,
          idefix_firma bigint,
          nazev varchar(100) default '',
+         nazev_txt varchar(100) default '',
          ulice varchar(100) default '',
          obec varchar(100) default '',
          psc  varchar(6) default '',
