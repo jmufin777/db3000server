@@ -469,7 +469,7 @@ module.exports = {
      var dotaz_list_strojceny              =  `select * from  list_strojceny             where idefix_stroj = ${req_query_id} order by kod`   //  -- 204   dotaz_list_strojceny             
 
      var dotaz_matspec = `      
-     select c.zkratka,concat2(' ',b.nazev1,' ',b.nazev2,b.nazev3)as nazev,a.idefix as idefix_rozmer
+     select c.zkratka,concat2(' ',b.nazev1,' ',b.nazev2,b.nazev3) as nazev,a.idefix as idefix_rozmer
      ,a.idefix_mat, sirka_mm,vyska_mm  from list_mat_rozmer a join list_mat b on a.idefix_mat = b.idefix 
      join list2_matskup c on b.idefix_matskup = c.idefix 
      where sirka_mm>0 and vyska_mm > 0 and c.zkratka = 'D'  or zkratka ='R'  
@@ -547,7 +547,9 @@ module.exports = {
             if (req_query_id_query == 10) {
               //console.log(resObj)
               
-              res.json(resObj)
+              setTimeout(function(){
+                res.json(resObj)
+              },100)
               await client.release()
               return
             }  
@@ -738,6 +740,9 @@ module.exports = {
                     console.log('Archo',10410,resObj.enum_strojmod_full[0].stroj)
                   }
                   b = false
+                  setTimeout(function(){
+                    res.json(resObj)
+                  },100)
                   res.json(resObj)
                   await client.release()
                   return
@@ -763,7 +768,9 @@ module.exports = {
                 
                   }
                   b = false  
-                  res.json(resObj)
+                  setTimeout(function(){
+                    res.json(resObj)
+                  },100)
                   await client.release()
                   return
                 }  
