@@ -194,7 +194,8 @@ async function init(){
      
      index_name: [ 
             `kod  ~~~ (kod)`,
-            `nazev ~~~ (nazev)`
+            `nazev ~~~ (nazev)`,
+            
       ],
     reindex: 1,
      initq: [

@@ -86,6 +86,216 @@ create or replace function fce_list_stroj_del(_idefix bigint) returns text as $$
 
 $$LANGUAGE plpgsql;
 
+create or replace function fce_strojmod(_idefix bigint) returns text as $$
+declare cRet text := '';
+begin
+    SELECT trim(nazev) into cRet from list_strojmod where idefix = _idefix ;
+    
+RETURN coalesce(cRet,'');
+end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+
+create or replace function fce_strojnazev(_idefix bigint) returns text as $$
+declare cRet text := '';
+begin
+    SELECT trim(nazev) into cRet from list_stroj where idefix = _idefix ;
+    
+RETURN coalesce(cRet,'');
+end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+create or replace function fce_strojnazevaccmod(_idefix bigint) returns text as $$
+declare cRet text := '';
+begin
+    SELECT trim(nazev) into cRet from list_stroj where  idefix in
+    (select idefix_stroj from list_strojmod b where idefix = _idefix) ;
+    
+    
+RETURN coalesce(cRet,'');
+end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+create or replace function fce_stroj(_idefix bigint) returns text as $$
+declare cRet text := '';
+begin
+    cRet := fce_strojnazev(_idefix);
+    if cRet =''  THEN
+        cRet := fce_strojnazevaccmod(_idefix);    
+    end if;
+    
+RETURN coalesce(cRet,'');
+end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+create or replace function fce_stroj_nema(_idefix_mod bigint, OUT  _idefixstroj bigint, OUT  _nazev text) RETURNS setof record as $$
+declare r record;
+begin 
+ for r in
+    select distinct idefix,concat2(' ',nazev,nazev_text)  as nazev from list_stroj aa where  not exists (
+    select a.idefix,a.nazev as stroj, b.nazev,b.idefix as idefix_mod from list_stroj a join list_strojmod b on a.idefix = b.idefix_stroj
+        where fce_strojmod(b.idefix) = fce_strojmod(_idefix_mod)
+    and aa.idefix = a.idefix  
+    )  order by nazev loop 
+        _idefixstroj := r.idefix;
+        _nazev       := r.nazev;
+        RETURN next ;
+
+    end loop;
+    return ;
+end ;
+$$LANGUAGE PLPGSQL ;
+
+create or replace function fce_stroj_ma(_idefix_mod bigint, OUT  _idefixstroj bigint, OUT  _nazev text) RETURNS setof record as $$
+declare r record;
+begin 
+ for r in
+        select distinct idefix,concat2(' ',nazev,nazev_text)  as nazev from list_stroj aa where   exists (
+    select a.idefix,a.nazev as stroj, b.nazev,b.idefix as idefix_mod from list_stroj a join list_strojmod b on a.idefix = b.idefix_stroj
+        where fce_strojmod(b.idefix) = fce_strojmod(_idefix_mod) and b.idefix != _idefix_mod
+    and aa.idefix = a.idefix  
+    ) order by nazev  loop 
+
+        _idefixstroj := r.idefix;
+        _nazev       := r.nazev;
+        RETURN next ;
+
+    end loop;
+    return ;
+end ;
+$$LANGUAGE PLPGSQL ;
+
+
+create or replace function fce_stroj_ma_txt(_idefix_mod bigint) RETURNS text as $$
+declare cRet  text := '';
+begin 
+     select array_to_string( array_agg(distinct _nazev),',')  into cRet from fce_stroj_ma(_idefix_mod);
+
+
+    return cRet;
+end ;
+$$LANGUAGE PLPGSQL ;
+
+
+create or replace function fce_stroj_nema_txt(_idefix_mod bigint) RETURNS text as $$
+declare cRet  text := '';
+begin 
+     select array_to_string( array_agg(distinct _nazev),',')  into cRet from fce_stroj_nema(_idefix_mod);
+
+
+    return cRet;
+end ;
+$$LANGUAGE PLPGSQL ;
+
+
+create or replace function fce_strojmod_move(idefix_stroj_to bigint, _idefix_mod bigint )  returns int as $$
+    declare nRet int := 0 ;
+
+    begin
+       update list_strojmod set idefix_stroj = idefix_stroj_to where idefix =  _idefix_mod 
+       and idefix_stroj_to in (
+                select _idefixstroj from fce_stroj_nema(_idefix_mod) -- textove porovnani modu
+
+       )
+       ;
+       get diagnostics nRet = row_count;
+
+       return nRet ;
+
+    end;
+
+$$LANGUAGE PLPGSQL;
+
+
+
+
+
+-- select fce_strojmod_copy(52211,59152); --//test na agfa tauro jarda
+
+create or replace function fce_strojmod_copy(idefix_stroj_to bigint, _idefix_mod bigint )  returns int as $$
+    declare nRet int := 0;
+    begin
+       insert into 
+list_strojmod (
+idefix_stroj           
+,idefix_prace  
+,prace                 
+,nazev 
+,nazev_text            
+,rychlost              
+,idefix_jednotka       
+,i1typ                 
+,idefix_i1             
+,i1spotreba            
+,i2typ                 
+,idefix_i2             
+,i2spotreba            
+,i3typ                 
+,idefix_i3             
+,i3spotreba            
+,i4typ                 
+,idefix_i4             
+,i4spotreba            
+,i5typ                 
+,idefix_i5             
+,i5spotreba            
+,mod_priorita          
+,rychlost_minuta_m2    
+,rychlost_minuta_pocet 
+)
+
+select 
+
+idefix_stroj_to as idefix_stroj            -- cilovy stroj kam se mod prdne
+,idefix_prace  
+,prace                 
+,nazev 
+,nazev_text            
+,rychlost              
+,idefix_jednotka       
+,i1typ                 
+,idefix_i1             
+,i1spotreba            
+,i2typ                 
+,idefix_i2             
+,i2spotreba            
+,i3typ                 
+,idefix_i3             
+,i3spotreba            
+,i4typ                 
+,idefix_i4             
+,i4spotreba            
+,i5typ                 
+,idefix_i5             
+,i5spotreba            
+,mod_priorita          
+,rychlost_minuta_m2    
+,rychlost_minuta_pocet 
+from list_strojmod where idefix = _idefix_mod   -- vybere mod z klikatka
+and idefix_stroj_to in (   -- kontrola ze je mod v seznamu stroju, kde mod jeste neni  k dispozici
+    select _idefixstroj from fce_stroj_nema(_idefix_mod) -- textove porovnani modu
+);
+
+get diagnostics nRet = row_count;
+
+       return nRet;
+
+    end;
+
+$$LANGUAGE PLPGSQL;
+
+
+select idefix,nazev  from list_stroj aa where  not exists (
+select a.idefix,a.nazev as stroj, b.nazev,b.idefix as idefix_mod from list_stroj a join list_strojmod b on a.idefix = b.idefix_stroj
+    where fce_strojmod(b.idefix) = fce_strojmod(59152)
+ and aa.idefix = a.idefix 
+)  
+
+
+fce_strojmod(59152)
+-- select a.idefix,a.nazev as stroj, b.nazev,b.idefix as idefix_mod from list_stroj a join list_strojmod b on a.idefix = b.idefix_stroj
+
+
 
 
 create or replace function fce_list_dodavatel_insert(ctxt text) returns bigint as $$

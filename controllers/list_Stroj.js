@@ -374,6 +374,7 @@ module.exports = {
      enum_strojmod_full: [],
      enum_format: [],
      enum_matspec: [],
+     enum_strojmod_nema:[],
 
 
    }
@@ -434,6 +435,7 @@ module.exports = {
       var enum_strojmod_text    = `select distinct nazev_text    as value from list_strojmod order by nazev_text`              //  -- 104   enum_strojmod_text
       var enum_strojceny_nazev  = `select distinct nazev         as value from list_strojceny order by nazev`              //  -- 1091   enum_strojceny_nazev
       var enum_strojinkoust     = `select distinct nazev         as value from list_strojinkoust order by nazev`               //  -- 105   enum_strojinkoust
+      var enum_strojmod_nema =`select _idefixstroj as idefix_stroj ,_nazev as nazev from fce_stroj_nema(${req_query_id})`;
       
       var enum_strojmod_full=`select a.idefix ,b.idefix as idefix_mod,a.nazev as stroj,b.nazev,b.nazev_text, b.mod_priorita from list_stroj a join list_strojmod b on a.idefix=b.idefix_stroj  order by case when b.mod_priorita then 1 else 2 end`;
       var addA = `select a.idefix  from list_stroj a join list2_strojskup b on a.idefix_strojskup = b.idefix  where b.typ_kalkulace ~ 'A'  and tisk`
@@ -461,8 +463,8 @@ module.exports = {
         select 0 as kod,0,'Ne'
         order by kod , idefix `;
 
-     var dotaz_list_strojmod               =  `select * from  list_strojmod              where idefix_stroj = ${req_query_id} order by kod`   //  -- 200   dotaz_list_strojmod              
-     var dotaz_list_strojmodfull               =  `select * from  list_strojmod              where idefix_stroj = ${req_query_id}`   //  -- 200   dotaz_list_strojmod              
+     var dotaz_list_strojmod               =  `select *,fce_stroj_ma_txt(idefix) as ma from  list_strojmod              where idefix_stroj = ${req_query_id} order by kod`   //  -- 200   dotaz_list_strojmod              
+     var dotaz_list_strojmodfull           =  `select * from  list_strojmod              where idefix_stroj = ${req_query_id}`   //  -- 200   dotaz_list_strojmod              
      var dotaz_list_strojmodbarevnost      =  `select * from  list_strojmodbarevnost     where idefix_stroj = ${req_query_id}`   //  -- 201   dotaz_list_strojmodbarevnost     
      var dotaz_list_strojinkoust           =  `select * from  list_strojinkoust          where idefix_stroj = ${req_query_id}`   //  -- 202   dotaz_list_strojinkoust          
      var dotaz_list_strojinkoustbarevnost  =  `select * from  list_strojinkoustbarevnost where idefix_stroj = ${req_query_id}`   //  -- 203   dotaz_list_strojinkoustbarevnost 
@@ -475,9 +477,13 @@ module.exports = {
      where sirka_mm>0 and vyska_mm > 0 and c.zkratka = 'D'  or zkratka ='R'  
        `
 
-
-       
-
+/*
+       if (req_query_id_query==600)  {
+         console.log(enum_strojmod_nema)
+          res.json({'a': 1});
+          return
+       }
+*/
      
       
      
@@ -513,6 +519,33 @@ module.exports = {
         return
       }
       }
+
+      if ( req_query_id_query==600) {
+        await  client.query(enum_strojmod_nema,(err600,response600) => {
+          if (err600) {
+            myres.info = -1
+            console.log(600, "err: ",enum_strojmod_nema, err600)
+            return
+          }
+          resObj.enum_strojmod_nema = response600.rows
+          })    
+          if (req_query_id_query == 600) {
+            //console.log(resObj)
+            setTimeout(function(){
+              res.json(resObj.enum_strojmod_nema)
+              
+            },200)
+            await client.release()
+            
+            return
+          }  
+        }
+
+      // if (req_query_id_query==600)  {
+      //   console.log(enum_strojmod_nema)
+      //    res.json({'a': 1});
+      //    return
+      // }
 
       if (req_query_id_query==-1 || req_query_id_query==10) {
         await  client.query(enum_strojskup,(err10,response10) => {

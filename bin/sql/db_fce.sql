@@ -206,6 +206,162 @@ $function$
 
 
 
-SELECT concat('My ', 'dog ', 'likes ', 'chocolate') As result;
+create or replace function idefix(_idefix bigint)  returns text as $$
+    declare r record;
+            r2 record;
+            cRet text := '';
 
-result
+    declare cQ text := '';
+    begin
+    for r in 
+         SELECT DISTINCT table_schema,table_name, column_name FROM information_schema.columns  WHERE  column_name = 'idefix' loop
+                cQ := 'select * from ' || r.table_schema||'.'||r.table_name ||' where idefix = ' || _idefix  || ' limit 1';
+                for r2 in execute cQ loop
+                    cRet := r.table_schema||'.'||r.table_name ;
+                --    raise notice '%',cQ ;
+
+
+                end loop;
+
+
+                
+                if (cRet >'') THEN
+                    exit;
+                end if;
+
+end loop ;
+ 
+RETURN cRet;
+    end;
+$$LANGUAGE PLPGSQL;
+
+
+create or replace function idefix_nazev(_idefix bigint)  returns text as $$
+    declare r record;
+            r2 record;
+            cRet text := '';
+
+    declare cQ text := '';
+    begin
+    for r in 
+         SELECT DISTINCT table_schema,table_name, column_name FROM information_schema.columns  WHERE  column_name = 'idefix' 
+                  loop
+              
+              begin  
+                    cQ := 'select nazev from ' || r.table_schema||'.'||r.table_name ||' where idefix = ' || _idefix  || ' limit 1';
+                    for r2 in execute cQ loop
+                        cRet := r2.nazev;
+                    end loop;
+                exception when others    then 
+                      continue;
+                end;
+                if (cRet >'') THEN
+                    exit;
+                end if;
+    end loop ;
+RETURN cRet;
+ end;
+$$LANGUAGE PLPGSQL;
+
+create or replace function idefix_nazev1(_idefix bigint)  returns text as $$
+    declare r record;
+            r2 record;
+            cRet text := '';
+
+    declare cQ text := '';
+    begin
+    for r in 
+         SELECT DISTINCT table_schema,table_name, column_name FROM information_schema.columns  WHERE  column_name = 'idefix' 
+                  loop
+              
+              begin  
+                    cQ := 'select nazev1 as nazev from ' || r.table_schema||'.'||r.table_name ||' where idefix = ' || _idefix  || ' limit 1';
+                    for r2 in execute cQ loop
+                        cRet := r2.nazev;
+                    end loop;
+                exception when others    then 
+                      continue;
+                end;
+                if (cRet >'') THEN
+                    exit;
+                end if;
+    end loop ;
+RETURN cRet;
+ end;
+$$LANGUAGE PLPGSQL;
+
+create or replace function idefix_name(_idefix bigint)  returns text as $$
+    declare r record;
+            r2 record;
+            cRet text := '';
+
+    declare cQ text := '';
+    begin
+    for r in 
+         SELECT DISTINCT table_schema,table_name, column_name FROM information_schema.columns  WHERE  column_name = 'idefix' 
+                  loop
+              
+              begin  
+                    cQ := 'select name as nazev from ' || r.table_schema||'.'||r.table_name ||' where idefix = ' || _idefix  || ' limit 1';
+                    for r2 in execute cQ loop
+                        cRet := r2.nazev;
+                    end loop;
+                exception when others    then 
+                      continue;
+                end;
+                if (cRet >'') THEN
+                    exit;
+                end if;
+    end loop ;
+RETURN cRet;
+ end;
+$$LANGUAGE PLPGSQL;
+
+create or replace function idefix_login(_idefix bigint)  returns text as $$
+    declare r record;
+            r2 record;
+            cRet text := '';
+
+    declare cQ text := '';
+    begin
+    for r in 
+         SELECT DISTINCT table_schema,table_name, column_name FROM information_schema.columns  WHERE  column_name = 'idefix' 
+                  loop
+              
+              begin  
+                    cQ := 'select login as nazev from ' || r.table_schema||'.'||r.table_name ||' where idefix = ' || _idefix  || ' limit 1';
+                    for r2 in execute cQ loop
+                        cRet := r2.nazev;
+                    end loop;
+                exception when others    then 
+                      continue;
+                end;
+                if (cRet >'') THEN
+                    exit;
+                end if;
+    end loop ;
+RETURN cRet;
+ end;
+$$LANGUAGE PLPGSQL;
+
+create or replace FUNCTION idefix_txt(_idefix bigint )  returns text as $$
+    declare cRet text := '' ;
+    BEGIN
+        cRet := idefix_nazev(_idefix) ;
+        if cRet = '' then
+            cRet := idefix_nazev1(_idefix) ;
+        end if ;
+        if cRet = '' then
+            cRet := idefix_name(_idefix) ;
+        end if ;
+                if cRet = '' then
+            cRet := idefix_login(_idefix) ;
+        end if ;
+        RETURN cRet;
+    end ;
+$$LANGUAGE PLPGSQL ;
+
+
+--// SELECT concat('My ', 'dog ', 'likes ', 'chocolate') As result;
+
+-- result
