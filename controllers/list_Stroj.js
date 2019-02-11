@@ -26,7 +26,49 @@ module.exports = {
       console.log(req.body.form, "user: ", req.body.user, "idefix :", req.body.idefix)
       //res.json({'a': 1})
       //return
+      //fce_strojmod_copy(idefix_stroj_to bigint, _idefix_mod bigint )
+      //fce_strojmod_move(idefix_stroj_to bigint, _idefix_mod bigint )
+      var cq=""
+      var MoveOrCopy = false;
+      if (req.body.moveMod && req.body.moveMod ==1 ){
+        MoveOrCopy = true;
+        cq= `select fce_strojmod_move(${req.body.form.idefix_stroj}, ${req.body.form.idefix_mod} )`
+        console.log("MOve", req.body.form)
+
+        //return
+      }
+      if (req.body.copyMod && req.body.copyMod ==1 ){
+        console.log("Copy",req.body.form)
+        MoveOrCopy = true;
+        cq= `select fce_strojmod_copy(${req.body.form.idefix_stroj}, ${req.body.form.idefix_mod} )`
+
+        //return
+      }
+      if (MoveOrCopy == true) {
+      try {
+
+          const client = await pool.connect()
+          console.log(cq)  
+          await client.release()
+          await client.query(cq,(errcq01,cq01) => { 
+            if (errcq01) {
+              console.log("Err pri presunu", errcq01)
+            } else {
+              console.log("Vysledek " ,cq01)
+            }
+
+          }
+          )  
+          res.json({info: 'Ok test'});
+          return;
       
+         } catch(e) {
+          console.log("Chytiljsme chybku", e)
+
+        }
+        return
+      }  
+
       var dotaz = `update list_stroj set `
       dotaz = dotaz + `
 
@@ -60,6 +102,7 @@ module.exports = {
 
       try {
         const client = await pool.connect()
+        
         await client.query(dotaz,(err01,response01) => { 
         if (err01){
           console.log('Err - update' , 01, err01)
@@ -464,6 +507,7 @@ module.exports = {
         order by kod , idefix `;
 
      var dotaz_list_strojmod               =  `select *,fce_stroj_ma_txt(idefix) as ma from  list_strojmod              where idefix_stroj = ${req_query_id} order by kod`   //  -- 200   dotaz_list_strojmod              
+     
      var dotaz_list_strojmodfull           =  `select * from  list_strojmod              where idefix_stroj = ${req_query_id}`   //  -- 200   dotaz_list_strojmod              
      var dotaz_list_strojmodbarevnost      =  `select * from  list_strojmodbarevnost     where idefix_stroj = ${req_query_id}`   //  -- 201   dotaz_list_strojmodbarevnost     
      var dotaz_list_strojinkoust           =  `select * from  list_strojinkoust          where idefix_stroj = ${req_query_id}`   //  -- 202   dotaz_list_strojinkoust          
