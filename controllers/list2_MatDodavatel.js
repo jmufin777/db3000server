@@ -12,10 +12,10 @@ module.exports = {
     async all (req, res) {
       var dotaz=''
       if (req.query.id=='nic'){
-        dotaz=`select * from ${tabname} where 1=1 order by kod `
+        dotaz=`select * from ${tabname} where mat=1 order by kod `
       }
       if (req.query.id=='max'){
-        dotaz = `select kod as kod from ${tabname} where 1=1 order by kod desc limit 1`
+        dotaz = `select kod as kod from ${tabname} where mat=1 order by kod desc limit 1`
         
       }
       console.log(req.query.id, dotaz )

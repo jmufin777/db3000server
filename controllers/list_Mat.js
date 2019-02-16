@@ -480,7 +480,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
       var enum_vyska_zbytek = `select distinct vyska_mm_zbytek::text as value from list_mat_rozmer order by value `
 
 
-      var enum_dodavatel  = `select * from list_dodavatel order by kod `   //Doplnit pominkove online dohledabvani pro kod ktery teprve vznikne
+      var enum_dodavatel  = `select * from list_dodavatel where mat = 1 order by kod `   //Doplnit pominkove online dohledabvani pro kod ktery teprve vznikne
 
       
       var dotaz_rozmer2= `select idefix_mat
