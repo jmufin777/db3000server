@@ -40,6 +40,8 @@ const listUsers1 =  require('../controllers/list_Users1')
 const dbStatus =    require('../controllers/db_status')
 const ico      =    require('../controllers/ico')
 
+const query      =    require('../controllers/query')
+
 
 
 router.post('/login', 
@@ -50,6 +52,13 @@ router.post('/login-update',
     AuthenticationController.loginUpdate)    
 router.post('/login-menu-update', 
     AuthenticationController.userMenu)        
+
+router.get('/query',
+    query.all)
+
+router.post('/query',
+    query.post)
+        
 
 router.get('/list2_barevnost',
     list2Barevnost.all)

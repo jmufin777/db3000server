@@ -636,6 +636,10 @@ module.exports = {
             await  client.query(dotaz_matspec,(err501,response501) => {
               if (err501) {
                 myres.info = -1
+                res.status(501).send({
+                  error: `Chyba 501 pri pozadavku na databazi :${dotaz_matspec}`
+                })
+                // res.status(501);
                 //console.log(10, "err")
                 return
               }
@@ -840,6 +844,9 @@ module.exports = {
                 })    
                 while (!b)
                 if (req_query_id_query == 10411 ) {
+                  if (!resObj.enum_strojmod_full.length ){
+                    console.log(resObj.enum_strojmod_full)
+                  }
                   if ( resObj.enum_strojmod_full.length > 0 ) {
                     console.log('Velko ',b,10411,resObj.enum_strojmod_full[0].stroj)
                 
