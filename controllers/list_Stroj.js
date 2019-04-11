@@ -817,14 +817,15 @@ module.exports = {
                 })    
                 while (!b)
                 if (req_query_id_query == 10410) {
+                  setTimeout(function(){
                   if ( resObj.enum_strojmod_full.length > 0 ) {
                     console.log('Archo',10410,resObj.enum_strojmod_full[0].stroj)
                   }
                   b = false
-                  setTimeout(function(){
+                  
                     res.json(resObj)
-                  },100)
-                  res.json(resObj)
+                  },10)
+                  
                   await client.release()
                   return
                 }  
@@ -844,17 +845,22 @@ module.exports = {
                 })    
                 while (!b)
                 if (req_query_id_query == 10411 ) {
-                  if (!resObj.enum_strojmod_full.length ){
-                    console.log(resObj.enum_strojmod_full)
-                  }
+                  setTimeout(function(){ 
+                  try {
+                    if (!resObj.enum_strojmod_full.length ){
+                      console.log(resObj.enum_strojmod_full)
+                    }
+                  }  catch (e) {
+                    console.log('Nelze zjistit ', e)
+                  } 
                   if ( resObj.enum_strojmod_full.length > 0 ) {
                     console.log('Velko ',b,10411,resObj.enum_strojmod_full[0].stroj)
                 
                   }
                   b = false  
-                  setTimeout(function(){
+                
                     res.json(resObj)
-                  },100)
+                  },20)
                   await client.release()
                   return
                 }  
