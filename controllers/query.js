@@ -25,8 +25,9 @@ module.exports = {
            if (response.rowCount == 0)   {
             res.json({data: [], fields: response.fields})
              
-            
+            console.log("Divn")
            } else {
+             console.log(response.rows)
             res.json({data: response.rows, fields: response.fields})
            }
              
@@ -42,10 +43,15 @@ module.exports = {
 
   
   async post (req, res, next ) {
-    console.log(req.body.form[0])
-    var dotaz = req.body.query
+
+//    console.log(req.body.form[0])
+    //console.log(req.body.params.query)
+    //res.json({info: 'Ok' })
+    //return
+
+    var dotaz = req.body.params.query
     try{
-      const  user  = req.body.user
+      const  user  = req.body.params.user
       const client = await pool.connect()
       console.log(dotaz)
       await client.query(dotaz,(err, response)=>{
@@ -54,6 +60,7 @@ module.exports = {
             return next(err)
           }
       })
+
       await client.release()
       res.json({info: 'Ok' })
     } catch (err) {
