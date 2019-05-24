@@ -1,0 +1,2 @@
+             ^
+db3000=# delete from list_strojmod where idefix in (select idefix  from (select idefix_stroj,idefix, mod_priorita,nazev ,count(*) over() ,row_number() over(partition by idefix_stroj order by case when mod_priorita  then 1 else idefix end)  radek from list_strojmod where idefix_stroj in (select idefix from list_stroj where tisk=false)  ) a  where radek > 1 and idefix_stroj != 59493 );
