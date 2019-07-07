@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 const {pool, client } = require('../db')
 const _ = require('lodash')
+const fs = require('fs');
 
 var lErr= false
 const resObj = {
@@ -52,7 +53,7 @@ module.exports = {
           await client.release()
           await client.query(cq,(errcq01,cq01) => { 
             if (errcq01) {
-              console.log("Err pri presunu", errcq01)
+              console.log("Err pri presunu", errcq0, "PADAVKA 55: ", cq)
             } else {
               console.log("Vysledek " ,cq01)
             }
@@ -87,7 +88,7 @@ module.exports = {
       bez_okraj             = '${req.body.form.data.bez_okraj}',
       spadavka_mm             = '${req.body.form.data.spadavka_mm}',
       space_znacky_mm             = '${req.body.form.data.space_znacky_mm}',
-      user_insert_idefix             = '${req.body.form.data.user_insert_idefix}',
+      user_insert_idefix             = coalesce('${req.body.form.data.user_insert_idefix}',0),
       nazev_text             = '${req.body.form.data.nazev_text}',
       priprava_minuta_naklad             = '${req.body.form.data.priprava_minuta_naklad}',
       priprava_minuta_prodej             = '${req.body.form.data.priprava_minuta_prodej}',
@@ -99,13 +100,17 @@ module.exports = {
       `
       dotaz += `user_update_idefix = login2idefix('${req.body.user}')`;
       dotaz += ` where idefix = ${req.body.idefix}`
+      dotaz = dotaz.replace(/null/g,'0')
+      dotaz = dotaz.replace(/\n/g,' ')
+      dotaz = dotaz.replace(/\\/g,' ')
+      dotaz = dotaz.replace(/undefined/g,'0')
 
       try {
         const client = await pool.connect()
         
         await client.query(dotaz,(err01,response01) => { 
         if (err01){
-          console.log('Err - update' , 01, err01)
+          console.log('Err - update' , 01, err01, "PADAVKA 108: ", dotaz)
         }
         })
         //console.log(req.body.data.strojmod)
@@ -164,16 +169,21 @@ module.exports = {
         `
 
         updatemod = updatemod.replace(/null/g,'0')
+        updatemod = updatemod.replace(/\n/g,' ')
+        updatemod = updatemod.replace(/\\/g,' ')
         updatemod = updatemod.replace(/undefined/g,'0')
         //console.log(updatemod)
         b = false
         try {
           client.query(updatemod, (errupdate, resupdate) => {
-            console.log(errupdate )
+            console.log(errupdate  )
+            if (errupdate){
+              console.log(errupdate , "PADAVKA 172: ", updatemod )
+            }
           })
           b = true
         } catch (e) {
-          console.log(updatemod)
+          console.log(errupdate , "PADAVKA 172: ", updatemod )
           b = true
         }
 
@@ -226,7 +236,10 @@ module.exports = {
         var moddelete=`delete from list_strojmod  a where  idefix_stroj = ${req.body.idefix} and not exists
         ( select * from list_strojmod b where b.idefix in (${idefix_valid}) and idefix_stroj = ${req.body.idefix} and a.idefix = b.idefix )`
         await client.query(moddelete, (errmoddelete, resmoddelete) => {
-          console.log('delete',errmoddelete)
+          if (errmoddelete){
+            console.log('delete',errmoddelete,  "PADAVKA 229 : ", moddelete )
+          }
+          
         }) 
        }
 
@@ -240,7 +253,10 @@ module.exports = {
         b=false
         await client.query(insertmod, (errmod, resmod) => {
 //          console.log(resmod.Result)
-                  console.log('abc',errmod)
+            if (errmod){
+              console.log('abc',errmod,  "PADAVKA 243: ", insertmod )
+            }
+              
           
         }) 
         b=true
@@ -315,7 +331,10 @@ module.exports = {
 
       console.log(updateceny)
       client.query(updateceny, (errupdateceny, resupdateceny) => {
-        console.log(errupdateceny )
+        if (errupdateceny){
+          console.log(errupdateceny ,"PADAVKA 318: ", updateceny )
+        }
+        
       })
 
 
@@ -353,7 +372,10 @@ module.exports = {
       ( select * from list_strojceny b where b.idefix in (${idefix_ceny_valid}) and idefix_stroj = ${req.body.idefix} and a.idefix = b.idefix )`
       // console.log(cenydelete)
       await client.query(cenydelete, (errcenydelete, rescenydelete) => {
-        console.log('delete',errcenydelete)
+        if (errcenydelete){
+          console.log('delete',errcenydelete, "PADAVKA 356 ", cenydelete) 
+        }
+        
       }) 
      }
 
@@ -364,7 +386,7 @@ module.exports = {
       insertceny = insertceny.replace(/undefined/g,'0')
 
       await client.query(insertceny, (errceny, resceny) => {
-        console.log('abc',errceny)
+        console.log('abc',errceny,  "PADAVKA 367 ", insertceny )
       }) 
      }
 
@@ -440,7 +462,7 @@ module.exports = {
           
           await client.query(`select fce_list_stroj_copy as new_idefix from fce_list_stroj_copy(${req_query_id})`,(err88,response88) => {
             if (err88){
-              console.log("Err",88);
+              console.log("Err",88, "PADAVKA  88 443");
             }
             
             console.log(88, response88.rows)
@@ -483,6 +505,7 @@ module.exports = {
       var enum_strojmod_full=`select a.idefix ,b.idefix as idefix_mod,a.nazev as stroj,b.nazev,b.nazev_text, b.mod_priorita from list_stroj a join list_strojmod b on a.idefix=b.idefix_stroj  order by case when b.mod_priorita then 1 else 2 end`;
       var addA = `select a.idefix  from list_stroj a join list2_strojskup b on a.idefix_strojskup = b.idefix  where b.typ_kalkulace ~ 'A'  and tisk`
       var addV = `select a.idefix  from list_stroj a join list2_strojskup b on a.idefix_strojskup = b.idefix  where b.typ_kalkulace ~ 'V' and tisk `
+      var addJine = `select a.idefix  from list_stroj a join list2_strojskup b on a.idefix_strojskup = b.idefix  where a.nazev_text like 'DTP' `
       var enum_strojmod_fullA=
       `select a.idefix ,b.idefix as idefix_mod,a.nazev as stroj,b.nazev,b.nazev_text, b.mod_priorita from list_stroj a join list_strojmod b on a.idefix=b.idefix_stroj  
        where a.idefix in (${addA}) 
@@ -490,6 +513,10 @@ module.exports = {
       var enum_strojmod_fullV=
       `select a.idefix ,b.idefix as idefix_mod,a.nazev as stroj,b.nazev,b.nazev_text, b.mod_priorita from list_stroj a join list_strojmod b on a.idefix=b.idefix_stroj  
        where a.idefix in (${addV}) 
+      order by case when b.mod_priorita then 1 else 2 end`; 
+      var enum_strojmod_fullJine=
+      `select a.idefix ,b.idefix as idefix_mod,a.nazev as stroj,b.nazev,b.nazev_text, b.mod_priorita from list_stroj a join list_strojmod b on a.idefix=b.idefix_stroj  
+       where a.idefix in (${addJine}) 
       order by case when b.mod_priorita then 1 else 2 end`; 
 
 
@@ -539,6 +566,7 @@ module.exports = {
     await client.query(dotaz,(err,response) => {
       if (err) {
         myres.info = -1
+
         return
       }
       resObj.stroj = response.rows
@@ -831,6 +859,11 @@ module.exports = {
                 }  
             }  
             if ( req_query_id_query==10411) {
+              
+              fs.appendFile('./reports/V.txt', enum_strojmod_fullV, function (errFile) {
+                if (errFile) throw errFile;
+                console.log('Saved!');
+              });
               await  client.query(enum_strojmod_fullV,(err10411,response10411) => {
                 if (err10411) {
                   myres.info = -1
@@ -855,6 +888,46 @@ module.exports = {
                   } 
                   if ( resObj.enum_strojmod_full.length > 0 ) {
                     console.log('Velko ',b,10411,resObj.enum_strojmod_full[0].stroj)
+                
+                  }
+                  b = false  
+                
+                    res.json(resObj)
+                  },200)
+                  await client.release()
+                  return
+                }  
+            }  
+
+            if ( req_query_id_query==10412) {
+              fs.appendFile('./reports/Externi.txt', enum_strojmod_fullJine, function (errFile) {
+                if (errFile) throw errFile;
+                console.log('Saved!');
+              });
+              await  client.query(enum_strojmod_fullJine,(err10412,response10412) => {
+                if (err10412) {
+                  myres.info = -1
+                  console.log(10412, "err")
+                  return
+                }
+                resObj.enum_strojmod_full = response10412.rows
+                b = true
+                if (response10412.rowCount > 0 ) {
+                  console.log('V:',response10412.rows[0].stroj)
+                }
+                })    
+                while (!b)
+                if (req_query_id_query == 10412 ) {
+                  setTimeout(function(){ 
+                  try {
+                    if (!resObj.enum_strojmod_full.length ){
+                      console.log(resObj.enum_strojmod_full)
+                    }
+                  }  catch (e) {
+                    console.log('Nelze zjistit ', e)
+                  } 
+                  if ( resObj.enum_strojmod_full.length > 0 ) {
+                    console.log('Velko ',b,10412,resObj.enum_strojmod_full[0].stroj)
                 
                   }
                   b = false  
@@ -1331,7 +1404,33 @@ module.exports = {
        if (err00){
          console.log('Err','00' )
          res.status(412).send({
-          error: `${tabname} - Chyba pri vymazu`
+          error: `${tabname} - Chyba pri zmene tisk mereni`
+  
+        })
+         return
+       }
+       res.json({info: 'Ok' })
+       console.log('OK','00' )
+     })
+     await client.release()
+
+
+    console.log('Delete barevnost', req.body.params.id)
+  },
+  async setMereni (req, res, next ) {
+    const client = await pool.connect()
+    var q = `update list_stroj set mereni = case when '${req.body.params.anone}' = 'A' then true
+    when '${req.body.params.anone}' = 'N' then false end
+    where idefix = ${req.body.params.id}`
+    //req.body.params.id
+    console.log('Set tisk', req.body.params.id , req.body.params.anone , q)
+    
+    
+     await client.query( q,(err00, response00) => {
+       if (err00){
+         console.log('Err','00' )
+         res.status(412).send({
+          error: `${tabname} - Chyba pri zmene stavu mereni`
   
         })
          return
@@ -1344,6 +1443,8 @@ module.exports = {
 
     console.log('Delete barevnost', req.body.params.id)
   }
+
+
 
 
 }

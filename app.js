@@ -10,7 +10,10 @@ const _ = require('lodash')
 
 const routes = require('./routes/list')
 const request = require('request')
-console.log('1')
+
+
+
+//console.log('1')
 const app=express();
 // #app.use(morgan('combined'));
 app.use(cors());

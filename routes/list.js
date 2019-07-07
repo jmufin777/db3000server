@@ -174,6 +174,8 @@ router.post('/list-stroj-delete',
     listStroj.delete)      
 router.post('/list-stroj-settisk',
     listStroj.setTisk)          
+    router.post('/list-stroj-setmereni',
+    listStroj.setMereni)              
 router.get('/list-stroj-one',
     listStroj.one)         
 router.post('/list-stroj-save-one',

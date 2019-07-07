@@ -141,7 +141,8 @@ async function init(){
      priprava_minuta_prodej float default 0,
      priprava_celkem_naklad float default 0,
      priprava_celkem_prodej float default 0,
-     tisk boolean default false
+     tisk boolean default false,
+     mereni boolean default false
 
 
      `,
@@ -663,7 +664,7 @@ async function init(){
  index_name: [ 
         `idefix_firma ~~~ (idefix_firma)`,
         `idefix_prace ~~~ (idefix_prace)`
-  ],
+          ],
 reindex: 1,
  initq: [
     `select 1 ;`
@@ -883,9 +884,34 @@ prodejní cena za arch
          initq: [
             
         ]
-    }
+    },
 
+    {   name: 'calc_templates'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
+            //Sehnat zpusob z ARES
+        ,struct:  `
+         kod int,
+         nazev text,  --text na fakture
+         obsah jsonb,
+         kcks numeric(15,2) default 0,
+         ks int default 0,
+         naklad numeric(15,2) default 0,
+         marze numeric(15,2) default 0,
+         prodej numeric(15,2) default 0,
+         marze_pomer numeric(15,2) default 0,
+         expedice_datum date,
+         expedice_cas time,
+         datum TIMESTAMP
+         `,
+         index_name: [ 
+            `idefix  ~~~ (idefix)`,
+            `nazev ~~~ (nazev)`
+          ],
 
+        reindex: 1,
+         initq: [
+            `select 1 ;`
+        ]
+    },
 
 ]
 
