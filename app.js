@@ -1,6 +1,6 @@
 //const http = require('http');
 const express = require('express');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 //const { sequelize } = require('./models');
@@ -15,11 +15,14 @@ const request = require('request')
 
 //console.log('1')
 const app=express();
+app.use(express.json({limit: '1500mb'}));
+app.use(express.urlencoded({limit: '1500mb'}));
+
 // #app.use(morgan('combined'));
 app.use(cors());
 
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.use('/',routes);
 /*
 app.use((err, req, res, next) =>{
@@ -52,6 +55,6 @@ app.post('/login', (req, res)=>{
 
 
 app.listen(config.port )
-console.log(`I'm listening on port ${config.port}`)
+console.log(`Nasloucham na portu ${config.port}`)
 
 module.exports = app;

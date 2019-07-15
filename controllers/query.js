@@ -5,6 +5,7 @@ const {pool, client } = require('../db')
 const _ = require('lodash')
 
 var lErr= false
+var hotovo=false
 
 module.exports = {
     async all (req, res, next ) {
@@ -57,24 +58,33 @@ module.exports = {
     //console.log(req.body.params.query)
     //res.json({info: 'Ok' })
     //return
-
+    var err2=false;
+    //lErr = false;
+    
     var dotaz = req.body.params.query
     try{
       const  user  = req.body.params.user
       const client = await pool.connect()
       console.log(dotaz)
+      
       await client.query(dotaz,(err, response)=>{
-          if (err){
-            console.log(err)
-            return next(err)
-          }
+        if (err) {
+          res.status(402).send({
+           error: `Chyba 402 pri pozadavku na databazi :${err}`
+         })
+          return next(err)
+        } else {
+          res.json({info: 'Ok', err: err2 , err0: lErr, hot: hotovo})
+        }
+            return
       })
 
+      
       await client.release()
-      res.json({info: 'Ok' })
+      // res.json({info: 'Ok', err: err2 , err0: lErr, hot: hotovo})
     } catch (err) {
       console.log(err)
-      res.status(403).send({
+      res.status(413).send({
         error: `Chyba 403 pri pozadavku na databazi :${err}`
       })
     }
