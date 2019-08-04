@@ -35,7 +35,7 @@ module.exports = {
             res.json({data: [], fields: response.fields})
 
             console.log('Pravdne radky: ', dotaz ) 
-            console.log("Divn")
+            //console.log("Divn")
            } else {
              console.log(response.rows)
             res.json({data: response.rows, fields: response.fields})
@@ -69,8 +69,11 @@ module.exports = {
       
       await client.query(dotaz,(err, response)=>{
         if (err) {
-          res.status(402).send({
-           error: `Chyba 402 pri pozadavku na databazi :${err}`
+          console.log(dotaz,err )
+          //return
+          res.status(412).send({
+           error: `Chyba 402 pri pozadavku na databazi :${err}`,
+           data: dotaz
          })
           return next(err)
         } else {

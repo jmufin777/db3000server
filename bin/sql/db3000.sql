@@ -178,6 +178,8 @@ CREATE or replace  RULE log_list2_barevnost AS ON DELETE TO list2_barevnost
         );
 
 
+create schema zakazky authorization  db3000;
+create schema nabidky authorization  db3000;
 
 
 select 'drop table ' || tablename  from pg_tables where schemaname='public' and tablename like 'tmp_%';

@@ -109,8 +109,6 @@ begin
         cp1                      = '',
         datum_ares               = null ;
       
-
-
     
     
     
