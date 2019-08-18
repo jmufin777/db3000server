@@ -362,6 +362,81 @@ create or replace FUNCTION idefix_txt(_idefix bigint )  returns text as $$
 $$LANGUAGE PLPGSQL ;
 
 
+create or replace function right(bigint, n int) returns text as $$
+    begin
+    return right($1::text,n);
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+create or replace function left(bigint, n int) returns text as $$
+    begin
+    return left($1::text,n);
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+create or replace function lpad(bigint, int, cim text default '0') returns text as $$
+    declare neco text := coalesce($1::text,'');
+    begin
+        return lpad(neco,$2,cim) ;
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE ;
+
+create or replace function d_exp( ndays int default 10 ) returns date as $$
+    begin
+        return now()::date +  ndays;
+    end;
+$$LANGUAGE PLPGSQL;
+
+
+
+create or replace function newzak(_idefixuser int default 0)  returns bigint as $$
+    declare _r int := 0;
+    declare newzak bigint := 0;
+    declare lastzak text:= '';
+    declare rok text := 0;
+begin
+    rok := (extract(year from now()) - 2000)::text;
+    select max(right(cislozakazky::text,5)) into lastzak  from zak_t_list where left(cislozakazky,2)= rok;
+    if (lastzak is null or lastzak = '0') then
+--        raise notice ' %', lastzak;
+        lastzak := lpad('1',5,'0');
+        else
+        lastzak := lpad((lastzak::bigint+1)::text,5,'0') ;
+    end if ;
+--    raise notice '%' , (rok || lpad(_idefixuser,3) || lastzak ) ;
+    newzak := (rok || lpad(_idefixuser,3) || lastzak )::bigint;
+
+
+    return newzak;
+end;
+--RR NNN ZZZZZ
+$$LANGUAGE PLPGSQL ;
+
+create or replace function newnab(_idefixuser int default 0)  returns bigint as $$
+    declare _r int := 0;
+    declare newzak bigint := 0;
+    declare lastzak text:= '';
+    declare rok text := 0;
+begin
+    rok := (extract(year from now()) - 2000)::text;
+    select max(right(cislonabidky::text,5)) into lastzak  from nab_t_list where left(cislonabidky,2)= rok;
+    if (lastzak is null or lastzak = '0') then
+--        raise notice 'A  %', lastzak;
+        lastzak := lpad('1',5,'0');
+        else
+        lastzak := lpad((lastzak::bigint+1)::text,5,'0') ;
+--        raise notice 'B  %', lastzak;
+    end if ;
+--    raise notice ' C %' , (rok || lpad(_idefixuser,3) || lastzak ) ;
+    newzak := (rok || lpad(_idefixuser,3) || lastzak )::bigint;
+
+
+    return newzak;
+end;
+--RR NNN ZZZZZ
+$$LANGUAGE PLPGSQL ;
+
+
 --// SELECT concat('My ', 'dog ', 'likes ', 'chocolate') As result;
 
 -- result

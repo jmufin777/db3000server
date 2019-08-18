@@ -634,6 +634,28 @@ async function init(){
             `select 1 ;`
         ]
     },
+    {   name: 'list_firmaaccount'    //Prideleni obcodnika k firme
+            //Sehnat zpusob z ARES
+        ,struct:  `
+         kod int,
+         idefix_firma bigint,
+         idefix_user bigint,
+         txt text,
+         _od date,
+         _do date,
+         datum TIMESTAMP
+         
+         `,
+         index_name: [ 
+                `kod  ~~~ (kod)`,
+                `idefix_firma ~~~ (idefix_firma)`,
+                `idefix_user ~~~ (idefix_user)`,
+          ],
+        reindex: 1,
+         initq: [
+            `select 1 ;`
+        ]
+    },
 
     {   name: 'list_firmaprovozovnanotice'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
             //Sehnat zpusob z ARES
@@ -883,33 +905,6 @@ prodejní cena za arch
         reindex: 1,
          initq: [
             
-        ]
-    },
-
-    {   name: 'calc_templates'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
-            //Sehnat zpusob z ARES
-        ,struct:  `
-         kod int,
-         nazev text,  --text na fakture
-         obsah jsonb,
-         kcks numeric(15,2) default 0,
-         ks int default 0,
-         naklad numeric(15,2) default 0,
-         marze numeric(15,2) default 0,
-         prodej numeric(15,2) default 0,
-         marze_pomer numeric(15,2) default 0,
-         expedice_datum date,
-         expedice_cas time,
-         datum TIMESTAMP
-         `,
-         index_name: [ 
-            `idefix  ~~~ (idefix)`,
-            `nazev ~~~ (nazev)`
-          ],
-
-        reindex: 1,
-         initq: [
-            `select 1 ;`
         ]
     },
 
