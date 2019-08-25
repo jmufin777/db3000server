@@ -143,7 +143,7 @@ async function init(){
     //Sehnat zpusob z ARES
         ,struct:  `
         kod int,
-        nazev text,  --text na fakture
+        nazev text,  
         obsah jsonb,
         kcks numeric(15,2) default 0,
         ks int default 0,
@@ -159,7 +159,38 @@ async function init(){
         idefix_zak bigint not null,
         idefix_src bigint not null,
         id_src int default 0 ,
-        active bool default false,
+        active bool default false
+        `,
+        index_name: [ 
+            `idefix  ~~~ (idefix)`,
+            `nazev ~~~ (nazev)`
+        ],
+        reindex: 1,
+        initq: [
+            `select 1 ;`
+        ]
+},
+{   name: 'nab_t_items'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
+    //Sehnat zpusob z ARES
+        ,struct:  `
+        kod int,
+        nazev text,  
+        obsah jsonb,
+        kcks numeric(15,2) default 0,
+        ks int default 0,
+        naklad numeric(15,2) default 0,
+        marze numeric(15,2) default 0,
+        prodej numeric(15,2) default 0,
+        marze_pomer numeric(15,2) default 0,
+        expedice_datum date,
+        expedice_cas time,
+        datum TIMESTAMP,
+        poradi serial,
+        idefix_tmp bigint default 0,
+        idefix_nab bigint not null,
+        idefix_src bigint not null,
+        id_src int default 0 ,
+        active bool default false
         `,
         index_name: [ 
             `idefix  ~~~ (idefix)`,

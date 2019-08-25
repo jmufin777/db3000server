@@ -43,3 +43,40 @@ FIRMY pridelit v planovani obchodnika - jako ver stare od do, novou zakazku zakl
 
  Databaze automaticky obsahuje informace  o manipulaxcich (zmeny, vklad, kdo a kdy) + kompletni system historie
  ve strukture neuvadim , je to automaticke pro vsechny databaze v nove db
+
+ // insert vzor
+ -- jan zakladni hodnoty
+ -- zbytek update
+insert into zakt_list(cislozakazky , datumexpedice, idefix_firma      ) 
+values ()
+
+ cislozakazky      
+ ,vl_rozsah        
+ ,idefix_firma     
+ ,idefix_firmaosoba
+ ,nazev            
+ ,cisloobjednavky  
+ ,datumzadani      
+ ,datumexpedice    
+ ,datumsplatnosti  
+ ,vyrobapopis      
+ ,naklad           
+ ,poznamky         
+ ,zamknuto         
+ ,idefix_user_lock 
+ ,odemknuto        
+ ,idefix_user_unloc
+ ,zamek            
+ ,uct_rok          
+ ,login            
+ ,vyrobapopis_print
+ ,cislofaktury     
+ ,idefix_obchodnik 
+ ,idefix_produkce  
+ ,idefix_last      
+ ,idefix_nabidka   
+ ,dodak0           
+ ,objednavka0      
+ ,pdf0             
+ ,informace        
+

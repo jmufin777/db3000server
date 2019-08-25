@@ -214,10 +214,12 @@ create or replace function idefix(_idefix bigint)  returns text as $$
     declare cQ text := '';
     begin
     for r in 
-         SELECT DISTINCT table_schema,table_name, column_name FROM information_schema.columns  WHERE  column_name = 'idefix' loop
+         SELECT DISTINCT table_schema,table_name, column_name FROM information_schema.columns  WHERE  column_name = 'idefix'  and not table_name  ilike any (array['log%','tmp%','trand%','bck%']) 
+           loop
                 cQ := 'select * from ' || r.table_schema||'.'||r.table_name ||' where idefix = ' || _idefix  || ' limit 1';
                 for r2 in execute cQ loop
                     cRet := r.table_schema||'.'||r.table_name ;
+                    
                 --    raise notice '%',cQ ;
 
 
@@ -436,6 +438,119 @@ end;
 --RR NNN ZZZZZ
 $$LANGUAGE PLPGSQL ;
 
+--14125
+drop function zak_insert ( date, bigint) ;
+create or replace function zak_insert( user_insert_idefix bigint default 0, idefix_firma bigint default 0,dat_exp date default now()::date,
+                                         OUT  datum_spl date, OUT idefix bigint, OUT cislo bigint, OUT platbaInfo text, OUT info text,
+                                         OUT datumzadani date
+                                         ) 
+                            returns setof record   as $$
+    declare idefix_ret  bigint := 0;
+    declare splatnost date := now()::date; 
+    declare r record;
+    declare splDays int :=0;
+    begin 
+    if (idefix_firma = 0 or idefix_firma is null ) then
+        idefix = 0;
+        info := 'Firma musi byt zadana'; 
+        cislo := 0;
+        return next;
+        else 
+        for r in select * from list_dodavatel a where a.idefix = idefix_firma loop
+
+            if (r.hotovost = 1) then 
+                platbaInfo := 'Platba v hotovosti';
+                datum_spl  := dat_exp ;
+                splDays    :=  0 ;
+
+              else
+                platbaInfo := 'Faktura';
+                datum_spl  := dat_exp + r.splatnost ;
+                splDays    := r.splatnost ;
+
+            end if ;
+        end loop;
+        for r in 
+        insert into zak_t_list (cislozakazky, datumexpedice,datumsplatnosti, idefix_firma,user_insert_idefix, datumzadani)    
+                     values (newzak(),dat_exp, datum_spl, idefix_firma,user_insert_idefix,now())   returning * loop
+                     -- raise notice 'RET %', r;
+                     idefix := r.idefix;
+                     cislo   := r.cislozakazky ;
+                     info    := 'Splatnost = ' || splDays::text;
+                     datumzadani := r.datumzadani ;
+
+
+        end loop;             
+
+        
+        return next;
+
+    end if ;
+    return;
+    end;
+$$LANGUAGE PLPGSQL;
+
+create or replace function nab_insert( user_insert_idefix bigint default 0, idefix_firma bigint default 0,dat_exp date default now()::date,
+                                         OUT  datum_spl date, OUT idefix bigint, OUT cislo bigint, OUT platbaInfo text, OUT info text,
+                                         OUT  datumzadani date
+                                         
+                                         ) 
+                            returns setof record   as $$
+    declare idefix_ret  bigint := 0;
+    declare splatnost date := now()::date; 
+    declare r record;
+    declare splDays int :=0;
+    begin 
+    if (idefix_firma = 0 or idefix_firma is null ) then
+        idefix = 0;
+        info := 'Firma musi byt zadana ? Obecna nabidka'; 
+        cislo := 0;
+        for r in 
+            insert into nab_t_list (cislonabidky, datumexpedice,datumsplatnosti, idefix_firma,user_insert_idefix, datumzadani)    
+                     values (newnab(),dat_exp, datum_spl, idefix_firma,user_insert_idefix,now())   returning * loop
+                     -- raise notice 'RET %', r;
+                     idefix := r.idefix;
+                     cislo   := r.cislonabidky ;
+                     datumzadani := r.datumzadani ;
+        
+
+
+        end loop;             
+        return next;
+        else 
+        for r in select * from list_dodavatel a where a.idefix = idefix_firma loop
+
+            if (r.hotovost = 1) then 
+                platbaInfo := 'Platba v hotovosti';
+                datum_spl  := dat_exp ;
+                splDays    :=  0 ;
+
+              else
+                platbaInfo := 'Faktura';
+                datum_spl  := dat_exp + r.splatnost ;
+                splDays    := r.splatnost ;
+
+            end if ;
+        end loop;
+        for r in 
+        insert into nab_t_list (cislonabidky, datumexpedice,datumsplatnosti, idefix_firma,user_insert_idefix,datumzadani)    
+                     values (newnab(),dat_exp, datum_spl, idefix_firma,user_insert_idefix,now())   returning * loop
+                     -- raise notice 'RET %', r;
+                     idefix := r.idefix;
+                     cislo   := r.cislonabidky ;
+                     info    := 'Splatnost = ' || splDays::text;
+                     datumzadani := r.datumzadani ;
+
+
+        end loop;             
+
+        
+        return next;
+
+    end if ;
+    return;
+    end;
+$$LANGUAGE PLPGSQL;
 
 --// SELECT concat('My ', 'dog ', 'likes ', 'chocolate') As result;
 
