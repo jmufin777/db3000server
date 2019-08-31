@@ -489,7 +489,8 @@ async function init(){
          mat int default 1,
          splatnost int default 0,
          hotovost int default 1,
-         datum_ares date 
+         datum_ares date ,
+         vlastnik int default 0 
          `,
          index_name: [ 
                 `kod  ~~~ (kod)`,

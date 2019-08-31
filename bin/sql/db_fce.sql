@@ -101,6 +101,52 @@ CREATE or replace FUNCTION idefix2login(_id bigint) returns varchar(50) as $$
 $$LANGUAGE PLPGSQL;
 
 
+create or replace FUNCTION year(timestamp) RETURNS int as $$
+    begin
+        RETURN extract(year from $1);
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+create or replace FUNCTION year(timestamp with time zone) RETURNS int as $$
+    begin
+        RETURN extract(year from $1);
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+create or replace FUNCTION month(timestamp) RETURNS int as $$
+    begin
+        RETURN extract(month from $1);
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+create or replace FUNCTION month(timestamp with time zone) RETURNS int as $$
+    begin
+        RETURN extract(month from $1);
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+create or replace FUNCTION day(timestamp) RETURNS int as $$
+    begin
+        RETURN extract(day from $1);
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+create or replace FUNCTION day(timestamp with time zone) RETURNS int as $$
+    begin
+        RETURN extract(day from $1);
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+create or replace FUNCTION dow(timestamp) RETURNS int as $$
+    begin
+        RETURN extract(dow from $1);
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
+create or replace FUNCTION dow(timestamp with time zone) RETURNS int as $$
+    begin
+        RETURN extract(dow from $1);
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
+
 
 
 create or replace function jsonb2array(items anyelement) returns text[] as $$
@@ -128,27 +174,27 @@ end ;
 $$LANGUAGE PLPGSQL;
 
 
-CREATE FUNCTION minn(VARIADIC arr numeric[]) RETURNS numeric AS $$
+CREATE or replace FUNCTION minn(VARIADIC arr numeric[]) RETURNS numeric AS $$
     SELECT min($1[i]) FROM generate_subscripts($1, 1) g(i);
 $$ LANGUAGE SQL;
 
-CREATE FUNCTION maxx(VARIADIC arr numeric[]) RETURNS numeric AS $$
+CREATE or replace  FUNCTION maxx(VARIADIC arr numeric[]) RETURNS numeric AS $$
     SELECT max($1[i]) FROM generate_subscripts($1, 1) g(i);
 $$ LANGUAGE SQL;
 
-CREATE FUNCTION minn(VARIADIC arr float[]) RETURNS float AS $$
+CREATE or replace  FUNCTION minn(VARIADIC arr float[]) RETURNS float AS $$
     SELECT min($1[i]) FROM generate_subscripts($1, 1) g(i);
 $$ LANGUAGE SQL;
 
-CREATE FUNCTION maxx(VARIADIC arr float[]) RETURNS float AS $$
+CREATE or replace  FUNCTION maxx(VARIADIC arr float[]) RETURNS float AS $$
     SELECT max($1[i]) FROM generate_subscripts($1, 1) g(i);
 $$ LANGUAGE SQL;
 
-CREATE FUNCTION maxx(VARIADIC arr timestamp[]) RETURNS timestamp AS $$
+CREATE or replace  FUNCTION maxx(VARIADIC arr timestamp[]) RETURNS timestamp AS $$
     SELECT max($1[i]) FROM generate_subscripts($1, 1) g(i);
 $$ LANGUAGE SQL;
 
-CREATE FUNCTION minn(VARIADIC arr timestamp[]) RETURNS timestamp AS $$
+CREATE or replace  FUNCTION minn(VARIADIC arr timestamp[]) RETURNS timestamp AS $$
     SELECT minn($1[i]) FROM generate_subscripts($1, 1) g(i);
 $$ LANGUAGE SQL;
 
@@ -179,7 +225,7 @@ CREATE OR REPLACE FUNCTION public.to_ascii(bytea, name)
  RETURNS text
  LANGUAGE internal
  IMMUTABLE STRICT
-AS $function$to_ascii_encname$function$
+AS $function$to_ascii_encname$function$;
 
 CREATE OR REPLACE FUNCTION public.to_aascii(text)
  RETURNS text
@@ -202,7 +248,7 @@ begin
     end;
   return cret;
 end;  
-$function$
+$function$;
 
 
 
@@ -383,6 +429,13 @@ create or replace function lpad(bigint, int, cim text default '0') returns text 
     end;
 $$LANGUAGE PLPGSQL IMMUTABLE ;
 
+create or replace function rpad(bigint, int, cim text default '0') returns text as $$
+    declare neco text := coalesce($1::text,'');
+    begin
+        return rpad(neco,$2,cim) ;
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE ;
+
 create or replace function d_exp( ndays int default 10 ) returns date as $$
     begin
         return now()::date +  ndays;
@@ -391,13 +444,17 @@ $$LANGUAGE PLPGSQL;
 
 
 
-create or replace function newzak(_idefixuser int default 0)  returns bigint as $$
+create or replace function newzak(_idefixuser bigint default 0, _rok int default 0 )  returns bigint as $$
     declare _r int := 0;
     declare newzak bigint := 0;
     declare lastzak text:= '';
     declare rok text := 0;
 begin
-    rok := (extract(year from now()) - 2000)::text;
+    if (_rok = 0) then
+        rok := (extract(year from now()) - 2000)::text;
+       ELSE
+        rok := right(_rok,2)::text;
+    end if;
     select max(right(cislozakazky::text,5)) into lastzak  from zak_t_list where left(cislozakazky,2)= rok;
     if (lastzak is null or lastzak = '0') then
 --        raise notice ' %', lastzak;
@@ -414,13 +471,17 @@ end;
 --RR NNN ZZZZZ
 $$LANGUAGE PLPGSQL ;
 
-create or replace function newnab(_idefixuser int default 0)  returns bigint as $$
+create or replace function newnab(_idefixuser bigint default 0,_rok int default 0 )  returns bigint as $$
     declare _r int := 0;
     declare newzak bigint := 0;
     declare lastzak text:= '';
     declare rok text := 0;
 begin
-    rok := (extract(year from now()) - 2000)::text;
+      if (_rok = 0) then
+        rok := (extract(year from now()) - 2000)::text;
+       ELSE
+        rok := right(_rok,2)::text;
+    end if;
     select max(right(cislonabidky::text,5)) into lastzak  from nab_t_list where left(cislonabidky,2)= rok;
     if (lastzak is null or lastzak = '0') then
 --        raise notice 'A  %', lastzak;
@@ -439,7 +500,7 @@ end;
 $$LANGUAGE PLPGSQL ;
 
 --14125
-drop function zak_insert ( date, bigint) ;
+drop function zak_insert ( bigint, bigint, date) ;
 create or replace function zak_insert( user_insert_idefix bigint default 0, idefix_firma bigint default 0,dat_exp date default now()::date,
                                          OUT  datum_spl date, OUT idefix bigint, OUT cislo bigint, OUT platbaInfo text, OUT info text,
                                          OUT datumzadani date
@@ -472,8 +533,8 @@ create or replace function zak_insert( user_insert_idefix bigint default 0, idef
         end loop;
         for r in 
         insert into zak_t_list (cislozakazky, datumexpedice,datumsplatnosti, idefix_firma,user_insert_idefix, datumzadani)    
-                     values (newzak(),dat_exp, datum_spl, idefix_firma,user_insert_idefix,now())   returning * loop
-                     -- raise notice 'RET %', r;
+                     values (newzak(user_insert_idefix, year(dat_exp)),dat_exp, datum_spl, idefix_firma,user_insert_idefix,now())   returning * loop
+                      raise notice 'RET %', r;
                      idefix := r.idefix;
                      cislo   := r.cislozakazky ;
                      info    := 'Splatnost = ' || splDays::text;
@@ -507,8 +568,8 @@ create or replace function nab_insert( user_insert_idefix bigint default 0, idef
         cislo := 0;
         for r in 
             insert into nab_t_list (cislonabidky, datumexpedice,datumsplatnosti, idefix_firma,user_insert_idefix, datumzadani)    
-                     values (newnab(),dat_exp, datum_spl, idefix_firma,user_insert_idefix,now())   returning * loop
-                     -- raise notice 'RET %', r;
+                     values (newnab(user_insert_idefix, year(dat_exp)),dat_exp, datum_spl, idefix_firma,user_insert_idefix,now())   returning * loop
+                      raise notice 'RET 1 %', r;
                      idefix := r.idefix;
                      cislo   := r.cislonabidky ;
                      datumzadani := r.datumzadani ;
@@ -534,8 +595,8 @@ create or replace function nab_insert( user_insert_idefix bigint default 0, idef
         end loop;
         for r in 
         insert into nab_t_list (cislonabidky, datumexpedice,datumsplatnosti, idefix_firma,user_insert_idefix,datumzadani)    
-                     values (newnab(),dat_exp, datum_spl, idefix_firma,user_insert_idefix,now())   returning * loop
-                     -- raise notice 'RET %', r;
+                     values (newnab(user_insert_idefix, year(dat_exp)),dat_exp, datum_spl, idefix_firma,user_insert_idefix,now())   returning * loop
+                      raise notice 'RET 2 % b : %  c: % ', r , newnab(user_insert_idefix) , user_insert_idefix;
                      idefix := r.idefix;
                      cislo   := r.cislonabidky ;
                      info    := 'Splatnost = ' || splDays::text;

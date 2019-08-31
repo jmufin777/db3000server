@@ -159,7 +159,12 @@ async function init(){
         idefix_zak bigint not null,
         idefix_src bigint not null,
         id_src int default 0 ,
-        active bool default false
+        active bool default false,
+        idefix_dod bigint default 0,
+        idefix_prace bigint default 0,
+        faktura text ,
+        d_fak timestamp 
+
         `,
         index_name: [ 
             `idefix  ~~~ (idefix)`,
@@ -190,7 +195,11 @@ async function init(){
         idefix_nab bigint not null,
         idefix_src bigint not null,
         id_src int default 0 ,
-        active bool default false
+        active bool default false,
+        idefix_dod bigint default 0,
+        idefix_prace bigint default 0,
+        faktura text ,
+        d_fak timestamp 
         `,
         index_name: [ 
             `idefix  ~~~ (idefix)`,
