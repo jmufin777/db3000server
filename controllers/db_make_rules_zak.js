@@ -163,8 +163,8 @@ async function init(){
         idefix_dod bigint default 0,
         idefix_prace bigint default 0,
         faktura text ,
-        d_fak timestamp 
-
+        d_fak timestamp ,
+        vzor  int default 0 
         `,
         index_name: [ 
             `idefix  ~~~ (idefix)`,
@@ -199,7 +199,8 @@ async function init(){
         idefix_dod bigint default 0,
         idefix_prace bigint default 0,
         faktura text ,
-        d_fak timestamp 
+        d_fak timestamp ,
+        vzor  int default 0 
         `,
         index_name: [ 
             `idefix  ~~~ (idefix)`,
@@ -210,7 +211,6 @@ async function init(){
             `select 1 ;`
         ]
 },
-
 
 
 ]
