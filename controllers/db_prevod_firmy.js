@@ -6,9 +6,6 @@ const _ = require('lodash')
 const Ico = require('./ico.js')
 const  moment = require( 'moment')
 
-
-
-
 var lErr= false
 var  b1 = false;
 var status=0

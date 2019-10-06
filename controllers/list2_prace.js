@@ -121,11 +121,12 @@ module.exports = {
         }
         
         if (element[0].id < 0 ){
-          dotaz = `insert into  ${tabname} (kod,nazev,zkratka, user_insert_idefix,kalk_sloupec_v,kalk_sloupec_arch,kalk_sloupec_bt ) values `;
-          dotaz += `( ${element[0].kod},'${element[0].nazev}','${element[0].zkratka}',  login2idefix('${user}') ,'${element[0].kalk_sloupec_v}','${element[0].kalk_sloupec_arch}','${element[0].kalk_sloupec_bt}' )`
+          dotaz = `insert into  ${tabname} (kod,nazev,zkratka, user_insert_idefix,kalk_sloupec_v,kalk_sloupec_arch,kalk_sloupec_bt, text_na_fakturu ) values `;
+          dotaz += `( ${element[0].kod},'${element[0].nazev}','${element[0].zkratka}',  login2idefix('${user}') ,'${element[0].kalk_sloupec_v}','${element[0].kalk_sloupec_arch}','${element[0].kalk_sloupec_bt}','${element[0].text_na_fakturu}'  )`
         }
         if (element[0].id > 0 ){
           dotaz = `update  ${tabname} set kod =${element[0].kod},nazev='${element[0].nazev}',zkratka='${element[0].zkratka}', user_update_idefix = login2idefix('${user}'),
+          text_na_fakturu   = '${element[0].text_na_fakturu   }'      ,
           kalk_sloupec_v    = '${element[0].kalk_sloupec_v   }'      ,
           kalk_sloupec_arch = '${element[0].kalk_sloupec_arch}'      ,
           kalk_sloupec_bt   = '${element[0].kalk_sloupec_bt  }'

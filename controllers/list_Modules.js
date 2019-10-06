@@ -16,7 +16,6 @@ module.exports = {
        console.log('\n --------------\n')
         //console.log('\n req:', req)
        console.log('\n --------------\n')
-      
 
         const client = await pool.connect()
          //await client.query(`select * from ${tabname} where items::text ~ '${typ}' order by category`  ,(err, response) => {
@@ -51,11 +50,9 @@ module.exports = {
       var tmp = ''
       try {
       await client.query( dotaz  ,(err, response) => {
-        
         response.rows.forEach((el,i) => {
           tmp = el.modul.replace(/"/g,'').replace(/ /g,'')
           response.rows[i].modul = tmp
-          
           // console.log(el.modul.replace(/"/g,'').replace(/ /g,''))
         })
         // console.log("RES  ",response.rows)
@@ -96,9 +93,14 @@ module.exports = {
      await client.query( dotaz ,[],(err, response ) => {
        console.log(response)
       })
+      client.query(`delete from list_modules_fix a where  exists (select * from list_modules b where a.idefix=b.idefix and b.nazev='') `, (err,response ) =>{
+      }) 
+       client.query(`delete from list_modules where nazev=''`, (err,response ) =>{
+      }) 
      await client.query(`commit  `  ,[],(err, response ) => {
        res.json({info: 1 })
       })
+
      await client.release()
 
     }  catch(err) {
@@ -126,10 +128,12 @@ module.exports = {
         console.log('\n --------------\n')
         const client = await pool.connect()
 
-        client.query(`begin work  `  ,[],(err, response ) => {
-        })
+
+         client.query(`begin work  `  ,[],(err, response ) => {
+         })
+         
         dotaz = `
-                insert into list_modules_fix (nazev,category,popis,modul,items,idefix,time_insert,time_update,user_insert,user_update )
+           insert into list_modules_fix (nazev,category,popis,modul,items,idefix,time_insert,time_update,user_insert,user_update )
             select nazev,category,popis,modul,items,idefix,time_insert,time_update,user_insert,user_update
              from list_modules t where not exists( select * from list_modules_fix b where t.idefix = b.idefix )
           `
@@ -138,22 +142,30 @@ module.exports = {
 
         client.query(`delete from   ${tabname}  where $1 `  ,[ isdel ],(err, response ) => {
         })
-
+        var qi=''
         await req.body.data.forEach((element,i) => {
           neco = JSON.stringify(element)
          
-          console.log(element, neco)
-
-           client.query(`insert into  ${tabname} (nazev,modul,items,user_insert, idefix ) values ( $1 ,$2, $3 ,$4, $5 )  `  ,[element[0],element[3], neco, user,element[7]  ],(err, response ) => {
+           console.log(element, neco)
+           qi=`insert into  ${tabname} (nazev,modul,items,user_insert, idefix ) values ( $1 ,$2, $3 ,$4, $5 )  `
+           qi=`insert into  ${tabname} (nazev,modul,items,user_insert, idefix ) values ( '${element[0]}','${element[3]}', '${neco}', '${user}','${element[7]}' ) `
+           console.log(qi)
+           client.query(qi ,(err, response ) => {
+           //client.query(qi  ,[element[0],element[3], neco, user,element[7]  ],(err, response ) => {             
              if (err) {
+           //  console.log('Chyba 1112', err)
                return next(err)
              } 
            })
         });
+         client.query(`update list_modules set idefix= id where idefix = 0 or idefix is null `  ,[],(err, response ) => {
+         })
         
-        client.query(`select fce_modules_sync()l  `  ,[],(err, response ) => {
+        client.query(`select fce_modules_sync()  `  ,[],(err, response ) => {
         })
         client.query(`commit  `  ,[],(err, response ) => {
+        })
+        client.query(`delete from list_modules where nazev=''`, (err,response ) =>{
         })
         await client.release() 
         res.json({info:'OK'})

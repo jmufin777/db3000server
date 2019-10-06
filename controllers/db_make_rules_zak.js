@@ -40,7 +40,9 @@ async function init(){
          marze_pomer numeric(15,2) default 0,
          expedice_datum date,
          expedice_cas time,
-         datum TIMESTAMP
+         datum TIMESTAMP,
+         idefix_dod bigint default 0,
+         idefix_prace bigint default 0
          `,
          index_name: [ 
             `idefix  ~~~ (idefix)`,
@@ -107,7 +109,7 @@ async function init(){
         ,cisloobjednavky         character varying(255)      
         ,datumzadani             timestamp without time zone  
         ,datumexpedice           timestamp without time zone   null 
-        ,datumsplatnosti         timestamp without time zone   null 
+        ,datumsplatnosti         timestamp without time zone 
         ,vyrobapopis             text                        
         ,naklad                  integer                     
         ,poznamky                text                        

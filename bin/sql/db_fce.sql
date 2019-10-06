@@ -23,10 +23,12 @@ begin
         )
         select 
         nazev,modul,category,popis,items,time_insert,time_update,user_insert, user_update, idefix 
-        from list_modules_fix a where EXISTS 
-        (select * from list_modules_groups b where a.idefix = b.idefix_module )
-        and not exists
-        (select * from list_modules  c where a.idefix = c.idefix );
+        from list_modules_fix a where
+         not exists
+        (select * from list_modules  c where a.idefix = c.idefix ) 
+        --and EXISTS   (select * from list_modules_groups b where a.idefix = b.idefix_module ) 
+        ;
+        
 
     update list_modules_fix a set nazev = b.nazev from list_modules b where b.nazev > '' and a.nazev != b.nazev and a.idefix =b.idefix and a.modul = b.modul ;
     return 'modules sync OK ';
@@ -244,7 +246,7 @@ begin
   ,chr(190),'L'),chr(197),'L'),chr(179),'L'),chr(198),'L'),chr(163),'L'),chr(219),'U'),chr(191),'Z'),chr(204),''),chr(217),chr(218) ),chr(208),''),chr(338),chr(352)),chr(202),chr(352))
   ,chr(192),chr(344)),'','')
   , 'latin2'),'latin2') into cret;
-  --      exception when others then return cret  ;
+       exception when others then return $1  ;
     end;
   return cret;
 end;  

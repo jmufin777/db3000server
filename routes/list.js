@@ -41,6 +41,7 @@ const dbStatus =    require('../controllers/db_status')
 const ico      =    require('../controllers/ico')
 
 const query      =    require('../controllers/query')
+const query_old      =    require('../controllers/query_old')
 
 
 
@@ -55,6 +56,11 @@ router.post('/login-menu-update',
 
 router.get('/query',
     query.all)
+
+router.post('/query_old',
+  query_old.post)
+    router.get('/query_old',
+    query_old.all)
 
 router.post('/query',
     query.post)

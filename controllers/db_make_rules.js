@@ -260,7 +260,7 @@ async function init(){
         pocet_stop int ,
         cena_naklad  float,
         cena_prodej  float,
-        idefix_jednotka bigint   
+        idefix_jednotka bigint
 
     `
 },
@@ -291,7 +291,8 @@ async function init(){
          stroj boolean default true,
          kalk_sloupec_v int default -1,
          kalk_sloupec_arch int default -1,
-         kalk_sloupec_bt int default -1
+         kalk_sloupec_bt int default -1,
+         text_na_fakturu text   
 
          `,
          index_name: [ 
