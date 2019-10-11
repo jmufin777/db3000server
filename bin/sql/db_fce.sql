@@ -503,7 +503,7 @@ $$LANGUAGE PLPGSQL ;
 
 --14125
 drop function zak_insert ( bigint, bigint, date) ;
-create or replace function zak_insert( user_insert_idefix bigint default 0, idefix_firma bigint default 0,dat_exp date default now()::date,
+qcreate or replace function zak_insert( user_insert_idefix bigint default 0, idefix_firma bigint default 0,dat_exp date default now()::date,
                                          OUT  datum_spl date, OUT idefix bigint, OUT cislo bigint, OUT platbaInfo text, OUT info text,
                                          OUT datumzadani date
                                          ) 
@@ -535,7 +535,10 @@ create or replace function zak_insert( user_insert_idefix bigint default 0, idef
         end loop;
         for r in 
         insert into zak_t_list (cislozakazky, datumexpedice,datumsplatnosti, idefix_firma,user_insert_idefix, datumzadani)    
-                     values (newzak(user_insert_idefix, year(dat_exp)),dat_exp, datum_spl, idefix_firma,user_insert_idefix,now())   returning * loop
+                     values
+                      (newzak(user_insert_idefix, year(dat_exp)),dat_exp, datum_spl, idefix_firma,user_insert_idefix,now()) 
+                     
+                       returning * loop
                       raise notice 'RET %', r;
                      idefix := r.idefix;
                      cislo   := r.cislozakazky ;

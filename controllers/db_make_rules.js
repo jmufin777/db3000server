@@ -297,7 +297,8 @@ async function init(){
          `,
          index_name: [ 
                 `kod  ~~~ (kod)`,
-                `nazev ~~~ (nazev)`
+                `nazev ~~~ (nazev)`,
+                `idefix ~~~ (idefix)`
           ],
         reindex: 1,
          initq: [
@@ -495,7 +496,10 @@ async function init(){
          `,
          index_name: [ 
                 `kod  ~~~ (kod)`,
-                `nazev ~~~ (nazev)`
+                `nazev ~~~ (nazev)`,
+                `idefix ~~~ (idefix)`,
+                `ico ~~~ (ico)`
+
           ],
         reindex: 1,
          initq: [
@@ -533,7 +537,8 @@ async function init(){
          `,
          index_name: [ 
                 `kod  ~~~ (kod)`,
-                `prijmeni ~~~ (nazev)`
+                `prijmeni ~~~ (nazev)`,
+                `idefix ~~~ (idefix)`
           ],
         reindex: 1,
          initq: [
