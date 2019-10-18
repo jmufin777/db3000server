@@ -1,11 +1,7 @@
 const config = require('../config/config')
 const {pool, client } = require('../db/index')
 const tabname = 'list_users'
-const resObj = {
-  data:[],
-  dataGroups:[],
-  dataMenu: [],
-}
+const resObj = {}
 var lErr= false
 // const {login, password} = req.body
 module.exports = {
@@ -26,72 +22,87 @@ module.exports = {
       var dotaz_groups = 'select idefix_group, idefix_user from list_groups_users order by idefix_user,idefix_group, id'
       var dotaz_menu = 'select idefix_menu, idefix_user  from list_menu_users order by idefix_user,idefix_menu, id'
       console.log(dotaz)
-      const client1 = await pool.connect()
-      const client2 = await pool.connect()
-      const client3 = await pool.connect()
-
+      const client = await pool.connect()
           
-  
+  try {
         console.log('Users all')
  
-       client1.query(`${dotaz}`  ,(err, response) => {
-         if (err) {
+        await client.query(`${dotaz}`  ,(err, response) => {
+          if (err) {
             lErr=true
-            console.log("EER 1" , err)
-         }
+            console.log(err)
+            //  res.status(599).send({
+            //    error: 'chyba users'
+            //  })
+
+            return next(err)
+          }
          if (response.rowCount == 0)   {
+           res.json({info: 0, data: '433' }); 
            lErr = true
-           resObj.data= []
            console.log('\n\nTady ?? \n\n')
         } else {
            resObj.info = 1
            neco =response.rows  
            resObj.data= response.rows 
-           console.log(resObj.data)
         }
-        client2.query(`${dotaz_menu}`  ,(err, response) => {
-            if (err) {
-              console.log(err)
-              return next(err)
-            } 
-            if (response.rowCount == 0)   {
-              resObj.dataMenu=[]
-            } else {
-              resObj.info = 2
-              neco =response.rows  
-              resObj.dataMenu= response.rows 
-            }
-
-            client3.query(`${dotaz_groups}`  ,(err, response) => {
-              if (err) {
-                lErr=true
-                 console.log(err)
-                  return next(err)
-                } 
-              resObj.info = 3
-              neco =response.rows  
-              resObj.dataGroups= response.rows 
-              res.json({info:1, data: resObj.data , dataGroups: resObj.dataGroups, dataMenu: resObj.dataMenu  })
-              console.log('Menu :3 : Users komplet ',response.rowCount)
-            })
-          })
+    
        })
-        setTimeout(function(){
-          client1.release()
-          client2.release()
-          client3.release()
-          console.log("User 1 2 3 Released ")
-        },10)
+
+
+       if (lErr) return
+       
+       await client.query(`${dotaz_menu}`  ,(err, response) => {
+        if (lErr) return
+        if (err) {
+          lErr = true
+          console.log(err)
+           return next(err)
+         } 
+        resObj.info = 2
+        neco =response.rows  
+        resObj.dataMenu= response.rows 
+        console.log('Menu :3 : ',response.rowCount)
+        console.log('\n\nTady 3 ?? \n\n')
+       
+      })
+      if (lErr) return
+       await client.query(`${dotaz_groups}`  ,(err, response) => {
+        if (lErr) return
+        if (err) {
+          lErr=true
+           console.log(err)
+            return next(err)
+          } 
+        resObj.info = 3
+        neco =response.rows  
+        resObj.dataGroups= response.rows 
+        
+        res.json({info:1, data: resObj.data , dataGroups: resObj.dataGroups, dataMenu: resObj.dataMenu  })
+        
+        console.log('Menu :3 : Users komplet ',response.rowCount)
+      })
+       await client.release() 
+   } catch (err) {
+       console.log(err)
+       res.status(400).send({
+         error: 'Chyba 002 pri pozadavku na databazi : ${tabname}'
+       })
+   }
   },
   async updateMenus(req, res ,next) {
     console.log('jsem tu 1', req.body.form.items)
+   
     console.log(Math.round(Math.random()*10000000000))
     const tmpTable = 'tmp_u_' +Math.round(Math.random()*10000000000)
     console.log(tmpTable)
+    
     const qdel = `delete from list_menu_users where idefix_user = ${req.body.form.idefix} `
+    
     const qtest = `select '${req.body.user}' as user_insert,${req.body.form.idefix} as idefix_user,unnest(array[${req.body.form.items}])  as idefix_menu`
     const q1 = `create table ${tmpTable} without oids as ${qtest}`
     const qinsert= `insert into list_menu_users (user_insert,idefix_user,idefix_menu) select * from ${tmpTable}`
+    
 
     const client = await pool.connect()
     console.log (qtest)
@@ -125,6 +136,7 @@ module.exports = {
         return next.err
       }
     })
+
     
     await client.release()
     res.json({info: -1})
@@ -132,7 +144,6 @@ module.exports = {
  // id | idefix_menu | idefix_group | menu_name | group_name | time_insert | time_update | user_insert | user_update 
 
   },
-  
   async updateGroups(req, res ,next) {
     console.log('jsem tu 1', req.body.form.items)
     
@@ -147,13 +158,8 @@ module.exports = {
     const qdel = `delete from list_groups_users where idefix_user = ${req.body.form.idefix} `
     
     const qtest = `select '${req.body.user}' as user_insert,${req.body.form.idefix} as idefix_user,unnest(array[${req.body.form.items}])  as idefix_group`
-
-    
-    
-    //return
     const q1 = `create table ${tmpTable} without oids as ${qtest}`
     const qinsert= `insert into list_groups_users (user_insert,idefix_user,idefix_group) select * from ${tmpTable}`
-    
     const qstart='begin work'
     const qend='commit'
     
@@ -162,15 +168,12 @@ module.exports = {
 
     console.log (qtest)
     await client.query(qstart)
-    if (req.body.form.items.length> 0){
-      await client.query(q1, [], (err, result)=> {
-        if (err) {
-          console.log(err)
-          return next.err
-        }
-      })
-    }
-    
+    await client.query(q1, [], (err, result)=> {
+      if (err) {
+        console.log(err)
+        return next.err
+      }
+    })
     
     try {
     
@@ -188,7 +191,7 @@ module.exports = {
         return
     }
     
-    if (req.body.form.items.length> 0){   
+
     await client.query(qinsert, [], (err, result)=> {
       if (err) {
         console.log(err)
@@ -201,7 +204,6 @@ module.exports = {
         return next.err
       }
     })
-    }
     await client.query(qend)
    
     await client.release()

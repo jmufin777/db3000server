@@ -37,7 +37,7 @@ module.exports = {
             console.log('Pravdne radky: ', dotaz ) 
             //console.log("Divn")
            } else {
-             console.log(response.rows[0])
+            console.log(response.rows[0])
             res.json({data: response.rows, fields: response.fields})
            }
              

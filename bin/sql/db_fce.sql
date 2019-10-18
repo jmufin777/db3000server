@@ -618,6 +618,37 @@ create or replace function nab_insert( user_insert_idefix bigint default 0, idef
     end;
 $$LANGUAGE PLPGSQL;
 
+create or replace function splatnost(_idefix_zak bigint) returns date as $$
+ declare r record ;
+         r1 record ;
+         dret date;
+         datum_spl date;
+         splDays int ;
+         platbaInfo text;
+
+ begin
+    for r in select * from zak_t_list where idefix = _idefix_zak loop
+        for r1 in select * from list_dodavatel a where a.idefix = r.idefix_firma loop
+
+            if (r1.hotovost = 1) then 
+                platbaInfo := 'Platba v hotovosti';
+                datum_spl  := r.datumexpedice ;
+                splDays    :=  0 ;
+
+              else
+                platbaInfo := 'Faktura';
+                datum_spl  := r.datumexpedice + (r1.splatnost*86400)::text::interval ;
+                splDays    := r1.splatnost ;
+
+            end if ;
+        end loop;
+
+    end loop;
+    return datum_spl ;
+ 
+ end ;
+$$LANGUAGE PLPGSQL;
+
 --// SELECT concat('My ', 'dog ', 'likes ', 'chocolate') As result;
 
 -- result
