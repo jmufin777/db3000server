@@ -166,7 +166,8 @@ async function init(){
         idefix_prace bigint default 0,
         faktura text ,
         d_fak timestamp ,
-        vzor  int default 0 
+        vzor  int default 0, 
+        status int default 0
         `,
         index_name: [ 
             `idefix  ~~~ (idefix)`,
@@ -202,7 +203,8 @@ async function init(){
         idefix_prace bigint default 0,
         faktura text ,
         d_fak timestamp ,
-        vzor  int default 0 
+        vzor  int default 0 ,
+        status int default 0
         `,
         index_name: [ 
             `idefix  ~~~ (idefix)`,
@@ -213,6 +215,114 @@ async function init(){
             `select 1 ;`
         ]
 },
+
+{   name: 'zak_t_vl_v'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
+    //Sehnat zpusob z ARES
+        ,struct:  `
+        kod int,
+        nazev text,
+        polozka text,  
+        idefix_firma bigint,
+        idefix_obchodnik bigint,
+        vl_znacka text,
+        expedice_datum date,
+        expedice_cas time,
+        datumzadani TIMESTAMP,  
+        datumodeslani timestamp,
+        datumdokonceni timestamp,
+        datumvraceni timestamp,
+        idefix_odeslal bigint default 0,
+        idefix_vratil bigint default 0,
+        idefix_dokoncil bigint default 0,
+        idefix_zak bigint not null,
+        cislozakazky bigint not null,
+        idefix_item bigint default 0,
+        idefix_tmp bigint default 0,
+        idefix_stroj bigint default 0,
+        stroj text,
+        strojmod text,
+        idefix_strojmod bigint default 0,
+        celkem_ks numeric(10,2),
+        celkem_m2  numeric(15,4),
+        cas_tisku time default '0:0',
+        mat_gramaz numeric(10,2),
+        mat_txt text,
+        idefix_mat bigint default 0, 
+        mat_sirka int default 0,
+        mat_format_idefix bigint default 0,
+        mat_format_txt text,
+        mat_spotreba_m2 numeric(15,2),
+        mat_spotreba_bm numeric(15,2),
+        poradi serial
+        `,
+        index_name: [ 
+            `idefix  ~~~ (idefix)`,
+            `nazev ~~~ (nazev)`
+        ],
+        reindex: 1,
+        initq: [
+            `select 1 ;`
+        ]
+},
+
+{   name: 'zak_t_vl_leva'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
+    //Sehnat zpusob z ARES
+        ,struct:  `
+        kod int,
+        idefix_vl bigint,
+        id_vl bigint,
+        soubor1 text,
+        soubor2 text,
+        soubor3 text,
+        soubor4 text,
+        soubor5 text,
+        sirka_mm int ,
+        vyska_mm int ,
+        tisk int ,
+        poznamka text,  
+        idefix_firma bigint,
+        idefix_obchodnik bigint,
+        vl_znacka text,
+        
+        cas_tisku time,
+        datumzadani TIMESTAMP,  
+        datumodeslani timestamp,
+        datumdokonceni timestamp,
+        datumvraceni timestamp,
+        idefix_odeslal bigint default 0,
+        idefix_vratil bigint default 0,
+        idefix_dokoncil bigint default 0,
+        idefix_zak bigint not null,
+        cislozakazky bigint not null,
+        idefix_item bigint default 0,
+        idefix_tmp bigint default 0,
+        idefix_stroj bigint default 0,
+        stroj text,
+        strojmod text,
+        idefix_strojmod bigint default 0,
+        celkme_ks numeric(10,2),
+        celkem_m2  numeric(15,4),
+        cas_tisku time default '0:0',
+        mat_gramaz numeric(10,2),
+        mat_txt text,
+        idefix_mat bigint default 0, 
+        mat_sirka int default 0,
+        mat_format_idefix bigint default 0,
+        mat_format_txt text,
+        mat_spotreba_m2 numeric(15,2),
+        mat_spotreba_bm numeric(15,2),
+        poradi serial
+        `,
+        index_name: [ 
+            `idefix  ~~~ (idefix)`,
+            `nazev ~~~ (nazev)`
+        ],
+        reindex: 1,
+        initq: [
+            `select 1 ;`
+        ]
+},
+
 
 
 ]
@@ -582,6 +692,7 @@ async function Struktura(el) {
                     
                     pool.query(`select * from ${el.name} limit 1`, (err2, res2)=>{
                         if (err2) {
+                            console.log("Nejde : ",dotazS )
                             console.log('ERR: ',`select * from ${el.name} limit 1` )
                             return 
                         }   
