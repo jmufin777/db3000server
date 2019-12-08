@@ -7,7 +7,6 @@ const morgan = require('morgan');
 const config = require('./config/config')
 const _ = require('lodash')
 
-
 const routes = require('./routes/list')
 const request = require('request')
 
