@@ -42,6 +42,7 @@ const ico      =    require('../controllers/ico')
 
 const query      =    require('../controllers/query')
 const query_old      =    require('../controllers/query_old')
+const file1      =    require('../controllers/file1')
 
 
 
@@ -54,14 +55,19 @@ router.post('/login-update',
 router.post('/login-menu-update', 
     AuthenticationController.userMenu)        
 
+
+router.get('/file1',
+    file1.all)    
+router.post('/file1',
+    file1.post)     
+
+
 router.get('/query',
     query.all)
-
 router.post('/query_old',
   query_old.post)
-    router.get('/query_old',
+router.get('/query_old',
     query_old.all)
-
 router.post('/query',
     query.post)
         

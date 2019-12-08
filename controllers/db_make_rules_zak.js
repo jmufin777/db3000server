@@ -215,6 +215,41 @@ async function init(){
             `select 1 ;`
         ]
 },
+/*
+ fieldname: 'file',
+  originalname: 'CZ3308000000001178325173_2000002337878584.pdf',
+  encoding: '7bit',
+  mimetype: 'application/pdf',
+  destination: 'uploads/',
+  filename: 'eea9bfccb5c31cacb3033df129c27cc3',
+  path: 'uploads/eea9bfccb5c31cacb3033df129c27cc3',
+  size: 253376 }
+
+*/
+{   name: 'prilohy_prijem'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
+    //Sehnat zpusob z ARES
+        ,struct:  `
+        kod int,
+        nazev text,  
+        velikost bigint,
+        idefix_user bigint default 0,
+        script_sh text,
+        thumb_1 text,
+        thumb_2 text,
+        result text,
+        pdfinfo text
+
+
+        `,
+        index_name: [ 
+            `idefix  ~~~ (idefix)`,
+            `nazev ~~~ (nazev)`
+        ],
+        reindex: 1,
+        initq: [
+            `select 1 ;`
+        ]
+},
 
 {   name: 'zak_t_vl_v'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
     //Sehnat zpusob z ARES
@@ -253,6 +288,7 @@ async function init(){
         mat_format_txt text,
         mat_spotreba_m2 numeric(15,2),
         mat_spotreba_bm numeric(15,2),
+        mat_poznamka text,
         poradi serial
         `,
         index_name: [ 
