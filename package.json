@@ -37,7 +37,7 @@
     "pg-promise": "^8.4.4",
     "promise": "^8.0.3",
     "request": "^2.88.0",
-    "sequelize": "^4.44.3",
+    "sequelize": "^5.15.1",
     "xml2js": "^0.4.19"
   }
 }
