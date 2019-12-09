@@ -14,17 +14,25 @@ const { exec } = require('child_process');
 const asc = require('express-async-handler')
 
 const {pool, client } = require('./db')
+
+const bodyParser = require('body-parser')
 //const im = require("imagemagick")
 
-  const multer  = require('multer')
-  var  upload = multer({ dest: 'uploads/' })
-  var type = upload.single('file');
-
-
-
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+var type = upload.single('file');
 
 //console.log('1')
 const app=express();
+
+//Limity 
+app.use(express.json({limit: '9500mb'}));
+app.use(bodyParser.json({limit: '9150mb'}));
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+limit: '9150mb',
+extended: true
+})); 
+//Limity 
 //console.log("startuji")
 //return
 
@@ -67,13 +75,10 @@ function query(dotaz, rows){
   return [];
 }
 
-
-  console.log('jedu')
+  //console.log('jedu11 ')
   
   slozky()
 
-
-  
 
 
 
@@ -440,8 +445,10 @@ app.get('/obrazekmeta', function(req, res) {
    res.sendFile('/home/jarda/db3000/server/uploads/jarda.jpg');
  }); 
 
-app.use(express.json({limit: '9500mb'}));
-app.use(express.urlencoded({limit: '9500mb'}));
+
+
+//app.use(express.limit('4M'));
+//app.use(express.urlencoded({limit: '9500mb'}));
 
 // #app.use(morgan('combined'));
 app.use(cors());

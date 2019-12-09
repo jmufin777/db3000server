@@ -2,6 +2,7 @@
 ###help 
 ### npm init -y
 #### npm i nodemon --save-dev
+exit
 export PGPASSWORD='db3000'
 database="db3000"
 echo "Configure database: $database"
