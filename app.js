@@ -53,27 +53,6 @@ const clientN = new ClientN()
 clientN.connectSync('postgresql://db3000:@localhost:5432/db3000')
   
 //clientN.connectSync()
-function getLogin(idefix){
-  var dotaz = `select login from list_users where idefix=${idefix}`
-  var rows = query(dotaz)
-  return rows[0].login
-}
-
-function query(dotaz, rows){
-  rows = rows || [] 
-  if( dotaz.match(/(^insert)|(^update)|(^delete)/i)) {
-    dotaz = `${dotaz} returning * `
-    console.log(dotaz)
-  }
-  rows= clientN.querySync(dotaz)
-  if (rows && rows.length>0){
-  //  console.log('ROWS OK ',rows)
-    return rows;
-  } else {
-    console.log('ROWS 0',rows)
-  }
-  return [];
-}
 
   //console.log('jedu11 ')
   
@@ -90,10 +69,13 @@ app.get('/upload0',  async (req, res, next ) => {
   var soubor=cesta+req.query.file
   var idefix = req.query.user
   var login = getLogin(idefix)
-  console.log(soubor,idefix, login)
+  console.log(soubor,idefix, login, req.query)
+  await sleep(5000);
   
   //ext_file_list = recFindByExt23(cesta,req.query.file)
-  ext_file_list = recFindByExt2(cesta,req.query.file)
+  //ext_file_list = recFindByExt2(cesta,req.query.file)
+  
+  ext_file_list = recFindByExt2(cesta,req.query.file,req.query.fileinfo)
   if (ext_file_list.length>0){
     soubory= await konverze(__dirname+'/'+ ext_file_list[0],req.query.user)
     info = await pdfInfo(__dirname+'/'+ ext_file_list[0])
@@ -249,8 +231,8 @@ async function konverze(soubor, idefix, res){
    fs.unlink(tmp_path, err=>{
      console.log(err)
    })
-  soubory=await konverze(full_nazev,req.body.idefix)
-  info=await pdfInfo(full_nazev)
+  soubory = await konverze(full_nazev,req.body.idefix)
+  info    = await pdfInfo(full_nazev)
   idefix_obr=soubory[soubory.length-1]
   idefix_obr=soubory[soubory.length-1]
   query(`update prilohy_prijem set pdfinfo='${info}' where idefix= ${idefix_obr}`)
@@ -522,7 +504,37 @@ function recFindByExtOrig(base,ext,files,result)  //hleda podle pripony - muze s
     return result
 }
 
-function recFindByExt2(base,ext,files,result)  //Pouzivam , nemazat
+function recFindByExt2(base,ext,fileinfo,files,result)  //Pouzivam , nemazat
+{
+    files = files || fs.readdirSync(base) 
+    result = result || [] 
+    //console.log(ext)
+
+    files.forEach( 
+        function (file) {
+            var newbase = path.join(base,file)
+            if ( fs.statSync(newbase).isDirectory() )
+            {
+                result = recFindByExt2(newbase,ext,fileinfo,fs.readdirSync(newbase),result)
+            }
+            else
+            {
+                //if ( file.substr(-1*(ext.length+1)) == '.' + ext )
+                //console.log('file' ,file , 'ext', ext)
+                if ( file.trim() ==  ext.trim() )
+                {  
+                    //console.log('file' ,file , 'ext', ext)
+                    
+                    
+                    result.push(newbase)
+                } 
+            }
+        }
+    )
+    return result
+}
+
+function recFindByExt2Bck(base,ext,files,result)  //Pouzivam , nemazat
 {
     files = files || fs.readdirSync(base) 
     result = result || [] 
@@ -606,4 +618,26 @@ async function slozky(){
   exec('mkdir /home/db3000/zakazky -p', (error1, stdout1, stderr1) => {
   }
   )  
+}
+
+function getLogin(idefix){
+  var dotaz = `select login from list_users where idefix=${idefix}`
+  var rows = query(dotaz)
+  return rows[0].login
+}
+
+function query(dotaz, rows){
+  rows = rows || [] 
+  if( dotaz.match(/(^insert)|(^update)|(^delete)/i)) {
+    dotaz = `${dotaz} returning * `
+    console.log(dotaz)
+  }
+  rows= clientN.querySync(dotaz)
+  if (rows && rows.length>0){
+  //  console.log('ROWS OK ',rows)
+    return rows;
+  } else {
+    console.log('ROWS 0',rows)
+  }
+  return [];
 }
