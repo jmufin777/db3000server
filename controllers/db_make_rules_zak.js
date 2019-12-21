@@ -237,7 +237,18 @@ async function init(){
         thumb_1 text,
         thumb_2 text,
         result text,
-        pdfinfo text
+        pdfinfo text,
+        basename text,
+        cesta_zak text,
+        cesta_mezi text,
+        cesta_stroj text,
+        stav int default 0,
+        smazano timestamp()
+        sirka_mm int default 0,
+        vyska_mm int default 0
+
+        
+
 
 
         `,

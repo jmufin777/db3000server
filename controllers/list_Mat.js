@@ -1039,7 +1039,7 @@ await client.query(`select fce_list_mat_clean('') `,(err999, response999) =>{
                             }
                  ///console.log(myres.info)                                     
                 await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejt, vubectro nechapu ale funguje to
-                  console.log(200, "Vracim  Vysledek")
+                  //console.log(200, "Vracim  Vysledek")
                   console.log(dotaz,dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup, " Par ",req_query_id_query, "String ", req.query.string_query)
                   
 

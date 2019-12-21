@@ -1,0 +1,3 @@
+#!/bin/bash 
+ sudo /usr/bin/convert  "/var/www/db3000/server/uploads/4888_A115898__SHX_Krocan_prostirani_A3_tisk.pdf[0]" -thumbnail 800x600 "/home/db3000/db/thumbs/488/1912131047/4888_A115898__SHX_Krocan_prostirani_A3_tisk_800.jpg"
+sudo /usr/bin/convert  "/home/db3000/db/thumbs/488/1912131047/4888_A115898__SHX_Krocan_prostirani_A3_tisk_800.jpg" -thumbnail 300x200 "/home/db3000/db/thumbs/488/1912131047/4888_A115898__SHX_Krocan_prostirani_A3_tisk_300.jpg"

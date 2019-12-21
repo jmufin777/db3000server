@@ -1137,7 +1137,7 @@ module.exports = {
 // -- 204   dotaz_list_strojceny             
 
                 await  client.query('select 1',(errxx,responsexx) => {  //Podvodny dotaz, ktery vynuti wait na vsechny vysledky - zahada jako bejk, vubectro nechapu ale funguje to
-                  console.log(200, "Vracim  Vysledek")
+                  //console.log(200, "Vracim  Vysledek")
                   // dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup,
                   console.log(dotaz, " Par ",req_query_id_query, "String ", req.query.string_query)
                   

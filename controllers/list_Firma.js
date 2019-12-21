@@ -299,14 +299,14 @@ module.exports = {
         end.getTime()
 
         // console.log(200, "Vracim  Vysledek",req_query_id_query, resObj, enum_osoba)
-        console.log(200, "Vracim  Vysledky x ",req_query_id_query, end.getTime() - start.getTime(), req.query.user )
+        //console.log(200, "Vracim  Vysledky x ",req_query_id_query, end.getTime() - start.getTime(), req.query.user )
         // dotaz_rozmer, dotaz_vlastnosti, dotaz_strojskup,
         // console.log(dotaz, " Par ",req_query_id_query, "String ", req.query.string_query)
         res.json(resObj)
-        console.log(200, "Vracim  Vysledky 2 za : ", end.getTime() - start.getTime() )
+        //console.log(200, "Vracim  Vysledky 2 za : ", end.getTime() - start.getTime() )
       })  
       await client.release() 
-      console.log(200, "Vracim  Vysledky 3 za : ", end.getTime() - start.getTime() )
+      //console.log(200, "Vracim  Vysledky 3 za : ", end.getTime() - start.getTime() )
 
     } catch(e)  {
 
@@ -362,7 +362,7 @@ module.exports = {
             } 
             })
           end = new Date()  
-          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
+          //console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
           res.json({info: 'Ok test'});
           await client.release()
           
@@ -461,7 +461,7 @@ module.exports = {
           })
 
           end = new Date()  
-          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
+          //console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
           res.json({info: 'Ok test'});
           await client.release()
           
@@ -525,7 +525,7 @@ module.exports = {
           } 
           })
           end = new Date()  
-          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
+          //console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
           await client.release()
           res.json({info: 'Ok test'});
     
@@ -567,7 +567,7 @@ module.exports = {
           })
 
           end = new Date()  
-          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
+          //console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
 
           res.json({info: 'Ok test'});
           await client.release()
@@ -665,7 +665,7 @@ module.exports = {
           } 
           })
           end = new Date()  
-          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
+          //console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
           await client.release()
           res.json({info: 'Ok test'});
     
@@ -741,7 +741,7 @@ module.exports = {
           } 
           })
           end = new Date()  
-          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
+          //console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
           await client.release()
           res.json({info: 'Ok test'});
     
@@ -782,7 +782,7 @@ module.exports = {
           } 
           })
           end = new Date()  
-          console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
+          //console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
           await client.release()
           res.json({info: 'Ok test'});
     
@@ -1017,7 +1017,7 @@ module.exports = {
         } 
         })
         end = new Date()  
-        console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
+        //console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
         await client.release()
         res.json({info: 'Ok test'});
   
@@ -1126,7 +1126,7 @@ module.exports = {
       //console.log('Insert barevnost', req.body, kod, nazev,"U",user)
       //console.log('Uvolnuji')
       end = new Date()  
-      console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
+      //console.log(200, "Vracim  Vysledky Save  za : ", end.getTime() - start.getTime() )
       await client.release()
       res.json({info: 'Ok' })
 

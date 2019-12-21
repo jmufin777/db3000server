@@ -1,3 +1,0 @@
-#!/bin/bash 
- sudo /usr/bin/convert  "/var/www/db3000/server/slozky/CALDERA-na-tisk/2264_BEKO_mrizka_1600x2200_(100_ks).ai" -thumbnail 800x600 "/var/www/db3000/server/uploads/2264_BEKO_mrizka_1600x2200_(100_ks)_800.jpg"
-sudo /usr/bin/convert  "/var/www/db3000/server/uploads/2264_BEKO_mrizka_1600x2200_(100_ks)_800.jpg" -thumbnail 300x200 "/var/www/db3000/server/uploads/2264_BEKO_mrizka_1600x2200_(100_ks)_300.jpg"

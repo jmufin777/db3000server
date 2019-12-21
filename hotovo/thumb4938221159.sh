@@ -1,3 +1,0 @@
-#!/bin/bash 
- sudo /usr/bin/convert  "/var/www/db3000/server/slozky/CALDERA-na-tisk/f_4557_A_392916/4557_A117638_MOETlahev_plexi_cire-298x641.ai" -thumbnail 800x600 "/var/www/db3000/server/uploads/4557_A117638_MOETlahev_plexi_cire-298x641_800.jpg"
-sudo /usr/bin/convert  "/var/www/db3000/server/uploads/4557_A117638_MOETlahev_plexi_cire-298x641_800.jpg" -thumbnail 300x200 "/var/www/db3000/server/uploads/4557_A117638_MOETlahev_plexi_cire-298x641_300.jpg"
