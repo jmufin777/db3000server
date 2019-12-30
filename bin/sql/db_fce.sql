@@ -649,6 +649,23 @@ create or replace function splatnost(_idefix_zak bigint) returns date as $$
  end ;
 $$LANGUAGE PLPGSQL;
 
+create or replace function vl_init() returns text as $$
+    declare i int :=0;
+    declare r record ;
+    begin
+    for i in 1..26 loop
+        raise notice '%', chr(i+64);
+        --insert into list2_vl(nazev) values(chr(i+64));
+        
+    end loop;
+    for i in 1..26 loop
+        raise notice '%', chr(i+64);
+    end loop;
+    return 'OK';
+    end;
+$$LANGUAGE PLPGSQL ;
+
+
 --// SELECT concat('My ', 'dog ', 'likes ', 'chocolate') As result;
 
 -- result

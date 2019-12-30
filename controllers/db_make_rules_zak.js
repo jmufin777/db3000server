@@ -245,11 +245,10 @@ async function init(){
         stav int default 0,
         smazano timestamp()
         sirka_mm int default 0,
-        vyska_mm int default 0
-
-        
-
-
+        vyska_mm int default 0,
+        format text default 'Vlastni',
+        stroj text,
+        VL text 
 
         `,
         index_name: [ 
@@ -261,6 +260,7 @@ async function init(){
             `select 1 ;`
         ]
 },
+
 
 {   name: 'zak_t_vl_v'    //Docasne pridelim mat =  1 pro material, v bodoucnu dodelam vazby na dalsi typy ( doprava, interni, ostatni .... )
     //Sehnat zpusob z ARES

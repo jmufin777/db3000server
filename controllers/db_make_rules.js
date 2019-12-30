@@ -50,6 +50,18 @@ async function init(){
         ]
     } ,
     {
+        name: 'list2_vl'
+        ,struct:  `
+        kod int,
+        nazev varchar(20)`,
+        index_name: [ 
+          `kod  ~~~ (kod)`,
+          `nazev ~~~ (nazev)`
+        ],
+        reindex: 1,
+        initq: [ ]
+    } ,
+    {
         name: 'list2_matpotisknutelnost'
         ,struct:  `
             kod int,

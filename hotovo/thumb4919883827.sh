@@ -1,0 +1,3 @@
+#!/bin/bash 
+ sudo /usr/bin/convert  "/var/www/db3000/server/uploads/3C71ACE0-B833-4F0D-9101-228B5CF7A635.jpg" -thumbnail 800x600 "/home/db3000/db/thumbs/3C7/1912300255/3C71ACE0-B833-4F0D-9101-228B5CF7A635_800.jpg"
+sudo /usr/bin/convert  "/home/db3000/db/thumbs/3C7/1912300255/3C71ACE0-B833-4F0D-9101-228B5CF7A635_800.jpg" -thumbnail 300x200 "/home/db3000/db/thumbs/3C7/1912300255/3C71ACE0-B833-4F0D-9101-228B5CF7A635_300.jpg"

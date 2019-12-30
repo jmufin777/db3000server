@@ -1,0 +1,2 @@
+echo existuje /home/db3000/db/thumbs/ULT/1912300158/ultimate wheels fall 2019_300.jpg
+sudo /usr/bin/convert  "/home/db3000/db/thumbs/ULT/1912300158/ultimate wheels fall 2019_800.jpg" -thumbnail 300x200 "/home/db3000/db/thumbs/ULT/1912300158/ultimate wheels fall 2019_300.jpg"

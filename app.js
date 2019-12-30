@@ -21,7 +21,11 @@ const bodyParser = require('body-parser')
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
 const moment = require('moment');
+
 var type = upload.single('file');
+var oddelovac="\n"+("-".repeat(100))+"\n"
+errfile=`${__dirname}/obrazky/error.jpg`
+console.log(errfile);
 
 //console.log('1')
 const app=express();
@@ -49,10 +53,26 @@ var slozky_thumbs=`/home/db3000/db/thumbs`
 var slozky_vyroba=`/home/db3000/db/vyroba/`
 var slozky_mezipamet=`/home/db3000/db/vyroba/mezipamet`
 var slozky_stroje=`/home/db3000/db/vyroba/stroje`
-var slozky_stroje=`/home/db3000/db/vyroba/stroje`
 var slozky_zakazky_pdf=`/home/db3000/db/slozky_zakazky_pdf`
+var slozky_osobni=`/home/db3000/slozky/`
+
 
 slozky()
+/*
+test="/home/db3000/slozky/mares/STRENGTH AND DENSITY VOL 1.pdf";
+test2="/home/db3000/slozky/mares/cert_3719056_pozar.pdf";
+test3="/home/db3000/slozky/mares/01_VESTY 27x27_PARKING.pdf";
+
+ pdfInfo(test)
+ .then(xx =>{
+   pdfRozbor(xx)
+ })
+pdfInfo(test3)
+.then(xx =>{
+  pdfRozbor(xx)
+})
+*/
+//await pdfRozbor
 
 
 const  path = require('path')
@@ -74,10 +94,12 @@ app.get('/upload0',  async (req, res, next ) => {
   console.log('HLODAM', req.query)
    //res.json({'BB':1});
    ///return
-  var cesta = '/home/db3000/slozky/mares/'
+  
   var soubor=cesta+req.query.file
   var idefix = req.query.user
   var login = getLogin(idefix)
+  var cesta = `${slozky_osobni}${login}`
+  ///home/db3000/slozky/mares/
   console.log(soubor,idefix, login, req.query)
 //  await sleep(5000);
   
@@ -100,19 +122,35 @@ app.get('/upload0',  async (req, res, next ) => {
 
     //info = await pdfInfo(__dirname+'/'+ ext_file_list[0])
     info = await pdfInfo( ext_file_list[0])
+    rozbor=await pdfRozbor(info)
+
     full_nazev=ext_file_list[0]
     // console.log("INFO", info)
     idefix_obr=soubory[soubory.length-1]  //IDEFIX - posledni polozkaz array
     //query(`update prilohy_prijem set pdfinfo='${info}' where idefix= ${idefix_obr}`)
+    
     var slozka_cil=slozky_zakazky+fInfo0.rok+'/'  +fInfo0.cislo  
     await Prikaz(`mkdir -p ${slozka_cil}`)
     await Prikaz(`mv  "${full_nazev}" "${slozka_cil}/"`)
     var nazev=path.basename(full_nazev)
-    var dotaz=`update prilohy_prijem set pdfinfo='${info}',cesta_zak='${slozka_cil}',basename='${nazev}',stav=1 where idefix = ${idefix_obr}`
+    var dotaz=`update prilohy_prijem set pdfinfo='${info}',cesta_zak='${slozka_cil}',basename='${nazev}',stav=1,
+    sirka_mm=${rozbor.sirka},vyska_mm=${rozbor.vyska},format='${rozbor.format}'
+    where idefix = ${idefix_obr}`
     console.log(dotaz)
 
-    query(`${dotaz}`)
-    res.json({'a':'122','files': ext_file_list,'obrazek' :idefix_obr})
+    rows=query(`${dotaz}`)
+    sirka=0
+    vyska=0
+    format='Vlastni'
+   if (rows.length>0){
+     sirka=rows[0].sirka_mm
+     vyska=rows[0].vyska_mm
+     format=rows[0].format
+   }
+   //res.json({'a':'2',files: ext_file_list,obrazek:idefix_obr})
+    res.json({'a':'122','files': ext_file_list,'obrazek' :idefix_obr,'sirka':sirka,'vyska':vyska,'format':format })
+
+    //res.json({'a':'122','files': ext_file_list,'obrazek' :idefix_obr})
     //console.log("TES K", soubory)
     //rows=query(`select * from prilohy_prijem where nazev='${soubory[0]}' order by idefix desc`)
     //console.log("rowS ",rows, " soubory", soubory)
@@ -140,6 +178,9 @@ app.get('/upload0',  async (req, res, next ) => {
     var nazev = req.file.originalname
     var local_dir = 'uploads/'
     var full_nazev  = __dirname +'/'+local_dir+ nazev
+    
+    var login = getLogin(idefix)
+    var cesta_osobni = `${slozky_osobni}${login}`
     //  console.log(tmp_path)
     var src  = fs.createReadStream(tmp_path);  //co se nahralo
     var dest = fs.createWriteStream(local_dir+nazev); 
@@ -147,23 +188,59 @@ app.get('/upload0',  async (req, res, next ) => {
     fs.unlink(tmp_path, err=>{
       console.log(err)
     })
+  fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", "0"  , { mode: 0o777 });  
   soubory = await konverze(full_nazev,req.body.idefix)
+  //fs.writeFileSync("/home/jarda/db3000/server/qUpdate.sql", "1"  , { mode: 0o777 });
+  fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", "1"  , { mode: 0o777 });
   info    = await pdfInfo(full_nazev)
+  fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", "3"  , { mode: 0o777 });
+
+  rozbor=   await pdfRozbor(info)
+  fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", "4"  , { mode: 0o777 });
   idefix_obr=soubory[soubory.length-1]
   idefix_obr=soubory[soubory.length-1]
   
-  console.log("BODY ",req.body)
+  console.log("ROZBOR :", rozbor )
+  fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", "5"  , { mode: 0o777 });
+  fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", req.body.rok  , { mode: 0o777 });
   
+    
+  var slozka_cil=''
+  //if (req.body.rok=='undefined'){
+   if (typeof req.body.rok == 'undefined') {
+    slozka_cil = cesta_osobni  
+  } else {
+    slozka_cil = slozky_zakazky+req.body.rok+'/' +req.body.cislo  
+  }
+//  slozka_cil = cesta_osobni  
   
-  
-  var slozka_cil=slozky_zakazky+req.body.rok+'/'  +req.body.cislo  
+
   await Prikaz(`mkdir -p ${slozka_cil}`)
   await Prikaz(`mv  "${full_nazev}" "${slozka_cil}/"`)
   var nazev=path.basename(full_nazev)
-  query(`update prilohy_prijem set pdfinfo='${info}',cesta_zak='${slozka_cil}',basename='${nazev}',stav=1 where idefix = ${idefix_obr}`)
-  
+  var queryUpdate=`update prilohy_prijem set pdfinfo='${info}',cesta_zak='${slozka_cil}',basename='${nazev}',stav=1
+  ,sirka_mm=${rozbor.sirka},vyska_mm=${rozbor.vyska},format='${rozbor.format}'
+   where idefix = ${idefix_obr}`
+  rows=query(`${queryUpdate}`)
+
+  try{
+    fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", queryUpdate  , { mode: 0o777 });
+  } catch(e){
+    console.log("Soubor v ...",oddelovac,e,oddelovac)
+  }
+   //return;
+
+   sirka=0
+   vyska=0
+   format='Vlastni'
+   console.log(oddelovac,queryUpdate,oddelovac)
+  if (rows.length>0){
+    sirka=rows[0].sirka_mm
+    vyska=rows[0].vyska_mm
+    format=rows[0].format
+  }
   //res.json({'a':'2',files: ext_file_list,obrazek:idefix_obr})
-  res.json({'a':'222','files': ext_file_list,'obrazek' :idefix_obr})
+  res.json({'a':'222','files': ext_file_list,'obrazek' :idefix_obr,'sirka':sirka,'vyska':vyska,'format':format })
   console.log('IDEFIX ', idefix)
   //rows=query(`select * from prilohy_prijem where idefix_user=${idefix} order by idefix desc limit 1`)
 
@@ -225,7 +302,28 @@ app.get('/obrazek_orig/:page', function(req, res) {
 
   console.log(rows[0])
   obrazek=rows[0].nazev
-  res.sendFile( obrazek); 
+  obrazek_zak=rows[0].cesta_zak+'/'+rows[0].basename
+  obrazek_mezi=rows[0].cesta_mezi+'/'+rows[0].basename
+  obrazek_stroj=rows[0].cesta_stroj+'/'+rows[0].basename
+  obrazek_send=errfile
+  try {
+    if (fs.existsSync(obrazek)) {
+        obrazek_send=obrazek;
+    }
+    if (fs.existsSync(obrazek_zak)) {
+      obrazek_send=obrazek_zak;
+     }
+    if (fs.existsSync(obrazek_mezi)) {
+      obrazek_send=obrazek_mezi;
+    //file exists
+    }
+    if (fs.existsSync(obrazek_stroj)) {
+      obrazek_send=obrazek_stroj;
+    }
+  } catch(err) {
+    console.error(err)
+  }
+  res.sendFile( obrazek_send); 
   //res.sendFile( __dirname+ '/'+desPath +'/'+obrazek); 
   return
 
@@ -532,7 +630,6 @@ function recFindByExt2Bck(base,ext,files,result)  //Pouzivam , nemazat
 
 async function myFind(cesta,nazev, detail){
   var prikaz = `find ${cesta} -name "${nazev}" -exec ls -l  --time-style=+"%Y%m%d %H:%M:%S" {} \\;`
-
   var aRes=[cesta]
   console.log(prikaz ,detail )
   return new Promise(function(resolve) {
@@ -602,6 +699,7 @@ async function pdfInfo(pdf){
     }
       //res.push(row[0].idefix) 
       //console.log('Info OK ',stdout1)
+
       resolve(stdout1)
  
       })
@@ -610,13 +708,59 @@ async function pdfInfo(pdf){
   })
  }
 
+
+function  pdfRozbor(txt) {
+   var res=''
+   var tmp=[]
+   var koef=0.352778
+   var ret={
+     sirka:0,
+     vyska:0,
+     format:'Vlastni'
+   }
+   console.log(txt)
+   fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", "\n 1 rozbor\n"  , { mode: 0o777 });
+   fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", `\n 2 rozbor ${txt}\n`  , { mode: 0o777 });
+   return new Promise(function(resolve){
+     if ((txt+'').trim()==''){
+       resolve(ret);
+       fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", `\n 3 rozbor Empty ${txt}\n`  , { mode: 0o777 });
+       return;
+     }
+     res=txt.split("\n")
+     res.forEach((el,idx)=>{
+       if (el.match(/Trimbox/i)){
+         
+         tmp = el.replace(/  +/g, ' ').split(' ');
+         sirka=(tmp[3]*1 - tmp[1]*1)*koef
+         vyska=(tmp[4]*1 - tmp[2]*1)*koef
+         sirka=Math.round(sirka)
+         vyska=Math.round(vyska)
+         ret.sirka=sirka
+         ret.vyska=vyska
+         var q = `select * from list2_format  where (sirka = ${sirka} and vyska = ${vyska}) or (vyska = ${sirka} and sirka = ${vyska})`
+         var av=query(q)
+         if (av.length>0){
+            ret.format=av[0].nazev
+         }
+         //console.log('RES :', ret) 
+         fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", `\n 4 rozbor pohoda ${txt}\n`  , { mode: 0o777 });
+         resolve(ret) 
+         console.log(  sirka,vyska,av,q )
+       }
+       
+     })
+     //console.log(res)
+
+   })
+ }
+
+
 function sleep(ms){
   return new Promise(resolve=>{
       setTimeout(resolve,ms)
   })
 }
-
-
 
 
 async function slozky(){
@@ -669,7 +813,7 @@ function getFilesizeInBytes(filename) {
   const stats = fs.statSync(filename);
   const fileSizeInBytes = stats.size;
   var mtime = stats.mtime;
-  console.log("MODIFY ", mtime);
+  //console.log("MODIFY ", mtime);
   return fileSizeInBytes;
 }
 
@@ -678,7 +822,7 @@ function getFileInfo(filename) {
   const fileSizeInBytes = stats.size;
   var mtime = stats.mtime;
 
-  console.log("MODIFY ", mtime);
+  //console.log("MODIFY ", mtime);
   return {size: fileSizeInBytes, zmena: mtime} ;
 }
 
@@ -708,7 +852,7 @@ function getNahledyFolder(soubor) {
   
   )
 
-  console.log("\n\n\n\GetNahledy ", soubor," // NAZEFFF ", nazev , " clean " , nazevSlozkyZkratka,"\n\n\n" ,celaSlozka )
+  //console.log("\n\n\n\GetNahledy ", soubor," // NAZEFFF ", nazev , " clean " , nazevSlozkyZkratka,"\n\n\n" ,celaSlozka )
 }
   )
 
@@ -749,7 +893,7 @@ async function konverze(soubor, idefix, res){
   if (soubor.match(/\.pdf/i)){
     srcImage+='[0]'
   }
-  console.log()
+  
   out=Math.round(Math.random()*987456115)
   var fInfo= getFileInfo(soubor)
   
@@ -762,13 +906,19 @@ async function konverze(soubor, idefix, res){
   outfile300=`${nahled}/${jpg300}`
   
   
-  var dat= datum5(fInfo.zmena) 
-  console.log("SUBOR" , soubor,dat, '   ', fInfo) 
+  //var dat= datum5(fInfo.zmena) 
+  //console.log("SUBOR" , soubor,dat, '   ', fInfo) 
   //thumbFolder=thumbFolder()
   //prikazMakeThumbFolder="mkdir -p /home/db3000/db/thumbs/"+basename0.substr(0,3)
 
   prikaz800=`#!/bin/bash \n sudo /usr/bin/convert  "${srcImage}" -thumbnail 800x600 "${outfile800}"`
   prikaz300=`sudo /usr/bin/convert  "${outfile800}" -thumbnail 300x200 "${outfile300}"`
+  if (fs.existsSync(`"${outfile800}"`)) {
+    prikaz800=`#!/bin/bash \n echo existuje "${outfile800}"`
+  }  
+  if (fs.existsSync(`"${outfile300}"`)) {
+    prikaz300=`echo existuje "${outfile300}"`
+  }  
   
   //prikaz2=" screen -dmS sss  /home/jarda/db3000/server/thumb4.sh"
   prikaz2="/home/jarda/db3000/server/thumb4"+out+".sh"
@@ -792,9 +942,9 @@ async function konverze(soubor, idefix, res){
       res.push(row[0].idefix) 
       resolve(res)
       exec(`mv ${prikaz2} ./hotovo`, (error2, stdout2, stderr2)=>{
-        console.log('presunuto ',prikaz2)
+      //  console.log('presunuto ',prikaz2)
       })
-    console.log('res', res)  
+    //console.log('res', res)  
     //return res
   })
   
@@ -804,7 +954,7 @@ async function konverze(soubor, idefix, res){
   
   return 
 
-  
+  /*
   fs.writeFile(prikaz2, prikaz800+'\n'+prikaz300,err=>{
     if (err){
       console.log('Err',err)
@@ -835,10 +985,12 @@ async function konverze(soubor, idefix, res){
         //res.json({"Nahrano": 'nahrabo'})
         //res.sendFile(outfile)
         return res
+    
       });
 
     })
   })
+  */
   console.log(res)
   return res;
 
