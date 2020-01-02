@@ -2381,4 +2381,905 @@ PDF version:    1.6
  3 rozbor Empty 
 452019update prilohy_prijem set pdfinfo='',cesta_zak='/home/db3000/db/zakazky/2019/04367',basename='B0670E8B-8B0A-41D6-8FA5-5F30C4223E11.jpg',stav=1
   ,sirka_mm=0,vyska_mm=0,format='Vlastni'
-   where idefix = 13630226
+   where idefix = 13630226013
+ 1 rozbor
+
+ 2 rozbor 
+
+ 3 rozbor Empty 
+452019update prilohy_prijem set pdfinfo='',cesta_zak='/home/db3000/db/zakazky/2019/04368',basename='XRobot2.rar',stav=1
+  ,sirka_mm=0,vyska_mm=0,format='Vlastni'
+   where idefix = 13630254013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Shoulders Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:49:47 2019
+ModDate:        Sat Aug 31 22:56:10 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      3606334 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Title:          Ultimate Shoulders Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:49:47 2019
+ModDate:        Sat Aug 31 22:56:10 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      3606334 bytes
+Optimized:      no
+PDF version:    1.5
+
+452019update prilohy_prijem set pdfinfo='Title:          Ultimate Shoulders Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:49:47 2019
+ModDate:        Sat Aug 31 22:56:10 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      3606334 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2019/04368',basename='ultimate shoulders fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 13630255013
+ 1 rozbor
+
+ 2 rozbor Producer:       mPDF 8.0.0
+CreationDate:   Sun Dec 15 14:13:27 2019
+ModDate:        Sun Dec 15 14:13:27 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          1
+Encrypted:      no
+Page size:      595.28 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      46837 bytes
+Optimized:      no
+PDF version:    1.4
+
+
+ 4 rozbor pohoda Producer:       mPDF 8.0.0
+CreationDate:   Sun Dec 15 14:13:27 2019
+ModDate:        Sun Dec 15 14:13:27 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          1
+Encrypted:      no
+Page size:      595.28 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      46837 bytes
+Optimized:      no
+PDF version:    1.4
+
+45undefinedupdate prilohy_prijem set pdfinfo='Producer:       mPDF 8.0.0
+CreationDate:   Sun Dec 15 14:13:27 2019
+ModDate:        Sun Dec 15 14:13:27 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          1
+Encrypted:      no
+Page size:      595.28 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      46837 bytes
+Optimized:      no
+PDF version:    1.4
+',cesta_zak='/home/db3000/slozky/mares',basename='420190043.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 13633782013
+ 1 rozbor
+
+ 2 rozbor Creator:        Adobe InDesign CC 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Thu Jan 10 15:33:37 2019
+ModDate:        Thu Jan 10 15:33:37 2019
+Tagged:         yes
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          2
+Encrypted:      no
+Page size:      1116.85 x 595.276 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1116.85   595.28
+CropBox:            0.00     0.00  1116.85   595.28
+BleedBox:           0.00     0.00  1116.85   595.28
+TrimBox:            0.00     0.00  1116.85   595.28
+ArtBox:             0.00     0.00  1116.85   595.28
+File size:      128539 bytes
+Optimized:      yes
+PDF version:    1.4
+
+
+ 4 rozbor pohoda Creator:        Adobe InDesign CC 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Thu Jan 10 15:33:37 2019
+ModDate:        Thu Jan 10 15:33:37 2019
+Tagged:         yes
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          2
+Encrypted:      no
+Page size:      1116.85 x 595.276 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1116.85   595.28
+CropBox:            0.00     0.00  1116.85   595.28
+BleedBox:           0.00     0.00  1116.85   595.28
+TrimBox:            0.00     0.00  1116.85   595.28
+ArtBox:             0.00     0.00  1116.85   595.28
+File size:      128539 bytes
+Optimized:      yes
+PDF version:    1.4
+
+45undefinedupdate prilohy_prijem set pdfinfo='Creator:        Adobe InDesign CC 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Thu Jan 10 15:33:37 2019
+ModDate:        Thu Jan 10 15:33:37 2019
+Tagged:         yes
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          2
+Encrypted:      no
+Page size:      1116.85 x 595.276 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1116.85   595.28
+CropBox:            0.00     0.00  1116.85   595.28
+BleedBox:           0.00     0.00  1116.85   595.28
+TrimBox:            0.00     0.00  1116.85   595.28
+ArtBox:             0.00     0.00  1116.85   595.28
+File size:      128539 bytes
+Optimized:      yes
+PDF version:    1.4
+',cesta_zak='/home/db3000/slozky/mares',basename='web_new_Cenik_elektrina_na_2_roky_MOO_20191_CEZDI.pdf',stav=1
+  ,sirka_mm=394,vyska_mm=210,format='Vlastni'
+   where idefix = 13633783
+ 1 rozbor
+
+ 2 rozbor Creator:        Adobe InDesign CC 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Thu Jan 10 15:33:37 2019
+ModDate:        Thu Jan 10 15:33:37 2019
+Tagged:         yes
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          2
+Encrypted:      no
+Page size:      1116.85 x 595.276 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1116.85   595.28
+CropBox:            0.00     0.00  1116.85   595.28
+BleedBox:           0.00     0.00  1116.85   595.28
+TrimBox:            0.00     0.00  1116.85   595.28
+ArtBox:             0.00     0.00  1116.85   595.28
+File size:      128539 bytes
+Optimized:      yes
+PDF version:    1.4
+
+
+ 4 rozbor pohoda Creator:        Adobe InDesign CC 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Thu Jan 10 15:33:37 2019
+ModDate:        Thu Jan 10 15:33:37 2019
+Tagged:         yes
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          2
+Encrypted:      no
+Page size:      1116.85 x 595.276 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1116.85   595.28
+CropBox:            0.00     0.00  1116.85   595.28
+BleedBox:           0.00     0.00  1116.85   595.28
+TrimBox:            0.00     0.00  1116.85   595.28
+ArtBox:             0.00     0.00  1116.85   595.28
+File size:      128539 bytes
+Optimized:      yes
+PDF version:    1.4
+
+013
+ 1 rozbor
+
+ 2 rozbor Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+452019update prilohy_prijem set pdfinfo='Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2019/04368',basename='barg.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 13633785013
+ 1 rozbor
+
+ 2 rozbor Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+452019update prilohy_prijem set pdfinfo='Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2019/04368',basename='barg.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 13633786013
+ 1 rozbor
+
+ 2 rozbor Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+452019update prilohy_prijem set pdfinfo='Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2019/04368',basename='barg.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 13633787013
+ 1 rozbor
+
+ 2 rozbor Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+452019update prilohy_prijem set pdfinfo='Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2019/04368',basename='barg.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 13633830013
+ 1 rozbor
+
+ 2 rozbor Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+452019update prilohy_prijem set pdfinfo='Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2019/04368',basename='barg.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 13633847013
+ 1 rozbor
+
+ 2 rozbor Title:          Order - X2JGC4J5; Job - 47599;
+Author:         Imposed by PLDA 5.2.0, build 171, www.plda.net
+Creator:        M-Photo Ltd.(C)
+Producer:       PDFlib 7.0.0 (Win32)
+CreationDate:   Tue Nov 19 15:18:32 2019
+ModDate:        Tue Nov 19 15:18:38 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          6
+Encrypted:      no
+Page size:      1275.59 x 907.085 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1275.59   907.09
+CropBox:            0.00     0.00  1275.59   907.09
+BleedBox:           0.00     0.00  1275.59   907.09
+TrimBox:           28.35    42.52  1247.24   864.57
+ArtBox:             0.00     0.00  1275.59   907.09
+File size:      51974894 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Order - X2JGC4J5; Job - 47599;
+Author:         Imposed by PLDA 5.2.0, build 171, www.plda.net
+Creator:        M-Photo Ltd.(C)
+Producer:       PDFlib 7.0.0 (Win32)
+CreationDate:   Tue Nov 19 15:18:32 2019
+ModDate:        Tue Nov 19 15:18:38 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          6
+Encrypted:      no
+Page size:      1275.59 x 907.085 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1275.59   907.09
+CropBox:            0.00     0.00  1275.59   907.09
+BleedBox:           0.00     0.00  1275.59   907.09
+TrimBox:           28.35    42.52  1247.24   864.57
+ArtBox:             0.00     0.00  1275.59   907.09
+File size:      51974894 bytes
+Optimized:      yes
+PDF version:    1.6
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          Order - X2JGC4J5; Job - 47599;
+Author:         Imposed by PLDA 5.2.0, build 171, www.plda.net
+Creator:        M-Photo Ltd.(C)
+Producer:       PDFlib 7.0.0 (Win32)
+CreationDate:   Tue Nov 19 15:18:32 2019
+ModDate:        Tue Nov 19 15:18:38 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          6
+Encrypted:      no
+Page size:      1275.59 x 907.085 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1275.59   907.09
+CropBox:            0.00     0.00  1275.59   907.09
+BleedBox:           0.00     0.00  1275.59   907.09
+TrimBox:           28.35    42.52  1247.24   864.57
+ArtBox:             0.00     0.00  1275.59   907.09
+File size:      51974894 bytes
+Optimized:      yes
+PDF version:    1.6
+',cesta_zak='/home/db3000/slozky/mares',basename='059 X2JGC4J5_47599.pdf',stav=1
+  ,sirka_mm=430,vyska_mm=290,format='Vlastni'
+   where idefix = 13633848
+ 1 rozbor
+
+ 2 rozbor Title:          Order - X2JGC4J5; Job - 47599;
+Author:         Imposed by PLDA 5.2.0, build 171, www.plda.net
+Creator:        M-Photo Ltd.(C)
+Producer:       PDFlib 7.0.0 (Win32)
+CreationDate:   Tue Nov 19 15:18:32 2019
+ModDate:        Tue Nov 19 15:18:38 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          6
+Encrypted:      no
+Page size:      1275.59 x 907.085 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1275.59   907.09
+CropBox:            0.00     0.00  1275.59   907.09
+BleedBox:           0.00     0.00  1275.59   907.09
+TrimBox:           28.35    42.52  1247.24   864.57
+ArtBox:             0.00     0.00  1275.59   907.09
+File size:      51974894 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Order - X2JGC4J5; Job - 47599;
+Author:         Imposed by PLDA 5.2.0, build 171, www.plda.net
+Creator:        M-Photo Ltd.(C)
+Producer:       PDFlib 7.0.0 (Win32)
+CreationDate:   Tue Nov 19 15:18:32 2019
+ModDate:        Tue Nov 19 15:18:38 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          6
+Encrypted:      no
+Page size:      1275.59 x 907.085 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1275.59   907.09
+CropBox:            0.00     0.00  1275.59   907.09
+BleedBox:           0.00     0.00  1275.59   907.09
+TrimBox:           28.35    42.52  1247.24   864.57
+ArtBox:             0.00     0.00  1275.59   907.09
+File size:      51974894 bytes
+Optimized:      yes
+PDF version:    1.6
+
+013
+ 1 rozbor
+
+ 2 rozbor Title:          Order - X2JGC4J5; Job - 47599;
+Author:         Imposed by PLDA 5.2.0, build 171, www.plda.net
+Creator:        M-Photo Ltd.(C)
+Producer:       PDFlib 7.0.0 (Win32)
+CreationDate:   Tue Nov 19 15:18:32 2019
+ModDate:        Tue Nov 19 15:18:38 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          6
+Encrypted:      no
+Page size:      1275.59 x 907.085 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1275.59   907.09
+CropBox:            0.00     0.00  1275.59   907.09
+BleedBox:           0.00     0.00  1275.59   907.09
+TrimBox:           28.35    42.52  1247.24   864.57
+ArtBox:             0.00     0.00  1275.59   907.09
+File size:      51974894 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Order - X2JGC4J5; Job - 47599;
+Author:         Imposed by PLDA 5.2.0, build 171, www.plda.net
+Creator:        M-Photo Ltd.(C)
+Producer:       PDFlib 7.0.0 (Win32)
+CreationDate:   Tue Nov 19 15:18:32 2019
+ModDate:        Tue Nov 19 15:18:38 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          6
+Encrypted:      no
+Page size:      1275.59 x 907.085 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1275.59   907.09
+CropBox:            0.00     0.00  1275.59   907.09
+BleedBox:           0.00     0.00  1275.59   907.09
+TrimBox:           28.35    42.52  1247.24   864.57
+ArtBox:             0.00     0.00  1275.59   907.09
+File size:      51974894 bytes
+Optimized:      yes
+PDF version:    1.6
+
+452019update prilohy_prijem set pdfinfo='Title:          Order - X2JGC4J5; Job - 47599;
+Author:         Imposed by PLDA 5.2.0, build 171, www.plda.net
+Creator:        M-Photo Ltd.(C)
+Producer:       PDFlib 7.0.0 (Win32)
+CreationDate:   Tue Nov 19 15:18:32 2019
+ModDate:        Tue Nov 19 15:18:38 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          6
+Encrypted:      no
+Page size:      1275.59 x 907.085 pts
+Page rot:       0
+MediaBox:           0.00     0.00  1275.59   907.09
+CropBox:            0.00     0.00  1275.59   907.09
+BleedBox:           0.00     0.00  1275.59   907.09
+TrimBox:           28.35    42.52  1247.24   864.57
+ArtBox:             0.00     0.00  1275.59   907.09
+File size:      51974894 bytes
+Optimized:      yes
+PDF version:    1.6
+',cesta_zak='/home/db3000/db/zakazky/2019/04368',basename='čuříci.pdf',stav=1
+  ,sirka_mm=430,vyska_mm=290,format='Vlastni'
+   where idefix = 13633850013
+ 1 rozbor
+
+ 2 rozbor Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+452019update prilohy_prijem set pdfinfo='Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2019/04368',basename='barg.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 13633856

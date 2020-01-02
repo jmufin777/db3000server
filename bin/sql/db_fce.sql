@@ -503,7 +503,7 @@ $$LANGUAGE PLPGSQL ;
 
 --14125
 drop function zak_insert ( bigint, bigint, date) ;
-qcreate or replace function zak_insert( user_insert_idefix bigint default 0, idefix_firma bigint default 0,dat_exp date default now()::date,
+create or replace function zak_insert( user_insert_idefix bigint default 0, idefix_firma bigint default 0,dat_exp date default now()::date,
                                          OUT  datum_spl date, OUT idefix bigint, OUT cislo bigint, OUT platbaInfo text, OUT info text,
                                          OUT datumzadani date
                                          ) 
@@ -651,21 +651,64 @@ $$LANGUAGE PLPGSQL;
 
 create or replace function vl_init() returns text as $$
     declare i int :=0;
+    declare i2 int :=0;
     declare r record ;
     begin
+    truncate table list2_vl ;
+   for i in 1..26 loop
+        i2:=i2+1;
+        raise notice '%', chr(i+64);
+        perform setval('list2_vl_id_seq',i2);
+        insert into list2_vl(id,nazev) values(i2,chr(i+64));
+   end loop;
+   for r in select * from list2_vl order by id loop 
     for i in 1..26 loop
         raise notice '%', chr(i+64);
-        --insert into list2_vl(nazev) values(chr(i+64));
-        
+        i2:=i2+1;
+        perform setval('list2_vl_id_seq',i2);
+        insert into list2_vl(id,nazev) values(i2,r.nazev||chr(i+64));
     end loop;
-    for i in 1..26 loop
-        raise notice '%', chr(i+64);
-    end loop;
+   end loop; 
     return 'OK';
     end;
 $$LANGUAGE PLPGSQL ;
 
+create or replace function vl_set( _idefix_zak bigint default 0,  _idefix_item bigint default 0) returns text as $$
+    declare r record ;
+    declare cRet text :='';
+    declare _vl_last int := 0;
+    declare _vl_cur int :=0;
+    declare _vl_lastname text := '';
+    declare _vl_curname text :='';
+    begin
+    delete from zak_t_vl_v a where not exists (select * from zak_t_items b where a.idefix_item=b.idefix) ; -- Navazat na soubory a smazat
+    if _idefix_zak=0 then
+        return 'nic';
+    end if;
+    select * into _vl_last from zak_vl_last where idefix_zak = _idefix_zak;
+    if not found then
+        for r in select * from list2_vl order by id limit 1 loop
+             _vl_cur := r.id;
+            _vl_curname := r.nazev;
+            insert into zak_vl_last (idefix_zak,idefix_item,vl_id,vl_znacka,pocet)  values (_idefix_zak,_idefix_item,_vl_cur,_vl_curname,1);
+            update zak_t_items set vl_znacka= _vl_curname, vl_id = _vl_cur where idefix=_idefix_item;
+        end loop;
+    end if;
+    if found then
 
+
+        for r in select * from list2_vl order by id limit 1 loop
+             _vl_cur := r.id;
+            _vl_curname := r.nazev;
+            --insert into zak_vl_last (idefix_zak,id_vl,nazev,pocet)  values (_idefix_zak,_vl_cur,_vl_curname,1);
+        end loop;
+    end if;
+       --zak_vl_last 
+    return cRet;
+    end;   
+$$LANGUAGE PLPGSQL;
+--select vl_set(13518947,13629472) ;
+--13518947,13629472
 --// SELECT concat('My ', 'dog ', 'likes ', 'chocolate') As result;
 
 -- result
