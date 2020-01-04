@@ -76,9 +76,20 @@ begin
 end;
 $$LANGUAGE PLPGSQL ;
 
-create or replace function cislorok( _cislo bigint default 0) returns varchar(5) as $$
+create or replace function cislorok( _cislo bigint default 0) returns varchar(15) as $$
 begin
     return  left(_cislo,2)||right(_cislo::text,5) ;
 end;
-$$LANGUAGE PLPGSQL ;
+$$LANGUAGE PLPGSQL IMMUTABLE;
 
+
+create or replace function czak(_idefix bigint default 0) returns varchar(15) as $$
+ declare nret varchar(15) :='0';
+ begin
+ select cislorok(cislozakazky) into nret from zak_t_list where idefix=_idefix;
+  if not found then
+    nret := '0';
+  end if;
+ return nret;
+ end;
+$$LANGUAGE PLPGSQL IMMUTABLE;

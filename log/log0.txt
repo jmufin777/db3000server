@@ -1,0 +1,85 @@
+Start
+
+    0:50:21;update calc_my_9_zak17287500297 set idefix=nextval('list2_seq'::regclass) where id in (
+    select id from (select count(*) over(partition by idefix) as rn ,
+     row_number() over(partition by idefix order by id) as radek
+    , id, idefix from calc_my_9_zak17287500297 ) a where rn >1 and radek > 1 order by id
+    )
+    ;;;;;
+    0:50:21;update calc_my_9_zak17287500297 set idefix=nextval('list2_seq'::regclass) where id in (
+    select id from (select count(*) over(partition by idefix) as rn ,
+     row_number() over(partition by idefix order by id) as radek
+    , id, idefix from calc_my_9_zak17287500297)  a where rn >1 and radek > 1 order by id
+    )
+    ;;;;;
+    0:50:21;update zak_t_items set idefix=nextval('list2_seq'::regclass) where id in (
+    select id from (select count(*) over(partition by idefix) as rn ,
+     row_number() over(partition by idefix order by id) as radek
+    , id, idefix from zak_t_items ) a where rn >1 and radek > 1 order by id
+    )
+    ;;;;;
+    0:50:22;update calc_my_9_zak17287500297 set idefix=nextval('list2_seq'::regclass) where id in (
+    select id from (select count(*) over(partition by idefix) as rn ,
+     row_number() over(partition by idefix order by id) as radek
+    , id, idefix from calc_my_9_zak17287500297)  a where rn >1 and radek > 1 order by id
+    )
+    ;;;;;
+    0:50:22;9;setVL;;;
+    0:50:22;1;setVL;;;
+    0:50:22;EMIT 8;SAVEZAZNAM;;;
+    0:50:23;update calc_my_9_zak17287500297 set idefix=nextval('list2_seq'::regclass) where id in (
+    select id from (select count(*) over(partition by idefix) as rn ,
+     row_number() over(partition by idefix order by id) as radek
+    , id, idefix from calc_my_9_zak17287500297 ) a where rn >1 and radek > 1 order by id
+    )
+    ;;;;;
+    0:50:23;update calc_my_9_zak17287500297 set idefix=nextval('list2_seq'::regclass) where id in (
+    select id from (select count(*) over(partition by idefix) as rn ,
+     row_number() over(partition by idefix order by id) as radek
+    , id, idefix from calc_my_9_zak17287500297)  a where rn >1 and radek > 1 order by id
+    )
+    ;;;;;
+    0:50:23;update zak_t_items set idefix=nextval('list2_seq'::regclass) where id in (
+    select id from (select count(*) over(partition by idefix) as rn ,
+     row_number() over(partition by idefix order by id) as radek
+    , id, idefix from zak_t_items ) a where rn >1 and radek > 1 order by id
+    )
+    ;;;;;
+    0:50:23;update calc_my_9_zak17287500297 set idefix=nextval('list2_seq'::regclass) where id in (
+    select id from (select count(*) over(partition by idefix) as rn ,
+     row_number() over(partition by idefix order by id) as radek
+    , id, idefix from calc_my_9_zak17287500297)  a where rn >1 and radek > 1 order by id
+    )
+    ;;;;;
+    0:50:23;EMIT 8;SAVEZAZNAM;;;
+    0:50:23;9;setVL;;;
+    0:50:23;1;setVL;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:28;EMIT 8;SAVEZAZNAM;;;
+    0:50:29;EMIT 8;SAVEZAZNAM;;;
+    0:50:29;EMIT 8;SAVEZAZNAM;;;
+    0:50:33;EMIT 8;SAVEZAZNAM;;;
+    0:50:37;EMIT 8;SAVEZAZNAM;;;

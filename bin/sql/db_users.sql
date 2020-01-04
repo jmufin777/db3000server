@@ -71,7 +71,7 @@ select kodzamestnance, login, heslo,jmeno,prijmeni,email,plati, zobraz,level fro
  
  create unique index on list_groups_users(idefix_user, idefix_group );
 
- create or replace FUNCTION zkratka(_idefix int ) returns text as $$
+ create or replace FUNCTION zkratka(_idefix bigint ) returns text as $$
    select zkratka from list_users where idefix = _idefix;
  $$LANGUAGE SQL ;
  

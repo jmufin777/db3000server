@@ -673,40 +673,95 @@ create or replace function vl_init() returns text as $$
     end;
 $$LANGUAGE PLPGSQL ;
 
-create or replace function vl_set( _idefix_zak bigint default 0,  _idefix_item bigint default 0) returns text as $$
-    declare r record ;
-    declare cRet text :='';
-    declare _vl_last int := 0;
-    declare _vl_cur int :=0;
-    declare _vl_lastname text := '';
-    declare _vl_curname text :='';
-    begin
-    delete from zak_t_vl_v a where not exists (select * from zak_t_items b where a.idefix_item=b.idefix) ; -- Navazat na soubory a smazat
-    if _idefix_zak=0 then
-        return 'nic';
-    end if;
-    select * into _vl_last from zak_vl_last where idefix_zak = _idefix_zak;
+create or replace function idefix_zak(bigint ) returns bigint as $$
+declare ifx bigint default 0;
+begin
+select idefix into ifx from zak_t_list where cislozakazky=$1;
+if not found then
+    select idefix into ifx from nab_t_list where cislonabidky=$1;
+
     if not found then
-        for r in select * from list2_vl order by id limit 1 loop
-             _vl_cur := r.id;
-            _vl_curname := r.nazev;
-            insert into zak_vl_last (idefix_zak,idefix_item,vl_id,vl_znacka,pocet)  values (_idefix_zak,_idefix_item,_vl_cur,_vl_curname,1);
-            update zak_t_items set vl_znacka= _vl_curname, vl_id = _vl_cur where idefix=_idefix_item;
-        end loop;
+        select idefix_zak into ifx from zak_t_items where idefix=$1;
+        if not found then
+            select idefix_nab into ifx from nab_t_items where idefix=$1;
+        end if;
     end if;
-    if found then
+end if;
+if ifx is null then
+    ifx := 0;
+end if ;
+
+return ifx;
+end;
+$$LANGUAGE PLPGSQL ;
+create or replace function set_open(_idefix int, _login text, _menu text,_cislo bigint
+,_last_acces_sec int default 10
+,OUT _login1 text
+,OUT _cas1 text
+,OUT _user1 text
+,OUT _cislo1 text
+,OUT _zkratka1 text
+) returns setof record as $$
+declare r record;
+begin
+if _cislo = 0 then 
+    return;
+end if;
+
+if (_menu ='zakazky') then
+    perform * from zak_log_open where idefix_user=_idefix and cislozakazky=_cislo;
+    if not found then
+     insert into zak_log_open(idefix_zak,cislozakazky,idefix_user,login,cas) values 
+     ( idefix_zak(_cislo) , _cislo ,_idefix, _login,now() );
+     else 
+     update zak_log_open set cas=now() where idefix_user=_idefix and cislozakazky=_cislo;
+    end if;
+    for r in select * from zak_log_open  where now() - cas <='10 seconds' and cislozakazky=_cislo 
+     order by case when login=_login then '1' else '2' end || login
+    loop
+        _login1:='a';
+        _cas1 = extract(epoch from now() - r.cas);
+        _cislo1:= r.cislozakazky;
+        _login1:=_login;
+        _user1 := r.idefix_user;
+        _zkratka1 := zkratka(r.idefix_user);
+        return next ;
+     end loop;   
+end if;
+if (_menu ='kalkulace') then
+    perform * from nab_log_open where idefix_user=_idefix and cislonabidky=_cislo;
+    if not found then
+     insert into nab_log_open(idefix_nab,cislonabidky,idefix_user,login,cas) values 
+     ( idefix_zak(_cislo) , _cislo ,_idefix, _login,now() );
+     else 
+     update nab_log_open set cas=now() where idefix_user=_idefix and cislonabidky=_cislo;
+    end if;
+    for r in select * from nab_log_open  where now() - cas <='10 seconds' and cislonabidky=_cislo 
+       order by case when login=_login then '1' else '2' end || login
+    loop
+        _login1:='a';
+        _cas1 = extract(epoch from now() - r.cas);
+        _cislo1:= r.cislonabidky;
+        _login1:=_login;
+        _user1 := r.idefix_user;
+        _zkratka1 := zkratka(r.idefix_user);
+        return next ;
+     end loop;   
+    
+end if;
 
 
-        for r in select * from list2_vl order by id limit 1 loop
-             _vl_cur := r.id;
-            _vl_curname := r.nazev;
-            --insert into zak_vl_last (idefix_zak,id_vl,nazev,pocet)  values (_idefix_zak,_vl_cur,_vl_curname,1);
-        end loop;
-    end if;
-       --zak_vl_last 
-    return cRet;
-    end;   
+
+
+RETURN;
+end;
 $$LANGUAGE PLPGSQL;
+            --   ${self.idefix}
+            -- ,'${self.user}'
+            -- ,'${self.setmenu}'
+            -- ,'${self.form.cislo}'
+
+
 --select vl_set(13518947,13629472) ;
 --13518947,13629472
 --// SELECT concat('My ', 'dog ', 'likes ', 'chocolate') As result;

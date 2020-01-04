@@ -58,6 +58,9 @@ var slozky_osobni=`/home/db3000/slozky/`
 
 
 slozky()
+Prikaz(`mkdir -p ./log`)
+fs.writeFileSync("./log/log.txt", 'Start\n')
+fs.writeFileSync("./log/log0.txt", 'Start\n')
 /*
 test="/home/db3000/slozky/mares/STRENGTH AND DENSITY VOL 1.pdf";
 test2="/home/db3000/slozky/mares/cert_3719056_pozar.pdf";
@@ -170,8 +173,26 @@ app.get('/upload0',  async (req, res, next ) => {
   return
 })
  
+app.post('/log', upload.single('file'), async (req, res) => {  
+    console.log("LOGGGG",req.body)
+    await Prikaz(`mkdir -p ./log`)
+    dd = new Date()  
+    //fs.writeFileSync("./log/log.txt", `
+    fs.appendFileSync("./log/log0.txt", `
+    ${dd.getHours()}:${dd.getMinutes()}:${dd.getSeconds()};${req.body.txt1.trim()};${req.body.txt2.trim()};${req.body.txt3.trim()};${req.body.txt4.trim()};`, { mode: 0o777 });
 
-  app.post('/upload', upload.single('file'), async (req, res) => {
+    req.body.txt1=req.body.txt1.replace(/\n|\r/g,'')
+    req.body.txt1=req.body.txt1.replace(/ +(?= )/g,'');
+    fs.appendFileSync("./log/log.txt", `
+    ${dd.getHours()}:${dd.getMinutes()}:${dd.getSeconds()};${req.body.txt1.trim()};${req.body.txt2.trim()};${req.body.txt3.trim()};${req.body.txt4.trim()};`, { mode: 0o777 });
+    res.end();
+})
+app.get('/log', function(req, res) {
+  res.sendFile( __dirname+ '/log/log.txt'); 
+}
+)  
+
+app.post('/upload', upload.single('file'), async (req, res) => {
     
     var tmp_path = req.file.path;
     var idefix = req.body.idefix

@@ -389,13 +389,50 @@ async function init(){
 `,
     index_name: [ 
     
-      `idefix_zak  ~~~ (idefix_zak)`,
-      `nazev ~~~ (nazev)`,
+      `idefix_zak  ~~~ (idefix_zak)`
+      
       
     ],
     reindex: 1,
     initq: [ ]
 } ,
+
+{
+    name: 'zak_log_open'
+    ,struct:  `
+        idefix_zak bigint,
+        cislozakazky bigint,
+        idefix_user bigint,
+        login text,
+        cas timestamp
+ 
+ `,
+    index_name: [ 
+          `idefix_zak  ~~~ (idefix_zak)`,
+           `cislozakazky  ~~~ (cislozakazky,idefix_user)`
+    ],
+    reindex: 1,
+    initq: [ ]
+} ,
+{
+    name: 'nab_log_open'
+    ,struct:  `
+        idefix_nab bigint,
+        cislonabidky bigint,
+        idefix_user bigint,
+        login text,
+        cas timestamp
+ 
+ `,
+    index_name: [ 
+          `idefix_nab  ~~~ (idefix_nab)`,
+          `cislonabidky  ~~~ (cislonabidky,idefix_user)`
+    
+    ],
+    reindex: 1,
+    initq: [ ]
+} ,
+
 
 
 

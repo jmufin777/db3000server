@@ -43,6 +43,7 @@ const ico      =    require('../controllers/ico')
 const query      =    require('../controllers/query')
 const query_old      =    require('../controllers/query_old')
 const file1      =    require('../controllers/file1')
+//const log      =    require('../controllers/log')
 
 
 
