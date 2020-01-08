@@ -29,6 +29,7 @@ const aUniqIndexes = [
              ,`create index list_strojmod_fce_strojmod_idefix  on list_strojmod (fce_strojmod(idefix) ) `
             ,`create unique index zak_t_list_cislozakazky on zak_t_list (cislozakazky) `
             ,`create unique index nab_t_list_cislonabidky on nab_t_list (cislonabidky) `
+            ,`create unique index zak_t_vl_last_idefix_zaku on zak_vl_last (idefix_zak) `
 
             
                          

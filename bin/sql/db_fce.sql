@@ -676,17 +676,24 @@ $$LANGUAGE PLPGSQL ;
 create or replace function idefix_zak(bigint ) returns bigint as $$
 declare ifx bigint default 0;
 begin
+
+select idefix into ifx from zak_t_list where idefix=$1;
+if found then
+    return ifx;
+end if;
 select idefix into ifx from zak_t_list where cislozakazky=$1;
 if not found then
     select idefix into ifx from nab_t_list where cislonabidky=$1;
 
     if not found then
         select idefix_zak into ifx from zak_t_items where idefix=$1;
+        raise notice '1 % %',ifx, $1 ;
         if not found then
             select idefix_nab into ifx from nab_t_items where idefix=$1;
         end if;
     end if;
 end if;
+
 if ifx is null then
     ifx := 0;
 end if ;
@@ -756,6 +763,36 @@ end if;
 RETURN;
 end;
 $$LANGUAGE PLPGSQL;
+
+create or replace function drop_tmp(_idefix int default 0) returns text as $$
+    declare r record;
+    begin 
+    if (_idefix >0) then
+    for r in select tablename from pg_tables where tablename like 'calc_my_'||_idefix||'_%'  loop
+        raise notice '%', r.tablename;
+        execute 'drop table if exists ' || r.tablename;
+    end loop;
+    for  r in SELECT c.relname FROM pg_class c WHERE c.relkind = 'S' and relname like 'calc_my_'||_idefix||'_%'  loop
+            raise notice '%', r.relname;
+            
+            execute 'drop sequence  if exists ' || r.relname;
+    end loop;  
+    end if;
+    if (_idefix <0) then
+    for r in select tablename from pg_tables where tablename like 'calc_my_%' 
+       union select tablename from pg_tables where tablename like 'tmp_%' 
+     loop
+        raise notice '%', r.tablename;
+        execute 'drop table if exists ' || r.tablename;
+    end loop;
+    for  r in SELECT c.relname FROM pg_class c WHERE c.relkind = 'S' and relname ilike 'calc_my_%' loop
+            raise notice '%', r.relname;
+            execute 'drop sequence  if exists ' || r.relname;
+    end loop;  
+    end if;
+    return 'hotovo';
+    end;
+$$LANGUAGE PLPGSQL ;
             --   ${self.idefix}
             -- ,'${self.user}'
             -- ,'${self.setmenu}'

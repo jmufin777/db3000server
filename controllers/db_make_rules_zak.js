@@ -175,7 +175,9 @@ async function init(){
         vzor  int default 0, 
         status int default 0,
         vl_znacka text,
-        vl_id int
+        vl_id int,
+        poradi2 int 
+        
         `,
         index_name: [ 
             `idefix  ~~~ (idefix)`,
@@ -251,7 +253,7 @@ async function init(){
         cesta_mezi text,
         cesta_stroj text,
         stav int default 0,
-        smazano timestamp0,
+        smazano timestamp,
         sirka_mm int default 0,
         vyska_mm int default 0,
         format text default 'Vlastni',
@@ -281,6 +283,8 @@ async function init(){
         idefix_obchodnik bigint,
         vl_znacka text,
         vl_id int,
+        poradi2 int ,
+        status int default 0,
         expedice_datum date,
         expedice_cas time,
         datumzadani TIMESTAMP,  
@@ -355,7 +359,7 @@ async function init(){
         stroj text,
         strojmod text,
         idefix_strojmod bigint default 0,
-        celkme_ks numeric(10,2),
+        celkem_ks numeric(10,2),
         celkem_m2  numeric(15,4),
         cas_tisku time default '00:00',
         mat_gramaz numeric(10,2),
@@ -389,7 +393,7 @@ async function init(){
 `,
     index_name: [ 
     
-      `idefix_zak  ~~~ (idefix_zak)`
+      `idefix  ~~~ (idefix)`
       
       
     ],
