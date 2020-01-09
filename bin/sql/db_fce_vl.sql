@@ -12,11 +12,12 @@ create or replace function vl_set( _idefix_zak bigint default 0,  _idefix_item b
         return 'nic';
     end if;
     if _idefix_item=-1 and _idefix_zak>0 then
-        update zak_vl_last  set  pocet=(select count(*) from zak_t_items where idefix_zak=_idefix_zak and vl_id>0 and status in (1,3,4,5,6,7,8,9))
+        update zak_t_items set vl_id=0,vl_znacka='' where idefix_zak=_idefix_zak and obsah is null;
+        update zak_vl_last  set  pocet=(select count(*) from zak_t_items where idefix_zak=_idefix_zak and vl_id>0 and status in (1,3,4,5,6,7,8,9) and obsah::text >'') 
         ,vl_id= (select vl_id from zak_t_items where idefix_zak = _idefix_zak and vl_id>0 order by vl_id desc limit 1 )
         ,vl_znacka= (select vl_znacka from zak_t_items where idefix_zak = _idefix_zak and vl_id>0 order by vl_id desc limit 1 )
         ,idefix_item= (select idefix from zak_t_items where idefix_zak = _idefix_zak and vl_id>0 order by vl_id desc limit 1 )
-         WHERE idefix_zak = _idefix_zak;
+         WHERE idefix_zak = _idefix_zak ;
 
         update zak_t_vl_v a  set poradi2=0 where status = 2 and poradi2>0 and idefix_zak=_idefix_zak;
         update zak_t_vl_v a  set poradi2= b.rn from (
@@ -29,6 +30,7 @@ create or replace function vl_set( _idefix_zak bigint default 0,  _idefix_item b
     select * into _vl_last from zak_vl_last where idefix_zak = _idefix_zak;
     if not found then
     raise notice '0';
+       update zak_t_items set vl_id=0,vl_znacka='' where idefix_zak=_idefix_zak and obsah is null;
         for r in select * from list2_vl order by id limit 1 loop
         raise notice '00';
              _vl_cur := r.id;
@@ -39,26 +41,32 @@ create or replace function vl_set( _idefix_zak bigint default 0,  _idefix_item b
     end if;
     if found then  -- toje ze nejaky list uz existuje
         raise notice '1';
+        update zak_t_items set vl_id=0,vl_znacka='' where idefix_zak=_idefix_zak and obsah is null;
         for r2 in select * from zak_t_items where idefix = _idefix_item loop
            raise notice '2'; 
             if r2.vl_id is not null and r2.vl_id>0 then
                 raise notice '3 %',r2.vl_id;
-                update zak_vl_last  set pocet=(select count(*) from zak_t_items where idefix_zak=_idefix_zak and vl_id>0  and status in (1,3,4,5,6,7,8,9)) WHERE idefix_zak = _idefix_zak;
+                update zak_vl_last  set pocet=(select count(*) from zak_t_items where idefix_zak=_idefix_zak and vl_id>0  and status in (1,3,4,5,6,7,8,9) and obsah::text >'') WHERE idefix_zak = _idefix_zak ;
                 continue;
                 else 
             raise notice '4';
-            for r in select * from list2_vl where id>(select vl_id from zak_vl_last where idefix_zak=_idefix_zak limit 1) order by id limit 1 loop
+            for r in 
+                   select * from (   select 1 as idq,* from list2_vl where id>(select vl_id from zak_vl_last where idefix_zak=_idefix_zak limit 1) order by id limit 1) a 
+            union  select * from (select 2 as idq,* from list2_vl order by id limit 1) b 
+            order by idq, id limit 1 
+            loop
                 _vl_cur := r.id;
                 _vl_curname := r.nazev;
                 --//insert into zak_vl_last (idefix_zak,idefix_item,vl_id,vl_znacka,pocet)  values (_idefix_zak,_idefix_item,_vl_cur,_vl_curname,1);
                 raise notice '5 %', _vl_cur;
                 update zak_t_items set vl_znacka= _vl_curname, vl_id = _vl_cur where idefix=_idefix_item;
-                update zak_vl_last  set vl_znacka = _vl_curname, vl_id=_vl_cur, pocet=(select count(*) from zak_t_items where idefix_zak=_idefix_zak and vl_id>0 and status in (1,3,4,5,6,7,8,9)) WHERE idefix_zak = _idefix_zak;
+                update zak_vl_last  set vl_znacka = _vl_curname, vl_id=_vl_cur, pocet=(select count(*) from zak_t_items where idefix_zak=_idefix_zak and vl_id>0 and status in (1,3,4,5,6,7,8,9) and obsah::text >'') WHERE idefix_zak = _idefix_zak ;
             end loop;
             --insert into zak_vl_last (idefix_zak,id_vl,nazev,pocet)  values (_idefix_zak,_vl_cur,_vl_curname,1);
             end if;
         end loop;
     end if;
+    update zak_t_items set vl_id=0,vl_znacka='' where idefix_zak=_idefix_zak and obsah is null;
     update zak_t_vl_v a set vl_id=b.vl_id, vl_znacka=b.vl_znacka,status=b.status from zak_t_items b  where a.idefix_item=b.idefix and a.idefix_item=_idefix_item;
     update zak_t_vl_v a set vl_id=b.vl_id, vl_znacka=b.vl_znacka,status=b.status from zak_t_items b  where a.idefix_item=b.idefix and ( 
         (a.vl_id is null or a.vl_id=0) and b.vl_id >0
@@ -69,6 +77,7 @@ create or replace function vl_set( _idefix_zak bigint default 0,  _idefix_item b
         select idefix_zak, datumodeslani,vl_id,idefix_item, row_number() over(partition by idefix_zak order by datumodeslani) as rn from zak_t_vl_v where status = 1 
         ) b where a.idefix_zak=b.idefix_zak and a.idefix_item = b.idefix_item 
         and a.idefix_zak =_idefix_zak;
+                update zak_vl_last  set vl_znacka = _vl_curname, vl_id=_vl_cur, pocet=(select count(*) from zak_t_items where idefix_zak=_idefix_zak and vl_id>0 and status in (1,3,4,5,6,7,8,9) and obsah::text >'') WHERE idefix_zak = _idefix_zak;
        --zak_vl_last 
     return cRet;
     end;   
