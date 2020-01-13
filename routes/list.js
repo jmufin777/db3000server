@@ -62,7 +62,6 @@ router.get('/file1',
 router.post('/file1',
     file1.post)     
 
-
 router.get('/query',
     query.all)
 router.post('/query_old',

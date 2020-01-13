@@ -8,6 +8,14 @@ create or replace function vl_set( _idefix_zak bigint default 0,  _idefix_item b
     declare _vl_curname text :='';
     begin
     delete from zak_t_vl_v a where not exists (select * from zak_t_items b where a.idefix_item=b.idefix) ; -- Navazat na soubory a smazat
+    
+    if _idefix_zak= 0 and _idefix_item = 0 then -- opravy
+        update zak_vl_last a set vl_id = b.vlnew from (	select vlnew,a.idefix_zak from	zak_vl_last a join (
+	    select max(vl_id) as vlnew,idefix_zak from zak_T_items where vl_id>0 group by idefix_zak	) b 
+	    on a.idefix_zak=b.idefix_zak	where a.vl_id< b.vlnew	) b where a.idefix_zak=b.idefix_zak;
+
+        update 	zak_t_items a set vl_id=0,vl_znacka='', status=0	 where vl_id >0 and not exists(select * from zak_t_vl_v b where a.idefix=b.idefix_item);
+    end if;
     if _idefix_zak=0 then
         return 'nic';
     end if;
@@ -42,6 +50,7 @@ create or replace function vl_set( _idefix_zak bigint default 0,  _idefix_item b
     if found then  -- toje ze nejaky list uz existuje
         raise notice '1';
         update zak_t_items set vl_id=0,vl_znacka='' where idefix_zak=_idefix_zak and obsah is null;
+        update zak_t_items a set vl_id=b.vl_id, vl_znacka = b.vl_znacka from zak_t_vl_v b where a.idefix =b.idefix_item and (a.vl_id is null or a.vl_znacka is null) and a.idefix_zak= _idefix_zak and a.idefix_zak=b.idefix_zak;
         for r2 in select * from zak_t_items where idefix = _idefix_item loop
            raise notice '2'; 
             if r2.vl_id is not null and r2.vl_id>0 then

@@ -4106,4 +4106,1116 @@ Optimized:      yes
 PDF version:    1.6
 ',cesta_zak='/home/db3000/db/zakazky/2020/00040',basename='čuříci.pdf',stav=1
   ,sirka_mm=430,vyska_mm=290,format='Vlastni'
-   where idefix = 13966917
+   where idefix = 13966917000000013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+45undefined013
+ 1 rozbor
+
+ 2 rozbor Title:          STRENGTH AND DENSITY VOL 1b
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Thu Feb 28 21:48:29 2019
+ModDate:        Thu Feb 28 21:52:54 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          25
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      6430582 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          STRENGTH AND DENSITY VOL 1b
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Thu Feb 28 21:48:29 2019
+ModDate:        Thu Feb 28 21:52:54 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          25
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      6430582 bytes
+Optimized:      yes
+PDF version:    1.6
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          STRENGTH AND DENSITY VOL 1b
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Thu Feb 28 21:48:29 2019
+ModDate:        Thu Feb 28 21:52:54 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          25
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      6430582 bytes
+Optimized:      yes
+PDF version:    1.6
+',cesta_zak='/home/db3000/slozky/mares',basename='STRENGTH AND DENSITY VOL 1.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078588013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Pecs Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:30:29 2019
+ModDate:        Sat Aug 31 23:38:46 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          23
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      5031428 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Title:          Ultimate Pecs Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:30:29 2019
+ModDate:        Sat Aug 31 23:38:46 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          23
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      5031428 bytes
+Optimized:      no
+PDF version:    1.5
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          Ultimate Pecs Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:30:29 2019
+ModDate:        Sat Aug 31 23:38:46 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          23
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      5031428 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/slozky/mares',basename='ultimate pecs fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078589013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/slozky/mares',basename='ultimate wheels fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078590013
+ 1 rozbor
+
+ 2 rozbor Title:          Ab Challenge Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:33:27 2019
+ModDate:        Fri Nov  1 19:38:42 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          39
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      4780999 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Ab Challenge Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:33:27 2019
+ModDate:        Fri Nov  1 19:38:42 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          39
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      4780999 bytes
+Optimized:      yes
+PDF version:    1.6
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          Ab Challenge Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:33:27 2019
+ModDate:        Fri Nov  1 19:38:42 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          39
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      4780999 bytes
+Optimized:      yes
+PDF version:    1.6
+',cesta_zak='/home/db3000/slozky/mares',basename='ab challenge fall 2019 fx.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078591013
+ 1 rozbor
+
+ 2 rozbor Title:          Accelerated Hypertrophy Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:19:24 2019
+ModDate:        Sun Sep  1 01:10:51 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          26
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      3937548 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Accelerated Hypertrophy Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:19:24 2019
+ModDate:        Sun Sep  1 01:10:51 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          26
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      3937548 bytes
+Optimized:      yes
+PDF version:    1.6
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          Accelerated Hypertrophy Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:19:24 2019
+ModDate:        Sun Sep  1 01:10:51 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          26
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      3937548 bytes
+Optimized:      yes
+PDF version:    1.6
+',cesta_zak='/home/db3000/slozky/mares',basename='accelerated hypertrophy fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078592013
+ 1 rozbor
+
+ 2 rozbor Title:          Booty Factor Training Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:53 2019
+ModDate:        Sun Sep  1 01:07:19 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4109800 bytes
+Optimized:      no
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Booty Factor Training Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:53 2019
+ModDate:        Sun Sep  1 01:07:19 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4109800 bytes
+Optimized:      no
+PDF version:    1.6
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          Booty Factor Training Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:53 2019
+ModDate:        Sun Sep  1 01:07:19 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4109800 bytes
+Optimized:      no
+PDF version:    1.6
+',cesta_zak='/home/db3000/slozky/mares',basename='booty factor training fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078593013
+ 1 rozbor
+
+ 2 rozbor Title:          Maximal Fat Loss Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:22 2019
+ModDate:        Thu Sep  5 23:09:02 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          29
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      5512689 bytes
+Optimized:      no
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Maximal Fat Loss Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:22 2019
+ModDate:        Thu Sep  5 23:09:02 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          29
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      5512689 bytes
+Optimized:      no
+PDF version:    1.6
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          Maximal Fat Loss Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:22 2019
+ModDate:        Thu Sep  5 23:09:02 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          29
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      5512689 bytes
+Optimized:      no
+PDF version:    1.6
+',cesta_zak='/home/db3000/slozky/mares',basename='maximal fat loss fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078594013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Lats Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:28:24 2019
+ModDate:        Sat Aug 31 23:42:39 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      3378972 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Ultimate Lats Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:28:24 2019
+ModDate:        Sat Aug 31 23:42:39 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      3378972 bytes
+Optimized:      yes
+PDF version:    1.6
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          Ultimate Lats Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:28:24 2019
+ModDate:        Sat Aug 31 23:42:39 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      3378972 bytes
+Optimized:      yes
+PDF version:    1.6
+',cesta_zak='/home/db3000/slozky/mares',basename='ultimate lats fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078595013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Arms Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:25:07 2019
+ModDate:        Sun Sep  1 00:59:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4964222 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Ultimate Arms Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:25:07 2019
+ModDate:        Sun Sep  1 00:59:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4964222 bytes
+Optimized:      yes
+PDF version:    1.6
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          Ultimate Arms Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:25:07 2019
+ModDate:        Sun Sep  1 00:59:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4964222 bytes
+Optimized:      yes
+PDF version:    1.6
+',cesta_zak='/home/db3000/slozky/mares',basename='ultimate arms fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078596013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Shoulders Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:49:47 2019
+ModDate:        Sat Aug 31 22:56:10 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      3606334 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Title:          Ultimate Shoulders Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:49:47 2019
+ModDate:        Sat Aug 31 22:56:10 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      3606334 bytes
+Optimized:      no
+PDF version:    1.5
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          Ultimate Shoulders Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:49:47 2019
+ModDate:        Sat Aug 31 22:56:10 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      3606334 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/slozky/mares',basename='ultimate shoulders fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078597013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Pecs Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:30:29 2019
+ModDate:        Sat Aug 31 23:38:46 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          23
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      5031428 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Title:          Ultimate Pecs Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:30:29 2019
+ModDate:        Sat Aug 31 23:38:46 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          23
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      5031428 bytes
+Optimized:      no
+PDF version:    1.5
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          Ultimate Pecs Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:30:29 2019
+ModDate:        Sat Aug 31 23:38:46 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          23
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      5031428 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/slozky/mares',basename='ultimate pecs fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078598013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+45undefinedupdate prilohy_prijem set pdfinfo='Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/slozky/mares',basename='ultimate wheels fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078599
+ 1 rozbor
+
+ 2 rozbor Title:          Ab Challenge Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:33:27 2019
+ModDate:        Fri Nov  1 19:38:42 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          39
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      4780999 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Ab Challenge Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:33:27 2019
+ModDate:        Fri Nov  1 19:38:42 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          39
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      4780999 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+013
+ 1 rozbor
+
+ 2 rozbor Title:          Accelerated Hypertrophy Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:19:24 2019
+ModDate:        Sun Sep  1 01:10:51 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          26
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      3937548 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Accelerated Hypertrophy Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:19:24 2019
+ModDate:        Sun Sep  1 01:10:51 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          26
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      3937548 bytes
+Optimized:      yes
+PDF version:    1.6
+
+452020update prilohy_prijem set pdfinfo='Title:          Accelerated Hypertrophy Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:19:24 2019
+ModDate:        Sun Sep  1 01:10:51 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          26
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      3937548 bytes
+Optimized:      yes
+PDF version:    1.6
+',cesta_zak='/home/db3000/db/zakazky/2020/00043',basename='accelerated hypertrophy fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078756

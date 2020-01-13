@@ -20,12 +20,13 @@ const bodyParser = require('body-parser')
 
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
-const moment = require('moment');
+
 
 var type = upload.single('file');
 var oddelovac="\n"+("-".repeat(100))+"\n"
-errfile=`${__dirname}/obrazky/error.jpg`
-console.log(errfile);
+
+
+
 
 //console.log('1')
 const app=express();
@@ -48,82 +49,63 @@ app.use(function(req, res, next) {
   next();
 });
 
-var slozky_zakazky= '/home/db3000/db/zakazky/'
-var slozky_thumbs=`/home/db3000/db/thumbs`
-var slozky_vyroba=`/home/db3000/db/vyroba/`
-var slozky_mezipamet=`/home/db3000/db/vyroba/mezipamet`
-var slozky_stroje=`/home/db3000/db/vyroba/stroje`
-var slozky_zakazky_pdf=`/home/db3000/db/slozky_zakazky_pdf`
-var slozky_osobni=`/home/db3000/slozky/`
+// var slozky_zakazky= '/home/db3000/db/zakazky/'
+// var slozky_thumbs=`/home/db3000/db/thumbs`
+// var slozky_vyroba=`/home/db3000/db/vyroba/`
+// var slozky_mezipamet=`/home/db3000/db/vyroba/mezipamet`
+// var slozky_stroje=`/home/db3000/db/vyroba/stroje`
+// var slozky_zakazky_pdf=`/home/db3000/db/slozky_zakazky_pdf`
+// var slozky_osobni=`/home/db3000/slozky/`
 
-
+require('./utils/vl_vse.js')()
+require('./utils/slozky')()
+require('./utils/soubory')()
+console.log('ERRFILE',errfile)
+require('./utils/pgsql')()
+require('./utils/ostatni')()
 slozky()
+
+//return
+
+k1()
+slozky_thumbs="huhuuhu"
+k1()
+slozky_thumbs="huhuuhu2"
+k2()
+console.log(slozky_thumbs)
+
 Prikaz(`mkdir -p ./log`)
 fs.writeFileSync("./log/log.txt", 'Start\n')
 fs.writeFileSync("./log/log0.txt", 'Start\n')
-/*
-test="/home/db3000/slozky/mares/STRENGTH AND DENSITY VOL 1.pdf";
-test2="/home/db3000/slozky/mares/cert_3719056_pozar.pdf";
-test3="/home/db3000/slozky/mares/01_VESTY 27x27_PARKING.pdf";
+fs.writeFileSync("./log/logS.txt", 'Start\n')
+fs.writeFileSync("./log/logS0.txt", 'Start\n')
 
- pdfInfo(test)
- .then(xx =>{
-   pdfRozbor(xx)
+ vl_set(1)
+ .then(eco11=>{
+  console.log(eco11, pokusnaVec)
  })
-pdfInfo(test3)
-.then(xx =>{
-  pdfRozbor(xx)
-})
-*/
-//await pdfRozbor
 
-
-const  path = require('path')
-const  ClientN = require('pg-native')
-
-const clientN = new ClientN()
-clientN.connectSync('postgresql://db3000:@localhost:5432/db3000')
-  
-//clientN.connectSync()
-
-  //console.log('jedu11 ')
-  
-  slozky()
+ slozky()
 
 
 app.get('/upload0',  async (req, res, next ) => {
   console.log('zde ', req.query.file, ' idfx', req.query.user);
-  // var cesta = './uploads/'
   console.log('HLODAM', req.query)
-   //res.json({'BB':1});
-   ///return
+
   
   var soubor=cesta+req.query.file
   var idefix = req.query.user
   var login = getLogin(idefix)
   var cesta = `${slozky_osobni}${login}`
-  ///home/db3000/slozky/mares/
   console.log(soubor,idefix, login, req.query)
-//  await sleep(5000);
-  
-  //ext_file_list = recFindByExt23(cesta,req.query.file)
-  //ext_file_list = recFindByExt2(cesta,req.query.file)
-  
   
   ext_file_list = recFindByExt2(cesta,req.query.file,req.query.fileinfo)
   var fInfo0 = JSON.parse(req.query.fileinfo)
-  //ext_file_list = await myFind(cesta, req.query.file, req.query.fileinfo)
-  //console.log("Nalezl :", ext_file_list)
-  //res.json({"value":'xxx', 'seznam': ext_file_list});
-  //return
-
   
   if (ext_file_list.length>0){
-
-    //soubory= await konverze(__dirname+'/'+ ext_file_list[0],req.query.user)
+   
     soubory= await konverze(ext_file_list[0],req.query.user)
-
-    //info = await pdfInfo(__dirname+'/'+ ext_file_list[0])
+   
     info = await pdfInfo( ext_file_list[0])
     rozbor=await pdfRozbor(info)
 
@@ -174,18 +156,45 @@ app.get('/upload0',  async (req, res, next ) => {
 })
  
 app.post('/log', upload.single('file'), async (req, res) => {  
-    console.log("LOGGGG",req.body)
-    await Prikaz(`mkdir -p ./log`)
-    dd = new Date()  
-    //fs.writeFileSync("./log/log.txt", `
-    fs.appendFileSync("./log/log0.txt", `
-    ${dd.getHours()}:${dd.getMinutes()}:${dd.getSeconds()};${req.body.txt1.trim()};${req.body.txt2.trim()};${req.body.txt3.trim()};${req.body.txt4.trim()};`, { mode: 0o777 });
-
-    req.body.txt1=req.body.txt1.replace(/\n|\r/g,'')
-    req.body.txt1=req.body.txt1.replace(/ +(?= )/g,'');
-    fs.appendFileSync("./log/log.txt", `
-    ${dd.getHours()}:${dd.getMinutes()}:${dd.getSeconds()};${req.body.txt1.trim()};${req.body.txt2.trim()};${req.body.txt3.trim()};${req.body.txt4.trim()};`, { mode: 0o777 });
+   log(req)
     res.end();
+})
+
+
+app.post('/vlset',  async (req, res) => {  //cesta do slozky stroje
+  console.log("VLSET POST  ",req.body)
+  logS('VL-SET 1',req.body)
+  var user=req.body.params.user
+  var idefix_zak = req.body.params.query.idefix_zak
+  var idefix_item = req.body.params.query.idefix_item
+  var table = req.body.params.query.tmpTable
+  console.log('SERVER - ', req.body.params)
+  logS('SERVER :'+user , idefix_zak,idefix_item,table)
+  await vl_set(idefix_zak,idefix_item,table,user)
+  res.end();
+})
+
+app.post('/vlunset',  async (req, res) => {   //cesta do mezipameti
+  var user=req.body.params.user
+  var idefix_zak = req.body.params.query.idefix_zak
+  var idefix_item = req.body.params.query.idefix_item
+  var table = req.body.params.query.tmpTable
+
+  console.log('SERVER - ', req.body.params, 'ZAK '  )
+  logS('SERVER :'+user , idefix_zak,idefix_item,table)
+  await vl_unset(idefix_zak,idefix_item,table,user)
+  res.end();
+})
+app.get('/log', function(req, res) {
+  res.sendFile( __dirname+ '/log/log.txt'); 
+}
+)  
+app.post('/sync',  async (req, res) => {   //cesta do mezipameti
+  logS(req.body)
+  vl_sync(req.body.params.query)
+  console.log('SYNC 1: -- ', req.body )
+  //await vl_sync(req.body)
+  res.end();
 })
 app.get('/log', function(req, res) {
   res.sendFile( __dirname+ '/log/log.txt'); 
@@ -514,7 +523,7 @@ app.use(cors());
 
 app.use('/',routes);
 
-console.log('Staruju')
+//console.log('Staruju')
 
  app.post('/upload11', type, function (req,res) {
 
@@ -555,465 +564,12 @@ console.log(`Nasloucham na portu ${config.port}`)
 module.exports = app;
 
 
-function recFindByExtOrig(base,ext,files,result)  //hleda podle pripony - muze se hodit
-{
-    files = files || fs.readdirSync(base) 
-    result = result || [] 
-
-    files.forEach( 
-        function (file) {
-            var newbase = path.join(base,file)
-            if ( fs.statSync(newbase).isDirectory() )
-            {
-                result = recFindByExt(newbase,ext,fs.readdirSync(newbase),result)
-            }
-            else
-            {
-                if ( file.substr(-1*(ext.length+1)) == '.' + ext )
-                {
-                    result.push(newbase)
-                } 
-            }
-        }
-    )
-    return result
-}
 
 
-function recFindByExt2(base,ext,fileinfo,files,result)  //Pouzivam , nemazat
-{
-    files = files || fs.readdirSync(base) 
-    result = result || [] 
-    var fInfo0 = JSON.parse(fileinfo)
-    //console.log("Hlodadlo",base, ext, fileinfo,fInfo0.size)
-    //return
 
 
-    files.forEach( 
-        function (file) {
-            var newbase = path.join(base,file)
-            
-
-            if ( fs.statSync(newbase).isDirectory() )
-            {
-                result = recFindByExt2(newbase,ext,fileinfo,fs.readdirSync(newbase),result)
-            }
-            else
-            {
-                //if ( file.substr(-1*(ext.length+1)) == '.' + ext )
-                console.log('file' ,file , 'ext', ext)
-                if ( file.trim() ==  ext.trim() )
-                { 
-                    var fInfo=getFileInfo(newbase) 
-                    if (fInfo0.size==fInfo.size
-                        // && fInfo0.zmena==fInfo.zmena
-                      ){
-                      console.log('file' ,file , 'ext', ext,'info : ' ,fileinfo ,newbase, " ",getFilesizeInBytes(newbase), " size2 ", fInfo.size ,"  size 1", fInfo0.zmena  )
-                      result.push(newbase)
-                    }
-                    
-                } 
-            }
-        }
-    )
-    return result
-}
-
-function recFindByExt2Bck(base,ext,files,result)  //Pouzivam , nemazat
-{
-    files = files || fs.readdirSync(base) 
-    result = result || [] 
-    //console.log(ext)
-
-    files.forEach( 
-        function (file) {
-            var newbase = path.join(base,file)
-            if ( fs.statSync(newbase).isDirectory() )
-            {
-                result = recFindByExt2(newbase,ext,fs.readdirSync(newbase),result)
-            }
-            else
-            {
-                //if ( file.substr(-1*(ext.length+1)) == '.' + ext )
-                //console.log('file' ,file , 'ext', ext)
-                if ( file.trim() ==  ext.trim() )
-                {  
-                  
-                    //console.log('file' ,file , 'ext', ext)
-                    
-                    result.push(newbase)
-                } 
-            }
-        }
-    )
-    return result
-}
-
-async function myFind(cesta,nazev, detail){
-  var prikaz = `find ${cesta} -name "${nazev}" -exec ls -l  --time-style=+"%Y%m%d %H:%M:%S" {} \\;`
-  var aRes=[cesta]
-  console.log(prikaz ,detail )
-  return new Promise(function(resolve) {
-
-    exec(prikaz, (error1, stdout1, stderr1) => {
-    konec=true
-    if (error1){
-      console.log("ERR", error1)
-      
-    } else {
-      console.log('My Find OK ',stdout1.split(" "))
-
-      aRes.push(stdout1)
-
-      resolve(aRes)
-      //row=query(`insert into prilohy_prijem (nazev,script_sh,thumb_1,thumb_2,idefix_user) select '${soubor}','${prikaz2}','${outfile300}','${outfile800}',${idefix}`)
-    }
-      //res.push(row[0].idefix) 
-
-      })
-  })
-
-  //cesta, req.query.file, req.query.fileinfo
-
-}
-//
-async function Prikaz(prikaz){
-  var prevod=0.352778
-  //var prikaz=`pdfinfo -box "${pdf}"`
-  console.log("PRIKAZ ", prikaz)
-  //return
-  return new Promise(function(resolve) {
-
-    exec(prikaz, (error1, stdout1, stderr1) => {
-    konec=true
-    if (error1){
-      console.log('ERRO Prikaz : ', error1)
-      resolve(false)
-      //row=query(`insert into prilohy_prijem (nazev,script_sh,thumb_1,thumb_2,idefix_user) select '${soubor}','${prikaz2}','${errfile}','${errfile}',${idefix}`)
-    } else {
-      //row=query(`insert into prilohy_prijem (nazev,script_sh,thumb_1,thumb_2,idefix_user) select '${soubor}','${prikaz2}','${outfile300}','${outfile800}',${idefix}`)
-    }
-      //res.push(row[0].idefix) 
-      //console.log('Info OK ',stdout1)
-      //resolve(stdout1)
-      resolve(true)
- 
-      })
-
-    //return res
-  })
- }
-
-async function pdfInfo(pdf){
-  var prevod=0.352778
-  var prikaz=`pdfinfo -box "${pdf}"`
-  console.log("PDF INFO ", prikaz)
-  //return
-  return new Promise(function(resolve) {
-
-    exec(prikaz, (error1, stdout1, stderr1) => {
-    konec=true
-    if (error1){
-      //row=query(`insert into prilohy_prijem (nazev,script_sh,thumb_1,thumb_2,idefix_user) select '${soubor}','${prikaz2}','${errfile}','${errfile}',${idefix}`)
-    } else {
-      //row=query(`insert into prilohy_prijem (nazev,script_sh,thumb_1,thumb_2,idefix_user) select '${soubor}','${prikaz2}','${outfile300}','${outfile800}',${idefix}`)
-    }
-      //res.push(row[0].idefix) 
-      //console.log('Info OK ',stdout1)
-
-      resolve(stdout1)
- 
-      })
-
-    //return res
-  })
- }
 
 
-function  pdfRozbor(txt) {
-   var res=''
-   var tmp=[]
-   var koef=0.352778
-   var ret={
-     sirka:0,
-     vyska:0,
-     format:'Vlastni'
-   }
-   console.log(txt)
-   fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", "\n 1 rozbor\n"  , { mode: 0o777 });
-   fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", `\n 2 rozbor ${txt}\n`  , { mode: 0o777 });
-   return new Promise(function(resolve){
-     if ((txt+'').trim()==''){
-       resolve(ret);
-       fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", `\n 3 rozbor Empty ${txt}\n`  , { mode: 0o777 });
-       return;
-     }
-     res=txt.split("\n")
-     res.forEach((el,idx)=>{
-       if (el.match(/Trimbox/i)){
-         
-         tmp = el.replace(/  +/g, ' ').split(' ');
-         sirka=(tmp[3]*1 - tmp[1]*1)*koef
-         vyska=(tmp[4]*1 - tmp[2]*1)*koef
-         sirka=Math.round(sirka)
-         vyska=Math.round(vyska)
-         ret.sirka=sirka
-         ret.vyska=vyska
-         var q = `select * from list2_format  where (sirka = ${sirka} and vyska = ${vyska}) or (vyska = ${sirka} and sirka = ${vyska})`
-         var av=query(q)
-         if (av.length>0){
-            ret.format=av[0].nazev
-         }
-         //console.log('RES :', ret) 
-         fs.appendFileSync("/home/jarda/db3000/server/qUpdate.sql", `\n 4 rozbor pohoda ${txt}\n`  , { mode: 0o777 });
-         resolve(ret) 
-         console.log(  sirka,vyska,av,q )
-       }
-       
-     })
-     //console.log(res)
-
-   })
- }
 
 
-function sleep(ms){
-  return new Promise(resolve=>{
-      setTimeout(resolve,ms)
-  })
-}
 
-
-async function slozky(){
-  //exec('mkdir /home/db3000/slozky -p', (error1, stdout1, stderr1) => {
-  //}
-  //)  
-  exec(`mkdir ${slozky_thumbs} -p`, (error1, stdout1, stderr1) => {
-  }
-  )  
-  exec(`mkdir ${slozky_zakazky} -p`, (error1, stdout1, stderr1) => {
-  }
-  )  
-  exec(`mkdir ${slozky_vyroba} -p`, (error1, stdout1, stderr1) => {
-  }
-  )  
-  exec(`mkdir ${slozky_mezipamet} -p`, (error1, stdout1, stderr1) => {
-  }
-  )  
-  exec(`mkdir ${slozky_stroje} -p`, (error1, stdout1, stderr1) => {
-  }
-  )  
-  exec(`mkdir ${slozky_zakazky_pdf} -p`, (error1, stdout1, stderr1) => {
-  }
-  )  
-}
-
-function getLogin(idefix){
-  var dotaz = `select login from list_users where idefix=${idefix}`
-  var rows = query(dotaz)
-  return rows[0].login
-}
-
-function query(dotaz, rows){
-  rows = rows || [] 
-  if( dotaz.match(/(^insert)|(^update)|(^delete)/i)) {
-    dotaz = `${dotaz} returning * `
-    console.log(dotaz)
-  }
-  rows= clientN.querySync(dotaz)
-  if (rows && rows.length>0){
-  //  console.log('ROWS OK ',rows)
-    return rows;
-  } else {
-    console.log('ROWS 0',rows)
-  }
-  return [];
-}
-
-function getFilesizeInBytes(filename) {
-  const stats = fs.statSync(filename);
-  const fileSizeInBytes = stats.size;
-  var mtime = stats.mtime;
-  //console.log("MODIFY ", mtime);
-  return fileSizeInBytes;
-}
-
-function getFileInfo(filename) {
-  const stats = fs.statSync(filename);
-  const fileSizeInBytes = stats.size;
-  var mtime = stats.mtime;
-
-  //console.log("MODIFY ", mtime);
-  return {size: fileSizeInBytes, zmena: mtime} ;
-}
-
-function datum5(value) {
-  var neco = ''
-  try {
-    neco= moment(String(value)).format('YYMMDDhhmm') //hhmm
-  } catch (e) {
-    console.log("Chybka xxxx" , e)
-  }
-  return neco
-}
-
-function getNahledyFolder(soubor) {
-  return new Promise(function(resolve) {
-
-    
-  var dbSlozka="/home/db3000/db/thumbs/"
-  var info=getFileInfo(soubor);
-  var cas=datum5(info.zmena)
-  var nazev=path.basename(soubor)
-  var nazevSlozkyZkratka=cleanNazev(nazev).substr(0,3)
-  var celaSlozka = dbSlozka + nazevSlozkyZkratka+'/'+cas
-  exec(`mkdir -p "${celaSlozka}"`, (error1, stdout1, stderr1) => {
-    resolve(celaSlozka)
-  }  
-  
-  )
-
-  //console.log("\n\n\n\GetNahledy ", soubor," // NAZEFFF ", nazev , " clean " , nazevSlozkyZkratka,"\n\n\n" ,celaSlozka )
-}
-  )
-
-}
-function cleanNazev(nazev){
-  return nazev.toUpperCase().replace(/[^a-zA-Z0-9]+/g, "");
-}
-
-async function konverze(soubor, idefix, res){
-  /*
-  return new Promise((res, reject)=>{
-    return resolve
-  })
-    */
-   var nahled = await getNahledyFolder(soubor)
- return new Promise(function(resolve) {
-  //setTimeout(function(){
-    //resolve(['comedy', 'drama', 'action'])
-  //}, 2000);
-
-
-  var ext      = path.extname(soubor)
-  var basename0 = path.basename(soubor,ext)
-  
-  var dir      = path.dirname(soubor)
-  //var 
-  var jpg300 =  basename0+'_300'+'.jpg'
-  var jpg800 =  basename0+'_800'+'.jpg'
-  
-  var srcImage = soubor
-  var konec = false
-  res = res || []
-  res.push(soubor)
-  res.push(jpg300)
-  res.push(jpg800)
-  res.push(basename0+ext)
-
-  if (soubor.match(/\.pdf/i)){
-    srcImage+='[0]'
-  }
-  
-  out=Math.round(Math.random()*987456115)
-  var fInfo= getFileInfo(soubor)
-  
-  
-  //outfile800=`${__dirname}/uploads/${jpg800}`
-  //outfile300=`${__dirname}/uploads/${jpg300}`
-  
-  errfile=`${__dirname}/obrazky/error.jpg`
-  outfile800=`${nahled}/${jpg800}`
-  outfile300=`${nahled}/${jpg300}`
-  
-  
-  //var dat= datum5(fInfo.zmena) 
-  //console.log("SUBOR" , soubor,dat, '   ', fInfo) 
-  //thumbFolder=thumbFolder()
-  //prikazMakeThumbFolder="mkdir -p /home/db3000/db/thumbs/"+basename0.substr(0,3)
-
-  prikaz800=`#!/bin/bash \n sudo /usr/bin/convert  "${srcImage}" -thumbnail 800x600 "${outfile800}"`
-  prikaz300=`sudo /usr/bin/convert  "${outfile800}" -thumbnail 300x200 "${outfile300}"`
-  if (fs.existsSync(`"${outfile800}"`)) {
-    prikaz800=`#!/bin/bash \n echo existuje "${outfile800}"`
-  }  
-  if (fs.existsSync(`"${outfile300}"`)) {
-    prikaz300=`echo existuje "${outfile300}"`
-  }  
-  
-  //prikaz2=" screen -dmS sss  /home/jarda/db3000/server/thumb4.sh"
-  prikaz2="/home/jarda/db3000/server/thumb4"+out+".sh"
-  console.log('Konverze ', soubor, ' idefix', idefix, prikaz2 )
-  //prikaz2="/home/jarda/db3000/server/thumb4"+".sh"
-  //screen -dmS sss  
-  try {
-     fs.writeFileSync(prikaz2, prikaz800+'\n'+prikaz300
-       , { mode: 0o777 });
-  } catch(err) {
-  }
-  //var result = require('child_process').execSync(prikaz2).toString();
-  //var result = execSync(prikaz2).toString();
-  exec(prikaz2, (error1, stdout1, stderr1) => {
-    konec=true
-    if (error1){
-      row=query(`insert into prilohy_prijem (nazev,script_sh,thumb_1,thumb_2,idefix_user) select '${soubor}','${prikaz2}','${errfile}','${errfile}',${idefix}`)
-    } else {
-      row=query(`insert into prilohy_prijem (nazev,script_sh,thumb_1,thumb_2,idefix_user) select '${soubor}','${prikaz2}','${outfile300}','${outfile800}',${idefix}`)
-    }
-      res.push(row[0].idefix) 
-      resolve(res)
-      exec(`mv ${prikaz2} ./hotovo`, (error2, stdout2, stderr2)=>{
-      //  console.log('presunuto ',prikaz2)
-      })
-    //console.log('res', res)  
-    //return res
-  })
-  
-  //console.log(res)
-    
-});    
-  
-  return 
-
-  /*
-  fs.writeFile(prikaz2, prikaz800+'\n'+prikaz300,err=>{
-    if (err){
-      console.log('Err',err)
-      return
-    }
-    exec(`sudo chmod 777 ${prikaz2}`, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`0A exec error: ${error}`, ___line);
-        //  return;
-        }
-          console.log(`1 stdout 777 : ${stdout}`);
-          console.error(`2 stderr : ${stderr}`);
-
-    exec(prikaz2, (error1, stdout1, stderr1) => {
-        if (error1) {
-          //console.error(`0B exec error: ${error1}`);
-          console.log('Chyba, kopiruji chybu')
-
-          return res;
-        }
-        console.log(`3 stdout: ${stdout1}`);
-        // console.log(`4 stderr: ${stderr1}`);
-        if (stderr1){
-          
-          //res.json({"err": stderr1})
-          return res
-        }
-        //res.json({"Nahrano": 'nahrabo'})
-        //res.sendFile(outfile)
-        return res
-    
-      });
-
-    })
-  })
-  */
-  console.log(res)
-  return res;
-
-
-}
