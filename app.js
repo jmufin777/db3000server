@@ -64,7 +64,12 @@ console.log('ERRFILE',errfile)
 require('./utils/pgsql')()
 require('./utils/ostatni')()
 slozky()
+vl_droppriloha('calc_my_9_zak959878983',0)
+console.log(isZak('calc_my_9_zak959878983'))
+console.log(isNab('calc_my_9_zak959878983'))
+console.log(getIdefix('calc_my_9_zak959878983'))
 
+//return
 //return
 
 k1()
@@ -196,6 +201,21 @@ app.post('/sync',  async (req, res) => {   //cesta do mezipameti
   //await vl_sync(req.body)
   res.end();
 })
+app.post('/vl_copy',  async (req, res) => {  //cesta do slozky stroje
+  console.log("VLCOPY  POST  ",req.body)
+  //logS('VL-SET 1',req.body)
+  var user=req.body.params.user
+  var table = req.body.params.table
+  var idefix_item = req.body.params.idefix_item
+  var q = req.body.params.query
+
+  //console.log('SERVER - ', req.body.params)
+  
+  await vl_copy(user,table,idefix_item,q)
+  res.end();
+  
+})
+
 app.get('/log', function(req, res) {
   res.sendFile( __dirname+ '/log/log.txt'); 
 }

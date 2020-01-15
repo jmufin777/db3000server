@@ -5218,4 +5218,78 @@ Optimized:      yes
 PDF version:    1.6
 ',cesta_zak='/home/db3000/db/zakazky/2020/00043',basename='accelerated hypertrophy fall 2019.pdf',stav=1
   ,sirka_mm=210,vyska_mm=297,format='A4'
-   where idefix = 14078756
+   where idefix = 14078756013
+ 1 rozbor
+
+ 2 rozbor Title:          Booty Factor Training Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:53 2019
+ModDate:        Sun Sep  1 01:07:19 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4109800 bytes
+Optimized:      no
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Booty Factor Training Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:53 2019
+ModDate:        Sun Sep  1 01:07:19 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4109800 bytes
+Optimized:      no
+PDF version:    1.6
+
+452020update prilohy_prijem set pdfinfo='Title:          Booty Factor Training Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:53 2019
+ModDate:        Sun Sep  1 01:07:19 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4109800 bytes
+Optimized:      no
+PDF version:    1.6
+',cesta_zak='/home/db3000/db/zakazky/2020/00043',basename='booty factor training fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14078870

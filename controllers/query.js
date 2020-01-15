@@ -12,15 +12,10 @@ module.exports = {
       var dotaz=''
       
         dotaz = ` ${req.query.query} `
-
-        //return res.json({data: [{chyba_Q:dotaz }], fields: []})
       if (dotaz == 'undefined') {
         console.log('dotaz se pojjebl')
         return res.json({data: [{chyba_Q:dotaz }], fields: []})
       }
-      
-
-
     try {
         const client = await pool.connect()
          await client.query(dotaz ,(err, response) => {
@@ -31,20 +26,14 @@ module.exports = {
              return next(err)
            }
            if (response.rowCount == 0)   {
-            //res.json({data: [{chyba_Q:dotaz }], fields: response.fields})
             res.json({data: [], fields: response.fields})
-
             console.log('Pravdne radky: ', dotaz ) 
-            //console.log("Divn")
            } else {
-      //      console.log(response.rows[0])
-            res.json({data: response.rows, fields: response.fields})
+              res.json({data: response.rows, fields: response.fields})
            }
-             
          })
          await client.release() 
     } catch (err) {
-         //console.log(err)
         res.status(402).send({
           error: `Chyba 402 pri pozadavku na databazi :${dotaz}`
         })
@@ -53,13 +42,7 @@ module.exports = {
 
   
   async post (req, res, next ) {
-
-//    console.log(req.body.form[0])
-    //console.log(req.body.params.query)
-    //res.json({info: 'Ok' })
-    //return
     var err2=false;
-    //lErr = false;
     
     var dotaz = req.body.params.query
     try{
@@ -81,8 +64,6 @@ module.exports = {
         }
             return
       })
-
-      
       await client.release()
       // res.json({info: 'Ok', err: err2 , err0: lErr, hot: hotovo})
     } catch (err) {
