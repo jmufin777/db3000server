@@ -15,6 +15,10 @@ create or replace function vl_set( _idefix_zak bigint default 0,  _idefix_item b
 	    on a.idefix_zak=b.idefix_zak	where a.vl_id< b.vlnew	) b where a.idefix_zak=b.idefix_zak;
 
         update 	zak_t_items a set vl_id=0,vl_znacka='', status=0	 where vl_id >0 and not exists(select * from zak_t_vl_v b where a.idefix=b.idefix_item);
+        update zak_t_items a set vl_id=b.vl_id,vl_znacka=b.vl_znacka,poradi2=b.poradi2  from zak_t_vl_v b where  a.idefix=b.idefix_item  
+        --and a.idefix_zak= _idefix_zak
+        and (a.vl_id is null or a.vl_id<>b.vl_id )
+        ;
     end if;
     if _idefix_zak=0 then
         return 'nic';
@@ -32,6 +36,10 @@ create or replace function vl_set( _idefix_zak bigint default 0,  _idefix_item b
         select idefix_zak, datumodeslani,vl_id,idefix_item, row_number() over(partition by idefix_zak order by datumodeslani) as rn from zak_t_vl_v where status = 1 
         ) b where a.idefix_zak=b.idefix_zak and a.idefix_item = b.idefix_item 
         and a.idefix_zak =_idefix_zak;
+        update zak_t_items a set vl_id=b.vl_id,vl_znacka=b.vl_znacka,poradi2=b.poradi2  from zak_t_vl_v b where  a.idefix=b.idefix_item  
+        and a.idefix_zak= _idefix_zak
+        and (a.vl_id is null or a.vl_id<>b.vl_id )
+        ;
 
         return 'Odecteno';
     end if;
@@ -88,9 +96,25 @@ create or replace function vl_set( _idefix_zak bigint default 0,  _idefix_item b
         and a.idefix_zak =_idefix_zak;
                 update zak_vl_last  set vl_znacka = _vl_curname, vl_id=_vl_cur, pocet=(select count(*) from zak_t_items where idefix_zak=_idefix_zak and vl_id>0 and status in (1,3,4,5,6,7,8,9) and obsah::text >'') WHERE idefix_zak = _idefix_zak;
        --zak_vl_last 
+       update zak_t_items a set vl_id=b.vl_id,vl_znacka=b.vl_znacka,poradi2=b.poradi2  from zak_t_vl_v b where  a.idefix=b.idefix_item  
+        and a.idefix_zak= _idefix_zak
+        and (a.vl_id is null or a.vl_id<>b.vl_id )
+        ;
     return cRet;
     end;   
 $$LANGUAGE PLPGSQL;
+
+create or replace function idefix_vl(_idefix_item bigint default 0)  returns bigint as $$
+    declare nRet bigint := 0;
+    begin 
+    --return 0;
+    select idefix into nRet from zak_t_vl_v  where idefix_item = _idefix_item limit 1;
+    if not found then
+        nRet := 0;
+    end if ;
+      return nRet ;  
+    end;
+$$LANGUAGE PLPGSQL IMMUTABLE;
 --update  zak_t_items set vl_id=null,vl_znacka=null where idefix_zak=13634216 ;
 --delete 
 

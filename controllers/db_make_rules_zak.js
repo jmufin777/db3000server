@@ -181,7 +181,9 @@ async function init(){
         `,
         index_name: [ 
             `idefix  ~~~ (idefix)`,
-            `nazev ~~~ (nazev)`
+            `nazev ~~~ (nazev)`,
+            `idefix_vl ~~~ (idefix_vl(idefix))`,
+
         ],
         reindex: 1,
         initq: [
@@ -214,11 +216,17 @@ async function init(){
         faktura text ,
         d_fak timestamp ,
         vzor  int default 0 ,
-        status int default 0
+        status int default 0,
+        vl_znacka text default '',
+        vl_id int default 0,
+        poradi2 int default 0 
+
         `,
         index_name: [ 
             `idefix  ~~~ (idefix)`,
-            `nazev ~~~ (nazev)`
+            `nazev ~~~ (nazev)`,
+            `idefix_vl ~~~ (idefix_vl(idefix))`,
+            
         ],
         reindex: 1,
         initq: [
@@ -318,6 +326,7 @@ async function init(){
         `,
         index_name: [ 
             `idefix  ~~~ (idefix)`,
+            `idefix_item  ~~~ (idefix_item)`,
             `nazev ~~~ (nazev)`
         ],
         reindex: 1,

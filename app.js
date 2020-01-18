@@ -166,6 +166,20 @@ app.post('/log', upload.single('file'), async (req, res) => {
 })
 
 
+
+
+app.post('/query2',  async (req, res) => {  //cesta do slozky stroje
+  console.log("VLSET POST  ",req.body)
+  logS('VL-SET 1',req.body)
+  var user=req.body.params.user
+  var querys = req.body.params.query
+  
+  console.log('SERVER - ', req.body.params)
+  logS('SERVER :'+user , idefix_zak,idefix_item,table)
+  await query2(user,querys)
+  res.end();
+})
+
 app.post('/vlset',  async (req, res) => {  //cesta do slozky stroje
   console.log("VLSET POST  ",req.body)
   logS('VL-SET 1',req.body)

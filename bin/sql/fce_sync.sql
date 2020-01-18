@@ -163,6 +163,16 @@ begin
 --select calc_my_9_zak9685091619
 --select * from zak_log_open where idefix_user = 9 order by cas desc ;
 --select * from zak_log_open where idefix_user = 9 order by cas desc ;
+update zak_t_items a set vl_id=b.vl_id,vl_znacka=b.vl_znacka,poradi2=b.poradi2  from zak_t_vl_v b where  a.idefix=b.idefix_item  
+        
+        and (a.vl_id is null or a.vl_id<>b.vl_id )
+        ;
+cq2 := 'update ' || ctable || ' a set vl_id=b.vl_id,vl_znacka=b.vl_znacka,poradi2=b.poradi2  from zak_t_vl_v b where  a.idefix=b.idefix_item  
+        
+        and (a.vl_id is null or a.vl_id<>b.vl_id )
+        ;'        ;
+
+execute cq2;
 return ifx_zak::text;
 end;
 $$LANGUAGE PLPGSQL;

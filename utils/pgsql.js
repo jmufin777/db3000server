@@ -4,6 +4,8 @@ const  ClientN = require('pg-native')
 
 const clientN = new ClientN()
 clientN.connectSync('postgresql://db3000:@localhost:5432/db3000')
+//clientAs= new ClientN()
+//clientAs.connectSync
 
 module.exports = function() {
 
@@ -38,6 +40,9 @@ module.exports = function() {
           console.log('ROWS 0',rows)
         }
         return [];
+      }
+      this.query2 =  function query2(aquery, rows){
+        
       }
 
       //
