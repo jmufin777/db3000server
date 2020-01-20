@@ -702,7 +702,8 @@ return ifx;
 end;
 $$LANGUAGE PLPGSQL ;
 create or replace function set_open(_idefix int, _login text, _menu text,_cislo bigint
-,_last_acces_sec int default 10
+,_obrazovka int default 1
+,_item bigint default 0
 ,OUT _login1 text
 ,OUT _cas1 text
 ,OUT _user1 text
@@ -718,10 +719,10 @@ end if;
 if (_menu ='zakazky') then
     perform * from zak_log_open where idefix_user=_idefix and cislozakazky=_cislo;
     if not found then
-     insert into zak_log_open(idefix_zak,cislozakazky,idefix_user,login,cas) values 
-     ( idefix_zak(_cislo) , _cislo ,_idefix, _login,now() );
+     insert into zak_log_open(idefix_zak,cislozakazky,idefix_user,login,cas,obrazovka) values 
+     ( idefix_zak(_cislo) , _cislo ,_idefix, _login,now(),_obrazovka );
      else 
-     update zak_log_open set cas=now() where idefix_user=_idefix and cislozakazky=_cislo;
+     update zak_log_open set cas=now(),obrazovka=_obrazovka where idefix_user=_idefix and cislozakazky=_cislo;
     end if;
     for r in select * from zak_log_open  where now() - cas <='10 seconds' and cislozakazky=_cislo 
      order by case when login=_login then '1' else '2' end || login
@@ -738,10 +739,10 @@ end if;
 if (_menu ='kalkulace') then
     perform * from nab_log_open where idefix_user=_idefix and cislonabidky=_cislo;
     if not found then
-     insert into nab_log_open(idefix_nab,cislonabidky,idefix_user,login,cas) values 
-     ( idefix_zak(_cislo) , _cislo ,_idefix, _login,now() );
+     insert into nab_log_open(idefix_nab,cislonabidky,idefix_user,login,cas,obrazovka) values 
+     ( idefix_zak(_cislo) , _cislo ,_idefix, _login,now() ,_obrazovka);
      else 
-     update nab_log_open set cas=now() where idefix_user=_idefix and cislonabidky=_cislo;
+     update nab_log_open set cas=now(),obrazovka=_obrazovka where idefix_user=_idefix and cislonabidky=_cislo;
     end if;
     for r in select * from nab_log_open  where now() - cas <='10 seconds' and cislonabidky=_cislo 
        order by case when login=_login then '1' else '2' end || login
@@ -756,8 +757,6 @@ if (_menu ='kalkulace') then
      end loop;   
     
 end if;
-
-
 
 
 RETURN;

@@ -47,6 +47,25 @@ module.exports = function() {
     fs.appendFileSync("./log/logS.txt", `
     ${dd.getHours()}:${dd.getMinutes()}:${dd.getSeconds()};${txt1.trim()};${txt2.trim()};${txt3.trim()};${txt4.trim()};`, { mode: 0o777 });
 }
+this.logE= async function(txt1='',txt2='',txt3='',txt4=''){
+  //console.log("LOGGGG",req.body)
+  txt1=JSON.stringify(txt1)
+  txt2=JSON.stringify(txt2)
+  txt3=JSON.stringify(txt3)
+  txt4=JSON.stringify(txt4)
+  dd = new Date()  
+  //fs.writeFileSync("./log/log.txt", `
+  fs.appendFileSync("./log/logE0.txt", `
+  ${dd.getHours()}:${dd.getMinutes()}:${dd.getSeconds()};${txt1.trim()};
+    ${txt2.trim()};
+    ${txt3.trim()};
+    ${txt4.trim()};`, { mode: 0o777 });
+
+  txt1=txt1.replace(/\n|\r/g,'')
+  txt1=txt1.replace(/ +(?= )/g,'');
+  fs.appendFileSync("./log/logS.txt", `
+  ${dd.getHours()}:${dd.getMinutes()}:${dd.getSeconds()};${txt1.trim()};${txt2.trim()};${txt3.trim()};${txt4.trim()};`, { mode: 0o777 });
+}
     this.k2=function(){
         console.log('k1',slozky_thumbs)
         slozky_thumbs='z k2 zase'

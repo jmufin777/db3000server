@@ -64,10 +64,10 @@ console.log('ERRFILE',errfile)
 require('./utils/pgsql')()
 require('./utils/ostatni')()
 slozky()
-vl_droppriloha('calc_my_9_zak959878983',0)
-console.log(isZak('calc_my_9_zak959878983'))
-console.log(isNab('calc_my_9_zak959878983'))
-console.log(getIdefix('calc_my_9_zak959878983'))
+//vl_droppriloha('calc_my_9_zak959878983',0)
+//console.log(isZak('calc_my_9_zak959878983'))
+//console.log(isNab('calc_my_9_zak959878983'))
+//console.log(getIdefix('calc_my_9_zak959878983'))
 
 //return
 //return
@@ -79,11 +79,17 @@ slozky_thumbs="huhuuhu2"
 k2()
 console.log(slozky_thumbs)
 
+
 Prikaz(`mkdir -p ./log`)
 fs.writeFileSync("./log/log.txt", 'Start\n')
 fs.writeFileSync("./log/log0.txt", 'Start\n')
 fs.writeFileSync("./log/logS.txt", 'Start\n')
 fs.writeFileSync("./log/logS0.txt", 'Start\n')
+fs.writeFileSync("./log/logE.txt", 'Start\n')
+fs.writeFileSync("./log/logE0.txt", 'Start\n')
+
+
+//console.log(neco)
 
  vl_set(1)
  .then(eco11=>{
@@ -180,6 +186,8 @@ app.post('/query2',  async (req, res) => {  //cesta do slozky stroje
   res.end();
 })
 
+
+
 app.post('/vlset',  async (req, res) => {  //cesta do slozky stroje
   console.log("VLSET POST  ",req.body)
   logS('VL-SET 1',req.body)
@@ -192,6 +200,44 @@ app.post('/vlset',  async (req, res) => {  //cesta do slozky stroje
   await vl_set(idefix_zak,idefix_item,table,user)
   res.end();
 })
+
+//vl_list(14078622)
+//get_zak_last(9)
+app.post('/vllist',  async (req, res) => {   //cesta do mezipameti
+  var user=req.body.params.user
+  var idefix_zak = req.body.params.query.idefix_zak
+   neco=await vl_list(idefix_zak);
+   res.json({'vllist':neco});;
+})
+create_tmp_zak('tmpja',14078602);
+
+app.post('/create_tmp_zak',  async (req, res) => {  //cesta do slozky stroje
+  console.log("VLCOPY  POST  ",req.body)
+  //logS('VL-SET 1',req.body)
+  //var user=req.body.params.user
+  var table = req.body.params.table
+  var idefix_zak = req.body.params.idefix_zak
+  //var q = req.body.params.query
+
+  console.log('SERVER - ', req.body.params)
+  
+  await create_tmp_zak(table,idefix_zak)
+  res.end();
+  
+})
+
+app.post('/getzaklast',  async (req, res) => {   //cesta do mezipameti
+  var user=req.body.params.user
+  //var idefix_zak = req.body.params.query.idefix_zak
+   neco=[]
+   neco=await get_zak_last(user);
+   logE('Zde',neco)
+   res.json({'data':neco})
+})
+
+
+//get_zak_last
+
 
 app.post('/vlunset',  async (req, res) => {   //cesta do mezipameti
   var user=req.body.params.user

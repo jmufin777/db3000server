@@ -417,12 +417,18 @@ async function init(){
         cislozakazky bigint,
         idefix_user bigint,
         login text,
-        cas timestamp
+        cas timestamp,
+        obrazovka int default 0,
+        idefix_item bigint default 0
+        
+
  
  `,
     index_name: [ 
           `idefix_zak  ~~~ (idefix_zak)`,
-           `cislozakazky  ~~~ (cislozakazky,idefix_user)`
+           `cislozakazky  ~~~ (cislozakazky,idefix_user)`,
+           `idefix_user_cas  ~~~ (idefix_user,cas)`,
+
     ],
     reindex: 1,
     initq: [ ]
@@ -434,7 +440,10 @@ async function init(){
         cislonabidky bigint,
         idefix_user bigint,
         login text,
-        cas timestamp
+        cas timestamp,
+        obrazovka int default 0,
+        idefix_item bigint default 0
+
  
  `,
     index_name: [ 
