@@ -1,132 +1,471 @@
-create or replace function vl_set( _idefix_zak bigint default 0,  _idefix_item bigint default 0) returns text as $$
-    declare r record ;
-    declare r2 record ;
-    declare cRet text :='';
-    declare _vl_last int := 0;
-    declare _vl_cur int :=0;
-    declare _vl_lastname text := '';
-    declare _vl_curname text :='';
-    begin
-    delete from zak_t_vl_v a where not exists (select * from zak_t_items b where a.idefix_item=b.idefix) ; -- Navazat na soubory a smazat
-    
-    if _idefix_zak= 0 and _idefix_item = 0 then -- opravy
-        update zak_vl_last a set vl_id = b.vlnew from (	select vlnew,a.idefix_zak from	zak_vl_last a join (
-	    select max(vl_id) as vlnew,idefix_zak from zak_T_items where vl_id>0 group by idefix_zak	) b 
-	    on a.idefix_zak=b.idefix_zak	where a.vl_id< b.vlnew	) b where a.idefix_zak=b.idefix_zak;
-
-        update 	zak_t_items a set vl_id=0,vl_znacka='', status=0	 where vl_id >0 and not exists(select * from zak_t_vl_v b where a.idefix=b.idefix_item);
-        update zak_t_items a set vl_id=b.vl_id,vl_znacka=b.vl_znacka,poradi2=b.poradi2  from zak_t_vl_v b where  a.idefix=b.idefix_item  
-        --and a.idefix_zak= _idefix_zak
-        and (a.vl_id is null or a.vl_id<>b.vl_id )
-        ;
-    end if;
-    if _idefix_zak=0 then
-        return 'nic';
-    end if;
-    if _idefix_item=-1 and _idefix_zak>0 then
-        update zak_t_items set vl_id=0,vl_znacka='' where idefix_zak=_idefix_zak and obsah is null;
-        update zak_vl_last  set  pocet=(select count(*) from zak_t_items where idefix_zak=_idefix_zak and vl_id>0 and status in (1,3,4,5,6,7,8,9) and obsah::text >'') 
-        ,vl_id= (select vl_id from zak_t_items where idefix_zak = _idefix_zak and vl_id>0 order by vl_id desc limit 1 )
-        ,vl_znacka= (select vl_znacka from zak_t_items where idefix_zak = _idefix_zak and vl_id>0 order by vl_id desc limit 1 )
-        ,idefix_item= (select idefix from zak_t_items where idefix_zak = _idefix_zak and vl_id>0 order by vl_id desc limit 1 )
-         WHERE idefix_zak = _idefix_zak ;
-
-        update zak_t_vl_v a  set poradi2=0 where status = 2 and poradi2>0 and idefix_zak=_idefix_zak;
-        update zak_t_vl_v a  set poradi2= b.rn from (
-        select idefix_zak, datumodeslani,vl_id,idefix_item, row_number() over(partition by idefix_zak order by datumodeslani) as rn from zak_t_vl_v where status = 1 
-        ) b where a.idefix_zak=b.idefix_zak and a.idefix_item = b.idefix_item 
-        and a.idefix_zak =_idefix_zak;
-        update zak_t_items a set vl_id=b.vl_id,vl_znacka=b.vl_znacka,poradi2=b.poradi2  from zak_t_vl_v b where  a.idefix=b.idefix_item  
-        and a.idefix_zak= _idefix_zak
-        and (a.vl_id is null or a.vl_id<>b.vl_id )
-        ;
-
-        return 'Odecteno';
-    end if;
-    select * into _vl_last from zak_vl_last where idefix_zak = _idefix_zak;
-    if not found then
-    raise notice '0';
-       update zak_t_items set vl_id=0,vl_znacka='' where idefix_zak=_idefix_zak and obsah is null;
-        for r in select * from list2_vl order by id limit 1 loop
-        raise notice '00';
-             _vl_cur := r.id;
+CREATE OR REPLACE FUNCTION vl_set (_idefix_zak bigint DEFAULT 0, _idefix_item bigint DEFAULT 0)
+    RETURNS text
+    AS $$
+DECLARE
+    r record;
+    DECLARE r2 record;
+    DECLARE cRet text := '';
+    DECLARE _vl_last int := 0;
+    DECLARE _vl_cur int := 0;
+    DECLARE _vl_lastname text := '';
+    DECLARE _vl_curname text := '';
+BEGIN
+    DELETE FROM zak_t_vl_v a
+    WHERE NOT EXISTS (
+            SELECT
+                *
+            FROM
+                zak_t_items b
+            WHERE
+                a.idefix_item = b.idefix);
+    -- Navazat na soubory a smazat
+    IF _idefix_zak = 0 AND _idefix_item = 0 THEN
+        -- opravy
+        UPDATE
+            zak_vl_last a
+        SET
+            vl_id = b.vlnew
+        FROM (
+            SELECT
+                vlnew,
+                a.idefix_zak
+            FROM
+                zak_vl_last a
+                JOIN (
+                    SELECT
+                        max(vl_id) AS vlnew,
+                        idefix_zak
+                    FROM
+                        zak_T_items
+                    WHERE
+                        vl_id > 0
+                    GROUP BY
+                        idefix_zak) b ON a.idefix_zak = b.idefix_zak
+                WHERE
+                    a.vl_id < b.vlnew) b
+    WHERE
+        a.idefix_zak = b.idefix_zak;
+        UPDATE
+            zak_t_items a
+        SET
+            vl_id = 0,
+            vl_znacka = '',
+            status = 0
+        WHERE
+            vl_id > 0
+            AND NOT EXISTS (
+                SELECT
+                    *
+                FROM
+                    zak_t_vl_v b
+                WHERE
+                    a.idefix = b.idefix_item);
+        UPDATE
+            zak_t_items a
+        SET
+            vl_id = b.vl_id,
+            vl_znacka = b.vl_znacka,
+            poradi2 = b.poradi2
+        FROM
+            zak_t_vl_v b
+        WHERE
+            a.idefix = b.idefix_item
+            --and a.idefix_zak= _idefix_zak
+            AND (a.vl_id IS NULL
+                OR a.vl_id <> b.vl_id);
+    END IF;
+    IF _idefix_zak = 0 THEN
+        RETURN 'nic';
+    END IF;
+    IF _idefix_item = - 1 AND _idefix_zak > 0 THEN
+        UPDATE
+            zak_t_items
+        SET
+            vl_id = 0,
+            vl_znacka = ''
+        WHERE
+            idefix_zak = _idefix_zak
+            AND obsah IS NULL;
+        UPDATE
+            zak_vl_last
+        SET
+            pocet = (
+                SELECT
+                    count(*)
+                FROM
+                    zak_t_items
+                WHERE
+                    idefix_zak = _idefix_zak
+                    AND vl_id > 0
+                    AND status IN (1, 3, 4, 5, 6, 7, 8, 9)
+                    AND obsah::text > ''),
+            vl_id = (
+                SELECT
+                    vl_id
+                FROM
+                    zak_t_items
+                WHERE
+                    idefix_zak = _idefix_zak
+                    AND vl_id > 0
+                ORDER BY
+                    vl_id DESC
+                LIMIT 1),
+        vl_znacka = (
+            SELECT
+                vl_znacka
+            FROM
+                zak_t_items
+            WHERE
+                idefix_zak = _idefix_zak
+                AND vl_id > 0
+            ORDER BY
+                vl_id DESC
+            LIMIT 1),
+    idefix_item = (
+        SELECT
+            idefix
+        FROM
+            zak_t_items
+        WHERE
+            idefix_zak = _idefix_zak
+            AND vl_id > 0
+        ORDER BY
+            vl_id DESC
+        LIMIT 1)
+WHERE
+    idefix_zak = _idefix_zak;
+        UPDATE
+            zak_t_vl_v a
+        SET
+            poradi2 = 0
+        WHERE
+            status = 2
+            AND poradi2 > 0
+            AND idefix_zak = _idefix_zak;
+        UPDATE
+            zak_t_vl_v a
+        SET
+            poradi2 = b.rn
+        FROM (
+            SELECT
+                idefix_zak,
+                datumodeslani,
+                vl_id,
+                idefix_item,
+                row_number() OVER (PARTITION BY idefix_zak ORDER BY datumodeslani) AS rn
+            FROM
+                zak_t_vl_v
+            WHERE
+                status = 1) b
+    WHERE
+        a.idefix_zak = b.idefix_zak
+            AND a.idefix_item = b.idefix_item
+            AND a.idefix_zak = _idefix_zak;
+        UPDATE
+            zak_t_items a
+        SET
+            vl_id = b.vl_id,
+            vl_znacka = b.vl_znacka,
+            poradi2 = b.poradi2
+        FROM
+            zak_t_vl_v b
+        WHERE
+            a.idefix = b.idefix_item
+            AND a.idefix_zak = _idefix_zak
+            AND (a.vl_id IS NULL
+                OR a.vl_id <> b.vl_id);
+        RETURN 'Odecteno';
+    END IF;
+    SELECT
+        * INTO _vl_last
+    FROM
+        zak_vl_last
+    WHERE
+        idefix_zak = _idefix_zak;
+    IF NOT found THEN
+        raise notice '0';
+        UPDATE
+            zak_t_items
+        SET
+            vl_id = 0,
+            vl_znacka = ''
+        WHERE
+            idefix_zak = _idefix_zak
+            AND obsah IS NULL;
+        FOR r IN
+        SELECT
+            *
+        FROM
+            list2_vl
+        ORDER BY
+            id
+        LIMIT 1 LOOP
+            raise notice '00';
+            _vl_cur := r.id;
             _vl_curname := r.nazev;
-            insert into zak_vl_last (idefix_zak,idefix_item,vl_id,vl_znacka,pocet)  values (_idefix_zak,_idefix_item,_vl_cur,_vl_curname,1);
-            update zak_t_items set vl_znacka= _vl_curname, vl_id = _vl_cur where idefix=_idefix_item;
-        end loop;
-    end if;
-    if found then  -- toje ze nejaky list uz existuje
+            INSERT INTO zak_vl_last (idefix_zak, idefix_item, vl_id, vl_znacka, pocet)
+            VALUES (_idefix_zak, _idefix_item, _vl_cur, _vl_curname, 1);
+            UPDATE
+                zak_t_items
+            SET
+                vl_znacka = _vl_curname,
+                vl_id = _vl_cur
+            WHERE
+                idefix = _idefix_item;
+        END LOOP;
+    END IF;
+    IF found THEN
+        -- toje ze nejaky list uz existuje
         raise notice '1';
-        update zak_t_items set vl_id=0,vl_znacka='' where idefix_zak=_idefix_zak and obsah is null;
-        update zak_t_items a set vl_id=b.vl_id, vl_znacka = b.vl_znacka from zak_t_vl_v b where a.idefix =b.idefix_item and (a.vl_id is null or a.vl_znacka is null) and a.idefix_zak= _idefix_zak and a.idefix_zak=b.idefix_zak;
-        for r2 in select * from zak_t_items where idefix = _idefix_item loop
-           raise notice '2'; 
-            if r2.vl_id is not null and r2.vl_id>0 then
-                raise notice '3 %',r2.vl_id;
-                update zak_vl_last  set pocet=(select count(*) from zak_t_items where idefix_zak=_idefix_zak and vl_id>0  and status in (1,3,4,5,6,7,8,9) and obsah::text >'') WHERE idefix_zak = _idefix_zak ;
-                continue;
-                else 
-            raise notice '4';
-            for r in 
-                   select * from (   select 1 as idq,* from list2_vl where id>(select vl_id from zak_vl_last where idefix_zak=_idefix_zak limit 1) order by id limit 1) a 
-            union  select * from (select 2 as idq,* from list2_vl order by id limit 1) b 
-            order by idq, id limit 1 
-            loop
+        UPDATE
+            zak_t_items
+        SET
+            vl_id = 0,
+            vl_znacka = ''
+        WHERE
+            idefix_zak = _idefix_zak
+            AND obsah IS NULL;
+        UPDATE
+            zak_t_items a
+        SET
+            vl_id = b.vl_id,
+            vl_znacka = b.vl_znacka
+        FROM
+            zak_t_vl_v b
+        WHERE
+            a.idefix = b.idefix_item
+            AND (a.vl_id IS NULL
+                OR a.vl_znacka IS NULL)
+            AND a.idefix_zak = _idefix_zak
+            AND a.idefix_zak = b.idefix_zak;
+        FOR r2 IN
+        SELECT
+            *
+        FROM
+            zak_t_items
+        WHERE
+            idefix = _idefix_item LOOP
+                raise notice '2';
+                IF r2.vl_id IS NOT NULL AND r2.vl_id > 0 THEN
+                    raise notice '3 %', r2.vl_id;
+                    UPDATE
+                        zak_vl_last
+                    SET
+                        pocet = (
+                            SELECT
+                                count(*)
+                            FROM
+                                zak_t_items
+                            WHERE
+                                idefix_zak = _idefix_zak
+                                AND vl_id > 0
+                                AND status IN (1, 3, 4, 5, 6, 7, 8, 9)
+                                AND obsah::text > '')
+                    WHERE
+                        idefix_zak = _idefix_zak;
+                    CONTINUE;
+                ELSE
+                    raise notice '4';
+                    FOR r IN
+                    SELECT
+                        *
+                    FROM (
+                        SELECT
+                            1 AS idq,
+                            *
+                        FROM
+                            list2_vl
+                        WHERE
+                            id > (
+                                SELECT
+                                    vl_id
+                                FROM
+                                    zak_vl_last
+                                WHERE
+                                    idefix_zak = _idefix_zak
+                                LIMIT 1)
+                        ORDER BY
+                            id
+                        LIMIT 1) a
+                UNION
+                SELECT
+                    *
+                FROM (
+                    SELECT
+                        2 AS idq,
+                        *
+                    FROM
+                        list2_vl
+                    ORDER BY
+                        id
+                    LIMIT 1) b
+            ORDER BY
+                idq,
+                id
+            LIMIT 1 LOOP
                 _vl_cur := r.id;
                 _vl_curname := r.nazev;
                 --//insert into zak_vl_last (idefix_zak,idefix_item,vl_id,vl_znacka,pocet)  values (_idefix_zak,_idefix_item,_vl_cur,_vl_curname,1);
                 raise notice '5 %', _vl_cur;
-                update zak_t_items set vl_znacka= _vl_curname, vl_id = _vl_cur where idefix=_idefix_item;
-                update zak_vl_last  set vl_znacka = _vl_curname, vl_id=_vl_cur, pocet=(select count(*) from zak_t_items where idefix_zak=_idefix_zak and vl_id>0 and status in (1,3,4,5,6,7,8,9) and obsah::text >'') WHERE idefix_zak = _idefix_zak ;
-            end loop;
-            --insert into zak_vl_last (idefix_zak,id_vl,nazev,pocet)  values (_idefix_zak,_vl_cur,_vl_curname,1);
-            end if;
-        end loop;
-    end if;
-    update zak_t_items set vl_id=0,vl_znacka='' where idefix_zak=_idefix_zak and obsah is null;
-    update zak_t_vl_v a set vl_id=b.vl_id, vl_znacka=b.vl_znacka,status=b.status from zak_t_items b  where a.idefix_item=b.idefix and a.idefix_item=_idefix_item;
-    update zak_t_vl_v a set vl_id=b.vl_id, vl_znacka=b.vl_znacka,status=b.status from zak_t_items b  where a.idefix_item=b.idefix and ( 
-        (a.vl_id is null or a.vl_id=0) and b.vl_id >0
-        ) ;
-        --update zak_t_vl_v a  set poradi2=0 where status = 2 and poradi2>0;
-        update zak_t_vl_v a  set poradi2=0 where status = 2 and poradi2>0 and idefix_zak=_idefix_zak;
-        update zak_t_vl_v a  set poradi2= b.rn from (
-        select idefix_zak, datumodeslani,vl_id,idefix_item, row_number() over(partition by idefix_zak order by datumodeslani) as rn from zak_t_vl_v where status = 1 
-        ) b where a.idefix_zak=b.idefix_zak and a.idefix_item = b.idefix_item 
-        and a.idefix_zak =_idefix_zak;
-                update zak_vl_last  set vl_znacka = _vl_curname, vl_id=_vl_cur, pocet=(select count(*) from zak_t_items where idefix_zak=_idefix_zak and vl_id>0 and status in (1,3,4,5,6,7,8,9) and obsah::text >'') WHERE idefix_zak = _idefix_zak;
-       --zak_vl_last 
-       update zak_t_items a set vl_id=b.vl_id,vl_znacka=b.vl_znacka,poradi2=b.poradi2  from zak_t_vl_v b where  a.idefix=b.idefix_item  
-        and a.idefix_zak= _idefix_zak
-        and (a.vl_id is null or a.vl_id<>b.vl_id )
-        ;
-    return cRet;
-    end;   
-$$LANGUAGE PLPGSQL;
+                UPDATE
+                    zak_t_items
+                SET
+                    vl_znacka = _vl_curname,
+                    vl_id = _vl_cur
+                WHERE
+                    idefix = _idefix_item;
+                UPDATE
+                    zak_vl_last
+                SET
+                    vl_znacka = _vl_curname,
+                    vl_id = _vl_cur,
+                    pocet = (
+                        SELECT
+                            count(*)
+                        FROM
+                            zak_t_items
+                        WHERE
+                            idefix_zak = _idefix_zak
+                            AND vl_id > 0
+                            AND status IN (1, 3, 4, 5, 6, 7, 8, 9)
+                            AND obsah::text > '')
+                WHERE
+                    idefix_zak = _idefix_zak;
+            END LOOP;
+                    --insert into zak_vl_last (idefix_zak,id_vl,nazev,pocet)  values (_idefix_zak,_vl_cur,_vl_curname,1);
+                END IF;
+            END LOOP;
+    END IF;
+    UPDATE
+        zak_t_items
+    SET
+        vl_id = 0,
+        vl_znacka = ''
+    WHERE
+        idefix_zak = _idefix_zak
+        AND obsah IS NULL;
+    UPDATE
+        zak_t_vl_v a
+    SET
+        vl_id = b.vl_id,
+        vl_znacka = b.vl_znacka,
+        status = b.status
+    FROM
+        zak_t_items b
+    WHERE
+        a.idefix_item = b.idefix
+        AND a.idefix_item = _idefix_item;
+    UPDATE
+        zak_t_vl_v a
+    SET
+        vl_id = b.vl_id,
+        vl_znacka = b.vl_znacka,
+        status = b.status
+    FROM
+        zak_t_items b
+    WHERE
+        a.idefix_item = b.idefix
+        AND ((a.vl_id IS NULL
+                OR a.vl_id = 0)
+            AND b.vl_id > 0);
+    --update zak_t_vl_v a  set poradi2=0 where status = 2 and poradi2>0;
+    UPDATE
+        zak_t_vl_v a
+    SET
+        poradi2 = 0
+    WHERE
+        status = 2
+        AND poradi2 > 0
+        AND idefix_zak = _idefix_zak;
+    UPDATE
+        zak_t_vl_v a
+    SET
+        poradi2 = b.rn
+    FROM (
+        SELECT
+            idefix_zak,
+            datumodeslani,
+            vl_id,
+            idefix_item,
+            row_number() OVER (PARTITION BY idefix_zak ORDER BY datumodeslani) AS rn
+        FROM
+            zak_t_vl_v
+        WHERE
+            status = 1) b
+WHERE
+    a.idefix_zak = b.idefix_zak
+    AND a.idefix_item = b.idefix_item
+    AND a.idefix_zak = _idefix_zak;
+    UPDATE
+        zak_vl_last
+    SET
+        vl_znacka = _vl_curname,
+        vl_id = _vl_cur,
+        pocet = (
+            SELECT
+                count(*)
+            FROM
+                zak_t_items
+            WHERE
+                idefix_zak = _idefix_zak
+                AND vl_id > 0
+                AND status IN (1, 3, 4, 5, 6, 7, 8, 9)
+                AND obsah::text > '')
+    WHERE
+        idefix_zak = _idefix_zak;
+    --zak_vl_last
+    UPDATE
+        zak_t_items a
+    SET
+        vl_id = b.vl_id,
+        vl_znacka = b.vl_znacka,
+        poradi2 = b.poradi2
+    FROM
+        zak_t_vl_v b
+    WHERE
+        a.idefix = b.idefix_item
+        AND a.idefix_zak = _idefix_zak
+        AND (a.vl_id IS NULL
+            OR a.vl_id <> b.vl_id);
+    RETURN cRet;
+END;
+$$
+LANGUAGE PLPGSQL;
 
-create or replace function idefix_vl(_idefix_item bigint default 0)  returns bigint as $$
-    declare nRet bigint := 0;
-    begin 
+CREATE OR REPLACE FUNCTION idefix_vl (_idefix_item bigint DEFAULT 0)
+    RETURNS bigint
+    AS $$
+DECLARE
+    nRet bigint := 0;
+BEGIN
     --return 0;
-    select idefix into nRet from zak_t_vl_v  where idefix_item = _idefix_item limit 1;
-    if not found then
+    SELECT
+        idefix INTO nRet
+    FROM
+        zak_t_vl_v
+    WHERE
+        idefix_item = _idefix_item
+    LIMIT 1;
+    IF NOT found THEN
         nRet := 0;
-    end if ;
-      return nRet ;  
-    end;
-$$LANGUAGE PLPGSQL IMMUTABLE;
---update  zak_t_items set vl_id=null,vl_znacka=null where idefix_zak=13634216 ;
---delete 
+    END IF;
+    RETURN nRet;
+END;
+$$
+LANGUAGE PLPGSQL
+IMMUTABLE;
 
+--update  zak_t_items set vl_id=null,vl_znacka=null where idefix_zak=13634216 ;
+--delete
 --select vl_set(13634216,13634217);
 --select vl_set(13634216,13634219);
-
 --select idefix,vl_id,vl_znacka  from zak_t_items where idefix_zak=13634216 ;
 --select * from zak_vl_last;
 --select * from list2_vl where id > (select id from zak_vl_last where idefix_zak=13634216 limit 1) order by id limit 1 ;
+
 /*
-                                           Tabulka "public.zak_form_xl_poradi"
-      Sloupec      |              Typ               |                            Modifikátory                            
+ Tabulka "public.zak_form_xl_poradi"
+ Sloupec      |              Typ               |                            Modifikátory                            
 -------------------+--------------------------------+--------------------------------------------------------------------
  id                | bigint                         | not null implicitně nextval('zak_form_xl_poradi_id_seq'::regclass)
  id_leva           | integer                        | 
@@ -158,10 +497,9 @@ $$LANGUAGE PLPGSQL IMMUTABLE;
  m2_login_zmeny    | text                           | 
  exp_baliky        | integer                        | implicitně 0
 Indexy:
-    "zak_form_xl_poradi_id_leva_idx" UNIQUE, btree (id_leva)
-    "zak_form_xl_poradi_dat_expedice_idx" btree (dat_expedice)
-    "zak_form_xl_poradi_stroj_idx" btree (stroj)
-    "zak_form_xl_poradi_tisk_pocd_tisk_poch_stroj_idx" btree (tisk_pocd, tisk_poch, stroj)
-    "zak_form_xl_poradi_tisk_real_idx" btree (tisk_real)
-
-*/
+ "zak_form_xl_poradi_id_leva_idx" UNIQUE, btree (id_leva)
+ "zak_form_xl_poradi_dat_expedice_idx" btree (dat_expedice)
+ "zak_form_xl_poradi_stroj_idx" btree (stroj)
+ "zak_form_xl_poradi_tisk_pocd_tisk_poch_stroj_idx" btree (tisk_pocd, tisk_poch, stroj)
+ "zak_form_xl_poradi_tisk_real_idx" btree (tisk_real)
+ */
