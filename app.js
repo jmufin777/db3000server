@@ -80,13 +80,7 @@ slozky_thumbs = "huhuuhu2";
 k2();
 console.log(slozky_thumbs);
 
-Prikaz(`mkdir -p ./log`);
-fs.writeFileSync("./log/log.txt", "Start\n");
-fs.writeFileSync("./log/log0.txt", "Start\n");
-fs.writeFileSync("./log/logS.txt", "Start\n");
-fs.writeFileSync("./log/logS0.txt", "Start\n");
-fs.writeFileSync("./log/logE.txt", "Start\n");
-fs.writeFileSync("./log/logE0.txt", "Start\n");
+logReset();
 
 //console.log(neco)
 
@@ -170,6 +164,10 @@ app.get("/upload0", async (req, res, next) => {
 
 app.post("/log", upload.single("file"), async (req, res) => {
   log(req);
+  res.end();
+});
+app.post("/logreset", upload.single("file"), async (req, res) => {
+  logReset();
   res.end();
 });
 
@@ -293,9 +291,17 @@ app.post("/query22", async (req, res) => {  //Vrati ve stejnycch nazevech json j
   res.json({data: neco})
 });
 
+app.post("/query22raw", async (req, res) => {  //Vrati ve stejnycch nazevech json jako pozadavzky na SQL odpovidajici data.data
+  var user = req.body.params.user;
+  var query = req.body.params.query;
+  let neco = await query2Raw(user, query); //Json s pojmenovanymi SQL dotazy
+  res.json({data: neco})
+});
+
 app.get("/log", function(req, res) {
   res.sendFile(__dirname + "/log/log.txt");
 });
+
 
 app.post("/upload", upload.single("file"), async (req, res) => {
   var tmp_path = req.file.path;

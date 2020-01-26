@@ -7,7 +7,7 @@ module.exports = function() {
   this.__dirname = __dirname.replace(/\/utils/, "");
   this.errfile = `${this.__dirname}/obrazky/error.jpg`;
 
-  console.log("AAAA", slozky_thumbs, this.__dirname);
+  //console.log("AAAA", slozky_thumbs, this.__dirname);
   this.path = require("path");
   /*
     this.slozky_zakazky= '/home/db3000/db/zakazky/'
@@ -18,6 +18,15 @@ module.exports = function() {
     this.slozky_zakazky_pdf=`/home/db3000/db/slozky_zakazky_pdf`
     this.slozky_osobni=`/home/db3000/slozky/`
     */
+   logReset = async function () {
+    Prikaz(`mkdir -p ./log`);
+    fs.writeFileSync("./log/log.txt", "Start\n");
+    fs.writeFileSync("./log/log0.txt", "Start\n");
+    fs.writeFileSync("./log/logS.txt", "Start\n");
+    fs.writeFileSync("./log/logS0.txt", "Start\n");
+    fs.writeFileSync("./log/logE.txt", "Start\n");
+    fs.writeFileSync("./log/logE0.txt", "Start\n");
+   };
   this.log = async function(req) {
     //console.log("LOGGGG",req.body)
     //await Prikaz(`mkdir -p ./log`)

@@ -5566,4 +5566,217 @@ Optimized:      no
 PDF version:    1.5
 ',cesta_zak='/home/db3000/db/zakazky/2020/00041',basename='barg.pdf',stav=1
   ,sirka_mm=210,vyska_mm=297,format='A4'
-   where idefix = 14080536
+   where idefix = 14080536013
+ 1 rozbor
+
+ 2 rozbor Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+452020update prilohy_prijem set pdfinfo='Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2020/00043',basename='barg.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14191423013
+ 1 rozbor
+
+ 2 rozbor Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+452020update prilohy_prijem set pdfinfo='Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2020/00043',basename='barg.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14191424013
+ 1 rozbor
+
+ 2 rozbor Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+
+452020update prilohy_prijem set pdfinfo='Creator:        Adobe InDesign 14.0 (Macintosh)
+Producer:       Adobe PDF Library 15.0
+CreationDate:   Wed Jul 31 16:58:19 2019
+ModDate:        Wed Jul 31 17:00:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.278 x 841.892 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   637.28   883.89
+CropBox:           21.00    21.00   616.28   862.89
+BleedBox:          21.00    21.00   616.28   862.89
+TrimBox:           21.00    21.00   616.28   862.89
+ArtBox:            21.00    21.00   616.28   862.89
+File size:      6722454 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2020/00043',basename='barg.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14191425

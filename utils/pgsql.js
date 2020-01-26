@@ -47,7 +47,7 @@ module.exports = function() {
       isDatum  = false;
       isCas    = false;
       isParse  = false;
-      console.log(aquery)
+      //console.log(aquery)
       return new Promise(function(resolve) {
       for (const i in aquery) {
       //  console.log(i)
@@ -55,7 +55,7 @@ module.exports = function() {
           const Dotaz = aquery[i];
           try {
             rows[i] = query(Dotaz)
-            console.log(rows[i])
+            //console.log(rows[i])
             if (rows[i].length>0){  //Seznam nazvu polozek - ten se pak porovna se seznamem polozek pro opravu datumu
               //console.log(i,':',rows[i])
               //datum3 - expedice_datum,datumexpedice
@@ -65,7 +65,7 @@ module.exports = function() {
               for (const nazev in rows[i][0]){
                 if (nazev.match(/datumexpedice/g) || nazev.match(/expedice.*datum/g)) {
                   isDatum=true;
-                  console.log('EXPedICE', nazev, rows[i][0][nazev], datum3(rows[i][0][nazev]))
+                   console.log('EXPedICE', nazev, rows[i][0][nazev], datum3(rows[i][0][nazev]))
                 }
                 if (nazev.match(/obsah/g) ) {
                   isParse=true;
@@ -74,7 +74,7 @@ module.exports = function() {
                 }
 
 
-                console.log('nazev:',nazev)
+                //console.log('nazev:',nazev)
               }
             }
             if (isParse || isDatum || isCas) {
@@ -85,15 +85,15 @@ module.exports = function() {
                 }
                 if (rows[i][index].hasOwnProperty('expedice_datum')){
                   rows[i][index].expedice_datum = datum3(Polozka.expedice_datum)
-                  console.log(rows[i][index].expedice_datum)
+                  //console.log(rows[i][index].expedice_datum)
                 }
                 if (rows[i][index].hasOwnProperty('datum_expedice')){
                   rows[i][index].datum_expedice = datum3(Polozka.datum_expedice)
-                  console.log(rows[i][index].datum_expedice)
+                  //console.log(rows[i][index].datum_expedice)
                 }
                 if (rows[i][index].hasOwnProperty('expedice_cas')){
                   rows[i][index].expedice_cas = cas3(Polozka.expedice_cas)
-                  console.log(rows[i][index].expedice_cas, 'd3',cas3(rows[i][index].expedice_cas))
+                  //console.log(rows[i][index].expedice_cas, 'd3',cas3(rows[i][index].expedice_cas))
                 }
                 
                 //logS('PARSE ',index, Polozka.obsah)
