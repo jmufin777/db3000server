@@ -69,11 +69,8 @@ module.exports = function() {
                 }
                 if (nazev.match(/obsah/g) ) {
                   isParse=true;
-
                   console.log('Parse')
                 }
-
-
                 //console.log('nazev:',nazev)
               }
             }
