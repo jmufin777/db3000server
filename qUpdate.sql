@@ -5779,4 +5779,374 @@ Optimized:      no
 PDF version:    1.5
 ',cesta_zak='/home/db3000/db/zakazky/2020/00043',basename='barg.pdf',stav=1
   ,sirka_mm=210,vyska_mm=297,format='A4'
-   where idefix = 14191425
+   where idefix = 14191425013
+ 1 rozbor
+
+ 2 rozbor Title:          Booty Factor Training Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:53 2019
+ModDate:        Sun Sep  1 01:07:19 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4109800 bytes
+Optimized:      no
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Booty Factor Training Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:53 2019
+ModDate:        Sun Sep  1 01:07:19 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4109800 bytes
+Optimized:      no
+PDF version:    1.6
+
+452020update prilohy_prijem set pdfinfo='Title:          Booty Factor Training Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:53 2019
+ModDate:        Sun Sep  1 01:07:19 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4109800 bytes
+Optimized:      no
+PDF version:    1.6
+',cesta_zak='/home/db3000/db/zakazky/2020/00044',basename='booty factor training fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14302595013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+452020update prilohy_prijem set pdfinfo='Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2020/00041',basename='ultimate wheels fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14302599013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+452020update prilohy_prijem set pdfinfo='Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2020/00041',basename='ultimate wheels fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14302600013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Arms Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:25:07 2019
+ModDate:        Sun Sep  1 00:59:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4964222 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Ultimate Arms Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:25:07 2019
+ModDate:        Sun Sep  1 00:59:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4964222 bytes
+Optimized:      yes
+PDF version:    1.6
+
+452020update prilohy_prijem set pdfinfo='Title:          Ultimate Arms Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:25:07 2019
+ModDate:        Sun Sep  1 00:59:59 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4964222 bytes
+Optimized:      yes
+PDF version:    1.6
+',cesta_zak='/home/db3000/db/zakazky/2020/00044',basename='ultimate arms fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14302682013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+
+452020update prilohy_prijem set pdfinfo='Title:          Ultimate Wheels Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:45:47 2019
+ModDate:        Sat Aug 31 22:47:28 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          22
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      4311693 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2020/00044',basename='ultimate wheels fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14302683

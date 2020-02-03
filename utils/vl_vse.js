@@ -39,7 +39,7 @@ module.exports = function() {
       ifx_aktivni = idefix_nab;
       cQ = `drop table if exists ${cTable} ;`;
       cQ = `drop sequence if exists ${cTable} ;`;
-      cQ += `create table  ${cTable} without oids as select * from ${ceho}_t_items where idefix_zak=${ifx_aktivni};`;
+      cQ += `create table  ${cTable} without oids as select * from ${ceho}_t_items where idefix_nab=${ifx_aktivni};`;
       cQ += `create sequence ${cTable}_seq;`;
       cQ += `alter table  ${cTable}  alter column id set default nextval('${cTable}_seq'::regclass ); `;
       cQ += `alter table  ${cTable}  alter column idefix set default  nextval('list2_seq'::regclass); `;

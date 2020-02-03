@@ -224,6 +224,21 @@ app.post("/create_tmp_zak", async (req, res) => {
   res.end();
 });
 
+app.post("/create_tmp_nab", async (req, res) => {
+  //cesta do slozky stroje
+  console.log("VLCOPY  NAB POST  ", req.body);
+  //logS('VL-SET 1',req.body)
+  //var user=req.body.params.user
+  var table = req.body.params.table;
+  var idefix_zak = req.body.params.idefix_zak;
+  //var q = req.body.params.query
+
+  console.log("SERVER - ", req.body.params);
+
+  await create_tmp_nab(table, idefix_zak);
+  res.end();
+});
+
 app.post("/getzaklast", async (req, res) => {
   //cesta do mezipameti
   var user = req.body.params.user;
