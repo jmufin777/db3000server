@@ -1,15 +1,16 @@
 Start
 
-        17:43:30;POST: GETZAK LAST;9;;;
-        17:43:30;ZAB 0:;;;;
-        17:43:30;ZAB 1:;;;;
-        17:43:30;ORDER TEMPLATES;zak;;;
-        17:43:30;KOLEKCE 1:;{"Active":"update calc_my_9_zak14563470234 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak14563470234 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
-        17:43:30;KOLEKCE 2 TEST;false;;;
-        17:43:30;KOLEKCE 2: Return test;0;0;;
-        17:43:31;1 getTemplatesUser;;;;
-        17:43:31;ORDER TEMPLATES;zak;;;
-        17:43:31;ORDER TEMPLATES;select * from (select
+        23:47:50;POST: GETZAK LAST;9;;;
+        23:47:52;ZAB 0:;;;;
+        23:47:52;ZAB 1:;;;;
+        23:47:52;ORDER TEMPLATES;zak;;;
+        23:47:52;KOLEKCE 1:;{"Active":"update calc_my_9_zak6617113347 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak6617113347 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
+        23:47:52;CREATETEMP;9;calc_my_9_zak6617113347;14635385;
+        23:47:52;KOLEKCE 2: Return test;0;0;;
+        23:47:52;KOLEKCE 2 TEST;false;;;
+        23:47:52;1 getTemplatesUser;;;;
+        23:47:52;ORDER TEMPLATES;zak;;;
+        23:47:52;ORDER TEMPLATES;select * from (select
           a.idefix,
           a.nazev,
           a.kcks,
@@ -31,25 +32,26 @@ Start
 
           c.idefix as idefix_vl,
           d.pocet as pocet_vl,
-          b.login  from calc_my_9_zak14563470234 a join list_users b on a.user_update_idefix = b.idefix
+          b.login  from calc_my_9_zak6617113347 a join list_users b on a.user_update_idefix = b.idefix
           left join  zak_t_vl_v c on a.idefix_src=c.idefix_item
           left join  zak_vl_last d on c.idefix_zak=d.idefix_zak
            where  true and obsah is not null ) qa  order by
   case when qa.active  then 1 else 2 end,
   case when status =1 then 2 else 1 end,
   poradi2 desc,  qa.idefix --datum--cas--;;;
-        17:43:34;CISDOD;;;;
-        17:43:34;GETPRACEALL:::;select distinct c.nazev as prace, c.idefix as idefix_prace,array_agg(b.idefix) as dod_seznam, count(b.idefix) as pocet_dod, c.text_na_fakturu
+        23:47:55;CISDOD;;;;
+        23:47:55;GETPRACEALL:::;select distinct c.nazev as prace, c.idefix as idefix_prace,array_agg(b.idefix) as dod_seznam, count(b.idefix) as pocet_dod, c.text_na_fakturu
           from
           list2_prace c left join list_firmaprace a on a.idefix_prace =c.idefix
           left join list_dodavatel b on a.idefix_firma=b.idefix
           group by c.nazev,c.idefix, c.text_na_fakturu order by pocet_dod desc, c.nazev limit 1150;;;
-        17:43:34;CISDOD;;;;
-        17:43:34;GETDODALL;;;;
-        17:47:42;POST: GETZAK LAST;9;;;
-        17:47:42;1 getTemplatesUser;;;;
-        17:47:42;ORDER TEMPLATES;zak;;;
-        17:47:42;ORDER TEMPLATES;select * from (select
+        23:47:55;CISDOD;;;;
+        23:47:55;GETDODALL;;;;
+        23:49:52;POST: GETZAK LAST;9;;;
+        23:49:52;CREATETEMP;9;calc_my_9_zak3910239144;14635385;
+        23:49:52;1 getTemplatesUser;;;;
+        23:49:52;ORDER TEMPLATES;zak;;;
+        23:49:52;ORDER TEMPLATES;select * from (select
           a.idefix,
           a.nazev,
           a.kcks,
@@ -71,26 +73,26 @@ Start
 
           c.idefix as idefix_vl,
           d.pocet as pocet_vl,
-          b.login  from calc_my_9_zak9026624140 a join list_users b on a.user_update_idefix = b.idefix
+          b.login  from calc_my_9_zak3910239144 a join list_users b on a.user_update_idefix = b.idefix
           left join  zak_t_vl_v c on a.idefix_src=c.idefix_item
           left join  zak_vl_last d on c.idefix_zak=d.idefix_zak
            where  true and obsah is not null ) qa  order by
   case when qa.active  then 1 else 2 end,
   case when status =1 then 2 else 1 end,
   poradi2 desc,  qa.idefix --datum--cas--;;;
-        17:47:43;CISDOD;;;;
-        17:47:43;GETPRACEALL:::;select distinct c.nazev as prace, c.idefix as idefix_prace,array_agg(b.idefix) as dod_seznam, count(b.idefix) as pocet_dod, c.text_na_fakturu
+        23:49:53;CISDOD;;;;
+        23:49:53;GETPRACEALL:::;select distinct c.nazev as prace, c.idefix as idefix_prace,array_agg(b.idefix) as dod_seznam, count(b.idefix) as pocet_dod, c.text_na_fakturu
           from
           list2_prace c left join list_firmaprace a on a.idefix_prace =c.idefix
           left join list_dodavatel b on a.idefix_firma=b.idefix
           group by c.nazev,c.idefix, c.text_na_fakturu order by pocet_dod desc, c.nazev limit 1150;;;
-        17:47:43;CISDOD;;;;
-        17:47:43;GETDODALL;;;;
-        17:49:2;POST: GETZAK LAST;9;;;
-        17:49:4;CREATETEMP;9;calc_my_9_zak9188065877;14635451;
-        17:49:4;ORDER TEMPLATES;zak;;;
-        17:49:4;1 getTemplatesUser;;;;
-        17:49:4;ORDER TEMPLATES;select * from (select
+        23:49:53;CISDOD;;;;
+        23:49:53;GETDODALL;;;;
+        23:50:36;POST: GETZAK LAST;9;;;
+        23:50:36;CREATETEMP;9;calc_my_9_zak6451476036;14635385;
+        23:50:37;1 getTemplatesUser;;;;
+        23:50:37;ORDER TEMPLATES;zak;;;
+        23:50:37;ORDER TEMPLATES;select * from (select
           a.idefix,
           a.nazev,
           a.kcks,
@@ -112,18 +114,18 @@ Start
 
           c.idefix as idefix_vl,
           d.pocet as pocet_vl,
-          b.login  from calc_my_9_zak9188065877 a join list_users b on a.user_update_idefix = b.idefix
+          b.login  from calc_my_9_zak6451476036 a join list_users b on a.user_update_idefix = b.idefix
           left join  zak_t_vl_v c on a.idefix_src=c.idefix_item
           left join  zak_vl_last d on c.idefix_zak=d.idefix_zak
            where  true and obsah is not null ) qa  order by
   case when qa.active  then 1 else 2 end,
   case when status =1 then 2 else 1 end,
   poradi2 desc,  qa.idefix --datum--cas--;;;
-        17:49:5;CISDOD;;;;
-        17:49:5;GETPRACEALL:::;select distinct c.nazev as prace, c.idefix as idefix_prace,array_agg(b.idefix) as dod_seznam, count(b.idefix) as pocet_dod, c.text_na_fakturu
+        23:50:37;CISDOD;;;;
+        23:50:37;GETPRACEALL:::;select distinct c.nazev as prace, c.idefix as idefix_prace,array_agg(b.idefix) as dod_seznam, count(b.idefix) as pocet_dod, c.text_na_fakturu
           from
           list2_prace c left join list_firmaprace a on a.idefix_prace =c.idefix
           left join list_dodavatel b on a.idefix_firma=b.idefix
           group by c.nazev,c.idefix, c.text_na_fakturu order by pocet_dod desc, c.nazev limit 1150;;;
-        17:49:5;CISDOD;;;;
-        17:49:5;GETDODALL;;;;
+        23:50:37;CISDOD;;;;
+        23:50:37;GETDODALL;;;;

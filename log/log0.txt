@@ -1,15 +1,16 @@
 Start
 
-        17:43:30:892;POST: GETZAK LAST;9;;;
-        17:43:30:975;ZAB 0:;;;;
-        17:43:30:993;ZAB 1:;;;;
-        17:43:30:994;ORDER TEMPLATES;zak;;;
-        17:43:30:010;KOLEKCE 1:;{"Active":"update calc_my_9_zak14563470234 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak14563470234 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
-        17:43:30:170;KOLEKCE 2 TEST;false;;;
-        17:43:30:191;KOLEKCE 2: Return test;0;0;;
-        17:43:31:689;1 getTemplatesUser;;;;
-        17:43:31:694;ORDER TEMPLATES;zak;;;
-        17:43:31:718;ORDER TEMPLATES;select * from (select
+        23:47:50:258;POST: GETZAK LAST;9;;;
+        23:47:52:721;ZAB 0:;;;;
+        23:47:52:726;ZAB 1:;;;;
+        23:47:52:740;ORDER TEMPLATES;zak;;;
+        23:47:52:768;KOLEKCE 1:;{"Active":"update calc_my_9_zak6617113347 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak6617113347 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
+        23:47:52:900;CREATETEMP;9;calc_my_9_zak6617113347;14635385;
+        23:47:52:042;KOLEKCE 2: Return test;0;0;;
+        23:47:52:042;KOLEKCE 2 TEST;false;;;
+        23:47:52:072;1 getTemplatesUser;;;;
+        23:47:52:076;ORDER TEMPLATES;zak;;;
+        23:47:52:087;ORDER TEMPLATES;select * from (select
           a.idefix,
           a.nazev,
           a.kcks,
@@ -31,25 +32,26 @@ Start
 
           c.idefix as idefix_vl,
           d.pocet as pocet_vl,
-          b.login  from calc_my_9_zak14563470234 a join list_users b on a.user_update_idefix = b.idefix
+          b.login  from calc_my_9_zak6617113347 a join list_users b on a.user_update_idefix = b.idefix
           left join  zak_t_vl_v c on a.idefix_src=c.idefix_item
           left join  zak_vl_last d on c.idefix_zak=d.idefix_zak
            where  true and obsah is not null ) qa  order by
   case when qa.active  then 1 else 2 end,
   case when status =1 then 2 else 1 end,
   poradi2 desc,  qa.idefix --datum--cas--;;;
-        17:43:34:438;CISDOD;;;;
-        17:43:34:478;GETPRACEALL:::;select distinct c.nazev as prace, c.idefix as idefix_prace,array_agg(b.idefix) as dod_seznam, count(b.idefix) as pocet_dod, c.text_na_fakturu
+        23:47:55:857;CISDOD;;;;
+        23:47:55:914;GETPRACEALL:::;select distinct c.nazev as prace, c.idefix as idefix_prace,array_agg(b.idefix) as dod_seznam, count(b.idefix) as pocet_dod, c.text_na_fakturu
           from
           list2_prace c left join list_firmaprace a on a.idefix_prace =c.idefix
           left join list_dodavatel b on a.idefix_firma=b.idefix
           group by c.nazev,c.idefix, c.text_na_fakturu order by pocet_dod desc, c.nazev limit 1150;;;
-        17:43:34:531;CISDOD;;;;
-        17:43:34:571;GETDODALL;;;;
-        17:47:42:332;POST: GETZAK LAST;9;;;
-        17:47:42:709;1 getTemplatesUser;;;;
-        17:47:42:762;ORDER TEMPLATES;zak;;;
-        17:47:42:765;ORDER TEMPLATES;select * from (select
+        23:47:55:040;CISDOD;;;;
+        23:47:55:086;GETDODALL;;;;
+        23:49:52:502;POST: GETZAK LAST;9;;;
+        23:49:52:619;CREATETEMP;9;calc_my_9_zak3910239144;14635385;
+        23:49:52:777;1 getTemplatesUser;;;;
+        23:49:52:782;ORDER TEMPLATES;zak;;;
+        23:49:52:794;ORDER TEMPLATES;select * from (select
           a.idefix,
           a.nazev,
           a.kcks,
@@ -71,26 +73,26 @@ Start
 
           c.idefix as idefix_vl,
           d.pocet as pocet_vl,
-          b.login  from calc_my_9_zak9026624140 a join list_users b on a.user_update_idefix = b.idefix
+          b.login  from calc_my_9_zak3910239144 a join list_users b on a.user_update_idefix = b.idefix
           left join  zak_t_vl_v c on a.idefix_src=c.idefix_item
           left join  zak_vl_last d on c.idefix_zak=d.idefix_zak
            where  true and obsah is not null ) qa  order by
   case when qa.active  then 1 else 2 end,
   case when status =1 then 2 else 1 end,
   poradi2 desc,  qa.idefix --datum--cas--;;;
-        17:47:43:343;CISDOD;;;;
-        17:47:43:429;GETPRACEALL:::;select distinct c.nazev as prace, c.idefix as idefix_prace,array_agg(b.idefix) as dod_seznam, count(b.idefix) as pocet_dod, c.text_na_fakturu
+        23:49:53:283;CISDOD;;;;
+        23:49:53:326;GETPRACEALL:::;select distinct c.nazev as prace, c.idefix as idefix_prace,array_agg(b.idefix) as dod_seznam, count(b.idefix) as pocet_dod, c.text_na_fakturu
           from
           list2_prace c left join list_firmaprace a on a.idefix_prace =c.idefix
           left join list_dodavatel b on a.idefix_firma=b.idefix
           group by c.nazev,c.idefix, c.text_na_fakturu order by pocet_dod desc, c.nazev limit 1150;;;
-        17:47:43:528;CISDOD;;;;
-        17:47:43:670;GETDODALL;;;;
-        17:49:02:136;POST: GETZAK LAST;9;;;
-        17:49:04:752;CREATETEMP;9;calc_my_9_zak9188065877;14635451;
-        17:49:04:006;ORDER TEMPLATES;zak;;;
-        17:49:04:036;1 getTemplatesUser;;;;
-        17:49:04:040;ORDER TEMPLATES;select * from (select
+        23:49:53:378;CISDOD;;;;
+        23:49:53:477;GETDODALL;;;;
+        23:50:36:876;POST: GETZAK LAST;9;;;
+        23:50:36:099;CREATETEMP;9;calc_my_9_zak6451476036;14635385;
+        23:50:37:309;1 getTemplatesUser;;;;
+        23:50:37:314;ORDER TEMPLATES;zak;;;
+        23:50:37:342;ORDER TEMPLATES;select * from (select
           a.idefix,
           a.nazev,
           a.kcks,
@@ -112,18 +114,18 @@ Start
 
           c.idefix as idefix_vl,
           d.pocet as pocet_vl,
-          b.login  from calc_my_9_zak9188065877 a join list_users b on a.user_update_idefix = b.idefix
+          b.login  from calc_my_9_zak6451476036 a join list_users b on a.user_update_idefix = b.idefix
           left join  zak_t_vl_v c on a.idefix_src=c.idefix_item
           left join  zak_vl_last d on c.idefix_zak=d.idefix_zak
            where  true and obsah is not null ) qa  order by
   case when qa.active  then 1 else 2 end,
   case when status =1 then 2 else 1 end,
   poradi2 desc,  qa.idefix --datum--cas--;;;
-        17:49:05:570;CISDOD;;;;
-        17:49:05:744;GETPRACEALL:::;select distinct c.nazev as prace, c.idefix as idefix_prace,array_agg(b.idefix) as dod_seznam, count(b.idefix) as pocet_dod, c.text_na_fakturu
+        23:50:37:855;CISDOD;;;;
+        23:50:37:911;GETPRACEALL:::;select distinct c.nazev as prace, c.idefix as idefix_prace,array_agg(b.idefix) as dod_seznam, count(b.idefix) as pocet_dod, c.text_na_fakturu
           from
           list2_prace c left join list_firmaprace a on a.idefix_prace =c.idefix
           left join list_dodavatel b on a.idefix_firma=b.idefix
           group by c.nazev,c.idefix, c.text_na_fakturu order by pocet_dod desc, c.nazev limit 1150;;;
-        17:49:05:859;CISDOD;;;;
-        17:49:05:056;GETDODALL;;;;
+        23:50:37:959;CISDOD;;;;
+        23:50:37:086;GETDODALL;;;;

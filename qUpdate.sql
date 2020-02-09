@@ -6371,4 +6371,78 @@ Optimized:      no
 PDF version:    1.6
 ',cesta_zak='/home/db3000/db/zakazky/2020/00048',basename='maximal fat loss fall 2019.pdf',stav=1
   ,sirka_mm=210,vyska_mm=297,format='A4'
-   where idefix = 14635163
+   where idefix = 14635163013
+ 1 rozbor
+
+ 2 rozbor Title:          Ultimate Shoulders Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:49:47 2019
+ModDate:        Sat Aug 31 22:56:10 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      3606334 bytes
+Optimized:      no
+PDF version:    1.5
+
+
+ 4 rozbor pohoda Title:          Ultimate Shoulders Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:49:47 2019
+ModDate:        Sat Aug 31 22:56:10 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      3606334 bytes
+Optimized:      no
+PDF version:    1.5
+
+452020update prilohy_prijem set pdfinfo='Title:          Ultimate Shoulders Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 22:49:47 2019
+ModDate:        Sat Aug 31 22:56:10 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           AcroForm
+JavaScript:     no
+Pages:          24
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      3606334 bytes
+Optimized:      no
+PDF version:    1.5
+',cesta_zak='/home/db3000/db/zakazky/2020/00056',basename='ultimate shoulders fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14635486
