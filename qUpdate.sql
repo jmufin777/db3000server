@@ -6149,4 +6149,226 @@ Optimized:      no
 PDF version:    1.5
 ',cesta_zak='/home/db3000/db/zakazky/2020/00044',basename='ultimate wheels fall 2019.pdf',stav=1
   ,sirka_mm=210,vyska_mm=297,format='A4'
-   where idefix = 14302683
+   where idefix = 14302683013
+ 1 rozbor
+
+ 2 rozbor Title:          STRENGTH AND DENSITY VOL 1b
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Thu Feb 28 21:48:29 2019
+ModDate:        Thu Feb 28 21:52:54 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          25
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      6430582 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          STRENGTH AND DENSITY VOL 1b
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Thu Feb 28 21:48:29 2019
+ModDate:        Thu Feb 28 21:52:54 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          25
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      6430582 bytes
+Optimized:      yes
+PDF version:    1.6
+
+452020update prilohy_prijem set pdfinfo='Title:          STRENGTH AND DENSITY VOL 1b
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Thu Feb 28 21:48:29 2019
+ModDate:        Thu Feb 28 21:52:54 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          25
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      6430582 bytes
+Optimized:      yes
+PDF version:    1.6
+',cesta_zak='/home/db3000/db/zakazky/2020/00044',basename='STRENGTH AND DENSITY VOL 1.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14635130013
+ 1 rozbor
+
+ 2 rozbor Title:          STRENGTH AND DENSITY VOL 1b
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Thu Feb 28 21:48:29 2019
+ModDate:        Thu Feb 28 21:52:54 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          25
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      6430582 bytes
+Optimized:      yes
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          STRENGTH AND DENSITY VOL 1b
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Thu Feb 28 21:48:29 2019
+ModDate:        Thu Feb 28 21:52:54 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          25
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      6430582 bytes
+Optimized:      yes
+PDF version:    1.6
+
+452020update prilohy_prijem set pdfinfo='Title:          STRENGTH AND DENSITY VOL 1b
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Thu Feb 28 21:48:29 2019
+ModDate:        Thu Feb 28 21:52:54 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          25
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.28   841.89
+File size:      6430582 bytes
+Optimized:      yes
+PDF version:    1.6
+',cesta_zak='/home/db3000/db/zakazky/2020/00048',basename='STRENGTH AND DENSITY VOL 1.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14635162013
+ 1 rozbor
+
+ 2 rozbor Title:          Maximal Fat Loss Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:22 2019
+ModDate:        Thu Sep  5 23:09:02 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          29
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      5512689 bytes
+Optimized:      no
+PDF version:    1.6
+
+
+ 4 rozbor pohoda Title:          Maximal Fat Loss Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:22 2019
+ModDate:        Thu Sep  5 23:09:02 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          29
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      5512689 bytes
+Optimized:      no
+PDF version:    1.6
+
+452020update prilohy_prijem set pdfinfo='Title:          Maximal Fat Loss Fall 2019
+Creator:        Adobe Illustrator CC 23.0 (Windows)
+Producer:       Adobe PDF library 15.00
+CreationDate:   Sat Aug 31 01:37:22 2019
+ModDate:        Thu Sep  5 23:09:02 2019
+Tagged:         no
+UserProperties: no
+Suspects:       no
+Form:           none
+JavaScript:     no
+Pages:          29
+Encrypted:      no
+Page size:      595.276 x 841.89 pts (A4)
+Page rot:       0
+MediaBox:           0.00     0.00   595.28   841.89
+CropBox:            0.00     0.00   595.28   841.89
+BleedBox:           0.00     0.00   595.28   841.89
+TrimBox:            0.00     0.00   595.28   841.89
+ArtBox:             0.00     0.00   595.20   841.89
+File size:      5512689 bytes
+Optimized:      no
+PDF version:    1.6
+',cesta_zak='/home/db3000/db/zakazky/2020/00048',basename='maximal fat loss fall 2019.pdf',stav=1
+  ,sirka_mm=210,vyska_mm=297,format='A4'
+   where idefix = 14635163

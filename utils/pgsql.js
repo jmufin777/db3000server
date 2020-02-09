@@ -29,10 +29,17 @@ module.exports = function() {
   this.query = function query(dotaz, rows) {
     rows = rows || [];
     if (dotaz.match(/(^insert)|(^update)|(^delete)/i)) {
+      logS(dotaz)
       dotaz = `${dotaz} returning * `;
       //console.log(dotaz)
     }
-    rows = clientN.querySync(dotaz);
+    try {
+      rows = clientN.querySync(dotaz);
+    } catch(err) {
+      logE(__filename , err.message, dotaz)
+
+    }
+    
     if (rows && rows.length > 0) {
       //  console.log('ROWS OK ',rows)
       return rows;
@@ -53,6 +60,7 @@ module.exports = function() {
       //  console.log(i)
         if (aquery.hasOwnProperty(i)) {
           const Dotaz = aquery[i];
+          logS(Dotaz)
           try {
             rows[i] = query(Dotaz)
             //console.log(rows[i])
@@ -108,10 +116,11 @@ module.exports = function() {
             //   }
             //   //console.log('PARSE!!!', aquery)
             // }
-          } catch(e) {
+          } catch(err) {
 
             rows[i] = 'ERROR '+ Dotaz
-            console.log(e)
+            logE(__filename , err.message, dotaz)
+            console.log(err)
           }
         }
       }
@@ -135,10 +144,11 @@ module.exports = function() {
         try {
           rows[i] = query(Dotaz)
           console.log(rows[i])
-        } catch(e) {
+        } catch(err) {
 
           rows[i] = 'ERROR '+ Dotaz
-          console.log(e)
+          logE(__filename , err.message, dotaz)
+          console.log(err)
         }
       }
     }

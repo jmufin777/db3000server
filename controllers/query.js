@@ -6,6 +6,7 @@ var os = require("os");
 
 const _ = require('lodash')
 require('../utils/ostatni')()
+require('../utils/soubory')()
 
 var lErr= false
 var hotovo=false
@@ -15,6 +16,7 @@ module.exports = {
       var dotaz=''
       
         dotaz = ` ${req.query.query} `
+        
       if (dotaz == 'undefined') {
         // console.log('dotaz se pojjebl')
         return res.json({data: [{chyba_Q:dotaz }], fields: []})
