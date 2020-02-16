@@ -1,22 +1,154 @@
 Start
 
-        02:39:52:224;POST: GETZAK LAST;9;;;
-        02:39:55:275;huhu;14968285;SEZNAM;"14968301" --END;
-        02:39:55:306;ZMENA ZAK;14968285;14968301;;
-        02:39:55:438;huhu;14968285;SEZNAM;"14968301" --END;
-        02:39:55:443;ZMENA ZAK;14968285;14968301;;
-        02:40:03:375;VL VIEW;1;;;
-        02:40:06:338;huhu;14635443;SEZNAM;"" --END;
-        02:40:06:395;ZMENA ZAK;14635443;;;
-        02:40:06:541;huhu;14635443;SEZNAM;"" --END;
-        02:40:06:542;ZMENA ZAK;14635443;;;
-        02:40:07:942;huhu;14968285;SEZNAM;"14968301" --END;
-        02:40:07:969;ZMENA ZAK;14968285;14968301;;
-        02:40:07:240;huhu;14968285;SEZNAM;"14968301" --END;
-        02:40:07:246;ZMENA ZAK;14968285;14968301;;
-        02:40:32:610;5 getTemplatesUser;;;;
-        02:40:32:615;ORDER TEMPLATES;zak;;;
-        02:40:32:641;ORDER TEMPLATES;select * from (select
+        20:45:08:360;ZAB 671 START EMIT---------------;;;;
+        20:45:08:364;671 START;fceSave.setVL(server.idefix);;;
+        20:45:08:366;1;setVL;14968351;0;
+        20:45:08:458;9;setVL;;;
+        20:45:08:743;ORDER TEMPLATES;zak;;;
+        20:45:08:751;1;Rozbalit;;;
+        20:45:08:753;ZAB 671 END EMIT 2 ----------------;;;;
+        20:45:08:754;15;setVL;;;
+        20:45:08:759;2;setActive;;;
+        20:45:08:256;12 QQQQQ OK;setActive;;;
+        20:45:08:259;12A;setActive;;;
+        20:45:09:942;12BCC;setActive;;;
+        20:45:09:945;12C PARSE END;setActive;;;
+        20:45:09:951;12B;setActive;;;
+        20:45:09:962;saveKalkCela;prekresluji;;;
+        20:45:09:962;14;setActive;;;
+        20:45:10:340;17;setVL;;;
+        20:45:10:343;671 EOF;fceSave.setVL(server.idefix);;;
+        20:45:10:352;5;SaveKalk ok;;;
+        20:45:10:353;6;Active OK;;;
+        20:45:10:354;16;setVL;;;
+        20:45:23:512;OK  001 STORE klic: Priloha1Txt hodnota:;ultimate shoulders fall 2019.pdf;id kalkulace :;0;
+        20:45:23:517;OK  001 STORE klic: Priloha1Idefix hodnota:;14968405;id kalkulace :;0;
+        20:45:32:042;OK  001 STORE klic: Priloha1Txt hodnota:;ultimate lats fall 2019.pdf;id kalkulace :;1;
+        20:45:32:046;OK  001 STORE klic: Priloha1Idefix hodnota:;14968406;id kalkulace :;1;
+        20:45:32:090;OK  001 STORE klic: txtFormat hodnota:;A4;id kalkulace :;1;
+        20:45:33:417;OK  001 STORE klic: FormatSirka hodnota:;210;id kalkulace :;1;
+        20:45:33:427;OK  001 STORE klic: FormatVyska hodnota:;297;id kalkulace :;1;
+        20:45:46:651;OK  001 STORE klic: Priloha1Txt hodnota:;accelerated hypertrophy fall 2019.pdf;id kalkulace :;3;
+        20:45:46:655;OK  001 STORE klic: Priloha1Idefix hodnota:;14968407;id kalkulace :;3;
+        20:45:46:035;OK  001 STORE klic: FormatSirka hodnota:;210;id kalkulace :;3;
+        20:45:46:037;OK  001 STORE klic: txtFormat hodnota:;A4;id kalkulace :;3;
+        20:45:46:049;OK  001 STORE klic: FormatVyska hodnota:;297;id kalkulace :;3;
+        20:45:47:143;OK  001 STORE klic: Priloha1Txt hodnota:;STRENGTH AND DENSITY VOL 1.pdf;id kalkulace :;2;
+        20:45:47:147;OK  001 STORE klic: FormatSirka hodnota:;210;id kalkulace :;2;
+        20:45:47:148;OK  001 STORE klic: txtFormat hodnota:;A4;id kalkulace :;2;
+        20:45:47:151;OK  001 STORE klic: Priloha1Idefix hodnota:;14968408;id kalkulace :;2;
+        20:45:47:159;OK  001 STORE klic: FormatVyska hodnota:;297;id kalkulace :;2;
+        20:45:52:849;KOLEKCE 1:;{"q2":"update zak_t_items set idefix=nextval('list2_seq'::regclass) where id in (\n  select id from (select count(*) over(partition by idefix) as rn ,\n   row_number() over(partition by idefix order by id) as radek\n  , id, idefix from zak_t_items ) a where rn >1 and radek > 1 order by id\n  )\n  ;","q":"update calc_my_9_zak11489017673 set idefix=nextval('list2_seq'::regclass) where id in (\n  select id from (select count(*) over(partition by idefix) as rn ,\n   row_number() over(partition by idefix order by id) as radek\n  , id, idefix from calc_my_9_zak11489017673)  a where rn >1 and radek > 1 order by id\n  )\n  ;"};;;
+        20:45:52:922;1;setVL;14968351;14968351;
+        20:45:52:924;EMIT 7;SAVEZAZNAM;;;
+        20:45:52:928;9;setVL;;;
+        20:45:52:936;1.;VkladUser;;;
+        20:45:52:937;SAVE ZAZNAM;;;;
+        20:45:53:322;2a.;VkladUser;;;
+        20:45:53:846;10;setVL;;;
+        20:45:53:848;ZAB 0:;;;;
+        20:45:53:849;ZAB 1:;;;;
+        20:45:53:857;KOLEKCE 1:;{"Active":"update calc_my_9_zak11489017673 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak11489017673 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
+        20:45:53:858;ORDER TEMPLATES;zak;;;
+        20:45:54:345;KOLEKCE 2 TEST;false;;;
+        20:45:54:350;KOLEKCE 2: Return test;63;14968351;;
+        20:45:54:357;11;setVL;;;
+        20:45:54:358;12;setVL;;;
+        20:45:55:053;1;setVL;14968351;0;
+        20:45:55:058;671 START;fceSave.setVL(server.idefix);;;
+        20:45:55:059;ZAB 671 START EMIT---------------;;;;
+        20:45:55:060;9;setVL;;;
+        20:45:55:080;1;Rozbalit;;;
+        20:45:55:081;ZAB 671 END EMIT 2 ----------------;;;;
+        20:45:55:085;15;setVL;;;
+        20:45:55:087;2;setActive;;;
+        20:45:55:095;ORDER TEMPLATES;zak;;;
+        20:45:56:591;12A;setActive;;;
+        20:45:56:593;12 QQQQQ OK;setActive;;;
+        20:45:57:605;12BCC;setActive;;;
+        20:45:57:610;12B;setActive;;;
+        20:45:57:612;12C PARSE END;setActive;;;
+        20:45:57:615;saveKalkCela;prekresluji;;;
+        20:45:57:617;14;setActive;;;
+        20:45:57:016;17;setVL;;;
+        20:45:57:019;6;Active OK;;;
+        20:45:57:022;16;setVL;;;
+        20:45:57:024;671 EOF;fceSave.setVL(server.idefix);;;
+        20:45:57:025;5;SaveKalk ok;;;
+        20:46:05:357;ZAB 671 START EMIT---------------;;;;
+        20:46:05:363;671 START;fceSave.setVL(server.idefix);;;
+        20:46:05:427;9;setVL;;;
+        20:46:05:446;1;setVL;14968351;14968351;
+        20:46:05:469;SAVE ZAZNAM;;;;
+        20:46:05:472;EMIT 7;SAVEZAZNAM;;;
+        20:46:05:482;1.;VkladUser;;;
+        20:46:05:483;ZAB 671 END EMIT 2 ----------------;;;;
+        20:46:05:889;2a.;VkladUser;;;
+        20:46:05:063;18;setVL;;;
+        20:46:05:067;1;Rozbalit;;;
+        20:46:05:069;2;setActive;;;
+        20:46:05:076;ORDER TEMPLATES;zak;;;
+        20:46:06:538;12 QQQQQ OK;setActive;;;
+        20:46:06:545;12A;setActive;;;
+        20:46:07:493;12BCC;setActive;;;
+        20:46:07:572;12C PARSE END;setActive;;;
+        20:46:07:575;12B;setActive;;;
+        20:46:07:576;14;setActive;;;
+        20:46:07:587;saveKalkCela;prekresluji;;;
+        20:46:07:980;5;SaveKalk ok;;;
+        20:46:07:988;6;Active OK;;;
+        20:46:07:989;19;setVL;;;
+        20:46:07:989;ORDER TEMPLATES;zak;;;
+        20:46:07:991;ZAB 1:;;;;
+        20:46:07:995;ZAB 0:;;;;
+        20:46:07:014;KOLEKCE 1:;{"Active":"update calc_my_9_zak11489017673 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak11489017673 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
+        20:46:08:520;20;setVL;;;
+        20:46:08:522;671 EOF;fceSave.setVL(server.idefix);;;
+        20:46:08:523;KOLEKCE 2 TEST;false;;;
+        20:46:08:527;21;setVL;;;
+        20:46:08:528;KOLEKCE 2: Return test;68;14968351;;
+        20:46:11:683;ZAB 671 START EMIT---------------;;;;
+        20:46:11:724;1;setVL;14635933;0;
+        20:46:11:724;ZAB 671 END EMIT 2 ----------------;;;;
+        20:46:11:725;671 START;fceSave.setVL(server.idefix);;;
+        20:46:11:726;9;setVL;;;
+        20:46:11:726;15;setVL;;;
+        20:46:11:760;1;Rozbalit;;;
+        20:46:11:765;2;setActive;;;
+        20:46:11:767;ORDER TEMPLATES;zak;;;
+        20:46:11:860;12 QQQQQ OK;setActive;;;
+        20:46:11:865;12A;setActive;;;
+        20:46:11:199;12B;setActive;;;
+        20:46:11:203;12C PARSE END;setActive;;;
+        20:46:11:205;14;setActive;;;
+        20:46:11:206;12BCC;setActive;;;
+        20:46:11:208;saveKalkCela;prekresluji;;;
+        20:46:11:219;5;SaveKalk ok;;;
+        20:46:11:229;6;Active OK;;;
+        20:46:11:230;16;setVL;;;
+        20:46:11:232;17;setVL;;;
+        20:46:11:233;671 EOF;fceSave.setVL(server.idefix);;;
+        20:46:13:811;KOLEKCE 1:;{"q2":"update zak_t_items set idefix=nextval('list2_seq'::regclass) where id in (\n  select id from (select count(*) over(partition by idefix) as rn ,\n   row_number() over(partition by idefix order by id) as radek\n  , id, idefix from zak_t_items ) a where rn >1 and radek > 1 order by id\n  )\n  ;","q":"update calc_my_9_zak11489017673 set idefix=nextval('list2_seq'::regclass) where id in (\n  select id from (select count(*) over(partition by idefix) as rn ,\n   row_number() over(partition by idefix order by id) as radek\n  , id, idefix from calc_my_9_zak11489017673)  a where rn >1 and radek > 1 order by id\n  )\n  ;"};;;
+        20:46:13:885;1;setVL;14635933;14635933;
+        20:46:13:889;9;setVL;;;
+        20:46:13:890;SAVE ZAZNAM;;;;
+        20:46:13:892;1.;VkladUser;;;
+        20:46:13:893;EMIT 7;SAVEZAZNAM;;;
+        20:46:14:278;2a.;VkladUser;;;
+        20:46:14:417;ORDER TEMPLATES;zak;;;
+        20:46:14:422;ZAB 0:;;;;
+        20:46:14:424;10;setVL;;;
+        20:46:14:428;KOLEKCE 1:;{"Active":"update calc_my_9_zak11489017673 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak11489017673 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
+        20:46:14:429;ZAB 1:;;;;
+        20:46:14:795;11;setVL;;;
+        20:46:14:798;KOLEKCE 2: Return test;71;14635933;;
+        20:46:14:800;KOLEKCE 2 TEST;false;;;
+        20:46:14:801;12;setVL;;;
+        20:46:23:743;huhu;13633959;SEZNAM;"" --END;
+        20:46:23:747;ZMENA ZAK;13633959;;;
+        20:46:30:525;5 getTemplatesUser;;;;
+        20:46:30:529;ORDER TEMPLATES;zak;;;
+        20:46:30:616;ORDER TEMPLATES;select * from (select
           a.idefix,
           a.nazev,
           a.kcks,
@@ -38,214 +170,114 @@ Start
 
           c.idefix as idefix_vl,
           d.pocet as pocet_vl,
-          b.login  from calc_my_9_zak17002616282 a join list_users b on a.user_update_idefix = b.idefix
+          b.login  from calc_my_9_zak11489017673 a join list_users b on a.user_update_idefix = b.idefix
           left join  zak_t_vl_v c on a.idefix_src=c.idefix_item
           left join  zak_vl_last d on c.idefix_zak=d.idefix_zak
            where  true and obsah is not null ) qa  order by
   case when qa.active  then 1 else 2 end,
   case when status =1 then 2 else 1 end,
   poradi2 desc,  qa.idefix --datum--cas--;;;
-        02:40:32:908;ORDER TEMPLATES;zak;;;
-        02:40:32:944;ZAB 0:;;;;
-        02:40:32:946;KOLEKCE 1:;{"Active":"update calc_my_9_zak17002616282 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak17002616282 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
-        02:40:32:948;ZAB 1:;;;;
-        02:40:32:022;KOLEKCE 2 TEST;false;;;
-        02:40:32:056;KOLEKCE 2: Return test;2;0;;
-        02:40:32:068;1;Rozbalit;;;
-        02:40:32:080;2;setActive;;;
-        02:40:32:082;ORDER TEMPLATES;zak;;;
-        02:40:32:171;12 QQQQQ OK;setActive;;;
-        02:40:32:176;12A;setActive;;;
-        02:40:33:473;12C PARSE END;setActive;;;
-        02:40:33:475;saveKalkCela;;;;
-        02:40:33:484;12B;setActive;;;
-        02:40:33:485;14;setActive;;;
-        02:40:33:486;saveKalkCela;;;;
-        02:40:33:525;5;SaveKalk ok;;;
-        02:40:33:540;6;Active OK;;;
-        02:40:35:177;ZAB 671 START ---------------;;;;
-        02:40:35:184;9;setVL;;;
-        02:40:35:185;EMIT 7;SAVEZAZNAM;;;
-        02:40:35:198;SAVE ZAZNAM;;;;
-        02:40:35:199;1;setVL;14968307;14968288;
-        02:40:35:201;1.;VkladUser;;;
-        02:40:35:215;ZAB 671 END ----------------;;;;
-        02:40:36:388;2a.;VkladUser;;;
-        02:40:36:515;ZAB 0:;;;;
-        02:40:36:517;22;setVL;;;
-        02:40:36:528;ZAB 1:;;;;
-        02:40:36:538;ORDER TEMPLATES;zak;;;
-        02:40:36:543;KOLEKCE 1:;{"Active":"update calc_my_9_zak17002616282 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak17002616282 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
-        02:40:36:655;KOLEKCE 2 TEST;false;;;
-        02:40:36:657;KOLEKCE 2: Return test;6;14968288;;
-        02:40:36:660;23;setVL;;;
-        02:40:36:662;1;Rozbalit;;;
-        02:40:36:663;2;setActive;;;
-        02:40:36:667;ORDER TEMPLATES;zak;;;
-        02:40:36:822;12A;setActive;;;
-        02:40:36:826;12 QQQQQ OK;setActive;;;
-        02:40:36:921;12B;setActive;;;
-        02:40:36:922;14;setActive;;;
-        02:40:36:926;12C PARSE END;setActive;;;
-        02:40:36:928;saveKalkCela;;;;
-        02:40:36:931;saveKalkCela;;;;
-        02:40:36:947;OK  001 STORE klic: Priloha1Idefix hodnota:;13629510;id kalkulace :;0;
-        02:40:36:953;OK  001 STORE klic: Priloha1Txt hodnota:;;id kalkulace :;0;
-        02:40:36:968;5;SaveKalk ok;;;
-        02:40:36:980;6;Active OK;;;
-        02:40:36:981;24;setVL;;;
-        02:40:36:989;25;setVL;;;
-        02:40:39:418;OK  001 STORE klic: Menu1Value hodnota:;10154;id kalkulace :;0;
-        02:40:39:645;OK  001 STORE klic: strojmod hodnota:;[object Object];id kalkulace :;0;
-        02:40:39:650;OK  001 STORE klic: strojceny hodnota:;[object Object],[object Object],[object Object],[object Object],[object Object],[object Object];id kalkulace :;0;
-        02:40:39:653;OK  001 STORE klic: stroj hodnota:;[object Object];id kalkulace :;0;
-        02:40:39:653;OK  001 STORE klic: idefixVidet hodnota:;10144;id kalkulace :;0;
-        02:40:39:654;OK  001 STORE klic: txtStroj hodnota:;Agfa Tauro Production;id kalkulace :;0;
-        02:40:43:153;false;;;;
-        02:40:43:158;Rend;11;;;
-        02:40:43:159;Rend;12;;;
-        02:40:47:280;1;setVL;14968307;14968307;
-        02:40:47:282;EMIT 7;SAVEZAZNAM;;;
-        02:40:47:283;9;setVL;;;
-        02:40:47:284;SAVE ZAZNAM;;;;
-        02:40:47:288;1.;VkladUser;;;
-        02:40:47:398;2a.;VkladUser;;;
-        02:40:47:469;10;setVL;;;
-        02:40:47:473;ZAB 0:;;;;
-        02:40:47:571;KOLEKCE 1:;{"Active":"update calc_my_9_zak17002616282 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak17002616282 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
-        02:40:47:573;ORDER TEMPLATES;zak;;;
-        02:40:47:578;ZAB 1:;;;;
-        02:40:47:686;KOLEKCE 2 TEST;false;;;
-        02:40:47:692;11;setVL;;;
-        02:40:47:692;KOLEKCE 2: Return test;12;14968307;;
-        02:40:47:693;12;setVL;;;
-        02:40:49:369;3 getTemplatesUser;;;;
-        02:40:49:369;ORDER TEMPLATES;zak;;;
-        02:40:49:370;ORDER TEMPLATES;select * from (select
-          a.idefix,
-          a.nazev,
-          a.kcks,
-          a.ks,
-          a.naklad ,
-          a.marze ,
-          a.prodej ,
-          a.marze_pomer,
-          a.expedice_datum,
-          a.expedice_cas,
-          a.user_update_idefix,
-          a.poradi,
-          a.active,
-          a.idefix_src,
-          coalesce(a.status,0) as status,
-          c.vl_znacka,
-          c.vl_id,
-          c.poradi2,
-
-          c.idefix as idefix_vl,
-          d.pocet as pocet_vl,
-          b.login  from calc_my_9_zak17002616282 a join list_users b on a.user_update_idefix = b.idefix
-          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item
-          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak
-           where  true and obsah is not null ) qa  order by
-  case when qa.active  then 1 else 2 end,
-  case when status =1 then 2 else 1 end,
-  poradi2 desc,  qa.idefix --datum--cas--;;;
-        02:40:49:389;3 getTemplatesUser;;;;
-        02:40:49:389;ORDER TEMPLATES;zak;;;
-        02:40:49:390;ORDER TEMPLATES;select * from (select
-          a.idefix,
-          a.nazev,
-          a.kcks,
-          a.ks,
-          a.naklad ,
-          a.marze ,
-          a.prodej ,
-          a.marze_pomer,
-          a.expedice_datum,
-          a.expedice_cas,
-          a.user_update_idefix,
-          a.poradi,
-          a.active,
-          a.idefix_src,
-          coalesce(a.status,0) as status,
-          c.vl_znacka,
-          c.vl_id,
-          c.poradi2,
-
-          c.idefix as idefix_vl,
-          d.pocet as pocet_vl,
-          b.login  from calc_my_9_zak17002616282 a join list_users b on a.user_update_idefix = b.idefix
-          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item
-          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak
-           where  true and obsah is not null ) qa  order by
-  case when qa.active  then 1 else 2 end,
-  case when status =1 then 2 else 1 end,
-  poradi2 desc,  qa.idefix --datum--cas--;;;
-        02:40:49:392;STATUS SEND;;;;
-        02:40:49:513;STATUS PRIJEM;;;;
-        02:40:49:556;STATUS PRIJEM;;;;
-        02:40:49:795;POST: VLSET;[object Object];;;
-        02:40:50:276;4 getTemplatesUser;;;;
-        02:40:50:279;ORDER TEMPLATES;select * from (select
-          a.idefix,
-          a.nazev,
-          a.kcks,
-          a.ks,
-          a.naklad ,
-          a.marze ,
-          a.prodej ,
-          a.marze_pomer,
-          a.expedice_datum,
-          a.expedice_cas,
-          a.user_update_idefix,
-          a.poradi,
-          a.active,
-          a.idefix_src,
-          coalesce(a.status,0) as status,
-          c.vl_znacka,
-          c.vl_id,
-          c.poradi2,
-
-          c.idefix as idefix_vl,
-          d.pocet as pocet_vl,
-          b.login  from calc_my_9_zak17002616282 a join list_users b on a.user_update_idefix = b.idefix
-          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item
-          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak
-           where  true and obsah is not null ) qa  order by
-  case when qa.active  then 1 else 2 end,
-  case when status =1 then 2 else 1 end,
-  poradi2 desc,  qa.idefix --datum--cas--;;;
-        02:40:50:280;ORDER TEMPLATES;zak;;;
-        02:40:50:282;4 getTemplatesUser;;;;
-        02:40:50:286;ORDER TEMPLATES;zak;;;
-        02:40:50:290;ORDER TEMPLATES;select * from (select
-          a.idefix,
-          a.nazev,
-          a.kcks,
-          a.ks,
-          a.naklad ,
-          a.marze ,
-          a.prodej ,
-          a.marze_pomer,
-          a.expedice_datum,
-          a.expedice_cas,
-          a.user_update_idefix,
-          a.poradi,
-          a.active,
-          a.idefix_src,
-          coalesce(a.status,0) as status,
-          c.vl_znacka,
-          c.vl_id,
-          c.poradi2,
-
-          c.idefix as idefix_vl,
-          d.pocet as pocet_vl,
-          b.login  from calc_my_9_zak17002616282 a join list_users b on a.user_update_idefix = b.idefix
-          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item
-          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak
-           where  true and obsah is not null ) qa  order by
-  case when qa.active  then 1 else 2 end,
-  case when status =1 then 2 else 1 end,
-  poradi2 desc,  qa.idefix --datum--cas--;;;
-        02:40:50:334;A BEFORE Z DB;;;;
-        02:40:50:352;A BEFORE Z DB;;;;
+        20:46:30:058;ZAB 0:;;;;
+        20:46:30:061;ZAB 1:;;;;
+        20:46:30:065;ORDER TEMPLATES;zak;;;
+        20:46:30:078;KOLEKCE 1:;{"Active":"update calc_my_9_zak11489017673 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak11489017673 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
+        20:46:30:140;KOLEKCE 2 TEST;false;;;
+        20:46:30:222;KOLEKCE 2: Return test;72;14635933;;
+        20:46:30:233;1;Rozbalit;;;
+        20:46:30:243;ORDER TEMPLATES;zak;;;
+        20:46:30:244;2;setActive;;;
+        20:46:31:687;12 QQQQQ OK;setActive;;;
+        20:46:31:692;12A;setActive;;;
+        20:46:31:259;12BCC;setActive;;;
+        20:46:31:266;12B;setActive;;;
+        20:46:32:284;12C PARSE END;setActive;;;
+        20:46:32:284;14;setActive;;;
+        20:46:32:290;saveKalkCela;prekresluji;;;
+        20:46:32:320;OK  001 STORE klic: Priloha1Idefix hodnota:;0;id kalkulace :;0;
+        20:46:32:321;5;SaveKalk ok;;;
+        20:46:32:322;6;Active OK;;;
+        20:46:32:355;OK  001 STORE klic: Priloha1Idefix hodnota:;0;id kalkulace :;4;
+        20:46:32:356;OK  001 STORE klic: Priloha1Idefix hodnota:;0;id kalkulace :;2;
+        20:46:32:358;OK  001 STORE klic: Priloha1Idefix hodnota:;0;id kalkulace :;3;
+        20:46:35:964;671 START;fceSave.setVL(server.idefix);;;
+        20:46:35:966;1;setVL;13633960;13633962;
+        20:46:35:968;ZAB 671 START EMIT---------------;;;;
+        20:46:35:978;9;setVL;;;
+        20:46:35:978;EMIT 7;SAVEZAZNAM;;;
+        20:46:35:006;1.;VkladUser;;;
+        20:46:35:017;SAVE ZAZNAM;;;;
+        20:46:35:019;ZAB 671 END EMIT 2 ----------------;;;;
+        20:46:36:398;2a.;VkladUser;;;
+        20:46:36:852;22;setVL;;;
+        20:46:36:854;ZAB 0:;;;;
+        20:46:36:869;ORDER TEMPLATES;zak;;;
+        20:46:36:873;ZAB 1:;;;;
+        20:46:36:875;KOLEKCE 1:;{"Active":"update calc_my_9_zak11489017673 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak11489017673 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
+        20:46:36:007;KOLEKCE 2 TEST;false;;;
+        20:46:36:011;KOLEKCE 2: Return test;75;13633962;;
+        20:46:36:018;23;setVL;;;
+        20:46:36:023;1;Rozbalit;;;
+        20:46:36:026;2;setActive;;;
+        20:46:36:028;ORDER TEMPLATES;zak;;;
+        20:46:37:390;12A;setActive;;;
+        20:46:37:392;12 QQQQQ OK;setActive;;;
+        20:46:37:868;12C PARSE END;setActive;;;
+        20:46:37:871;12BCC;setActive;;;
+        20:46:37:875;12B;setActive;;;
+        20:46:37:876;saveKalkCela;prekresluji;;;
+        20:46:37:881;5;SaveKalk ok;;;
+        20:46:37:881;14;setActive;;;
+        20:46:37:893;6;Active OK;;;
+        20:46:37:895;24;setVL;;;
+        20:46:37:896;25;setVL;;;
+        20:46:37:898;671 EOF;fceSave.setVL(server.idefix);;;
+        20:46:44:679;OK  001 STORE klic: Priloha1Txt hodnota:;;id kalkulace :;0;
+        20:46:44:682;OK  001 STORE klic: Priloha1Idefix hodnota:;0;id kalkulace :;0;
+        20:46:47:324;OK  001 STORE klic: Priloha1Txt hodnota:;;id kalkulace :;1;
+        20:46:47:367;OK  001 STORE klic: Priloha1Idefix hodnota:;0;id kalkulace :;1;
+        20:47:02:263;OK  001 STORE klic: Priloha1Idefix hodnota:;14968415;id kalkulace :;0;
+        20:47:02:265;OK  001 STORE klic: FormatVyska hodnota:;297;id kalkulace :;0;
+        20:47:03:298;OK  001 STORE klic: Priloha1Txt hodnota:;ultimate shoulders fall 2019.pdf;id kalkulace :;0;
+        20:47:03:301;OK  001 STORE klic: txtFormat hodnota:;A4;id kalkulace :;0;
+        20:47:03:303;OK  001 STORE klic: FormatSirka hodnota:;210;id kalkulace :;0;
+        20:48:40:614;OK  001 STORE klic: Priloha1Txt hodnota:;čuříci.pdf;id kalkulace :;1;
+        20:48:40:681;OK  001 STORE klic: Priloha1Idefix hodnota:;14968416;id kalkulace :;1;
+        20:48:40:682;OK  001 STORE klic: FormatSirka hodnota:;430;id kalkulace :;1;
+        20:48:40:690;OK  001 STORE klic: FormatVyska hodnota:;290;id kalkulace :;1;
+        20:49:06:342;KOLEKCE 1:;{"q2":"update zak_t_items set idefix=nextval('list2_seq'::regclass) where id in (\n  select id from (select count(*) over(partition by idefix) as rn ,\n   row_number() over(partition by idefix order by id) as radek\n  , id, idefix from zak_t_items ) a where rn >1 and radek > 1 order by id\n  )\n  ;","q":"update calc_my_9_zak11489017673 set idefix=nextval('list2_seq'::regclass) where id in (\n  select id from (select count(*) over(partition by idefix) as rn ,\n   row_number() over(partition by idefix order by id) as radek\n  , id, idefix from calc_my_9_zak11489017673)  a where rn >1 and radek > 1 order by id\n  )\n  ;"};;;
+        20:49:06:407;9;setVL;;;
+        20:49:06:408;EMIT 7;SAVEZAZNAM;;;
+        20:49:06:476;1;setVL;13633960;13633960;
+        20:49:06:787;1.;VkladUser;;;
+        20:49:06:801;SAVE ZAZNAM;;;;
+        20:49:06:950;2a.;VkladUser;;;
+        20:49:07:316;10;setVL;;;
+        20:49:07:319;ZAB 0:;;;;
+        20:49:07:329;ZAB 1:;;;;
+        20:49:07:343;ORDER TEMPLATES;zak;;;
+        20:49:07:346;KOLEKCE 1:;{"Active":"update calc_my_9_zak11489017673 set active = false where active ","Abefore":"select * from (select\n          a.idefix,\n          a.nazev,\n          a.kcks,\n          a.ks,\n          a.naklad ,\n          a.marze ,\n          a.prodej ,\n          a.marze_pomer,\n          a.expedice_datum,\n          a.expedice_cas,\n          a.user_update_idefix,\n          a.poradi,\n          a.active,\n          a.idefix_src,\n          coalesce(a.status,0) as status,\n          c.vl_znacka,\n          c.vl_id,\n          c.poradi2,\n\n          c.idefix as idefix_vl,\n          d.pocet as pocet_vl,\n          b.login  from calc_my_9_zak11489017673 a join list_users b on a.user_update_idefix = b.idefix\n          left join  zak_t_vl_v c on a.idefix_src=c.idefix_item\n          left join  zak_vl_last d on c.idefix_zak=d.idefix_zak\n           where  true and obsah is not null ) qa  order by\n  case when qa.active  then 1 else 2 end,\n  case when status =1 then 2 else 1 end,\n  poradi2 desc,  qa.idefix --datum--cas--"};;;
+        20:49:07:492;KOLEKCE 2 TEST;false;;;
+        20:49:07:505;KOLEKCE 2: Return test;78;13633960;;
+        20:49:07:507;12;setVL;;;
+        20:49:07:509;11;setVL;;;
+        20:49:09:393;671 START;fceSave.setVL(server.idefix);;;
+        20:49:09:394;15;setVL;;;
+        20:49:09:414;ZAB 671 START EMIT---------------;;;;
+        20:49:09:415;9;setVL;;;
+        20:49:09:415;1;setVL;13633960;0;
+        20:49:09:417;ZAB 671 END EMIT 2 ----------------;;;;
+        20:49:09:437;1;Rozbalit;;;
+        20:49:09:441;2;setActive;;;
+        20:49:09:442;ORDER TEMPLATES;zak;;;
+        20:49:09:587;12 QQQQQ OK;setActive;;;
+        20:49:09:591;12A;setActive;;;
+        20:49:09:932;14;setActive;;;
+        20:49:09:936;12C PARSE END;setActive;;;
+        20:49:09:939;12BCC;setActive;;;
+        20:49:09:964;5;SaveKalk ok;;;
+        20:49:09:966;12B;setActive;;;
+        20:49:09:967;saveKalkCela;prekresluji;;;
+        20:49:09:982;6;Active OK;;;
+        20:49:09:983;16;setVL;;;
+        20:49:09:986;17;setVL;;;
+        20:49:09:996;671 EOF;fceSave.setVL(server.idefix);;;
