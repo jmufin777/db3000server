@@ -82,11 +82,11 @@ app.get('/upload0',  async (req, res, next ) => {
     console.log("TES K", soubory)
     //rows=query(`select * from prilohy_prijem where nazev='${soubory[0]}' order by idefix desc`)
     //console.log("rowS ",rows, " soubory", soubory)
-  //   if (rows.length>0){
-  //       idefix_obr=rows[0].idefix
-  //   }else {
-  // //    query("i")
-  //   }
+    //   if (rows.length>0){
+    //       idefix_obr=rows[0].idefix
+    //   }else {
+    // //    query("i")
+    //   }
     console.log("Soubory", soubory)
     res.json({'a':'1',files: ext_file_list,obrazek:idefix_obr})
     //mam 

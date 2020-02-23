@@ -19,7 +19,7 @@ module.exports = {
     async login (req, res) {
     try {
       const {login, password} = req.body
-        const client = await pool.connect()
+      const client = await pool.connect()
 
 //        var user = ''
   //      var level = 0
